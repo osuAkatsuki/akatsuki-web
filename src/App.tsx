@@ -10,6 +10,7 @@ import {
 import { HomePage } from "./pages/HomePage";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Container from "@mui/material/Container";
+import { IdentityContextProvider } from "./context";
 
 const AppLayout = () => (
   <>
@@ -46,7 +47,9 @@ export default function App() {
   return (
     <React.StrictMode>
       <ThemeProvider theme={theme}>
-        <RouterProvider router={router} />
+        <IdentityContextProvider>
+          <RouterProvider router={router} />
+        </IdentityContextProvider>
       </ThemeProvider>
     </React.StrictMode>
   );
