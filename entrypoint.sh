@@ -19,6 +19,9 @@ if [[ $PULL_SECRETS_FROM_VAULT -eq 1 ]]; then
   echo "Secrets sourced"
 fi
 
+pwd
+
+sleep 1999
 /usr/share/nginx/html/injectEnv.sh
 
 nginx -g "daemon off;"
