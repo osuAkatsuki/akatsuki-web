@@ -1,9 +1,12 @@
 import React from "react"
+import { UserPrivileges } from "./privileges"
 
 const IDENTITY_CACHE_KEY = "identity"
 
-interface Identity {
+export interface Identity {
   userId: number
+  username: string
+  privileges: UserPrivileges
 }
 
 export type IdentityContextType = {
@@ -11,13 +14,13 @@ export type IdentityContextType = {
   setIdentity: (identity: Identity | null) => void
 }
 
-export const IdentityContext = React.createContext<
-  IdentityContextType | undefined
->(undefined)
+export const IdentityContext = React.createContext<IdentityContextType | null>(
+  null
+)
 
 export const useIdentityContext = () => {
   const identityContext = React.useContext(IdentityContext)
-  if (identityContext === undefined) {
+  if (identityContext === null) {
     throw new Error(
       "useIdentityContext must be inside a IdentityContextProvider"
     )
