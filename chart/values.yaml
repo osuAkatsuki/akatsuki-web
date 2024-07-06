@@ -1,12 +1,38 @@
-app:
-  name: interns-frontend
-  environment: staging
-  group: frontend
-  replicaCount: 1
-  container:
-    image:
-      repository: registry.digitalocean.com/akatsuki/interns-frontend
-      tag: latest
-    imagePullSecrets:
-      - name: akatsuki
-    port: 80
+apps:
+  - name: akatsuki-web
+    environment: production
+    codebase: akatsuki-web
+    autoscaling:
+      enabled: true
+      minReplicas: 1
+      maxReplicas: 2
+      targetCPUUtilizationPercentage: 80
+    container:
+      image:
+        repository: osuakatsuki/akatsuki-web
+        tag: latest
+      port: 80
+      readinessProbe:
+        httpGet:
+          path: /_health
+          port: 80
+        initialDelaySeconds: 10
+        periodSeconds: 3
+        timeoutSeconds: 4
+        successThreshold: 1
+        failureThreshold: 5
+      resources:
+        limits:
+          cpu: 200m
+          memory: 200Mi
+        requests:
+          cpu: 100m
+          memory: 100Mi
+      env:
+        - name: APP_COMPONENT
+          value: api
+      imagePullSecrets:
+        - name: osuakatsuki-registry-secret
+    service:
+      type: ClusterIP
+      port: 80
