@@ -19,7 +19,7 @@ COPY scripts/injectEnv.js /usr/src/app/build/injectEnv.js
 # Serve build dist statically via nginx
 FROM nginx
 
-RUN apt update && install -y python3-pip
+RUN apt update && apt install -y python3-pip
 RUN pip install --break-system-packages git+https://github.com/osuAkatsuki/akatsuki-cli
 
 # Install nodejs (needed for injectEnv.js script)
