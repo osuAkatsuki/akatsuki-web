@@ -1,10 +1,10 @@
-import { Button, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
-import Stack from "@mui/material/Stack";
-import { useIdentityContext } from "../context";
+import { Button, Typography } from "@mui/material"
+import { Link } from "react-router-dom"
+import Stack from "@mui/material/Stack"
+import { useIdentityContext } from "../context"
 
 export const HomePage = () => {
-  const { identity } = useIdentityContext();
+  const { identity } = useIdentityContext()
 
   return (
     <Stack
@@ -17,7 +17,9 @@ export const HomePage = () => {
       }}
     >
       <Typography variant="h2">Welcome to Akatsuki</Typography>
-      <Typography variant="h4">The largest competitive osu! private server</Typography>
+      <Typography variant="h4">
+        The largest competitive osu! private server
+      </Typography>
 
       <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
         {identity ? (
@@ -40,5 +42,5 @@ export const HomePage = () => {
         </Link>
       </Stack>
     </Stack>
-  );
-};
+  )
+}

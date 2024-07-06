@@ -1,18 +1,18 @@
-const fs = require("fs");
+const fs = require("fs")
 
-const NGINX_INDEX_FILE = "/usr/share/nginx/html/index.html";
+const NGINX_INDEX_FILE = "/usr/share/nginx/html/index.html"
 
-const clientEnvVars = {};
+const clientEnvVars = {}
 for (const [key, value] of Object.entries(process.env)) {
   if (key.startsWith("REACT_APP_")) {
-    clientEnvVars[key] = value;
+    clientEnvVars[key] = value
   }
 }
 
 fs.readFile(NGINX_INDEX_FILE, "utf8", function (err, html) {
   if (err) {
-    console.error(err);
-    return;
+    console.error(err)
+    return
   }
 
   fs.writeFile(
@@ -21,8 +21,8 @@ fs.readFile(NGINX_INDEX_FILE, "utf8", function (err, html) {
     "utf8",
     function (err) {
       if (err) {
-        console.error(err);
+        console.error(err)
       }
     }
-  );
-});
+  )
+})

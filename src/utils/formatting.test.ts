@@ -1,4 +1,4 @@
-import { formatNumber, formatTimespan } from "./formatting";
+import { formatNumber, formatTimespan } from "./formatting"
 
 describe("formatting", () => {
   it.each([
@@ -15,8 +15,8 @@ describe("formatting", () => {
     [100000, "100,000"],
     [1000000, "1,000,000"],
   ])("formatNumber", (input: number, expected: string) => {
-    expect(formatNumber(input)).toEqual(expected);
-  });
+    expect(formatNumber(input)).toEqual(expected)
+  })
   it.each([
     [5, "5s"],
     [65, "1m 5s"],
@@ -25,6 +25,6 @@ describe("formatting", () => {
     [31626065, "1y 1d 1h 1m 5s"],
     [3185226065, "1c 1y 1d 1h 1m 5s"],
   ])("formatTimespan", (input: number, expected: string) => {
-    expect(formatTimespan(input)).toEqual(expected);
-  });
-});
+    expect(formatTimespan(input)).toEqual(expected)
+  })
+})

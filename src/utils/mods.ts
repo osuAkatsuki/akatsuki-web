@@ -35,64 +35,64 @@ enum Mods {
 
 export const formatMods = (mods: number): string => {
   if (mods === Mods.NOMOD) {
-    return "";
+    return ""
   }
 
-  let activeMods: string[] = [];
+  let activeMods: string[] = []
 
   if (mods & Mods.NOFAIL) {
-    activeMods.push("NF");
+    activeMods.push("NF")
   }
   if (mods & Mods.EASY) {
-    activeMods.push("EZ");
+    activeMods.push("EZ")
   }
   if (mods & Mods.TOUCHSCREEN) {
-    activeMods.push("TD");
+    activeMods.push("TD")
   }
   if (mods & Mods.HIDDEN) {
-    activeMods.push("HD");
+    activeMods.push("HD")
   }
   if (mods & Mods.HARDROCK) {
-    activeMods.push("HR");
+    activeMods.push("HR")
   }
   if (mods & Mods.SUDDENDEATH) {
-    activeMods.push("SD");
+    activeMods.push("SD")
   }
   if (mods & Mods.DOUBLETIME) {
-    activeMods.push("DT");
+    activeMods.push("DT")
   }
   if (mods & Mods.RELAX) {
-    activeMods.push("RX");
+    activeMods.push("RX")
   }
   if (mods & Mods.HALFTIME) {
-    activeMods.push("HT");
+    activeMods.push("HT")
   }
   if (mods & Mods.NIGHTCORE) {
-    activeMods.push("NC");
+    activeMods.push("NC")
   }
   if (mods & Mods.FLASHLIGHT) {
-    activeMods.push("FL");
+    activeMods.push("FL")
   }
   if (mods & Mods.AUTOPLAY) {
-    activeMods.push("AU");
+    activeMods.push("AU")
   }
   if (mods & Mods.SPUNOUT) {
-    activeMods.push("SO");
+    activeMods.push("SO")
   }
   if (mods & Mods.AUTOPILOT) {
-    activeMods.push("AP");
+    activeMods.push("AP")
   }
   if (mods & Mods.PERFECT) {
-    activeMods.push("PF");
+    activeMods.push("PF")
   }
   if (mods & Mods.SCOREV2) {
-    activeMods.push("V2");
+    activeMods.push("V2")
   }
   if (mods & Mods.MIRROR) {
-    activeMods.push("MR");
+    activeMods.push("MR")
   }
 
   // TODO key mods
 
-  return activeMods.join("");
-};
+  return activeMods.join("")
+}

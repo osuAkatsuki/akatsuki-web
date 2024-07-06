@@ -7,23 +7,23 @@ export enum SubmissionStatus {
 export const getGradeColor = (grade: string) => {
   switch (grade) {
     case "XH":
-      return "silver";
+      return "silver"
     case "X":
-      return "gold";
+      return "gold"
     case "SH":
-      return "silver";
+      return "silver"
     case "S":
-      return "gold";
+      return "gold"
     case "A":
-      return "green";
+      return "green"
     case "B":
-      return "blue";
+      return "blue"
     case "C":
-      return "purple";
+      return "purple"
     case "D":
     case "F":
-      return "red";
+      return "red"
     default:
-      return "black";
+      return "black"
   }
-};
+}
