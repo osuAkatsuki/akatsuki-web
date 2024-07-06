@@ -13,6 +13,8 @@ RUN node_modules/.bin/tsc
 # Generate a production build to serve statically
 RUN yarn build
 
+COPY /scripts/injectEnv.sh /usr/src/app/build/injectEnv.sh
+
 # Serve build dist statically via nginx
 FROM nginx
 
