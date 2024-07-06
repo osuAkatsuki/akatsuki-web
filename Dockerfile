@@ -19,6 +19,10 @@ COPY scripts/injectEnv.js /usr/src/app/build/injectEnv.js
 # Serve build dist statically via nginx
 FROM nginx
 
+# Install the Akatsuki CLI
+RUN apt install -y python3-pip
+RUN pip install --break-system-packages git+https://github.com/osuAkatsuki/akatsuki-cli
+
 # Install nodejs (needed for injectEnv.js script)
 # TODO: this could be improved by rewriting it in bash
 COPY --from=dependency /usr/local /usr/local
