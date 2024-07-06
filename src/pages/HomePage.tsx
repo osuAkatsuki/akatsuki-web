@@ -27,7 +27,7 @@ export const HomePage = () => {
             </Button>
           </Link>
         ) : (
-          <Link to="/signup">
+          <Link to="/register">
             <Button variant="contained" color="primary">
               <Typography variant="h6">Sign Up</Typography>
             </Button>

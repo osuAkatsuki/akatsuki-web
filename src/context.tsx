@@ -3,7 +3,7 @@ import React from "react";
 const IDENTITY_CACHE_KEY = "identity";
 
 interface Identity {
-    userId: number;
+  userId: number;
 }
 
 export type IdentityContextType = {

@@ -1,16 +1,20 @@
-import React from "react";
-import Navbar from "./components/Navbar";
+import React from "react"
+import Navbar from "./components/Navbar"
 import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
   RouterProvider,
   Outlet,
-} from "react-router-dom";
-import { HomePage } from "./pages/HomePage";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Container from "@mui/material/Container";
-import { IdentityContextProvider } from "./context";
+} from "react-router-dom"
+import { HomePage } from "./pages/HomePage"
+import { createTheme, ThemeProvider } from "@mui/material/styles"
+import Container from "@mui/material/Container"
+import { IdentityContextProvider } from "./context"
+import { RegisterPage } from "./pages/RegisterPage"
+import { LoginPage } from "./pages/LoginPage"
+import { LeaderboardsPage } from "./pages/LeaderboardsPage"
+import { ProfilePage } from "./pages/ProfilePage"
 
 const AppLayout = () => (
   <>
@@ -19,15 +23,19 @@ const AppLayout = () => (
       <Outlet />
     </Container>
   </>
-);
+)
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<AppLayout />}>
       <Route path="/" element={<HomePage />} />
+      <Route path="/register" element={<RegisterPage />} />
+      <Route path="login" element={<LoginPage />} />
+      <Route path="/leaderboards" element={<LeaderboardsPage />} />
+      <Route path="/u/:userId" element={<ProfilePage />} />
     </Route>
   )
-);
+)
 
 const theme = createTheme({
   palette: {
@@ -41,7 +49,7 @@ const theme = createTheme({
   typography: {
     fontFamily: "Rubik",
   },
-});
+})
 
 export default function App() {
   return (
@@ -52,5 +60,5 @@ export default function App() {
         </IdentityContextProvider>
       </ThemeProvider>
     </React.StrictMode>
-  );
+  )
 }
