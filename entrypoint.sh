@@ -12,8 +12,11 @@ if [ -z "$APP_ENV" ]; then
 fi
 
 if [[ $PULL_SECRETS_FROM_VAULT -eq 1 ]]; then
+  echo "Pulling secrets from vault"
   akatsuki vault get akatsuki-web $APP_ENV -o .env
+  echo "Secrets pulled from vault"
   source .env
+  source "Secrets sourced"
 fi
 
 node '/usr/share/nginx/html/injectEnv.js'
