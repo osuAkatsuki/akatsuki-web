@@ -19,6 +19,7 @@ if [[ $PULL_SECRETS_FROM_VAULT -eq 1 ]]; then
   echo "Secrets sourced"
 fi
 
+sleep 1999
 npm install --save -g dotenv
 node '/usr/share/nginx/html/injectEnv.js'
 
