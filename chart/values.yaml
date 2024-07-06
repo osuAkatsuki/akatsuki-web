@@ -1,0 +1,12 @@
+app:
+  name: interns-frontend
+  environment: staging
+  group: frontend
+  replicaCount: 1
+  container:
+    image:
+      repository: registry.digitalocean.com/akatsuki/interns-frontend
+      tag: latest
+    imagePullSecrets:
+      - name: akatsuki
+    port: 80
