@@ -5,10 +5,9 @@ source .env
 
 NGINX_INDEX_FILE="/usr/share/nginx/html/index.html"
 
-clientEnvVars=$(env | grep REACT_APP_)
-clientEnvVars=$(echo $clientEnvVars | sed 's/=/":"/g')
-clientEnvVars=$(echo $clientEnvVars | sed 's/^/"/g')
-clientEnvVars=$(echo $clientEnvVars | sed 's/$/"/g')
-clientEnvVars=$(echo $clientEnvVars | sed 's/ /,/g')
+# Extract environment variables that start with REACT_APP_ and format them as JSON
+clientEnvVars=$(env | grep '^REACT_APP_' | awk -F= '{print "\""$1"\":\""$2"\""}' | paste -sd, -)
+clientEnvVars="{$clientEnvVars}"
 
-sed -i "s/\"__ENV__\"/$clientEnvVars/g" $NGINX_INDEX_FILE
+# Replace the placeholder with the formatted environment variables in the index file
+sed -i "s@\"__ENV__\"@${clientEnvVars}@g" $NGINX_INDEX_FILE
