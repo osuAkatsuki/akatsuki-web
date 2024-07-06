@@ -17,11 +17,18 @@ RUN yarn build
 COPY scripts/injectEnv.js /usr/src/app/build/injectEnv.js
 
 # Serve build dist statically via nginx
-FROM nginx
+FROM ubuntu:23.10
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV PYTHONUNBUFFERED=1
 
 # Install the Akatsuki CLI
-RUN apt install -y python3-pip
-RUN pip install --break-system-packages git+https://github.com/osuAkatsuki/akatsuki-cli
+RUN apt install -y nginx git
+
+RUN wget https://bootstrap.pypa.io/get-pip.py \
+    && python3.10 get-pip.py \
+    && pip install git+https://github.com/osuAkatsuki/akatsuki-cli \
+    && rm get-pip.py
 
 # Install nodejs (needed for injectEnv.js script)
 # TODO: this could be improved by rewriting it in bash
