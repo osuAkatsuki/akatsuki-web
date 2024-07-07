@@ -96,7 +96,8 @@ export const ProfilePage = () => {
                 <Stack direction="row" spacing={2} sx={{ p: 2 }}>
                   <Avatar
                     alt="user-avatar"
-                    src="https://a.akatsuki.gg/1001"
+                    src={`https://a.akatsuki.gg/${userProfile.id}`}
+                    variant="square"
                     sx={{ width: 124, height: 124 }}
                   />
                   <Stack direction="column">

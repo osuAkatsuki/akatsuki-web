@@ -8,14 +8,14 @@ interface SearchRequest {
   query: string
 }
 
-export interface UserResponse {
+export interface SingleUserSearchResult {
   id: number
   username: string
 }
 
 export interface SearchResponse {
   code: number
-  users: UserResponse[] | null
+  users: SingleUserSearchResult[] | null
 }
 
 export const searchUsers = async (

@@ -135,7 +135,6 @@ export const UserProfileScores = ({
                       ) ?? "F"}
                     </Typography>
                   </TableCell>
-                  {/* TODO: full beatmap name & diffname */}
                   {/* TODO: clickable to go to beatmap page */}
                   <TableCell align="left">
                     <Typography variant="subtitle2">

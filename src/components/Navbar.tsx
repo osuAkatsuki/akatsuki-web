@@ -3,22 +3,33 @@ import {
   Button,
   Stack,
   Container,
-  Input,
+  TextField,
   Paper,
   Divider,
   IconButton,
+  Autocomplete,
+  debounce,
 } from "@mui/material"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { FavoriteOutlined } from "@mui/icons-material"
 import { removeIdentityFromLocalStorage, useIdentityContext } from "../context"
 import { logout } from "../adapters/akatsuki-api/authentication"
-import { useEffect, useState } from "react"
-import { searchUsers } from "../adapters/akatsuki-api/search"
+import { useEffect, useMemo, useState } from "react"
+import {
+  searchUsers,
+  SingleUserSearchResult,
+} from "../adapters/akatsuki-api/search"
 
 export default function Navbar() {
+  const navigate = useNavigate()
   const { identity, setIdentity } = useIdentityContext()
 
   const [searchQuery, setSearchQuery] = useState("")
+  const [searchQueryOptions, setSearchQueryOptions] = useState<
+    SingleUserSearchResult[] | null
+  >([])
+  const [searchQueryValue, setSearchQueryValue] =
+    useState<SingleUserSearchResult | null>(null)
 
   const handleLogout = async () => {
     if (identity !== null) {
@@ -36,28 +47,24 @@ export default function Navbar() {
     setIdentity(null)
   }
 
-  const handleSearch = (event: any) => {
-    setSearchQuery(event.target.value)
-    // TODO: make an API call to search for the users,
-    // then display a popup/dropdown of the N most relevant
-    // players found.
-    // TODO: consider allowing for searching for more than
-    // just users, e.g. beatmaps, clans, etc.
-  }
+  const searchForUsers = useMemo(
+    () =>
+      debounce((query: string) => {
+        searchUsers({ query }).then((response) => {
+          setSearchQueryOptions(response.users)
+        })
+      }, 400),
+    []
+  )
 
   useEffect(() => {
-    const search = async () => {
-      if (!searchQuery) return
-      console.log("Making search API call")
-      const searchResponse = await searchUsers({ query: searchQuery })
-      if (searchResponse.users === null) {
-        console.log("No users found")
-        return
-      }
-      // TODO: actually render the resuts on the page
+    if (!searchQuery) {
+      setSearchQueryOptions([])
+      return
     }
-    search()
-  }, [searchQuery])
+
+    searchForUsers(searchQuery)
+  }, [searchQuery, searchForUsers])
 
   return (
     <>
@@ -90,11 +97,28 @@ export default function Navbar() {
             </Stack>
             {/* Right Navbar */}
             <Stack direction="row" spacing={1}>
-              {/* TODO: add user search bar */}
-              <Input
-                placeholder="Looking for someone?"
-                // TODO: debounce input
-                onChange={handleSearch}
+              <Autocomplete
+                id="user-search"
+                sx={{ width: 225 }} // TODO: does this scale?
+                filterOptions={(x) => x}
+                value={searchQueryValue}
+                options={searchQueryOptions ?? []}
+                getOptionLabel={(option) => option.username}
+                isOptionEqualToValue={(option, value) =>
+                  option.username === value.username
+                }
+                renderInput={(params) => {
+                  return <TextField {...params} label="Looking for someone?" />
+                }}
+                onInputChange={(event, newInputValue: string) =>
+                  setSearchQuery(newInputValue)
+                }
+                onChange={(event, newValue) => {
+                  if (newValue === null) return
+                  setSearchQueryValue(newValue)
+                  setSearchQueryOptions([newValue])
+                  navigate(`/u/${newValue.id}`)
+                }}
               />
               {identity !== null ? (
                 <>
