@@ -164,7 +164,7 @@ export const LeaderboardsPage = () => {
           </Table>
         </TableContainer>
         <TablePagination
-          component="div"
+          component={Paper}
           count={-1}
           rowsPerPage={rowsPerPage}
           page={page}
