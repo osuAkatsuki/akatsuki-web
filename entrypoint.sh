@@ -15,9 +15,7 @@ if [[ $PULL_SECRETS_FROM_VAULT -eq 1 ]]; then
   echo "Pulling secrets from vault"
   akatsuki vault get akatsuki-web $APP_ENV -o .env
   echo "Secrets pulled from vault"
-  set -a
   source .env
-  set +a
   echo "Secrets sourced"
 fi
 
