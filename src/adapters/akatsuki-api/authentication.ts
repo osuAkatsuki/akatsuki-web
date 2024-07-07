@@ -17,6 +17,10 @@ export const authenticate = async (
   if (response.status >= 400) {
     throw new Error(response.data)
   }
-
-  return JSON.parse(response.data)
+  const responseData = JSON.parse(response.data)
+  return {
+    userId: responseData.user_id,
+    username: responseData.username,
+    privileges: responseData.privileges,
+  }
 }
