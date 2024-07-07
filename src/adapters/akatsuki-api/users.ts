@@ -68,7 +68,7 @@ export interface UserFullResponse extends UserResponse {
   clan: UserClan
   followers: number
   tbadges?: UserTournamentBadge[]
-  customBadge: UserBadge
+  customBadge: UserBadge | null
   silenceInfo: UserSilenceInfo
 
   // only visible to admins
@@ -175,12 +175,14 @@ export const fetchUser = async (userId: number): Promise<UserFullResponse> => {
         name: tbadge.name,
         icon: tbadge.icon,
       })),
-      customBadge: {
-        id: response.data.custom_badge.id,
-        name: response.data.custom_badge.name,
-        icon: response.data.custom_badge.icon,
-        colour: response.data.custom_badge.colour,
-      },
+      customBadge: response.data.custom_badge
+        ? {
+            id: response.data.custom_badge.id,
+            name: response.data.custom_badge.name,
+            icon: response.data.custom_badge.icon,
+            colour: response.data.custom_badge.colour,
+          }
+        : null,
       silenceInfo: {
         reason: response.data.silence_info.reason,
         end: new Date(response.data.silence_info.end),

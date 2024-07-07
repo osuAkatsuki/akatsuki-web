@@ -19,6 +19,21 @@ import { UserProfileHistoryGraph } from "../components/UserProfileHistoryGraph"
 import { UserProfileStats } from "../components/UserProfileStats"
 import { UserProfileScores } from "../components/UserProfileScores"
 
+const modeToStatsIndex = (
+  mode: GameMode
+): "std" | "taiko" | "ctb" | "mania" => {
+  switch (mode) {
+    case GameMode.Standard:
+      return "std"
+    case GameMode.Taiko:
+      return "taiko"
+    case GameMode.Catch:
+      return "ctb"
+    case GameMode.Mania:
+      return "mania"
+  }
+}
+
 export const ProfilePage = () => {
   const { identity } = useIdentityContext()
   const { userId: profileUserId } = useParams()
@@ -40,7 +55,7 @@ export const ProfilePage = () => {
   )
 
   useEffect(() => {
-    const fetchProfileAccount = async () => {
+    ;(async () => {
       if (!profileUserId) return
 
       try {
@@ -50,10 +65,7 @@ export const ProfilePage = () => {
         setError("Failed to fetch user profile data from server")
         return
       }
-    }
-
-    // run this asynchronously
-    fetchProfileAccount().catch(console.error)
+    })()
   }, [profileUserId])
 
   useEffect(() => {
@@ -115,21 +127,6 @@ export const ProfilePage = () => {
   }
   if (!userProfile || !bestScores || !recentScores) {
     return <>loading data</>
-  }
-
-  const modeToStatsIndex = (
-    mode: GameMode
-  ): "std" | "taiko" | "ctb" | "mania" => {
-    switch (mode) {
-      case GameMode.Standard:
-        return "std"
-      case GameMode.Taiko:
-        return "taiko"
-      case GameMode.Catch:
-        return "ctb"
-      case GameMode.Mania:
-        return "mania"
-    }
   }
 
   return (
