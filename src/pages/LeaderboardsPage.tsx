@@ -1,6 +1,7 @@
 import Table from "@mui/material/Table"
 import TableBody from "@mui/material/TableBody"
 import TableCell from "@mui/material/TableCell"
+import TablePagination from "@mui/material/TablePagination"
 import TableContainer from "@mui/material/TableContainer"
 import { Link } from "react-router-dom"
 import TableHead from "@mui/material/TableHead"
@@ -29,6 +30,9 @@ export const LeaderboardsPage = () => {
   const [sortParam, setSortParam] = useState("")
   // TODO pagination
 
+  const [page, setPage] = useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(50)
+
   const [leaderboardData, setLeaderboardData] =
     useState<LeaderboardResponse | null>(null)
 
@@ -38,8 +42,8 @@ export const LeaderboardsPage = () => {
         const leaderboardResponse = await fetchLeaderboard({
           mode: gameMode,
           rx: relaxMode,
-          p: 1,
-          l: 50,
+          p: page + 1,
+          l: rowsPerPage,
           country: country,
           sort: sortParam,
         })
@@ -49,7 +53,7 @@ export const LeaderboardsPage = () => {
         return
       }
     })()
-  }, [gameMode, relaxMode, country, sortParam])
+  }, [gameMode, relaxMode, page, rowsPerPage, country, sortParam])
 
   if (!leaderboardData) {
     // TODO: use https://mui.com/material-ui/react-skeleton/
@@ -113,7 +117,9 @@ export const LeaderboardsPage = () => {
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     <TableCell>
-                      <Typography>#{Number(index) + 1}</Typography>
+                      <Typography>
+                        #{Number(index) + page * rowsPerPage + 1}
+                      </Typography>
                     </TableCell>
                     <TableCell>
                       {/* TODO: dynamic flags */}
@@ -157,6 +163,20 @@ export const LeaderboardsPage = () => {
             </TableBody>
           </Table>
         </TableContainer>
+        <TablePagination
+          component="div"
+          count={-1}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={(event, newPage) => setPage(newPage)}
+          onRowsPerPageChange={(event) => {
+            setRowsPerPage(parseInt(event.target.value, 10))
+            setPage(0)
+          }}
+          labelDisplayedRows={({ from, to, count }) => {
+            return `Results ${from}–${to}`
+          }}
+        />
       </Stack>
     </>
   )
