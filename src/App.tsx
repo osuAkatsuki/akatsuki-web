@@ -15,6 +15,7 @@ import { RegisterPage } from "./pages/RegisterPage"
 import { LoginPage } from "./pages/LoginPage"
 import { LeaderboardsPage } from "./pages/LeaderboardsPage"
 import { ProfilePage } from "./pages/ProfilePage"
+import { SupportPage } from "./pages/SupportPage"
 
 const AppLayout = () => (
   <>
@@ -33,6 +34,7 @@ const router = createBrowserRouter(
       <Route path="login" element={<LoginPage />} />
       <Route path="/leaderboards" element={<LeaderboardsPage />} />
       <Route path="/u/:userId" element={<ProfilePage />} />
+      <Route path="/support" element={<SupportPage />} />
     </Route>
   )
 )
