@@ -18,5 +18,5 @@ export const authenticate = async (
     throw new Error(response.data)
   }
 
-  return null
+  return JSON.parse(response.data)
 }
