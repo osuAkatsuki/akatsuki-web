@@ -43,7 +43,7 @@ export interface UserScore {
   countGeki: number
   countKatu: number
   countMiss: number
-  time: string
+  time: Date
   playMode: number
   accuracy: number
   pp: number
@@ -93,7 +93,7 @@ export const fetchUserScores = async (
         countGeki: score.count_geki,
         countKatu: score.count_katu,
         countMiss: score.count_miss,
-        time: score.time,
+        time: new Date(score.time),
         playMode: score.play_mode,
         accuracy: score.accuracy,
         pp: score.pp,
