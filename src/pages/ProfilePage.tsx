@@ -36,7 +36,9 @@ const modeToStatsIndex = (
 
 export const ProfilePage = () => {
   const { identity } = useIdentityContext()
-  const { userId: profileUserId } = useParams()
+  const queryParams = useParams()
+
+  const profileUserId = parseInt(queryParams["userId"] ?? "0")
 
   // TODO: better error handling; each component in the page
   // may be able to raise multiple errors; one global one won't cut it
@@ -59,7 +61,7 @@ export const ProfilePage = () => {
       if (!profileUserId) return
 
       try {
-        const usersResponse = await fetchUser(parseInt(profileUserId))
+        const usersResponse = await fetchUser(profileUserId)
         setUserProfile(usersResponse)
       } catch (e: any) {
         setError("Failed to fetch user profile data from server")
@@ -78,7 +80,7 @@ export const ProfilePage = () => {
           p: 1, // todo pagination
           l: 50,
           rx: relaxMode,
-          id: parseInt(profileUserId),
+          id: profileUserId,
         })
         setBestScores(playerBestScores)
       } catch (e: any) {
@@ -98,7 +100,7 @@ export const ProfilePage = () => {
           p: 1, // todo pagination
           l: 50,
           rx: relaxMode,
-          id: parseInt(profileUserId),
+          id: profileUserId,
         })
         setRecentScores(playerRecentScores)
       } catch (e: any) {
