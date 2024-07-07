@@ -1,4 +1,8 @@
-import { type UserScore } from "../adapters/akatsuki-api/userScores"
+import {
+  fetchUserScores,
+  UserScoresResponse,
+  type UserScore,
+} from "../adapters/akatsuki-api/userScores"
 import {
   Paper,
   Box,
@@ -10,22 +14,63 @@ import {
   TableCell,
   TableBody,
   Tooltip,
+  TablePagination,
 } from "@mui/material"
 import moment from "moment"
 import { calculateGrade, getGradeColor, remapSSForDisplay } from "../scores"
 import { formatDecimal, formatNumber } from "../utils/formatting"
 import { formatMods } from "../utils/mods"
+import { useEffect, useState } from "react"
+import { GameMode, RelaxMode } from "../gameModes"
 
 export const UserProfileScores = ({
-  scoresData,
+  scoresType,
+  userId,
+  gameMode,
+  relaxMode,
   title,
 }: {
-  scoresData: UserScore[]
+  scoresType: "best" | "recent"
+  userId: number
+  gameMode: GameMode
+  relaxMode: RelaxMode
   title: string
 }) => {
+  const [userScoresResponse, setScores] = useState<UserScoresResponse | null>(
+    null
+  )
+
+  const [page, setPage] = useState(0)
+  const [pageSize, setPageSize] = useState(50)
+
+  const [error, setError] = useState("")
+
+  useEffect(() => {
+    if (!userId) return
+    ;(async () => {
+      try {
+        const playerBestScores = await fetchUserScores({
+          type: scoresType,
+          mode: gameMode,
+          p: page + 1,
+          l: pageSize,
+          rx: relaxMode,
+          id: userId,
+        })
+        setScores(playerBestScores)
+      } catch (e: any) {
+        setError("Failed to fetch best scores data from server")
+        return
+      }
+    })()
+  }, [scoresType, userId, gameMode, relaxMode, page, pageSize])
+
+  if (error) {
+    return <Typography>{error}</Typography>
+  }
+
   return (
     <Paper elevation={3}>
-      {/* Best Scores */}
       <Box sx={{ p: 2 }}>
         <Typography variant="h6" sx={{ pb: 1 }}>
           {title}
@@ -58,7 +103,7 @@ export const UserProfileScores = ({
               </TableRow>
             </TableHead>
             <TableBody>
-              {scoresData.map((score: UserScore) => (
+              {userScoresResponse?.scores?.map((score: UserScore) => (
                 <TableRow>
                   {/* TODO: images for the grades */}
                   <TableCell align="center">
@@ -130,6 +175,20 @@ export const UserProfileScores = ({
             </TableBody>
           </Table>
         </TableContainer>
+        <TablePagination
+          component={Paper}
+          count={-1}
+          rowsPerPage={pageSize}
+          page={page}
+          onPageChange={(event, newPage) => setPage(newPage)}
+          onRowsPerPageChange={(event) => {
+            setPageSize(parseInt(event.target.value, 10))
+            setPage(0)
+          }}
+          labelDisplayedRows={({ from, to, count }) => {
+            return `Results ${from}-${to}`
+          }}
+        />
       </Box>
     </Paper>
   )

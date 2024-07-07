@@ -55,7 +55,7 @@ export interface UserScore {
 
 export interface UserScoresResponse {
   code: number
-  scores: UserScore[]
+  scores: UserScore[] | null
 }
 
 const scoresApiInstance = axios.create({
@@ -80,49 +80,51 @@ export const fetchUserScores = async (
     )
     return {
       code: response.status,
-      scores: response.data.scores.map((score: any) => ({
-        id: score.id,
-        beatmapMd5: score.beatmap_md5,
-        score: score.score,
-        maxCombo: score.max_combo,
-        fullCombo: score.full_combo,
-        mods: score.mods,
-        count300: score.count_300,
-        count100: score.count_100,
-        count50: score.count_50,
-        countGeki: score.count_geki,
-        countKatu: score.count_katu,
-        countMiss: score.count_miss,
-        time: new Date(score.time),
-        playMode: score.play_mode,
-        accuracy: score.accuracy,
-        pp: score.pp,
-        rank: score.rank,
-        completed: score.completed,
-        pinned: score.pinned,
-        beatmap: {
-          beatmapId: score.beatmap.beatmap_id,
-          beatmapsetId: score.beatmap.beatmapset_id,
-          beatmapMd5: score.beatmap.beatmap_md5,
-          songName: score.beatmap.song_name,
-          ar: score.beatmap.ar,
-          od: score.beatmap.od,
-          difficulty: score.beatmap.difficulty,
-          difficulty2: score.beatmap.difficulty_2
-            ? {
-                std: score.beatmap.difficulty_2.std,
-                taiko: score.beatmap.difficulty_2.taiko,
-                ctb: score.beatmap.difficulty_2.ctb,
-                mania: score.beatmap.difficulty_2.mania,
-              }
-            : null,
-          maxCombo: score.beatmap.max_combo,
-          hitLength: score.beatmap.hit_length,
-          ranked: score.beatmap.ranked,
-          rankedStatusFrozen: score.beatmap.ranked_status_frozen,
-          latestUpdate: score.beatmap.latest_update,
-        },
-      })),
+      scores: response.data.scores
+        ? response.data.scores.map((score: any) => ({
+            id: score.id,
+            beatmapMd5: score.beatmap_md5,
+            score: score.score,
+            maxCombo: score.max_combo,
+            fullCombo: score.full_combo,
+            mods: score.mods,
+            count300: score.count_300,
+            count100: score.count_100,
+            count50: score.count_50,
+            countGeki: score.count_geki,
+            countKatu: score.count_katu,
+            countMiss: score.count_miss,
+            time: new Date(score.time),
+            playMode: score.play_mode,
+            accuracy: score.accuracy,
+            pp: score.pp,
+            rank: score.rank,
+            completed: score.completed,
+            pinned: score.pinned,
+            beatmap: {
+              beatmapId: score.beatmap.beatmap_id,
+              beatmapsetId: score.beatmap.beatmapset_id,
+              beatmapMd5: score.beatmap.beatmap_md5,
+              songName: score.beatmap.song_name,
+              ar: score.beatmap.ar,
+              od: score.beatmap.od,
+              difficulty: score.beatmap.difficulty,
+              difficulty2: score.beatmap.difficulty_2
+                ? {
+                    std: score.beatmap.difficulty_2.std,
+                    taiko: score.beatmap.difficulty_2.taiko,
+                    ctb: score.beatmap.difficulty_2.ctb,
+                    mania: score.beatmap.difficulty_2.mania,
+                  }
+                : null,
+              maxCombo: score.beatmap.max_combo,
+              hitLength: score.beatmap.hit_length,
+              ranked: score.beatmap.ranked,
+              rankedStatusFrozen: score.beatmap.ranked_status_frozen,
+              latestUpdate: score.beatmap.latest_update,
+            },
+          }))
+        : null,
     }
   } catch (e: any) {
     console.log(e)

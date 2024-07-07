@@ -40,8 +40,6 @@ export const ProfilePage = () => {
 
   const profileUserId = parseInt(queryParams["userId"] ?? "0")
 
-  // TODO: better error handling; each component in the page
-  // may be able to raise multiple errors; one global one won't cut it
   const [error, setError] = useState("")
 
   const [userProfile, setUserProfile] = useState<UserFullResponse | null>(null)
@@ -50,11 +48,6 @@ export const ProfilePage = () => {
 
   const [gameMode, setGameMode] = useState(GameMode.Standard)
   const [relaxMode, setRelaxMode] = useState(RelaxMode.Vanilla)
-
-  const [bestScores, setBestScores] = useState<UserScoresResponse | null>(null)
-  const [recentScores, setRecentScores] = useState<UserScoresResponse | null>(
-    null
-  )
 
   useEffect(() => {
     ;(async () => {
@@ -69,46 +62,6 @@ export const ProfilePage = () => {
       }
     })()
   }, [profileUserId])
-
-  useEffect(() => {
-    if (!profileUserId) return
-    ;(async () => {
-      try {
-        const playerBestScores = await fetchUserScores({
-          type: "best",
-          mode: gameMode,
-          p: 1, // todo pagination
-          l: 50,
-          rx: relaxMode,
-          id: profileUserId,
-        })
-        setBestScores(playerBestScores)
-      } catch (e: any) {
-        setError("Failed to fetch best scores data from server")
-        return
-      }
-    })()
-  }, [profileUserId, gameMode, relaxMode])
-
-  useEffect(() => {
-    if (!profileUserId) return
-    ;(async () => {
-      try {
-        const playerRecentScores = await fetchUserScores({
-          type: "recent",
-          mode: gameMode,
-          p: 1, // todo pagination
-          l: 50,
-          rx: relaxMode,
-          id: profileUserId,
-        })
-        setRecentScores(playerRecentScores)
-      } catch (e: any) {
-        setError("Failed to fetch recent scores data from server")
-        return
-      }
-    })()
-  }, [profileUserId, gameMode, relaxMode])
 
   if (!profileUserId) {
     return (
@@ -127,7 +80,8 @@ export const ProfilePage = () => {
       </Alert>
     )
   }
-  if (!userProfile || !bestScores || !recentScores) {
+
+  if (!userProfile) {
     return <>loading data</>
   }
 
@@ -218,13 +172,19 @@ export const ProfilePage = () => {
           </Stack>
           <Box>
             <UserProfileScores
-              scoresData={bestScores.scores}
+              scoresType="best"
+              userId={profileUserId}
+              gameMode={gameMode}
+              relaxMode={relaxMode}
               title="Best Scores"
             />
           </Box>
           <Box>
             <UserProfileScores
-              scoresData={recentScores.scores}
+              scoresType="recent"
+              userId={profileUserId}
+              gameMode={gameMode}
+              relaxMode={relaxMode}
               title="Recent Scores"
             />
           </Box>

@@ -28,10 +28,9 @@ export const LeaderboardsPage = () => {
   const [relaxMode, setRelaxMode] = useState(RelaxMode.Vanilla)
   const [country, setCountry] = useState("")
   const [sortParam, setSortParam] = useState("")
-  // TODO pagination
 
   const [page, setPage] = useState(0)
-  const [rowsPerPage, setRowsPerPage] = useState(50)
+  const [pageSize, setPageSize] = useState(50)
 
   const [leaderboardData, setLeaderboardData] =
     useState<LeaderboardResponse | null>(null)
@@ -43,7 +42,7 @@ export const LeaderboardsPage = () => {
           mode: gameMode,
           rx: relaxMode,
           p: page + 1,
-          l: rowsPerPage,
+          l: pageSize,
           country: country,
           sort: sortParam,
         })
@@ -53,7 +52,7 @@ export const LeaderboardsPage = () => {
         return
       }
     })()
-  }, [gameMode, relaxMode, page, rowsPerPage, country, sortParam])
+  }, [gameMode, relaxMode, page, pageSize, country, sortParam])
 
   if (!leaderboardData) {
     // TODO: use https://mui.com/material-ui/react-skeleton/
@@ -118,7 +117,7 @@ export const LeaderboardsPage = () => {
                   >
                     <TableCell>
                       <Typography>
-                        #{Number(index) + page * rowsPerPage + 1}
+                        #{Number(index) + page * pageSize + 1}
                       </Typography>
                     </TableCell>
                     <TableCell>
@@ -166,15 +165,15 @@ export const LeaderboardsPage = () => {
         <TablePagination
           component={Paper}
           count={-1}
-          rowsPerPage={rowsPerPage}
+          rowsPerPage={pageSize}
           page={page}
           onPageChange={(event, newPage) => setPage(newPage)}
           onRowsPerPageChange={(event) => {
-            setRowsPerPage(parseInt(event.target.value, 10))
+            setPageSize(parseInt(event.target.value, 10))
             setPage(0)
           }}
           labelDisplayedRows={({ from, to, count }) => {
-            return `Results ${from}–${to}`
+            return `Results ${from}-${to}`
           }}
         />
       </Stack>
