@@ -1,29 +1,31 @@
 import axios from "axios"
 
+interface ChosenModeStats {
+  rankedScore: number
+  totalScore: number
+  playcount: number
+  playtime: number
+  replaysWatched: number
+  totalHits: number
+  level: number
+  accuracy: number
+  pp: number
+  globalLeaderboardRank: number
+  countryLeaderboardRank: number
+  max_combo: number
+}
+
 interface LeaderboardUser {
   id: number
   username: string
-  username_aka: string
-  registered_on: string
+  usernameAka: string
+  registeredOn: string
   privileges: number
-  latest_activity: string
+  latestActivity: string
   country: string
-  chosen_mode: {
-    ranked_score: number
-    total_score: number
-    playcount: number
-    playtime: number
-    replays_watched: number
-    total_hits: number
-    level: number
-    accuracy: number
-    pp: number
-    global_leaderboard_rank: number
-    country_leaderboard_rank: number
-    max_combo: number
-  }
-  play_style: number
-  favourite_mode: number
+  chosenMode: ChosenModeStats
+  playStyle: number
+  favouriteMode: number
 }
 
 interface LeaderboardResponse {
@@ -49,45 +51,42 @@ export const fetchLeaderboard = async (
   request: LeaderboardRequest
 ): Promise<LeaderboardResponse> => {
   try {
-    const response = await leaderboardApiInstance.post(
-      "/v1/leaderboard",
-      {
-        params: {
-          mode: request.mode,
-          rx: request.rx,
-          p: request.p,
-          l: request.l,
-          country: request.country,
-          sort: request.sort,
-        },
-      }
-    )
+    const response = await leaderboardApiInstance.post("/v1/leaderboard", {
+      params: {
+        mode: request.mode,
+        rx: request.rx,
+        p: request.p,
+        l: request.l,
+        country: request.country,
+        sort: request.sort,
+      },
+    })
     return {
       code: response.status,
       users: response.data.users.map((user: any) => ({
         id: user.id,
         username: user.username,
-        username_aka: user.username_aka,
-        registered_on: user.registered_on,
+        usernameAka: user.username_aka,
+        registeredOn: user.registered_on,
         privileges: user.privileges,
-        latest_activity: user.latest_activity,
+        latestActivity: user.latest_activity,
         country: user.country,
-        chosen_mode: {
-          ranked_score: user.chosen_mode.ranked_score,
-          total_score: user.chosen_mode.total_score,
+        chosenMode: {
+          rankedScore: user.chosen_mode.ranked_score,
+          totalScore: user.chosen_mode.total_score,
           playcount: user.chosen_mode.playcount,
           playtime: user.chosen_mode.playtime,
-          replays_watched: user.chosen_mode.replays_watched,
-          total_hits: user.chosen_mode.total_hits,
+          replaysWatched: user.chosen_mode.replays_watched,
+          totalHits: user.chosen_mode.total_hits,
           level: user.chosen_mode.level,
           accuracy: user.chosen_mode.accuracy,
           pp: user.chosen_mode.pp,
-          global_leaderboard_rank: user.chosen_mode.global_leaderboard_rank,
-          country_leaderboard_rank: user.chosen_mode.country_leaderboard_rank,
-          max_combo: user.chosen_mode.max_combo,
+          globalLeaderboardRank: user.chosen_mode.global_leaderboard_rank,
+          countryLeaderboardRank: user.chosen_mode.country_leaderboard_rank,
+          maxCombo: user.chosen_mode.max_combo,
         },
-        play_style: user.play_style,
-        favourite_mode: user.favourite_mode,
+        playStyle: user.play_style,
+        favouriteMode: user.favourite_mode,
       })),
     }
   } catch (e: any) {
