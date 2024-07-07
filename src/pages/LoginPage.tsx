@@ -33,12 +33,8 @@ export const LoginPage = () => {
     let identity
     try {
       identity = await authenticate({ username, password })
-      if (identity === null) {
-        setLoginError("Invalid username or password")
-        return
-      }
-    } catch (e) {
-      setLoginError("An error occurred while logging in")
+    } catch (e: any) {
+      setLoginError(e.message)
       return
     }
 
@@ -77,7 +73,12 @@ export const LoginPage = () => {
         size="invisible"
         ref={captchaRef}
       />
-      <Button type="submit" variant="outlined" onClick={handleLogin}>
+      <Button
+        type="submit"
+        variant="outlined"
+        onClick={handleLogin}
+        disabled={!(username && password)}
+      >
         <Typography>Submit login</Typography>
       </Button>
     </Stack>

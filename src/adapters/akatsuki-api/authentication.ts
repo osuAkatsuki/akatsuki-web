@@ -12,11 +12,23 @@ const authApiInstance = axios.create({
 
 export const authenticate = async (
   request: AuthenticateRequest
-): Promise<Identity | null> => {
-  const response = await authApiInstance.post("/api/v1/authenticate", request)
-  if (response.status >= 400) {
-    throw new Error(response.data)
+): Promise<Identity> => {
+  try {
+    const response = await authApiInstance.post("/api/v1/authenticate", request)
+    return {
+      userId: response.data.user_id,
+      username: response.data.username,
+      privileges: response.data.privileges,
+    }
+  } catch (e: any) {
+    throw new Error(e.response.data.user_feedback)
   }
+}
 
-  return null
+export const logout = async () => {
+  try {
+    await authApiInstance.post("/api/v1/logout")
+  } catch (e: any) {
+    throw new Error(e.response.data.user_feedback)
+  }
 }

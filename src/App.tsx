@@ -15,6 +15,7 @@ import { RegisterPage } from "./pages/RegisterPage"
 import { LoginPage } from "./pages/LoginPage"
 import { LeaderboardsPage } from "./pages/LeaderboardsPage"
 import { ProfilePage } from "./pages/ProfilePage"
+import { SupportPage } from "./pages/SupportPage"
 
 const AppLayout = () => (
   <>
@@ -33,32 +34,34 @@ const router = createBrowserRouter(
       <Route path="login" element={<LoginPage />} />
       <Route path="/leaderboards" element={<LeaderboardsPage />} />
       <Route path="/u/:userId" element={<ProfilePage />} />
+      <Route path="/support" element={<SupportPage />} />
     </Route>
   )
 )
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#1678c2",
-    },
-    secondary: {
-      main: "#e03997",
-    },
-  },
-  typography: {
-    fontFamily: "Rubik",
-  },
-})
+// TODO: proper theme setup
+// const theme = createTheme({
+//   palette: {
+//     primary: {
+//       main: "#1678c2",
+//     },
+//     secondary: {
+//       main: "#e03997",
+//     },
+//   },
+//   typography: {
+//     fontFamily: "Rubik",
+//   },
+// })
 
 export default function App() {
   return (
     <React.StrictMode>
-      <ThemeProvider theme={theme}>
-        <IdentityContextProvider>
-          <RouterProvider router={router} />
-        </IdentityContextProvider>
-      </ThemeProvider>
+      {/* <ThemeProvider theme={theme}> */}
+      <IdentityContextProvider>
+        <RouterProvider router={router} />
+      </IdentityContextProvider>
+      {/* </ThemeProvider> */}
     </React.StrictMode>
   )
 }
