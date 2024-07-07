@@ -37,8 +37,8 @@ export const LoginPage = () => {
         setLoginError("Invalid username or password")
         return
       }
-    } catch (e) {
-      setLoginError("An error occurred while logging in")
+    } catch (e: any) {
+      setLoginError(e.message)
       return
     }
 

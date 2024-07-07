@@ -12,10 +12,10 @@ const authApiInstance = axios.create({
 
 export const authenticate = async (
   request: AuthenticateRequest
-): Promise<Identity | null> => {
+): Promise<Identity> => {
   const response = await authApiInstance.post("/api/v1/authenticate", request)
   if (response.status < 200 || response.status >= 300) {
-    throw new Error(response.data)
+    throw new Error(JSON.parse(response.data).user_feedback)
   }
   const responseData = JSON.parse(response.data)
   return {
