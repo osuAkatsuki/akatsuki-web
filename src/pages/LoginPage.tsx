@@ -73,7 +73,12 @@ export const LoginPage = () => {
         size="invisible"
         ref={captchaRef}
       />
-      <Button type="submit" variant="outlined" onClick={handleLogin}>
+      <Button
+        type="submit"
+        variant="outlined"
+        onClick={handleLogin}
+        disabled={!(username && password)}
+      >
         <Typography>Submit login</Typography>
       </Button>
     </Stack>
