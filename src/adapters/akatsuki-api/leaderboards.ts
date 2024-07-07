@@ -50,7 +50,6 @@ export const fetchLeaderboard = async (
 ): Promise<LeaderboardResponse> => {
   try {
     const response = await leaderboardApiInstance.post(
-      // https://akatsuki.gg/api/v1/leaderboard?mode=0&rx=0&p=1&l=50&country=&sort=pp
       "/v1/leaderboard",
       {
         params: {
