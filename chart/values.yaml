@@ -12,15 +12,15 @@ apps:
         repository: osuakatsuki/akatsuki-web
         tag: latest
       port: 80
-      readinessProbe:
-        httpGet:
-          path: /_health
-          port: 80
-        initialDelaySeconds: 10
-        periodSeconds: 3
-        timeoutSeconds: 4
-        successThreshold: 1
-        failureThreshold: 5
+      # readinessProbe:
+      #   httpGet:
+      #     path: /_health
+      #     port: 80
+      #   initialDelaySeconds: 10
+      #   periodSeconds: 3
+      #   timeoutSeconds: 4
+      #   successThreshold: 1
+      #   failureThreshold: 5
       resources:
         limits:
           cpu: 200m
