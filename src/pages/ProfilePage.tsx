@@ -10,7 +10,6 @@ import { GameMode, RelaxMode } from "../gameModes"
 import { getFlagUrl } from "../utils/countries"
 import { ProfileSelectionBar } from "../components/ProfileSelectionBar"
 import { fetchUser, UserFullResponse } from "../adapters/akatsuki-api/users"
-import { useIdentityContext } from "../context"
 import { UserProfileHistoryGraph } from "../components/UserProfileHistoryGraph"
 import { UserProfileStats } from "../components/UserProfileStats"
 import { UserProfileScores } from "../components/UserProfileScores"
@@ -33,7 +32,6 @@ const modeToStatsIndex = (
 }
 
 export const ProfilePage = () => {
-  const { identity } = useIdentityContext()
   const queryParams = useParams()
 
   const profileUserId = parseInt(queryParams["userId"] ?? "0")

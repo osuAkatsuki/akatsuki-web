@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react"
-import { AxisOptions, Chart, Datum, Series } from "react-charts"
+import { AxisOptions, Chart } from "react-charts"
 import { GameMode, RelaxMode } from "../gameModes"
 import {
   fetchUserProfileHistory,
