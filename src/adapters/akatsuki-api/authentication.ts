@@ -24,3 +24,11 @@ export const authenticate = async (
     throw new Error(e.response.data.user_feedback)
   }
 }
+
+export const logout = async () => {
+  try {
+    await authApiInstance.post("/api/v1/logout")
+  } catch (e: any) {
+    throw new Error(e.response.data.user_feedback)
+  }
+}
