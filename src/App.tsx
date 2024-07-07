@@ -39,28 +39,29 @@ const router = createBrowserRouter(
   )
 )
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#1678c2",
-    },
-    secondary: {
-      main: "#e03997",
-    },
-  },
-  typography: {
-    fontFamily: "Rubik",
-  },
-})
+// TODO: proper theme setup
+// const theme = createTheme({
+//   palette: {
+//     primary: {
+//       main: "#1678c2",
+//     },
+//     secondary: {
+//       main: "#e03997",
+//     },
+//   },
+//   typography: {
+//     fontFamily: "Rubik",
+//   },
+// })
 
 export default function App() {
   return (
     <React.StrictMode>
-      <ThemeProvider theme={theme}>
-        <IdentityContextProvider>
-          <RouterProvider router={router} />
-        </IdentityContextProvider>
-      </ThemeProvider>
+      {/* <ThemeProvider theme={theme}> */}
+      <IdentityContextProvider>
+        <RouterProvider router={router} />
+      </IdentityContextProvider>
+      {/* </ThemeProvider> */}
     </React.StrictMode>
   )
 }

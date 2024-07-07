@@ -12,7 +12,8 @@ import { Link } from "react-router-dom"
 import { FavoriteOutlined } from "@mui/icons-material"
 import { removeIdentityFromLocalStorage, useIdentityContext } from "../context"
 import { logout } from "../adapters/akatsuki-api/authentication"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { searchUsers } from "../adapters/akatsuki-api/search"
 
 export default function Navbar() {
   const { identity, setIdentity } = useIdentityContext()
@@ -43,6 +44,20 @@ export default function Navbar() {
     // TODO: consider allowing for searching for more than
     // just users, e.g. beatmaps, clans, etc.
   }
+
+  useEffect(() => {
+    const search = async () => {
+      if (!searchQuery) return
+      console.log("Making search API call")
+      const searchResponse = await searchUsers({ query: searchQuery })
+      if (searchResponse.users === null) {
+        console.log("No users found")
+        return
+      }
+      // TODO: actually render the resuts on the page
+    }
+    search()
+  }, [searchQuery])
 
   return (
     <>
