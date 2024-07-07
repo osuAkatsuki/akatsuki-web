@@ -1,16 +1,55 @@
 import axios from "axios"
 import { GameMode } from "../../gameModes"
-import { captureRejectionSymbol } from "events"
-import { UNSAFE_useRouteId } from "react-router-dom"
+
+export enum ProfileHistoryType {
+  GlobalRank = "global_rank",
+  CountryRank = "country_rank",
+  PP = "pp",
+}
+
+const getCaptureType = (historyType: ProfileHistoryType): string => {
+  switch (historyType) {
+    case ProfileHistoryType.GlobalRank:
+      return "rank"
+    case ProfileHistoryType.CountryRank:
+      return "rank"
+    case ProfileHistoryType.PP:
+      return "pp"
+    default:
+      throw new Error("Invalid capture type")
+  }
+}
+
+const getCaptureValue = (
+  requestCapture: any,
+  historyType: ProfileHistoryType
+): number => {
+  switch (historyType) {
+    case ProfileHistoryType.GlobalRank:
+      return requestCapture.overall
+    case ProfileHistoryType.CountryRank:
+      return requestCapture.country
+    case ProfileHistoryType.PP:
+      return requestCapture.pp
+    default:
+      throw new Error("Invalid capture type")
+  }
+}
 
 interface ProfileHistoryRequest {
-  type: "rank" | "pp"
+  // TODO: this abstraction does not match that of the
+  // profile-history-service backend, but we do so to
+  // increase functionality. We should migrate to new
+  // APIs on the backend to allow this flexibility.
+  // TODO: what about multiple params in one chart?
+  type: ProfileHistoryType
+
   userId: number
   akatsukiMode: GameMode // NOTE: includes rx/ap
 }
+
 export interface ProfileHistoryCapture {
-  overall: number
-  country: number
+  value: number
   capturedAt: Date
 }
 
@@ -29,7 +68,7 @@ export const fetchUserProfileHistory = async (
 ): Promise<ProfileHistoryResponse> => {
   try {
     const response = await profileHistoryApiInstance.get(
-      `/v1/profile-history/${request.type}`,
+      `/v1/profile-history/${getCaptureType(request.type)}`,
       {
         params: {
           user_id: request.userId,
@@ -37,10 +76,10 @@ export const fetchUserProfileHistory = async (
         },
       }
     )
+
     return {
       captures: response.data.data.captures.map((capture: any) => ({
-        overall: capture.overall,
-        country: capture.country,
+        value: getCaptureValue(capture, request.type),
         capturedAt: new Date(capture.captured_at),
       })),
       mode: response.data.data.mode,

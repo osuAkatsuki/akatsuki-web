@@ -3,8 +3,9 @@ import { AxisOptions, Chart, Datum, Series } from "react-charts"
 import { GameMode, RelaxMode } from "../gameModes"
 import {
   fetchUserProfileHistory,
-  ProfileHistoryCapture,
+  ProfileHistoryType,
   ProfileHistoryResponse,
+  ProfileHistoryCapture,
 } from "../adapters/akatsuki-api/profileHistory"
 import { Alert } from "@mui/material"
 
@@ -15,7 +16,7 @@ export const UserProfileHistoryGraph = ({
   relaxMode,
 }: {
   userId: number
-  type: "rank" | "pp"
+  type: ProfileHistoryType
   gameMode: GameMode
   relaxMode: RelaxMode
 }) => {
@@ -28,7 +29,7 @@ export const UserProfileHistoryGraph = ({
     ;(async () => {
       try {
         const response = await fetchUserProfileHistory({
-          type: type,
+          type,
           userId,
           akatsukiMode: gameMode + relaxMode * 4,
         })
@@ -48,7 +49,7 @@ export const UserProfileHistoryGraph = ({
         ? profileHistoryResponse.captures.map(
             (capture: ProfileHistoryCapture) => ({
               date: capture.capturedAt,
-              performance: capture.overall,
+              value: capture.value,
             })
           )
         : [],
@@ -71,7 +72,7 @@ export const UserProfileHistoryGraph = ({
   >(
     () => [
       {
-        getValue: (datum) => datum.performance,
+        getValue: (datum) => datum.value,
         elementType: "line",
         scaleType: "linear",
       },

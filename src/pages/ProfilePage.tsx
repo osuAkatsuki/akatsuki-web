@@ -15,6 +15,7 @@ import { UserProfileHistoryGraph } from "../components/UserProfileHistoryGraph"
 import { UserProfileStats } from "../components/UserProfileStats"
 import { UserProfileScores } from "../components/UserProfileScores"
 import { userIsOnline } from "../adapters/bancho"
+import { ProfileHistoryType } from "../adapters/akatsuki-api/profileHistory"
 
 const modeToStatsIndex = (
   mode: GameMode
@@ -40,9 +41,8 @@ export const ProfilePage = () => {
   const [error, setError] = useState("")
 
   const [userProfile, setUserProfile] = useState<UserFullResponse | null>(null)
-  const [profileHistoryType, setProfileHistoryType] = useState<"rank" | "pp">(
-    "rank"
-  )
+  const [profileHistoryType, setProfileHistoryType] =
+    useState<ProfileHistoryType>(ProfileHistoryType.GlobalRank)
   const [isOnline, setIsOnline] = useState(false)
 
   const [gameMode, setGameMode] = useState(GameMode.Standard)
@@ -178,17 +178,35 @@ export const ProfilePage = () => {
               <Stack direction="row" justifyContent="end" spacing={1}>
                 <Button
                   variant={
-                    profileHistoryType === "rank" ? "contained" : "outlined"
+                    profileHistoryType === ProfileHistoryType.GlobalRank
+                      ? "contained"
+                      : "outlined"
                   }
-                  onClick={() => setProfileHistoryType("rank")}
+                  onClick={() =>
+                    setProfileHistoryType(ProfileHistoryType.GlobalRank)
+                  }
                 >
-                  Rank
+                  Global Rank
                 </Button>
                 <Button
                   variant={
-                    profileHistoryType === "pp" ? "contained" : "outlined"
+                    profileHistoryType === ProfileHistoryType.CountryRank
+                      ? "contained"
+                      : "outlined"
                   }
-                  onClick={() => setProfileHistoryType("pp")}
+                  onClick={() =>
+                    setProfileHistoryType(ProfileHistoryType.CountryRank)
+                  }
+                >
+                  Country Rank
+                </Button>
+                <Button
+                  variant={
+                    profileHistoryType === ProfileHistoryType.PP
+                      ? "contained"
+                      : "outlined"
+                  }
+                  onClick={() => setProfileHistoryType(ProfileHistoryType.PP)}
                 >
                   PP
                 </Button>
