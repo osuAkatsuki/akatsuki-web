@@ -14,7 +14,7 @@ export const authenticate = async (
   request: AuthenticateRequest
 ): Promise<Identity | null> => {
   const response = await authApiInstance.post("/api/v1/authenticate", request)
-  if (response.status >= 400) {
+  if (response.status < 200 || response.status >= 300) {
     throw new Error(response.data)
   }
   const responseData = JSON.parse(response.data)
