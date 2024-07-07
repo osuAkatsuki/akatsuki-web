@@ -13,14 +13,14 @@ const authApiInstance = axios.create({
 export const authenticate = async (
   request: AuthenticateRequest
 ): Promise<Identity> => {
-  const response = await authApiInstance.post("/api/v1/authenticate", request)
-  if (response.status < 200 || response.status >= 300) {
-    throw new Error(JSON.parse(response.data).user_feedback)
-  }
-  const responseData = JSON.parse(response.data)
-  return {
-    userId: responseData.user_id,
-    username: responseData.username,
-    privileges: responseData.privileges,
+  try {
+    const response = await authApiInstance.post("/api/v1/authenticate", request)
+    return {
+      userId: response.data.user_id,
+      username: response.data.username,
+      privileges: response.data.privileges,
+    }
+  } catch (e: any) {
+    throw new Error(e.response.data.user_feedback)
   }
 }

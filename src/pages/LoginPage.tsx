@@ -33,10 +33,6 @@ export const LoginPage = () => {
     let identity
     try {
       identity = await authenticate({ username, password })
-      if (identity === null) {
-        setLoginError("Invalid username or password")
-        return
-      }
     } catch (e: any) {
       setLoginError(e.message)
       return
