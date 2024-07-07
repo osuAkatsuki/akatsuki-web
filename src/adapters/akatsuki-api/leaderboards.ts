@@ -1,6 +1,6 @@
 import axios from "axios"
 
-interface ChosenModeStats {
+export interface ChosenModeStats {
   rankedScore: number
   totalScore: number
   playcount: number
@@ -12,7 +12,7 @@ interface ChosenModeStats {
   pp: number
   globalLeaderboardRank: number
   countryLeaderboardRank: number
-  max_combo: number
+  maxCombo: number
 }
 
 export interface LeaderboardUser {
@@ -90,6 +90,7 @@ export const fetchLeaderboard = async (
       })),
     }
   } catch (e: any) {
+    console.log(e)
     throw new Error(e.response.data.user_feedback)
   }
 }

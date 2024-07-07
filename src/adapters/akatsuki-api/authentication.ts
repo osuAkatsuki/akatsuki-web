@@ -21,6 +21,7 @@ export const authenticate = async (
       privileges: response.data.privileges,
     }
   } catch (e: any) {
+    console.log(e)
     throw new Error(e.response.data.user_feedback)
   }
 }
@@ -29,6 +30,7 @@ export const logout = async () => {
   try {
     await authApiInstance.post("/api/v1/logout")
   } catch (e: any) {
+    console.log(e)
     throw new Error(e.response.data.user_feedback)
   }
 }

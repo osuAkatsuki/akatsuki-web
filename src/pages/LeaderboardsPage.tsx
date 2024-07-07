@@ -34,9 +34,8 @@ export const LeaderboardsPage = () => {
 
   useEffect(() => {
     ;(async () => {
-      let leaderboardResponse
       try {
-        leaderboardResponse = await fetchLeaderboard({
+        const leaderboardResponse = await fetchLeaderboard({
           mode: gameMode,
           rx: relaxMode,
           p: 1,
@@ -44,12 +43,11 @@ export const LeaderboardsPage = () => {
           country: country,
           sort: sortParam,
         })
+        setLeaderboardData(leaderboardResponse)
       } catch (e: any) {
         setError("Failed to fetch data from server")
         return
       }
-
-      setLeaderboardData(leaderboardResponse)
     })()
   }, [gameMode, relaxMode, country, sortParam])
 

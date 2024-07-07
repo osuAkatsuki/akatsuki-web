@@ -37,6 +37,7 @@ export const searchUsers = async (
         : null,
     }
   } catch (e: any) {
+    console.log(e)
     throw new Error(e.response.data.user_feedback)
   }
 }
