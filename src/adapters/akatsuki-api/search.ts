@@ -8,12 +8,12 @@ interface SearchRequest {
   query: string
 }
 
-interface UserResponse {
+export interface UserResponse {
   id: number
   username: string
 }
 
-interface SearchResponse {
+export interface SearchResponse {
   code: number
   users: UserResponse[] | null
 }

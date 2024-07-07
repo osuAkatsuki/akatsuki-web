@@ -1,4 +1,4 @@
-export enum ClientGameMode {
+export enum GameMode {
   Standard = 0,
   Taiko = 1,
   Catch = 2,
@@ -11,23 +11,20 @@ export enum RelaxMode {
   Autopilot = 2,
 }
 
-export const isRealGameMode = (
-  gameMode: ClientGameMode,
-  relaxMode: RelaxMode
-) => {
+export const isRealGameMode = (gameMode: GameMode, relaxMode: RelaxMode) => {
   if (relaxMode === RelaxMode.Vanilla) {
     // all game modes are allowed for vanilla
     return true
   } else if (relaxMode === RelaxMode.Relax) {
     // only standard, taiko, and catch are allowed for relax
     return (
-      gameMode === ClientGameMode.Standard ||
-      gameMode === ClientGameMode.Taiko ||
-      gameMode === ClientGameMode.Catch
+      gameMode === GameMode.Standard ||
+      gameMode === GameMode.Taiko ||
+      gameMode === GameMode.Catch
     )
   } else {
     // (relaxMode === RelaxMode.Autopilot) {
     // only standard is allowed for autopilot
-    return gameMode === ClientGameMode.Standard
+    return gameMode === GameMode.Standard
   }
 }

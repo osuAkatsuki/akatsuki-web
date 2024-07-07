@@ -15,7 +15,7 @@ interface ChosenModeStats {
   max_combo: number
 }
 
-interface LeaderboardUser {
+export interface LeaderboardUser {
   id: number
   username: string
   usernameAka: string
@@ -28,7 +28,7 @@ interface LeaderboardUser {
   favouriteMode: number
 }
 
-interface LeaderboardResponse {
+export interface LeaderboardResponse {
   code: number
   users: LeaderboardUser[]
 }
@@ -51,7 +51,7 @@ export const fetchLeaderboard = async (
   request: LeaderboardRequest
 ): Promise<LeaderboardResponse> => {
   try {
-    const response = await leaderboardApiInstance.post("/v1/leaderboard", {
+    const response = await leaderboardApiInstance.get("/v1/leaderboard", {
       params: {
         mode: request.mode,
         rx: request.rx,
