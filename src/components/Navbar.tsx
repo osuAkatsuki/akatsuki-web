@@ -96,7 +96,11 @@ export default function Navbar() {
               </Link>
             </Stack>
             {/* Right Navbar */}
-            <Stack direction="row" spacing={1}>
+            <Stack
+              direction="row"
+              spacing={1}
+              sx={{ display: "flex", alignItems: "center" }}
+            >
               <Autocomplete
                 id="user-search"
                 sx={{ width: 225 }} // TODO: does this scale?

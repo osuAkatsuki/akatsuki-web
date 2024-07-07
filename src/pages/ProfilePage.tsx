@@ -9,10 +9,6 @@ import WifiOffIcon from "@mui/icons-material/WifiOff"
 import { GameMode, RelaxMode } from "../gameModes"
 import { getFlagUrl } from "../utils/countries"
 import { ProfileSelectionBar } from "../components/ProfileSelectionBar"
-import {
-  fetchUserScores,
-  UserScoresResponse,
-} from "../adapters/akatsuki-api/userScores"
 import { fetchUser, UserFullResponse } from "../adapters/akatsuki-api/users"
 import { useIdentityContext } from "../context"
 import { UserProfileHistoryGraph } from "../components/UserProfileHistoryGraph"
