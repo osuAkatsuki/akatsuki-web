@@ -52,6 +52,7 @@ export const GlobalUserLeaderboard = (): JSX.Element => {
         })
         setLeaderboardData(leaderboardResponse)
         setLoading(false)
+        setError("")
       } catch (e: any) {
         setError("Failed to fetch data from server")
         return

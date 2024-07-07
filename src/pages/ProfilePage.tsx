@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom"
-import { Typography, Paper, Alert, Avatar } from "@mui/material"
+import { Typography, Paper, Alert, Avatar, Button } from "@mui/material"
 import Stack from "@mui/material/Stack"
 import Box from "@mui/material/Box"
 import { useEffect, useState } from "react"
@@ -14,6 +14,7 @@ import { useIdentityContext } from "../context"
 import { UserProfileHistoryGraph } from "../components/UserProfileHistoryGraph"
 import { UserProfileStats } from "../components/UserProfileStats"
 import { UserProfileScores } from "../components/UserProfileScores"
+import { userIsOnline } from "../adapters/bancho"
 
 const modeToStatsIndex = (
   mode: GameMode
@@ -39,8 +40,10 @@ export const ProfilePage = () => {
   const [error, setError] = useState("")
 
   const [userProfile, setUserProfile] = useState<UserFullResponse | null>(null)
-  const rankHistoryData = null // TODO
-  const isOnline = true // TODO
+  const [profileHistoryType, setProfileHistoryType] = useState<"rank" | "pp">(
+    "rank"
+  )
+  const [isOnline, setIsOnline] = useState(false)
 
   const [gameMode, setGameMode] = useState(GameMode.Standard)
   const [relaxMode, setRelaxMode] = useState(RelaxMode.Vanilla)
@@ -52,12 +55,20 @@ export const ProfilePage = () => {
       try {
         const usersResponse = await fetchUser(profileUserId)
         setUserProfile(usersResponse)
+        setError("")
       } catch (e: any) {
         setError("Failed to fetch user profile data from server")
         return
       }
     })()
   }, [profileUserId])
+
+  useEffect(() => {
+    ;(async () => {
+      const response = await userIsOnline({ userId: profileUserId })
+      setIsOnline(response.result)
+    })()
+  })
 
   if (!profileUserId) {
     return (
@@ -164,7 +175,30 @@ export const ProfilePage = () => {
             </Box>
             <Box sx={{ width: 2 / 3 }}>
               {/* TODO: figure out how to model rank vs. pp/score/etc. */}
-              <UserProfileHistoryGraph rankHistoryData={rankHistoryData} />
+              <Stack direction="row" justifyContent="end" spacing={1}>
+                <Button
+                  variant={
+                    profileHistoryType === "rank" ? "contained" : "outlined"
+                  }
+                  onClick={() => setProfileHistoryType("rank")}
+                >
+                  Rank
+                </Button>
+                <Button
+                  variant={
+                    profileHistoryType === "pp" ? "contained" : "outlined"
+                  }
+                  onClick={() => setProfileHistoryType("pp")}
+                >
+                  PP
+                </Button>
+              </Stack>
+              <UserProfileHistoryGraph
+                userId={profileUserId}
+                type={profileHistoryType}
+                gameMode={gameMode}
+                relaxMode={relaxMode}
+              />
             </Box>
           </Stack>
           <Box>

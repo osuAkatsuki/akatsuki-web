@@ -58,6 +58,7 @@ export const UserProfileScores = ({
           id: userId,
         })
         setScores(playerBestScores)
+        setError("")
       } catch (e: any) {
         setError("Failed to fetch best scores data from server")
         return
