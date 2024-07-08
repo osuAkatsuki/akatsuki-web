@@ -9,7 +9,11 @@ import WifiOffIcon from "@mui/icons-material/WifiOff"
 import { GameMode, RelaxMode } from "../gameModes"
 import { getFlagUrl } from "../utils/countries"
 import { ProfileSelectionBar } from "../components/ProfileSelectionBar"
-import { fetchUser, UserFullResponse } from "../adapters/akatsuki-api/users"
+import {
+  fetchUser,
+  UserFullResponse,
+  UserTournamentBadge,
+} from "../adapters/akatsuki-api/users"
 import { UserProfileHistoryGraph } from "../components/UserProfileHistoryGraph"
 import { UserProfileStats } from "../components/UserProfileStats"
 import { UserProfileScores } from "../components/UserProfileScores"
@@ -99,7 +103,7 @@ export const ProfilePage = () => {
             {/* Avatar / Name / Online Status */}
             <Paper elevation={3}>
               <Stack direction="row" justifyContent="space-between">
-                <Stack direction="row" spacing={2} sx={{ p: 2 }}>
+                <Stack direction="row" spacing={2} padding={2} width="50%">
                   <Avatar
                     alt="user-avatar"
                     src={`https://a.akatsuki.gg/${userProfile.id}`}
@@ -107,6 +111,7 @@ export const ProfilePage = () => {
                     sx={{ width: 124, height: 124 }}
                   />
                   <Stack direction="column">
+                    {/* TODO: rank label beside username */}
                     <Typography fontWeight="bold" variant="h5">
                       {userProfile.username}
                     </Typography>
@@ -139,6 +144,28 @@ export const ProfilePage = () => {
                         ? moment(userProfile.registeredOn).fromNow()
                         : "N/A"}
                     </Typography>
+                    {/* Tournament Badges */}
+                    <Stack
+                      direction="row"
+                      spacing={1}
+                      flexWrap="wrap"
+                      useFlexGap
+                    >
+                      {/* <Typography variant="subtitle2">Badges:</Typography> */}
+                      {userProfile.tbadges
+                        ? userProfile.tbadges.map(
+                            (tournamentBadge: UserTournamentBadge) => (
+                              <Avatar
+                                key={tournamentBadge.id}
+                                alt={tournamentBadge.name}
+                                src={tournamentBadge.icon}
+                                variant="rounded"
+                                sx={{ width: 86, height: 40 }}
+                              />
+                            )
+                          )
+                        : ""}
+                    </Stack>
                   </Stack>
                 </Stack>
                 {/* Global & Country Player Ranking */}
@@ -148,6 +175,7 @@ export const ProfilePage = () => {
                   alignItems="flex-end"
                   spacing={2}
                   padding={2}
+                  width="50%"
                 >
                   <Typography variant="h5" fontWeight="bold">
                     Player Ranking
@@ -185,16 +213,13 @@ export const ProfilePage = () => {
             setGameMode={setGameMode}
             setRelaxMode={setRelaxMode}
           />
-          <Stack
-            direction="row"
-            spacing={2}
-            sx={{ justifyContent: "space-evenly" }}
-          >
+          <Stack direction="row" spacing={2} justifyContent="space-evenly">
             <Box sx={{ width: 1 / 3 }}>
               <UserProfileStats
                 statsData={
                   userProfile.stats[relaxMode][modeToStatsIndex(gameMode)]
                 }
+                followers={userProfile.followers}
               />
             </Box>
             <Box sx={{ width: 2 / 3 }} overflow="auto">
