@@ -81,25 +81,25 @@ export const UserProfileScores = ({
             <TableHead>
               <TableRow>
                 <TableCell align="center">
-                  <Typography>Grade</Typography>
+                  <Typography variant="body1">Grade</Typography>
                 </TableCell>
                 <TableCell align="left">
-                  <Typography>Beatmap</Typography>
+                  <Typography variant="body1">Beatmap</Typography>
                 </TableCell>
                 <TableCell align="center">
-                  <Typography>Performance</Typography>
+                  <Typography variant="body1">Accuracy</Typography>
                 </TableCell>
                 <TableCell align="center">
-                  <Typography>Accuracy</Typography>
+                  <Typography variant="body1">Combo</Typography>
                 </TableCell>
                 <TableCell align="center">
-                  <Typography>Combo</Typography>
+                  <Typography variant="body1">Score</Typography>
                 </TableCell>
                 <TableCell align="center">
-                  <Typography>Score</Typography>
+                  <Typography variant="body1">Submitted</Typography>
                 </TableCell>
                 <TableCell align="center">
-                  <Typography>Submitted</Typography>
+                  <Typography variant="body1">Performance</Typography>
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -138,37 +138,41 @@ export const UserProfileScores = ({
                   </TableCell>
                   {/* TODO: clickable to go to beatmap page */}
                   <TableCell align="left">
-                    <Typography variant="subtitle2">
+                    <Typography variant="body2">
                       {score.beatmap.songName}{" "}
                       {score.mods ? `+${formatMods(score.mods)}` : ""}
                     </Typography>
                   </TableCell>
                   <TableCell align="center">
-                    <Tooltip title={`${score.pp}pp`}>
-                      <Typography noWrap={true}>
-                        {Math.round(score.pp)}pp
-                      </Typography>
-                    </Tooltip>
-                  </TableCell>
-                  <TableCell align="center">
-                    <Typography noWrap={true}>
+                    <Typography variant="body1" noWrap={true}>
                       {formatDecimal(score.accuracy)}%
                     </Typography>
                   </TableCell>
                   <TableCell align="center">
-                    <Typography noWrap={true}>
+                    <Typography variant="body1" noWrap={true}>
                       {formatNumber(score.maxCombo)}x
                     </Typography>
                   </TableCell>
                   <TableCell align="center">
-                    <Typography noWrap={true}>
+                    <Typography variant="body1" noWrap={true}>
                       {formatNumber(score.score)}
                     </Typography>
                   </TableCell>
                   <TableCell align="center">
-                    <Typography noWrap={true}>
+                    <Typography variant="body1" noWrap={true}>
                       {moment(score.time).fromNow()}
                     </Typography>
+                  </TableCell>
+                  <TableCell align="center">
+                    <Tooltip title={`${score.pp}pp`}>
+                      <Typography
+                        variant="body1"
+                        fontWeight="bold"
+                        noWrap={true}
+                      >
+                        {Math.round(score.pp)}pp
+                      </Typography>
+                    </Tooltip>
                   </TableCell>
                 </TableRow>
               ))}

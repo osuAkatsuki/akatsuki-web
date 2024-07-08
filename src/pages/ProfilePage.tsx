@@ -151,7 +151,6 @@ export const ProfilePage = () => {
                       flexWrap="wrap"
                       useFlexGap
                     >
-                      {/* <Typography variant="subtitle2">Badges:</Typography> */}
                       {userProfile.tbadges
                         ? userProfile.tbadges.map(
                             (tournamentBadge: UserTournamentBadge) => (
