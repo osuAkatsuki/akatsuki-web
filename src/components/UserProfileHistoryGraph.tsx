@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useState } from "react"
-import { AxisOptions, Chart } from "react-charts"
+import { Line } from "react-chartjs-2"
 import { GameMode, RelaxMode } from "../gameModes"
 import {
   fetchUserProfileHistory,
   ProfileHistoryType,
   ProfileHistoryResponse,
   ProfileHistoryCapture,
+  captureTypeToDisplay,
 } from "../adapters/akatsuki-api/profileHistory"
 import { Alert } from "@mui/material"
 
@@ -42,50 +43,57 @@ export const UserProfileHistoryGraph = ({
     })()
   }, [type, userId, gameMode, relaxMode])
 
-  const data = [
-    {
-      label: "Profile History",
-      data: profileHistoryResponse
-        ? profileHistoryResponse.captures.map(
-            (capture: ProfileHistoryCapture) => ({
-              date: capture.capturedAt,
-              value: capture.value,
-            })
-          )
-        : [],
-    },
-  ]
-
-  const primaryAxis = useMemo<
-    AxisOptions<(typeof data)[number]["data"][number]>
-  >(
-    () => ({
-      getValue: (datum) => datum.date as unknown as Date,
-      elementType: "line",
-      scaleType: "time",
-    }),
-    []
-  )
-
-  const secondaryAxes = useMemo<
-    AxisOptions<(typeof data)[number]["data"][number]>[]
-  >(
-    () => [
-      {
-        getValue: (datum) => datum.value,
-        elementType: "line",
-        scaleType: "linear",
-      },
-    ],
-    []
-  )
-
-  if (error) {
+  if (error || !profileHistoryResponse) {
     return <Alert severity="error">{error}</Alert>
   }
+
+  const chartData = {
+    labels: profileHistoryResponse.captures.map(
+      (capture: ProfileHistoryCapture) => {
+        return capture.capturedAt.toLocaleDateString()
+      }
+    ),
+    datasets: [
+      {
+        label: captureTypeToDisplay(type),
+        data: profileHistoryResponse.captures.map(
+          (capture: ProfileHistoryCapture) => capture.value
+        ),
+        fill: false,
+        borderColor: "#1976d2",
+        tension: 0.1,
+      },
+    ],
+  }
+
+  const options = {
+    elements: {
+      point: {
+        radius: 0,
+      },
+    },
+    scales: {
+      y: {
+        grace: "10%",
+        reverse: [
+          ProfileHistoryType.CountryRank,
+          ProfileHistoryType.GlobalRank,
+        ].includes(type),
+        type: "linear",
+        ticks: {
+          precision: 0,
+        },
+      },
+    },
+    plugins: {
+      tooltip: {
+        intersect: false,
+      },
+    },
+  } as const
   return (
     <>
-      <Chart options={{ data, primaryAxis, secondaryAxes }} />
+      <Line data={chartData} options={options} />
     </>
   )
 }

@@ -17,6 +17,27 @@ import { LeaderboardsPage } from "./pages/LeaderboardsPage"
 import { ProfilePage } from "./pages/ProfilePage"
 import { SupportPage } from "./pages/SupportPage"
 
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js"
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+)
+
 const AppLayout = () => (
   <>
     <Navbar />

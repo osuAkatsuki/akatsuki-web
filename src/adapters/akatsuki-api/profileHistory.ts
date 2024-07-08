@@ -7,6 +7,21 @@ export enum ProfileHistoryType {
   PP = "pp",
 }
 
+export const captureTypeToDisplay = (
+  historyType: ProfileHistoryType
+): string => {
+  switch (historyType) {
+    case ProfileHistoryType.GlobalRank:
+      return "Global Rank"
+    case ProfileHistoryType.CountryRank:
+      return "Country Rank"
+    case ProfileHistoryType.PP:
+      return "Performance Points"
+    default:
+      throw new Error("Invalid capture type")
+  }
+}
+
 const getCaptureType = (historyType: ProfileHistoryType): string => {
   switch (historyType) {
     case ProfileHistoryType.GlobalRank:
