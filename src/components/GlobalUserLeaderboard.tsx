@@ -40,6 +40,7 @@ export const GlobalUserLeaderboard = (): JSX.Element => {
     useState<LeaderboardResponse | null>(null)
 
   useEffect(() => {
+    setLoading(true)
     ;(async () => {
       try {
         const leaderboardResponse = await fetchLeaderboard({
