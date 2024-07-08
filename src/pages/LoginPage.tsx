@@ -60,6 +60,11 @@ export const LoginPage = () => {
         onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
           setUsername(e.target.value)
         }
+        onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+          if (e.key === "Enter" && username && password) {
+            handleLogin()
+          }
+        }}
       ></TextField>
       <TextField
         label="Password"
@@ -67,6 +72,11 @@ export const LoginPage = () => {
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           setPassword(e.target.value)
         }
+        onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+          if (e.key === "Enter" && username && password) {
+            handleLogin()
+          }
+        }}
       ></TextField>
       <ReCAPTCHA
         sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY!}
