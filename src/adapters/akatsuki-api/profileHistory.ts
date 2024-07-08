@@ -92,6 +92,13 @@ export const fetchUserProfileHistory = async (
       }
     )
 
+    if (response.data.status === "error") {
+      return {
+        captures: [],
+        mode: request.akatsukiMode,
+        userId: request.userId,
+      }
+    }
     return {
       captures: response.data.data.captures.map((capture: any) => ({
         value: getCaptureValue(capture, request.type),

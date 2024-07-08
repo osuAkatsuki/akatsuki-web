@@ -8,7 +8,7 @@ import {
   ProfileHistoryCapture,
   captureTypeToDisplay,
 } from "../adapters/akatsuki-api/profileHistory"
-import { Alert } from "@mui/material"
+import { Alert, Typography } from "@mui/material"
 
 export const UserProfileHistoryGraph = ({
   userId,
@@ -45,6 +45,19 @@ export const UserProfileHistoryGraph = ({
 
   if (error || !profileHistoryResponse) {
     return <Alert severity="error">{error}</Alert>
+  }
+
+  if (profileHistoryResponse.captures.length === 0) {
+    return (
+      <Alert severity="warning">
+        <Typography variant="body2" fontWeight="bold">
+          No data available to display with history charts
+        </Typography>
+        <Typography variant="body2">
+          (First, play some osu! to estalish a base!)
+        </Typography>
+      </Alert>
+    )
   }
 
   const chartData = {
