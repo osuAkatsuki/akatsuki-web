@@ -198,7 +198,7 @@ export const ProfilePage = () => {
             width="50%"
           >
             <Typography variant="h5" fontWeight="bold">
-              Player Ranking
+              Overall Ranking
             </Typography>
             {/* TODO: add a method for fetching global & country rank from the backend */}
             <Stack direction="row">
