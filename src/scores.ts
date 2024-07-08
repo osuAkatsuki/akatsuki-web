@@ -36,9 +36,10 @@ export const remapSSForDisplay = (
   switch (grade) {
     case "XH":
     case "X":
+      return "SS"
     case "SH":
     case "S":
-      return "SS"
+      return "S"
     default:
       return grade
   }
