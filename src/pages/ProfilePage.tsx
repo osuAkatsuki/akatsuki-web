@@ -296,8 +296,8 @@ export const ProfilePage = () => {
           </Box>
         </Stack>
         <Divider />
-
         <Box>
+          {/* TODO: hide if no pinned scores exist */}
           <UserProfileScores
             scoresType="pinned"
             userId={profileUserId}
@@ -307,7 +307,6 @@ export const ProfilePage = () => {
           />
         </Box>
         <Divider />
-
         <Box>
           <UserProfileScores
             scoresType="best"
