@@ -1,5 +1,12 @@
 import { useParams } from "react-router-dom"
-import { Typography, Paper, Alert, Avatar, Button } from "@mui/material"
+import {
+  Typography,
+  Tooltip,
+  Paper,
+  Alert,
+  Avatar,
+  Button,
+} from "@mui/material"
 import Stack from "@mui/material/Stack"
 import Box from "@mui/material/Box"
 import { useEffect, useState } from "react"
@@ -154,13 +161,15 @@ export const ProfilePage = () => {
                       {userProfile.tbadges
                         ? userProfile.tbadges.map(
                             (tournamentBadge: UserTournamentBadge) => (
-                              <Avatar
-                                key={tournamentBadge.id}
-                                alt={tournamentBadge.name}
-                                src={tournamentBadge.icon}
-                                variant="rounded"
-                                sx={{ width: 86, height: 40 }}
-                              />
+                              <Tooltip title={tournamentBadge.name}>
+                                <Avatar
+                                  key={tournamentBadge.id}
+                                  alt={tournamentBadge.name}
+                                  src={tournamentBadge.icon}
+                                  variant="rounded"
+                                  sx={{ width: 86, height: 40 }}
+                                />
+                              </Tooltip>
                             )
                           )
                         : ""}
