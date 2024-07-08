@@ -1,7 +1,7 @@
 import axios from "axios"
 
 interface UserScoresRequest {
-  type: "best" | "recent"
+  type: "best" | "recent" | "pinned"
   mode: number
   p: number
   l: number

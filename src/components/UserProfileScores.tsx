@@ -31,7 +31,7 @@ export const UserProfileScores = ({
   relaxMode,
   title,
 }: {
-  scoresType: "best" | "recent"
+  scoresType: "best" | "recent" | "pinned"
   userId: number
   gameMode: GameMode
   relaxMode: RelaxMode

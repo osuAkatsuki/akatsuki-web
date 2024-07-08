@@ -278,6 +278,15 @@ export const ProfilePage = () => {
           </Stack>
           <Box>
             <UserProfileScores
+              scoresType="pinned"
+              userId={profileUserId}
+              gameMode={gameMode}
+              relaxMode={relaxMode}
+              title="Pinned Scores"
+            />
+          </Box>
+          <Box>
+            <UserProfileScores
               scoresType="best"
               userId={profileUserId}
               gameMode={gameMode}
