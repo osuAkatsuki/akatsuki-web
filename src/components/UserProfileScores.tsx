@@ -15,6 +15,7 @@ import {
   TableBody,
   Tooltip,
   TablePagination,
+  Stack,
 } from "@mui/material"
 import moment from "moment"
 import { calculateGrade, getGradeColor, remapSSForDisplay } from "../scores"
@@ -96,9 +97,6 @@ export const UserProfileScores = ({
                   <Typography variant="body1">Score</Typography>
                 </TableCell>
                 <TableCell align="center">
-                  <Typography variant="body1">Submitted</Typography>
-                </TableCell>
-                <TableCell align="center">
                   <Typography variant="body1">Performance</Typography>
                 </TableCell>
               </TableRow>
@@ -138,10 +136,22 @@ export const UserProfileScores = ({
                   </TableCell>
                   {/* TODO: clickable to go to beatmap page */}
                   <TableCell align="left">
-                    <Typography variant="body2">
-                      {score.beatmap.songName}{" "}
-                      {score.mods ? `+${formatMods(score.mods)}` : ""}
-                    </Typography>
+                    <Stack direction="column">
+                      <Typography variant="body1">
+                        {score.beatmap.songName}
+                        <Typography
+                          display="inline"
+                          variant="body1"
+                          fontWeight="bold"
+                          noWrap={true}
+                        >
+                          {score.mods ? ` +${formatMods(score.mods)}` : ""}
+                        </Typography>
+                      </Typography>
+                      <Typography variant="body1" noWrap={true}>
+                        {moment(score.time).fromNow()}
+                      </Typography>
+                    </Stack>
                   </TableCell>
                   <TableCell align="center">
                     <Typography variant="body1" noWrap={true}>
@@ -156,11 +166,6 @@ export const UserProfileScores = ({
                   <TableCell align="center">
                     <Typography variant="body1" noWrap={true}>
                       {formatNumber(score.score)}
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="center">
-                    <Typography variant="body1" noWrap={true}>
-                      {moment(score.time).fromNow()}
                     </Typography>
                   </TableCell>
                   <TableCell align="center">
