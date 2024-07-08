@@ -106,29 +106,54 @@ export const ProfilePage = () => {
                     sx={{ width: 124, height: 124 }}
                   />
                   <Stack direction="column">
-                    <Typography variant="h5">{userProfile.username}</Typography>
+                    <Typography fontWeight="bold" variant="h5">
+                      {userProfile.username}
+                    </Typography>
                     {isOnline ? (
                       <Stack direction="row" spacing={1} alignItems="center">
-                        <WifiIcon sx={{ width: 20, height: 20 }} />
-                        <Typography variant="subtitle1">Online</Typography>
+                        <WifiIcon
+                          sx={{ width: 20, height: 20 }}
+                          color="success"
+                        />
+                        <Typography variant="subtitle2">Online</Typography>
                       </Stack>
                     ) : (
                       <Stack direction="row" spacing={1} alignItems="center">
-                        <WifiOffIcon sx={{ width: 20, height: 20 }} />
-                        <Typography variant="subtitle1">Offline</Typography>
+                        <WifiOffIcon
+                          sx={{ width: 20, height: 20 }}
+                          color="error"
+                        />
+                        <Typography variant="subtitle2">Offline</Typography>
                       </Stack>
                     )}
+                    <Typography variant="subtitle2">
+                      Last seen:{" "}
+                      {userProfile !== null
+                        ? moment(userProfile.latestActivity).fromNow()
+                        : "N/A"}
+                    </Typography>
+                    <Typography variant="subtitle2">
+                      Registered:{" "}
+                      {userProfile !== null
+                        ? moment(userProfile.registeredOn).fromNow()
+                        : "N/A"}
+                    </Typography>
                   </Stack>
                 </Stack>
+                {/* Global & Country Player Ranking */}
                 <Stack
                   direction="column"
-                  justifyContent="flex-end"
+                  justifyContent="space-evenly"
+                  alignItems="flex-end"
                   spacing={2}
-                  sx={{ p: 2 }}
+                  padding={2}
                 >
+                  <Typography variant="h5" fontWeight="bold">
+                    Player Ranking
+                  </Typography>
                   {/* TODO: add a method for fetching global & country rank from the backend */}
                   <Stack direction="row" spacing={1} alignItems="center">
-                    <Typography variant="h4">
+                    <Typography variant="h6">
                       #
                       {userProfile.stats[relaxMode][modeToStatsIndex(gameMode)]
                         .globalLeaderboardRank ?? "N/A"}
@@ -136,7 +161,7 @@ export const ProfilePage = () => {
                     <PublicIcon sx={{ width: 36, height: 36 }} />
                   </Stack>
                   <Stack direction="row" spacing={1} alignItems="center">
-                    <Typography variant="h4">
+                    <Typography variant="h6">
                       #
                       {userProfile.stats[relaxMode][modeToStatsIndex(gameMode)]
                         .countryLeaderboardRank ?? "N/A"}
