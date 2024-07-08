@@ -197,7 +197,7 @@ export const ProfilePage = () => {
                 }
               />
             </Box>
-            <Box sx={{ width: 2 / 3 }}>
+            <Box sx={{ width: 2 / 3 }} overflow="auto">
               {/* TODO: figure out how to model rank vs. pp/score/etc. */}
               <Stack direction="row" justifyContent="end" spacing={1}>
                 <Button
