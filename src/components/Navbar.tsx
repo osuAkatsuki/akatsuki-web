@@ -19,6 +19,7 @@ import {
   searchUsers,
   SingleUserSearchResult,
 } from "../adapters/akatsuki-api/search"
+import { UserPrivileges } from "../privileges"
 
 export default function Navbar() {
   const navigate = useNavigate()
@@ -88,6 +89,16 @@ export default function Navbar() {
                   <Typography variant="subtitle1">Leaderboards</Typography>
                 </Button>
               </Link>
+              {/* <Link to="/information">
+                <Button>
+                  <Typography variant="subtitle1">Information</Typography>
+                </Button>
+              </Link> */}
+              <Link to={process.env.REACT_APP_PUBLIC_DISCORD_INVITE_URL!}>
+                <Button>
+                  <Typography variant="subtitle1">Discord</Typography>
+                </Button>
+              </Link>
             </Stack>
             {/* Right Navbar */}
             <Stack
@@ -95,6 +106,17 @@ export default function Navbar() {
               spacing={1}
               sx={{ display: "flex", alignItems: "center" }}
             >
+              {identity !== null &&
+              identity.privileges & UserPrivileges.ADMIN_ACCESS_RAP ? (
+                <Link to={process.env.REACT_APP_ADMIN_PANEL_HOME_URL!}>
+                  <Button>
+                    <Typography variant="subtitle1" fontWeight="bold">
+                      Admin Panel
+                    </Typography>
+                  </Button>
+                </Link>
+              ) : null}
+
               <Autocomplete
                 id="user-search"
                 sx={{ width: 225 }} // TODO: does this scale?
