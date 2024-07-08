@@ -1,6 +1,6 @@
 import { type UserStats } from "../adapters/akatsuki-api/users"
 
-import { Box, Paper, Typography, Stack } from "@mui/material"
+import { Box, Typography, Stack } from "@mui/material"
 import {
   formatDecimal,
   formatNumber,
