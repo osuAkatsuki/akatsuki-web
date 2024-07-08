@@ -70,13 +70,7 @@ export default function Navbar() {
     <>
       <Paper elevation={1} square>
         <Container>
-          <Stack
-            direction="row"
-            sx={{
-              justifyContent: "space-between",
-              p: 1.25,
-            }}
-          >
+          <Stack direction="row" justifyContent="space-between" padding={1.25}>
             {/* Left Navbar */}
             <Stack
               direction="row"

@@ -63,12 +63,7 @@ export const GlobalUserLeaderboard = (): JSX.Element => {
   if (loading || !leaderboardData) {
     return (
       <>
-        <Stack
-          direction="row"
-          sx={{
-            justifyContent: "space-between",
-          }}
-        >
+        <Stack direction="row" justifyContent="space-between">
           <Stack direction="row" spacing={1}>
             {/* Game Modes */}
             <Skeleton variant="rectangular" width={110} height={35}></Skeleton>

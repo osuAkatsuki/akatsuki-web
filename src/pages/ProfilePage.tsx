@@ -15,6 +15,7 @@ import { UserProfileStats } from "../components/UserProfileStats"
 import { UserProfileScores } from "../components/UserProfileScores"
 import { userIsOnline } from "../adapters/bancho"
 import { ProfileHistoryType } from "../adapters/akatsuki-api/profileHistory"
+import moment from "moment"
 
 const modeToStatsIndex = (
   mode: GameMode

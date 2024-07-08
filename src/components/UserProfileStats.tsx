@@ -17,7 +17,7 @@ export const UserProfileStats = ({ statsData }: { statsData: UserStats }) => {
         <Typography variant="h6" sx={{ pb: 1 }}>
           Gameplay Stats
         </Typography>
-        <Stack direction="column">
+        <Stack direction="column" spacing={1}>
           <Stack direction="row">
             <Typography sx={{ width: 1 / 2 }}>Performance Points</Typography>
             <Typography sx={{ width: 1 / 2, textAlign: "end" }}>
