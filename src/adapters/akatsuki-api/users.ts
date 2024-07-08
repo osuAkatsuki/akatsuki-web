@@ -199,3 +199,31 @@ export const fetchUser = async (userId: number): Promise<UserFullResponse> => {
     throw new Error(e.response.data.user_feedback)
   }
 }
+
+interface UserpageRequest {
+  id: number
+}
+
+export interface UserpageResponse {
+  code: number
+  userpage: string
+  userpage_compiled: string
+}
+
+export const fetchUserpage = async (
+  request: UserpageRequest
+): Promise<UserpageResponse> => {
+  try {
+    const response = await userApiInstance.get("/v1/users/userpage", {
+      params: { id: request.id },
+    })
+    return {
+      code: response.data.code,
+      userpage: response.data.userpage,
+      userpage_compiled: response.data.userpage_compiled,
+    }
+  } catch (e: any) {
+    console.log(e)
+    throw new Error(e.response.data.user_feedback)
+  }
+}

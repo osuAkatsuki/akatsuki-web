@@ -27,6 +27,7 @@ import { UserProfileScores } from "../components/UserProfileScores"
 import { userIsOnline } from "../adapters/bancho"
 import { ProfileHistoryType } from "../adapters/akatsuki-api/profileHistory"
 import moment from "moment"
+import { UserpageContent } from "../components/UserpageContent"
 
 const modeToStatsIndex = (
   mode: GameMode
@@ -215,6 +216,7 @@ export const ProfilePage = () => {
               </Stack>
             </Paper>
           </Box>
+          <UserpageContent userId={profileUserId} />
           <ProfileSelectionBar
             gameMode={gameMode}
             relaxMode={relaxMode}
