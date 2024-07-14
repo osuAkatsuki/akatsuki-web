@@ -90,7 +90,7 @@ export default function App() {
               }),
         },
         typography: {
-          fontFamily: "Rubik",
+          fontFamily: "Nunito",
         },
       }),
     [prefersDarkMode]
