@@ -1,46 +1,91 @@
-import { Button, Typography } from "@mui/material"
+import {
+  Button,
+  Grid,
+  Typography,
+  type ButtonPropsColorOverrides,
+} from "@mui/material"
 import { Link } from "react-router-dom"
 import Stack from "@mui/material/Stack"
+import { type OverridableStringUnion } from "@mui/types"
 import { useIdentityContext } from "../context"
 
+const NavButton = ({
+  to,
+  color,
+  label,
+}: {
+  to: string
+  color: OverridableStringUnion<
+    | "inherit"
+    | "primary"
+    | "secondary"
+    | "success"
+    | "error"
+    | "info"
+    | "warning",
+    ButtonPropsColorOverrides
+  >
+  label: string
+}) => {
+  return (
+    <Link to={to} style={{ textDecoration: "none" }}>
+      <Button variant="contained" color={color} fullWidth>
+        <Typography variant="h6">{label}</Typography>
+      </Button>
+    </Link>
+  )
+}
+
+const Header = () => (
+  <>
+    {" "}
+    <Typography variant="h2" align="center">
+      Welcome to Akatsuki
+    </Typography>
+    <Typography variant="h4" align="center">
+      The largest competitive osu! private server
+    </Typography>
+  </>
+)
 export const HomePage = () => {
   const { identity } = useIdentityContext()
 
   return (
-    <Stack
+    <Grid
+      container
       direction="column"
+      alignItems="center"
+      justifyContent="center"
       sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
         minHeight: "100vh",
+        px: 2,
       }}
     >
-      <Typography variant="h2">Welcome to Akatsuki</Typography>
-      <Typography variant="h4">
-        The largest competitive osu! private server
-      </Typography>
-
-      <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
-        {identity ? (
-          <Link to={`/u/${identity.userId}`}>
-            <Button variant="contained" color="primary">
-              <Typography variant="h6">My Profile</Typography>
-            </Button>
-          </Link>
-        ) : (
-          <Link to="/register">
-            <Button variant="contained" color="primary">
-              <Typography variant="h6">Sign Up</Typography>
-            </Button>
-          </Link>
-        )}
-        <Link to="/leaderboards">
-          <Button variant="contained" color="secondary">
-            <Typography variant="h6">Leaderboards</Typography>
-          </Button>
-        </Link>
-      </Stack>
-    </Stack>
+      <Grid item xs={12}>
+        <Header />
+      </Grid>
+      <Grid item xs={12} sm={10} md={8} lg={6} xl={4}>
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          spacing={2}
+          sx={{ mt: 2 }}
+        >
+          {identity ? (
+            <NavButton
+              to={`/u/${identity.userId}`}
+              color="primary"
+              label="My Profile"
+            />
+          ) : (
+            <NavButton to="/register" color="primary" label="Sign Up" />
+          )}
+          <NavButton
+            to="/leaderboards"
+            color="secondary"
+            label="Leaderboards"
+          />
+        </Stack>
+      </Grid>
+    </Grid>
   )
 }
