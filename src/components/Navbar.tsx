@@ -9,12 +9,14 @@ import {
   IconButton,
   Autocomplete,
   debounce,
+  Box,
 } from "@mui/material"
 import { Link, useNavigate } from "react-router-dom"
 import { FavoriteOutlined } from "@mui/icons-material"
 import { removeIdentityFromLocalStorage, useIdentityContext } from "../context"
 import { logout } from "../adapters/akatsuki-api/authentication"
 import { useEffect, useMemo, useState } from "react"
+import { AkatsukiLogo } from "./images/logos/AkatsukiLogo"
 import {
   searchUsers,
   SingleUserSearchResult,
@@ -80,7 +82,9 @@ export default function Navbar() {
             >
               <Link to="/">
                 <Button>
-                  <Typography variant="subtitle1">Akatsuki</Typography>
+                  <Box width={146.25} height={29.97}>
+                    <AkatsukiLogo />
+                  </Box>
                 </Button>
               </Link>
               <Divider orientation="vertical" flexItem />
