@@ -37,9 +37,7 @@ export const UserProfileScores = ({
   relaxMode: RelaxMode
   title: string
 }) => {
-  const [userScoresResponse, setScores] = useState<UserScoresResponse | null>(
-    null
-  )
+  const [userScores, setUserScores] = useState<UserScoresResponse | null>(null)
 
   const [page, setPage] = useState(0)
   const [pageSize, setPageSize] = useState(50)
@@ -50,7 +48,7 @@ export const UserProfileScores = ({
     if (!userId) return
     ;(async () => {
       try {
-        const playerBestScores = await fetchUserScores({
+        const userScores = await fetchUserScores({
           type: scoresType,
           mode: gameMode,
           p: page + 1,
@@ -58,10 +56,10 @@ export const UserProfileScores = ({
           rx: relaxMode,
           id: userId,
         })
-        setScores(playerBestScores)
+        setUserScores(userScores)
         setError("")
       } catch (e: any) {
-        setError("Failed to fetch best scores data from server")
+        setError("Failed to fetch user scores data from server")
         return
       }
     })()
@@ -70,6 +68,11 @@ export const UserProfileScores = ({
   if (error) {
     return <Typography>{error}</Typography>
   }
+
+  // TODO: show a friendly null state here
+  // if (!userScores?.scores || userScores.scores.length === 0) {
+  //   return <></>
+  // }
 
   return (
     <Box sx={{ p: 2 }}>
@@ -101,7 +104,7 @@ export const UserProfileScores = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {userScoresResponse?.scores?.map((score: UserScore) => (
+            {userScores?.scores?.map((score: UserScore) => (
               <TableRow>
                 {/* TODO: images for the grades */}
                 <TableCell align="center">
