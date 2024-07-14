@@ -67,16 +67,16 @@ export const GlobalUserLeaderboard = (): JSX.Element => {
         <Stack direction="row" justifyContent="space-between">
           <Stack direction="row" spacing={1}>
             {/* Game Modes */}
-            <Skeleton variant="rectangular" width={110} height={35}></Skeleton>
-            <Skeleton variant="rectangular" width={110} height={35}></Skeleton>
-            <Skeleton variant="rectangular" width={110} height={35}></Skeleton>
-            <Skeleton variant="rectangular" width={110} height={35}></Skeleton>
+            <Skeleton variant="rectangular" width={105} height={35}></Skeleton>
+            <Skeleton variant="rectangular" width={70} height={35}></Skeleton>
+            <Skeleton variant="rectangular" width={143} height={35}></Skeleton>
+            <Skeleton variant="rectangular" width={75} height={35}></Skeleton>
           </Stack>
           {/* Relax Modes */}
           <Stack direction="row" spacing={1}>
-            <Skeleton variant="rectangular" width={110} height={35}></Skeleton>
-            <Skeleton variant="rectangular" width={110} height={35}></Skeleton>
-            <Skeleton variant="rectangular" width={110} height={35}></Skeleton>
+            <Skeleton variant="rectangular" width={88} height={35}></Skeleton>
+            <Skeleton variant="rectangular" width={75} height={35}></Skeleton>
+            <Skeleton variant="rectangular" width={105} height={35}></Skeleton>
           </Stack>
         </Stack>
         {Array.from({ length: pageSize }).map(() => (
