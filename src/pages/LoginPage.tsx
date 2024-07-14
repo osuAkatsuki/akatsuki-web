@@ -56,6 +56,7 @@ export const LoginPage = () => {
       <Typography>Sign in to an existing account</Typography>
       {loginError && <Alert severity="error">{loginError}</Alert>}
       <TextField
+        id="username"
         label="Username"
         onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
           setUsername(e.target.value)
@@ -67,6 +68,7 @@ export const LoginPage = () => {
         }}
       ></TextField>
       <TextField
+        id="password"
         label="Password"
         type="password"
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
