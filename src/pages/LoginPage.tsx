@@ -1,8 +1,7 @@
-import { useRef, useState } from "react"
+import { useState } from "react"
 import { authenticate } from "../adapters/akatsuki-api/authentication"
 import { useIdentityContext } from "../context"
 import { useNavigate } from "react-router-dom"
-import ReCAPTCHA from "react-google-recaptcha"
 import Stack from "@mui/material/Stack"
 import Alert from "@mui/material/Alert"
 import Typography from "@mui/material/Typography"
@@ -19,17 +18,7 @@ export const LoginPage = () => {
 
   const [loginError, setLoginError] = useState("")
 
-  const captchaRef = useRef<ReCAPTCHA>(null)
-
   const handleLogin = async () => {
-    const captchaToken = await captchaRef.current?.executeAsync()
-    captchaRef.current?.reset()
-
-    if (!captchaToken) {
-      console.error("No recaptcha token received")
-      return
-    }
-
     let identity
     try {
       identity = await authenticate({ username, password })
@@ -80,11 +69,6 @@ export const LoginPage = () => {
           }
         }}
       ></TextField>
-      <ReCAPTCHA
-        sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY!}
-        size="invisible"
-        ref={captchaRef}
-      />
       <Button
         type="submit"
         variant="outlined"
