@@ -7,7 +7,14 @@ import { Link } from "react-router-dom"
 import TableHead from "@mui/material/TableHead"
 import TableRow from "@mui/material/TableRow"
 import Paper from "@mui/material/Paper"
-import { Box, Alert, Typography, Skeleton, Stack } from "@mui/material"
+import {
+  Box,
+  Alert,
+  Typography,
+  Skeleton,
+  Stack,
+  useMediaQuery,
+} from "@mui/material"
 
 import { useEffect, useState } from "react"
 import {
@@ -23,6 +30,7 @@ import { type LeaderboardUser } from "../adapters/akatsuki-api/leaderboards"
 
 export const GlobalUserLeaderboard = (): JSX.Element => {
   // TODO: potentially generalize this to take the input of a generic RankedStats[] model
+  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)")
 
   const [error, setError] = useState("")
 
@@ -157,7 +165,15 @@ export const GlobalUserLeaderboard = (): JSX.Element => {
                   </TableCell>
                   <TableCell component="th" scope="row">
                     <Typography>
-                      <Link to={`/u/${user.id}`}>{user.username}</Link>
+                      <Link
+                        to={`/u/${user.id}`}
+                        style={{
+                          color: prefersDarkMode ? "#fff" : "#000",
+                          textDecoration: "none",
+                        }}
+                      >
+                        {user.username}
+                      </Link>
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
