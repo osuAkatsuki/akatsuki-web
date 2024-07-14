@@ -16,7 +16,7 @@ import { LoginPage } from "./pages/LoginPage"
 import { LeaderboardsPage } from "./pages/LeaderboardsPage"
 import { ProfilePage } from "./pages/ProfilePage"
 import { SupportPage } from "./pages/SupportPage"
-
+import CssBaseline from "@mui/material/CssBaseline"
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -27,6 +27,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js"
+import useMediaQuery from "@mui/material/useMediaQuery"
 
 ChartJS.register(
   CategoryScale,
@@ -60,25 +61,45 @@ const router = createBrowserRouter(
   )
 )
 
-// TODO: proper theme setup
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#1678c2",
-    },
-    secondary: {
-      main: "#e03997",
-    },
-  },
-  typography: {
-    fontFamily: "Rubik",
-  },
-})
-
 export default function App() {
+  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)")
+
+  const theme = React.useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode: prefersDarkMode ? "dark" : "light",
+          ...(prefersDarkMode
+            ? {
+                // Use lighter variants
+                primary: {
+                  main: "#2c97fb",
+                },
+                secondary: {
+                  main: "#ef43fe",
+                },
+              }
+            : {
+                // Use darker variants
+                primary: {
+                  main: "#1678c2",
+                },
+                secondary: {
+                  main: "#e03997",
+                },
+              }),
+        },
+        typography: {
+          fontFamily: "Rubik",
+        },
+      }),
+    [prefersDarkMode]
+  )
+
   return (
     <React.StrictMode>
       <ThemeProvider theme={theme}>
+        <CssBaseline />
         <IdentityContextProvider>
           <RouterProvider router={router} />
         </IdentityContextProvider>
