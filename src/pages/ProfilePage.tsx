@@ -201,7 +201,7 @@ export const ProfilePage = () => {
               Overall Ranking
             </Typography>
             {/* TODO: add a method for fetching global & country rank from the backend */}
-            <Stack direction="row">
+            <Stack direction="row" spacing={1} alignItems="center">
               <Typography variant="h6">
                 #
                 {userProfile.stats[relaxMode][modeToStatsIndex(gameMode)]
