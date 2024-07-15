@@ -73,10 +73,14 @@ export default function Navbar() {
     <>
       <Paper elevation={1} square>
         <Container>
-          <Stack direction="row" justifyContent="space-between" padding={1.25}>
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            justifyContent="space-between"
+            padding={1.25}
+          >
             {/* Left Navbar */}
             <Stack
-              direction="row"
+              direction={{ xs: "column", sm: "row" }}
               spacing={1}
               sx={{ display: "flex", alignItems: "center" }}
             >
@@ -106,7 +110,7 @@ export default function Navbar() {
             </Stack>
             {/* Right Navbar */}
             <Stack
-              direction="row"
+              direction={{ xs: "column", sm: "row" }}
               spacing={1}
               sx={{ display: "flex", alignItems: "center" }}
             >
