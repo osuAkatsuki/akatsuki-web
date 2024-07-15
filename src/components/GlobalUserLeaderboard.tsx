@@ -72,9 +72,12 @@ export const GlobalUserLeaderboard = (): JSX.Element => {
   if (loading || !leaderboardData) {
     return (
       <>
-        <Stack direction="row" justifyContent="space-between">
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          justifyContent="space-between"
+        >
+          {/* Game Modes */}
           <Stack direction="row" spacing={1}>
-            {/* Game Modes */}
             <Skeleton variant="rectangular" width={105} height={35}></Skeleton>
             <Skeleton variant="rectangular" width={70} height={35}></Skeleton>
             <Skeleton variant="rectangular" width={143} height={35}></Skeleton>
