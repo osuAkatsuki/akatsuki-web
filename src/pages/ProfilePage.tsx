@@ -105,9 +105,17 @@ export const ProfilePage = () => {
   return (
     <>
       <Stack direction="column" spacing={2} mt={2}>
-        <Stack direction="row" justifyContent="space-between">
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          justifyContent="space-between"
+        >
           {/* Left User Info Display (avatar, name, etc.) */}
-          <Stack direction="row" spacing={2} padding={2} width="50%">
+          <Stack
+            direction="row"
+            spacing={2}
+            padding={2}
+            width={{ xs: "100%", sm: "50%" }}
+          >
             <Avatar
               alt="user-avatar"
               src={`https://a.akatsuki.gg/${userProfile.id}`}
@@ -192,10 +200,10 @@ export const ProfilePage = () => {
           <Stack
             direction="column"
             justifyContent="flex-start"
-            alignItems="flex-end"
+            alignItems={{ xs: "flex-start", sm: "flex-end" }}
             spacing={1}
             padding={2}
-            width="50%"
+            width={{ xs: "100%", sm: "50%" }}
           >
             <Typography variant="h5" fontWeight="bold">
               Overall Ranking
@@ -234,8 +242,12 @@ export const ProfilePage = () => {
           setRelaxMode={setRelaxMode}
         />
         <Divider />
-        <Stack direction="row" spacing={2} justifyContent="space-evenly">
-          <Box sx={{ width: 1 / 3 }}>
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          spacing={2}
+          justifyContent="space-evenly"
+        >
+          <Box width={{ xs: "100%", sm: "33.33%" }}>
             <UserProfileStats
               statsData={
                 userProfile.stats[relaxMode][modeToStatsIndex(gameMode)]
@@ -244,7 +256,7 @@ export const ProfilePage = () => {
             />
           </Box>
           <Divider orientation="vertical" flexItem />
-          <Box sx={{ width: 2 / 3 }}>
+          <Box width={{ xs: "100%", sm: "66.67%" }}>
             {/* TODO: figure out how to model rank vs. pp/score/etc. */}
             <Stack
               direction="row"

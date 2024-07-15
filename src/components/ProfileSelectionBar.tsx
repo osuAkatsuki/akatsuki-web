@@ -14,7 +14,11 @@ export const ProfileSelectionBar = ({
 }): JSX.Element => {
   return (
     <>
-      <Stack direction="row" justifyContent="space-between" spacing={1}>
+      <Stack
+        direction={{ xs: "column", sm: "row" }}
+        justifyContent="space-between"
+        spacing={1}
+      >
         <Stack direction="row" spacing={1}>
           <Button
             variant={gameMode === GameMode.Standard ? "contained" : "outlined"}
