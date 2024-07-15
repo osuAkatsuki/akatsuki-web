@@ -29,28 +29,28 @@ export const LeaderboardSelectionBar = ({
             disabled={!isRealGameMode(GameMode.Standard, relaxMode)}
             onClick={() => setGameMode(GameMode.Standard)}
           >
-            Standard
+            osu!
           </Button>
           <Button
             variant={gameMode === GameMode.Taiko ? "contained" : "outlined"}
             disabled={!isRealGameMode(GameMode.Taiko, relaxMode)}
             onClick={() => setGameMode(GameMode.Taiko)}
           >
-            Taiko
+            osu!taiko
           </Button>
           <Button
             variant={gameMode === GameMode.Catch ? "contained" : "outlined"}
             disabled={!isRealGameMode(GameMode.Catch, relaxMode)}
             onClick={() => setGameMode(GameMode.Catch)}
           >
-            Catch The Beat
+            osu!catch
           </Button>
           <Button
             variant={gameMode === GameMode.Mania ? "contained" : "outlined"}
             disabled={!isRealGameMode(GameMode.Mania, relaxMode)}
             onClick={() => setGameMode(GameMode.Mania)}
           >
-            Mania
+            osu!mania
           </Button>
         </Stack>
         <Stack direction="row" spacing={1}>
