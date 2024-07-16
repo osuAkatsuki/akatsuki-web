@@ -16,6 +16,8 @@ import {
   Tooltip,
   TablePagination,
   Stack,
+  Grid,
+  Divider,
 } from "@mui/material"
 import moment from "moment"
 import { calculateGrade, getGradeColor, remapSSForDisplay } from "../scores"
@@ -23,6 +25,90 @@ import { formatDecimal, formatNumber } from "../utils/formatting"
 import { formatMods } from "../utils/mods"
 import { useEffect, useState } from "react"
 import { GameMode, RelaxMode } from "../gameModes"
+
+const UserScoreCard = (userScore: UserScore) => {
+  const scoreGrade =
+    calculateGrade(
+      userScore.playMode,
+      userScore.mods,
+      userScore.accuracy,
+      userScore.count300,
+      userScore.count100,
+      userScore.count50,
+      userScore.countMiss
+    ) ?? "F"
+
+  return (
+    <>
+      <Stack
+        direction="row"
+        spacing={1}
+        padding={1}
+        justifyContent="space-between"
+      >
+        <Box
+          minWidth={50}
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Typography variant="h5">{remapSSForDisplay(scoreGrade)}</Typography>
+        </Box>
+        <Box position="relative" overflow="hidden" flexGrow={1}>
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            position="relative"
+            zIndex={1}
+          >
+            {/* Left menu */}
+            <Stack direction="row" alignItems="center" spacing={1}>
+              <Divider orientation="vertical" />
+              {/* TODO: split artist, song name & difficulty for separate display */}
+              <Typography variant="body2">
+                {userScore.beatmap.songName}
+              </Typography>
+            </Stack>
+            {/* Right menu */}
+            <Stack direction="column">
+              <Box display="flex" justifyContent="flex-end">
+                <Typography variant="h6" fontWeight="bold">
+                  {Math.round(userScore.pp)}pp
+                </Typography>
+              </Box>
+              <Stack direction="row" spacing={1}>
+                <Typography variant="body2" fontWeight="lighter">
+                  {formatNumber(userScore.score)}
+                </Typography>
+                <Typography variant="body2">
+                  {formatDecimal(userScore.accuracy)}%
+                </Typography>
+              </Stack>
+              {/* TODO: add replay download option */}
+            </Stack>
+          </Stack>
+          {/* Background Image */}
+          <Box
+            position="absolute"
+            top={0}
+            left={0}
+            width="100%"
+            height="100%"
+            zIndex={0}
+            sx={{
+              backgroundImage: `url(https://assets.ppy.sh/beatmaps/${userScore.beatmap.beatmapsetId}/covers/cover.jpg)`,
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              // backgroundBlendMode: "multiply",
+              filter: "blur(3px) brightness(0.5)",
+            }}
+          ></Box>
+        </Box>
+      </Stack>
+    </>
+  )
+}
 
 export const UserProfileScores = ({
   scoresType,
@@ -79,110 +165,15 @@ export const UserProfileScores = ({
       <Typography variant="h6" sx={{ pb: 1 }}>
         {title}
       </Typography>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="scores table">
-          <TableHead>
-            <TableRow>
-              <TableCell align="center">
-                <Typography variant="body1">Grade</Typography>
-              </TableCell>
-              <TableCell align="left">
-                <Typography variant="body1">Beatmap</Typography>
-              </TableCell>
-              <TableCell align="center">
-                <Typography variant="body1">Accuracy</Typography>
-              </TableCell>
-              <TableCell align="center">
-                <Typography variant="body1">Combo</Typography>
-              </TableCell>
-              <TableCell align="center">
-                <Typography variant="body1">Score</Typography>
-              </TableCell>
-              <TableCell align="center">
-                <Typography variant="body1">Performance</Typography>
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {userScores?.scores?.map((score: UserScore) => (
-              <TableRow>
-                {/* TODO: images for the grades */}
-                <TableCell align="center">
-                  <Typography
-                    variant="h5"
-                    color={getGradeColor(
-                      calculateGrade(
-                        score.playMode,
-                        score.mods,
-                        score.accuracy,
-                        score.count300,
-                        score.count100,
-                        score.count50,
-                        score.countMiss
-                      ) ?? "F"
-                    )}
-                    noWrap={true}
-                  >
-                    {remapSSForDisplay(
-                      calculateGrade(
-                        score.playMode,
-                        score.mods,
-                        score.accuracy,
-                        score.count300,
-                        score.count100,
-                        score.count50,
-                        score.countMiss
-                      )
-                    ) ?? "F"}
-                  </Typography>
-                </TableCell>
-                {/* TODO: clickable to go to beatmap page */}
-                <TableCell align="left">
-                  <Stack direction="column">
-                    <Typography variant="body1">
-                      {score.beatmap.songName}
-                      <Typography
-                        display="inline"
-                        variant="body1"
-                        fontWeight="bold"
-                        noWrap={true}
-                      >
-                        {score.mods ? ` +${formatMods(score.mods)}` : ""}
-                      </Typography>
-                    </Typography>
-                    <Typography variant="body1" noWrap={true}>
-                      {moment(score.time).fromNow()}
-                    </Typography>
-                  </Stack>
-                </TableCell>
-                <TableCell align="center">
-                  <Typography variant="body1" noWrap={true}>
-                    {formatDecimal(score.accuracy)}%
-                  </Typography>
-                </TableCell>
-                <TableCell align="center">
-                  <Typography variant="body1" noWrap={true}>
-                    {formatNumber(score.maxCombo)}x
-                  </Typography>
-                </TableCell>
-                <TableCell align="center">
-                  <Typography variant="body1" noWrap={true}>
-                    {formatNumber(score.score)}
-                  </Typography>
-                </TableCell>
-                <TableCell align="center">
-                  <Tooltip title={`${score.pp}pp`}>
-                    <Typography variant="body1" fontWeight="bold" noWrap={true}>
-                      {Math.round(score.pp)}pp
-                    </Typography>
-                  </Tooltip>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
+      <Stack spacing={1} sx={{ pb: 1 }}>
+        {userScores?.scores?.map((score: UserScore) => (
+          <Paper elevation={1}>
+            <UserScoreCard {...score} />
+          </Paper>
+        ))}
+      </Stack>
+
+      {/* <TablePagination
         component={Paper}
         count={-1}
         rowsPerPage={pageSize}
@@ -195,7 +186,7 @@ export const UserProfileScores = ({
         labelDisplayedRows={({ from, to, count }) => {
           return `Results ${from}-${to}`
         }}
-      />
+      /> */}
     </Box>
   )
 }
