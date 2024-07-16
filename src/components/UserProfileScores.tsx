@@ -83,6 +83,7 @@ const UserScoreCard = (userScore: UserScore) => {
                   </Typography>
                 )}
               </Stack>
+              {/* TODO: Add date played/timeago */}
             </Stack>
             {/* Right menu */}
             <Stack direction={{ xs: "column", sm: "row" }}>
@@ -153,7 +154,7 @@ export const UserProfileScores = ({
   const [userScores, setUserScores] = useState<UserScoresResponse | null>(null)
 
   const [page, setPage] = useState(0)
-  const [pageSize, setPageSize] = useState(50)
+  const [pageSize, setPageSize] = useState(25)
 
   const [error, setError] = useState("")
 
