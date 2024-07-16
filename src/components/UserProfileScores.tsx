@@ -3,28 +3,24 @@ import {
   UserScoresResponse,
   type UserScore,
 } from "../adapters/akatsuki-api/userScores"
+import { Link } from "react-router-dom"
 import {
   Paper,
   Box,
   Typography,
-  TableContainer,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  Tooltip,
-  TablePagination,
   Stack,
-  Grid,
-  Divider,
+  IconButton,
+  TablePagination,
 } from "@mui/material"
-import moment from "moment"
 import { calculateGrade, getGradeColor, remapSSForDisplay } from "../scores"
 import { formatDecimal, formatNumber } from "../utils/formatting"
 import { formatMods } from "../utils/mods"
 import { useEffect, useState } from "react"
 import { GameMode, RelaxMode } from "../gameModes"
+import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline"
+
+const SONG_NAME_REGEX =
+  /(?<artist>[^-]+) - (?<songName>[^[]+) \[(?<version>.+)\]/
 
 const UserScoreCard = (userScore: UserScore) => {
   const scoreGrade =
@@ -38,53 +34,84 @@ const UserScoreCard = (userScore: UserScore) => {
       userScore.countMiss
     ) ?? "F"
 
+  const { artist, songName, version } = userScore.beatmap.songName.match(
+    SONG_NAME_REGEX
+  )?.groups ?? {
+    artist: "Unknown",
+    song: "Unknown",
+    version: "Unknown",
+  }
   return (
     <>
-      <Stack
-        direction="row"
-        spacing={1}
-        padding={1}
-        justifyContent="space-between"
-      >
+      <Stack direction="row" justifyContent="space-between">
         <Box
-          minWidth={50}
+          minWidth={75}
           display="flex"
           justifyContent="center"
           alignItems="center"
+          bgcolor={getGradeColor(scoreGrade)}
         >
-          <Typography variant="h5">{remapSSForDisplay(scoreGrade)}</Typography>
+          <Typography variant="h5" fontWeight="bold" color="#111111">
+            {remapSSForDisplay(scoreGrade)}
+          </Typography>
         </Box>
         <Box position="relative" overflow="hidden" flexGrow={1}>
           <Stack
-            direction="row"
-            justifyContent="space-between"
+            direction={{ xs: "column", sm: "row" }}
+            justifyContent={{ sm: "space-between" }}
             position="relative"
             zIndex={1}
+            padding={1}
           >
             {/* Left menu */}
-            <Stack direction="row" alignItems="center" spacing={1}>
-              <Divider orientation="vertical" />
-              {/* TODO: split artist, song name & difficulty for separate display */}
-              <Typography variant="body2">
-                {userScore.beatmap.songName}
-              </Typography>
-            </Stack>
-            {/* Right menu */}
             <Stack direction="column">
-              <Box display="flex" justifyContent="flex-end">
-                <Typography variant="h6" fontWeight="bold">
-                  {Math.round(userScore.pp)}pp
-                </Typography>
-              </Box>
-              <Stack direction="row" spacing={1}>
-                <Typography variant="body2" fontWeight="lighter">
-                  {formatNumber(userScore.score)}
-                </Typography>
-                <Typography variant="body2">
-                  {formatDecimal(userScore.accuracy)}%
+              <Stack
+                direction={{ xs: "column", sm: "row" }}
+                spacing={{ sm: 1 }}
+                alignItems={{ xs: "flex-start", sm: "center" }}
+              >
+                <Typography variant="h6">{songName}</Typography>
+                <Typography variant="body1" fontWeight="lighter">
+                  by {artist}
                 </Typography>
               </Stack>
+              <Stack direction="row" spacing={1}>
+                <Typography variant="body2">{version}</Typography>
+                {userScore.mods && (
+                  <Typography variant="body2">
+                    +{formatMods(userScore.mods)}
+                  </Typography>
+                )}
+              </Stack>
+            </Stack>
+            {/* Right menu */}
+            <Stack direction={{ xs: "column", sm: "row" }}>
+              <Stack direction="column">
+                <Box
+                  display="flex"
+                  justifyContent={{ xs: "flex-start", sm: "flex-end" }}
+                >
+                  <Typography variant="h6" fontWeight="bold">
+                    {Math.round(userScore.pp)}pp
+                  </Typography>
+                </Box>
+                <Stack direction="row" spacing={1}>
+                  <Typography variant="body2" fontWeight="lighter">
+                    {formatNumber(userScore.score)}
+                  </Typography>
+                  <Typography variant="body2">
+                    {formatDecimal(userScore.accuracy)}%
+                  </Typography>
+                </Stack>
+              </Stack>
               {/* TODO: add replay download option */}
+              <Box display="flex" alignItems="center">
+                <Link to={`https://akatsuki.gg/web/replays/${userScore.id}`}>
+                  <IconButton aria-label="support">
+                    <DownloadForOfflineIcon />
+                  </IconButton>
+                </Link>
+              </Box>
             </Stack>
           </Stack>
           {/* Background Image */}
@@ -167,13 +194,15 @@ export const UserProfileScores = ({
       </Typography>
       <Stack spacing={1} sx={{ pb: 1 }}>
         {userScores?.scores?.map((score: UserScore) => (
-          <Paper elevation={1}>
-            <UserScoreCard {...score} />
-          </Paper>
+          <Box borderRadius="16px" overflow="hidden">
+            <Paper elevation={1}>
+              <UserScoreCard {...score} />
+            </Paper>
+          </Box>
         ))}
       </Stack>
 
-      {/* <TablePagination
+      <TablePagination
         component={Paper}
         count={-1}
         rowsPerPage={pageSize}
@@ -186,7 +215,7 @@ export const UserProfileScores = ({
         labelDisplayedRows={({ from, to, count }) => {
           return `Results ${from}-${to}`
         }}
-      /> */}
+      />
     </Box>
   )
 }

@@ -150,9 +150,6 @@ export default function Navbar() {
               />
               {identity !== null ? (
                 <>
-                  {/* TODO: dropdown when searching for users */}
-                  {/* https://mui.com/material-ui/react-autocomplete/#search-as-you-type */}
-                  {/* import { debounce } from '@mui/material/utils'; */}
                   <Link to="/support">
                     <IconButton aria-label="support">
                       <FavoriteOutlined sx={{ color: "#db2828" }} />
