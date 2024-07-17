@@ -7,11 +7,13 @@ import Alert from "@mui/material/Alert"
 import Typography from "@mui/material/Typography"
 import TextField from "@mui/material/TextField"
 import Button from "@mui/material/Button"
+import { useUiStateContext } from "../context/ui-state"
 
 export const LoginPage = () => {
   const navigate = useNavigate()
 
   const { setIdentity } = useIdentityContext()
+  const { setUiState } = useUiStateContext()
 
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
@@ -31,6 +33,8 @@ export const LoginPage = () => {
     setIdentity(identity)
     navigate("/", { replace: true })
   }
+
+  setUiState({ navbarVariant: "light" })
 
   return (
     <Stack

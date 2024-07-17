@@ -28,6 +28,7 @@ import {
   Legend,
 } from "chart.js"
 import useMediaQuery from "@mui/material/useMediaQuery"
+import { UiStateContextProvider } from "./context/ui-state"
 
 ChartJS.register(
   CategoryScale,
@@ -101,7 +102,9 @@ export default function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <IdentityContextProvider>
-          <RouterProvider router={router} />
+          <UiStateContextProvider>
+            <RouterProvider router={router} />
+          </UiStateContextProvider>
         </IdentityContextProvider>
       </ThemeProvider>
     </React.StrictMode>

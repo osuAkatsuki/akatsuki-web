@@ -27,6 +27,7 @@ import { UserProfileScores } from "../components/UserProfileScores"
 import { userIsOnline } from "../adapters/bancho"
 import { ProfileHistoryType } from "../adapters/akatsuki-api/profileHistory"
 import moment from "moment"
+import { useUiStateContext } from "../context/ui-state"
 
 const modeToStatsIndex = (
   mode: GameMode
@@ -45,6 +46,8 @@ const modeToStatsIndex = (
 
 export const ProfilePage = () => {
   const queryParams = useParams()
+
+  const { setUiState } = useUiStateContext()
 
   const profileUserId = parseInt(queryParams["userId"] ?? "0")
 
@@ -79,6 +82,8 @@ export const ProfilePage = () => {
       setIsOnline(response.result)
     })()
   })
+
+  setUiState({ navbarVariant: "light" })
 
   if (!profileUserId) {
     return (

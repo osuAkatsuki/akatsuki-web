@@ -27,10 +27,13 @@ import { formatDecimal, formatNumber } from "../utils/formatting"
 import { getFlagUrl } from "../utils/countries"
 import { GameMode, RelaxMode } from "../gameModes"
 import { type LeaderboardUser } from "../adapters/akatsuki-api/leaderboards"
+import { useUiStateContext } from "../context/ui-state"
 
 export const GlobalUserLeaderboard = (): JSX.Element => {
   // TODO: potentially generalize this to take the input of a generic RankedStats[] model
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)")
+
+  const { setUiState } = useUiStateContext()
 
   const [error, setError] = useState("")
 
@@ -68,6 +71,9 @@ export const GlobalUserLeaderboard = (): JSX.Element => {
       }
     })()
   }, [gameMode, relaxMode, page, pageSize, country, sortParam])
+
+  // This page uses the dark variant of the navbar
+  setUiState({ navbarVariant: "dark" })
 
   if (loading || !leaderboardData) {
     return (

@@ -8,6 +8,7 @@ import { Link } from "react-router-dom"
 import Stack from "@mui/material/Stack"
 import { type OverridableStringUnion } from "@mui/types"
 import { useIdentityContext } from "../context/identity"
+import { useUiStateContext } from "../context/ui-state"
 
 const NavButton = ({
   to,
@@ -49,6 +50,9 @@ const Header = () => (
 )
 export const HomePage = () => {
   const { identity } = useIdentityContext()
+  const { setUiState } = useUiStateContext()
+
+  setUiState({ navbarVariant: "light" })
 
   return (
     <Grid
