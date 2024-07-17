@@ -1,5 +1,5 @@
 import axios from "axios"
-import type { Identity } from "../../context"
+import type { Identity } from "../../context/identity"
 
 interface AuthenticateRequest {
   username: string

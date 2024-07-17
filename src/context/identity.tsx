@@ -1,5 +1,5 @@
 import React from "react"
-import { UserPrivileges } from "./privileges"
+import { UserPrivileges } from "../privileges"
 
 const IDENTITY_CACHE_KEY = "identity"
 

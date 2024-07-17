@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { authenticate } from "../adapters/akatsuki-api/authentication"
-import { useIdentityContext } from "../context"
+import { useIdentityContext } from "../context/identity"
 import { useNavigate } from "react-router-dom"
 import Stack from "@mui/material/Stack"
 import Alert from "@mui/material/Alert"

@@ -7,7 +7,7 @@ import {
 import { Link } from "react-router-dom"
 import Stack from "@mui/material/Stack"
 import { type OverridableStringUnion } from "@mui/types"
-import { useIdentityContext } from "../context"
+import { useIdentityContext } from "../context/identity"
 
 const NavButton = ({
   to,

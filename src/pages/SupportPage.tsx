@@ -1,4 +1,4 @@
-import { useIdentityContext } from "../context"
+import { useIdentityContext } from "../context/identity"
 
 export const SupportPage = () => {
   const { identity } = useIdentityContext()

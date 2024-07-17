@@ -13,7 +13,10 @@ import {
 } from "@mui/material"
 import { Link, useNavigate } from "react-router-dom"
 import { FavoriteOutlined } from "@mui/icons-material"
-import { removeIdentityFromLocalStorage, useIdentityContext } from "../context"
+import {
+  removeIdentityFromLocalStorage,
+  useIdentityContext,
+} from "../context/identity"
 import { logout } from "../adapters/akatsuki-api/authentication"
 import { useEffect, useMemo, useState } from "react"
 import { AkatsukiLogo } from "./images/logos/AkatsukiLogo"
