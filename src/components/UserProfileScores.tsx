@@ -20,7 +20,7 @@ import { GameMode, RelaxMode } from "../gameModes"
 import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline"
 
 const SONG_NAME_REGEX =
-  /(?<artist>[^-]+) - (?<songName>[^[]+) \[(?<version>.+)\]/
+  /^(?<artist>[^-]+) - (?<songName>[^[]+) \[(?<version>.+)\]$/
 
 const UserScoreCard = (userScore: UserScore) => {
   const scoreGrade =
@@ -77,11 +77,11 @@ const UserScoreCard = (userScore: UserScore) => {
               </Stack>
               <Stack direction="row" spacing={1}>
                 <Typography variant="body2">{version}</Typography>
-                {userScore.mods && (
+                {userScore.mods ? (
                   <Typography variant="body2">
                     +{formatMods(userScore.mods)}
                   </Typography>
-                )}
+                ) : null}
               </Stack>
               {/* TODO: Add date played/timeago */}
             </Stack>
