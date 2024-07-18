@@ -1,11 +1,5 @@
-import Table from "@mui/material/Table"
-import TableBody from "@mui/material/TableBody"
-import TableCell from "@mui/material/TableCell"
 import TablePagination from "@mui/material/TablePagination"
-import TableContainer from "@mui/material/TableContainer"
 import { Link } from "react-router-dom"
-import TableHead from "@mui/material/TableHead"
-import TableRow from "@mui/material/TableRow"
 import Paper from "@mui/material/Paper"
 import {
   Box,
@@ -28,10 +22,75 @@ import { getFlagUrl } from "../utils/countries"
 import { GameMode, RelaxMode } from "../gameModes"
 import { type LeaderboardUser } from "../adapters/akatsuki-api/leaderboards"
 
-export const GlobalUserLeaderboard = (): JSX.Element => {
-  // TODO: potentially generalize this to take the input of a generic RankedStats[] model
+const LeaderboardUserCard = (user: LeaderboardUser) => {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)")
 
+  return (
+    <Stack
+      direction="row"
+      alignItems="center"
+      justifyContent="space-between"
+      bgcolor="rgba(21, 18, 35, 1)"
+    >
+      <Box minWidth={75} display="flex" justifyContent="center">
+        <Typography variant="body1">
+          #{user.chosenMode.globalLeaderboardRank}
+        </Typography>
+      </Box>
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="space-between"
+        flexGrow={1}
+        bgcolor="rgba(38, 34, 56, 1)"
+      >
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          spacing={1}
+          bgcolor="rgba(30, 27, 47, 1)"
+          padding={1}
+          flexGrow={1}
+          borderRadius="8px"
+        >
+          <Box
+            component="img"
+            width={36}
+            height={36}
+            alt="flag-image"
+            src={getFlagUrl(user.country)}
+          />
+          <Typography variant="body1" flexGrow={1}>
+            <Link
+              to={`/u/${user.id}`}
+              style={{
+                color: prefersDarkMode ? "#FFFFFF" : "#000000",
+                textDecoration: "none",
+              }}
+            >
+              {user.username}
+            </Link>
+          </Typography>
+          <Typography variant="body1" sx={{ opacity: 0.6 }}>
+            {user.chosenMode.playcount}
+          </Typography>
+          <Typography variant="body1" sx={{ opacity: 0.6 }}>
+            {formatDecimal(user.chosenMode.accuracy)}%
+          </Typography>
+        </Stack>
+        <Box paddingX={2}>
+          <Typography variant="body1">
+            {formatNumber(user.chosenMode.pp)}pp
+          </Typography>
+        </Box>
+      </Stack>
+    </Stack>
+  )
+}
+
+export const GlobalUserLeaderboard = (): JSX.Element => {
+  // TODO: potentially generalize this to take the input of a generic RankedStats[] model
   const [error, setError] = useState("")
 
   const [gameMode, setGameMode] = useState(GameMode.Standard)
@@ -102,7 +161,7 @@ export const GlobalUserLeaderboard = (): JSX.Element => {
   }
 
   return (
-    <>
+    <Box>
       <LeaderboardSelectionBar
         gameMode={gameMode}
         relaxMode={relaxMode}
@@ -113,99 +172,15 @@ export const GlobalUserLeaderboard = (): JSX.Element => {
         setCountry={setCountry}
         setSortParam={setSortParam}
       />
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="leaderboard-table">
-          <TableHead>
-            <TableRow>
-              <TableCell>
-                <Typography>Global Rank</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>Country</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>Username</Typography>
-              </TableCell>
-              <TableCell align="right">
-                <Typography>Performance</Typography>
-              </TableCell>
-              <TableCell align="right">
-                <Typography>Overall Accuracy</Typography>
-              </TableCell>
-              <TableCell align="right">
-                <Typography>Ranked Score</Typography>
-              </TableCell>
-              <TableCell align="right">
-                <Typography>Play Count</Typography>
-              </TableCell>
-              {/* <TableCell align="right">
-              <Typography>Level</Typography>
-            </TableCell> */}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {/* TODO: username instead of account id */}
-            {Object.entries(leaderboardData.users).map(
-              ([index, user]: [string, LeaderboardUser]) => (
-                <TableRow
-                  key={user.id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell>
-                    <Typography>
-                      #{Number(index) + page * pageSize + 1}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    {/* TODO: dynamic flags */}
-                    <Box
-                      component="img"
-                      width={36}
-                      height={36}
-                      alt="flag-image"
-                      src={getFlagUrl(user.country)}
-                    />
-                  </TableCell>
-                  <TableCell component="th" scope="row">
-                    <Typography>
-                      <Link
-                        to={`/u/${user.id}`}
-                        style={{
-                          color: prefersDarkMode ? "#fff" : "#000",
-                          textDecoration: "none",
-                        }}
-                      >
-                        {user.username}
-                      </Link>
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="right">
-                    <Typography>
-                      {formatNumber(user.chosenMode.pp)}pp
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="right">
-                    <Typography>
-                      {formatDecimal(user.chosenMode.accuracy)}%
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="right">
-                    <Typography>
-                      {formatNumber(user.chosenMode.rankedScore)}
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="right">
-                    <Typography>
-                      {formatNumber(user.chosenMode.playcount)}
-                    </Typography>
-                  </TableCell>
-                  {/* <TableCell align="right">Lv. {row.level}</TableCell> */}
-                </TableRow>
-              )
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <Stack spacing={1} sx={{ pb: 1 }}>
+        {leaderboardData?.users.map((user: LeaderboardUser) => (
+          <Box borderRadius="16px" overflow="hidden">
+            <Paper elevation={1}>
+              <LeaderboardUserCard {...user} />
+            </Paper>
+          </Box>
+        ))}
+      </Stack>
       <TablePagination
         component={Paper}
         count={-1}
@@ -220,6 +195,6 @@ export const GlobalUserLeaderboard = (): JSX.Element => {
           return `Results ${from}-${to}`
         }}
       />
-    </>
+    </Box>
   )
 }
