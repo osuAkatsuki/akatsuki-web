@@ -3,26 +3,140 @@ import {
   UserScoresResponse,
   type UserScore,
 } from "../adapters/akatsuki-api/userScores"
+import { Link } from "react-router-dom"
 import {
   Paper,
   Box,
   Typography,
-  TableContainer,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  Tooltip,
-  TablePagination,
   Stack,
+  IconButton,
+  TablePagination,
 } from "@mui/material"
-import moment from "moment"
 import { calculateGrade, getGradeColor, remapSSForDisplay } from "../scores"
 import { formatDecimal, formatNumber } from "../utils/formatting"
 import { formatMods } from "../utils/mods"
 import { useEffect, useState } from "react"
 import { GameMode, RelaxMode } from "../gameModes"
+import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline"
+
+const SONG_NAME_REGEX =
+  /^(?<artist>[^-]+) - (?<songName>[^[]+) \[(?<version>.+)\]$/
+
+const UserScoreCard = (userScore: UserScore) => {
+  const scoreGrade =
+    calculateGrade(
+      userScore.playMode,
+      userScore.mods,
+      userScore.accuracy,
+      userScore.count300,
+      userScore.count100,
+      userScore.count50,
+      userScore.countMiss
+    ) ?? "F"
+
+  const { artist, songName, version } = userScore.beatmap.songName.match(
+    SONG_NAME_REGEX
+  )?.groups ?? {
+    artist: "Unknown",
+    song: "Unknown",
+    version: "Unknown",
+  }
+  return (
+    <>
+      <Stack direction="row" justifyContent="space-between">
+        <Box
+          minWidth={75}
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          bgcolor={getGradeColor(scoreGrade)}
+        >
+          <Typography variant="h5" fontWeight="bold" color="#111111">
+            {remapSSForDisplay(scoreGrade)}
+          </Typography>
+        </Box>
+        <Box position="relative" overflow="hidden" flexGrow={1}>
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            justifyContent={{ sm: "space-between" }}
+            position="relative"
+            zIndex={1}
+            padding={1}
+          >
+            {/* Left menu */}
+            <Stack direction="column">
+              <Stack
+                direction={{ xs: "column", sm: "row" }}
+                spacing={{ sm: 1 }}
+                alignItems={{ xs: "flex-start", sm: "center" }}
+              >
+                <Typography variant="h6">{songName}</Typography>
+                <Typography variant="body1" fontWeight="lighter">
+                  by {artist}
+                </Typography>
+              </Stack>
+              <Stack direction="row" spacing={1}>
+                <Typography variant="body2">{version}</Typography>
+                {userScore.mods ? (
+                  <Typography variant="body2">
+                    +{formatMods(userScore.mods)}
+                  </Typography>
+                ) : null}
+              </Stack>
+              {/* TODO: Add date played/timeago */}
+            </Stack>
+            {/* Right menu */}
+            <Stack direction={{ xs: "column", sm: "row" }}>
+              <Stack direction="column">
+                <Box
+                  display="flex"
+                  justifyContent={{ xs: "flex-start", sm: "flex-end" }}
+                >
+                  <Typography variant="h6" fontWeight="bold">
+                    {Math.round(userScore.pp)}pp
+                  </Typography>
+                </Box>
+                <Stack direction="row" spacing={1}>
+                  <Typography variant="body2" fontWeight="lighter">
+                    {formatNumber(userScore.score)}
+                  </Typography>
+                  <Typography variant="body2">
+                    {formatDecimal(userScore.accuracy)}%
+                  </Typography>
+                </Stack>
+              </Stack>
+              {/* TODO: add replay download option */}
+              <Box display="flex" alignItems="center">
+                <Link to={`https://akatsuki.gg/web/replays/${userScore.id}`}>
+                  <IconButton aria-label="support">
+                    <DownloadForOfflineIcon />
+                  </IconButton>
+                </Link>
+              </Box>
+            </Stack>
+          </Stack>
+          {/* Background Image */}
+          <Box
+            position="absolute"
+            top={0}
+            left={0}
+            width="100%"
+            height="100%"
+            zIndex={0}
+            sx={{
+              backgroundImage: `url(https://assets.ppy.sh/beatmaps/${userScore.beatmap.beatmapsetId}/covers/cover.jpg)`,
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              // backgroundBlendMode: "multiply",
+              filter: "blur(3px) brightness(0.5)",
+            }}
+          ></Box>
+        </Box>
+      </Stack>
+    </>
+  )
+}
 
 export const UserProfileScores = ({
   scoresType,
@@ -40,7 +154,7 @@ export const UserProfileScores = ({
   const [userScores, setUserScores] = useState<UserScoresResponse | null>(null)
 
   const [page, setPage] = useState(0)
-  const [pageSize, setPageSize] = useState(50)
+  const [pageSize, setPageSize] = useState(10)
 
   const [error, setError] = useState("")
 
@@ -79,109 +193,16 @@ export const UserProfileScores = ({
       <Typography variant="h6" sx={{ pb: 1 }}>
         {title}
       </Typography>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="scores table">
-          <TableHead>
-            <TableRow>
-              <TableCell align="center">
-                <Typography variant="body1">Grade</Typography>
-              </TableCell>
-              <TableCell align="left">
-                <Typography variant="body1">Beatmap</Typography>
-              </TableCell>
-              <TableCell align="center">
-                <Typography variant="body1">Accuracy</Typography>
-              </TableCell>
-              <TableCell align="center">
-                <Typography variant="body1">Combo</Typography>
-              </TableCell>
-              <TableCell align="center">
-                <Typography variant="body1">Score</Typography>
-              </TableCell>
-              <TableCell align="center">
-                <Typography variant="body1">Performance</Typography>
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {userScores?.scores?.map((score: UserScore) => (
-              <TableRow>
-                {/* TODO: images for the grades */}
-                <TableCell align="center">
-                  <Typography
-                    variant="h5"
-                    color={getGradeColor(
-                      calculateGrade(
-                        score.playMode,
-                        score.mods,
-                        score.accuracy,
-                        score.count300,
-                        score.count100,
-                        score.count50,
-                        score.countMiss
-                      ) ?? "F"
-                    )}
-                    noWrap={true}
-                  >
-                    {remapSSForDisplay(
-                      calculateGrade(
-                        score.playMode,
-                        score.mods,
-                        score.accuracy,
-                        score.count300,
-                        score.count100,
-                        score.count50,
-                        score.countMiss
-                      )
-                    ) ?? "F"}
-                  </Typography>
-                </TableCell>
-                {/* TODO: clickable to go to beatmap page */}
-                <TableCell align="left">
-                  <Stack direction="column">
-                    <Typography variant="body1">
-                      {score.beatmap.songName}
-                      <Typography
-                        display="inline"
-                        variant="body1"
-                        fontWeight="bold"
-                        noWrap={true}
-                      >
-                        {score.mods ? ` +${formatMods(score.mods)}` : ""}
-                      </Typography>
-                    </Typography>
-                    <Typography variant="body1" noWrap={true}>
-                      {moment(score.time).fromNow()}
-                    </Typography>
-                  </Stack>
-                </TableCell>
-                <TableCell align="center">
-                  <Typography variant="body1" noWrap={true}>
-                    {formatDecimal(score.accuracy)}%
-                  </Typography>
-                </TableCell>
-                <TableCell align="center">
-                  <Typography variant="body1" noWrap={true}>
-                    {formatNumber(score.maxCombo)}x
-                  </Typography>
-                </TableCell>
-                <TableCell align="center">
-                  <Typography variant="body1" noWrap={true}>
-                    {formatNumber(score.score)}
-                  </Typography>
-                </TableCell>
-                <TableCell align="center">
-                  <Tooltip title={`${score.pp}pp`}>
-                    <Typography variant="body1" fontWeight="bold" noWrap={true}>
-                      {Math.round(score.pp)}pp
-                    </Typography>
-                  </Tooltip>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <Stack spacing={1} sx={{ pb: 1 }}>
+        {userScores?.scores?.map((score: UserScore) => (
+          <Box borderRadius="16px" overflow="hidden">
+            <Paper elevation={1}>
+              <UserScoreCard {...score} />
+            </Paper>
+          </Box>
+        ))}
+      </Stack>
+
       <TablePagination
         component={Paper}
         count={-1}
