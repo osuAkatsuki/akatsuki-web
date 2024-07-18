@@ -154,7 +154,7 @@ export const UserProfileScores = ({
   const [userScores, setUserScores] = useState<UserScoresResponse | null>(null)
 
   const [page, setPage] = useState(0)
-  const [pageSize, setPageSize] = useState(25)
+  const [pageSize, setPageSize] = useState(10)
 
   const [error, setError] = useState("")
 
