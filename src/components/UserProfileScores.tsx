@@ -45,109 +45,107 @@ const UserScoreCard = (userScore: UserScore) => {
     version: "Unknown",
   }
   return (
-    <>
-      <Stack direction="row" justifyContent="space-between">
-        <Box
-          minWidth={75}
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          bgcolor={getGradeColor(scoreGrade)}
+    <Stack direction="row" justifyContent="space-between">
+      <Box
+        minWidth={75}
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        bgcolor={getGradeColor(scoreGrade)}
+      >
+        <Typography variant="h5" fontWeight="bold" color="#111111">
+          {remapSSForDisplay(scoreGrade)}
+        </Typography>
+      </Box>
+      <Box position="relative" overflow="hidden" flexGrow={1}>
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          justifyContent={{ sm: "space-between" }}
+          position="relative"
+          zIndex={1}
+          padding={1}
         >
-          <Typography variant="h5" fontWeight="bold" color="#111111">
-            {remapSSForDisplay(scoreGrade)}
-          </Typography>
-        </Box>
-        <Box position="relative" overflow="hidden" flexGrow={1}>
-          <Stack
-            direction={{ xs: "column", sm: "row" }}
-            justifyContent={{ sm: "space-between" }}
-            position="relative"
-            zIndex={1}
-            padding={1}
-          >
-            {/* Left menu */}
+          {/* Left menu */}
+          <Stack direction="column">
+            <Stack
+              direction={{ xs: "column", sm: "row" }}
+              spacing={{ sm: 1 }}
+              alignItems={{ xs: "flex-start", sm: "center" }}
+            >
+              <Typography variant="h6">{songName}</Typography>
+              <Typography variant="body1" fontWeight="lighter">
+                by {artist}
+              </Typography>
+            </Stack>
+            <Stack direction="row" spacing={1}>
+              <Typography variant="body2">{version}</Typography>
+              {userScore.mods ? (
+                <Typography variant="body2">
+                  +{formatMods(userScore.mods)}
+                </Typography>
+              ) : null}
+            </Stack>
+            {/* TODO: Add date played/timeago */}
+          </Stack>
+          {/* Right menu */}
+          <Stack direction={{ xs: "column", sm: "row" }}>
             <Stack direction="column">
-              <Stack
-                direction={{ xs: "column", sm: "row" }}
-                spacing={{ sm: 1 }}
-                alignItems={{ xs: "flex-start", sm: "center" }}
+              <Box
+                display="flex"
+                justifyContent={{ xs: "flex-start", sm: "flex-end" }}
               >
-                <Typography variant="h6">{songName}</Typography>
-                <Typography variant="body1" fontWeight="lighter">
-                  by {artist}
+                <Typography
+                  variant="h6"
+                  fontWeight="bold"
+                  sx={{
+                    background: SCORE_PP_DISPLAY_GRADIENT,
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                  }}
+                >
+                  {Math.round(userScore.pp)}pp
+                </Typography>
+              </Box>
+              <Stack direction="row" spacing={1}>
+                <Typography variant="body2" fontWeight="lighter">
+                  {formatNumber(userScore.score)}
+                </Typography>
+                <Typography variant="body2">
+                  {formatDecimal(userScore.accuracy)}%
                 </Typography>
               </Stack>
-              <Stack direction="row" spacing={1}>
-                <Typography variant="body2">{version}</Typography>
-                {userScore.mods ? (
-                  <Typography variant="body2">
-                    +{formatMods(userScore.mods)}
-                  </Typography>
-                ) : null}
-              </Stack>
-              {/* TODO: Add date played/timeago */}
             </Stack>
-            {/* Right menu */}
-            <Stack direction={{ xs: "column", sm: "row" }}>
-              <Stack direction="column">
-                <Box
-                  display="flex"
-                  justifyContent={{ xs: "flex-start", sm: "flex-end" }}
-                >
-                  <Typography
-                    variant="h6"
-                    fontWeight="bold"
-                    sx={{
-                      background: SCORE_PP_DISPLAY_GRADIENT,
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                    }}
-                  >
-                    {Math.round(userScore.pp)}pp
-                  </Typography>
-                </Box>
-                <Stack direction="row" spacing={1}>
-                  <Typography variant="body2" fontWeight="lighter">
-                    {formatNumber(userScore.score)}
-                  </Typography>
-                  <Typography variant="body2">
-                    {formatDecimal(userScore.accuracy)}%
-                  </Typography>
-                </Stack>
-              </Stack>
-              {/* TODO: add replay download option */}
-              <Box display="flex" alignItems="center">
-                <Link to={`https://akatsuki.gg/web/replays/${userScore.id}`}>
-                  <IconButton aria-label="support">
-                    <DownloadForOfflineIcon />
-                  </IconButton>
-                </Link>
-              </Box>
-            </Stack>
+            {/* TODO: add replay download option */}
+            <Box display="flex" alignItems="center">
+              <Link to={`https://akatsuki.gg/web/replays/${userScore.id}`}>
+                <IconButton aria-label="support">
+                  <DownloadForOfflineIcon />
+                </IconButton>
+              </Link>
+            </Box>
           </Stack>
-          {/* Background Image */}
-          <Box
-            position="absolute"
-            top={0}
-            left={0}
-            width="100%"
-            height="100%"
-            zIndex={0}
-            sx={{
-              backgroundImage: `
+        </Stack>
+        {/* Background Image */}
+        <Box
+          position="absolute"
+          top={0}
+          left={0}
+          width="100%"
+          height="100%"
+          zIndex={0}
+          sx={{
+            backgroundImage: `
                 linear-gradient(90deg, ${getGradeColor(scoreGrade, 0.2)}, ${getGradeColor(scoreGrade, 0.0)} 48.5%),
                 linear-gradient(0deg, rgba(22, 19, 35, 0.9), rgba(22, 19, 35, 0.9)),
                 url(https://assets.ppy.sh/beatmaps/${userScore.beatmap.beatmapsetId}/covers/cover.jpg)
               `,
-              backgroundRepeat: "no-repeat",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-          ></Box>
-        </Box>
-      </Stack>
-    </>
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        ></Box>
+      </Box>
+    </Stack>
   )
 }
 
