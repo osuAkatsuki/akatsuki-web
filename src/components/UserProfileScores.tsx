@@ -135,12 +135,14 @@ const UserScoreCard = (userScore: UserScore) => {
             height="100%"
             zIndex={0}
             sx={{
-              backgroundImage: `url(https://assets.ppy.sh/beatmaps/${userScore.beatmap.beatmapsetId}/covers/cover.jpg)`,
+              backgroundImage: `
+                linear-gradient(90deg, ${getGradeColor(scoreGrade, 0.2)}, ${getGradeColor(scoreGrade, 0.0)} 48.5%),
+                linear-gradient(0deg, rgba(22, 19, 35, 0.9), rgba(22, 19, 35, 0.9)),
+                url(https://assets.ppy.sh/beatmaps/${userScore.beatmap.beatmapsetId}/covers/cover.jpg)
+              `,
               backgroundRepeat: "no-repeat",
               backgroundSize: "cover",
               backgroundPosition: "center",
-              // backgroundBlendMode: "multiply",
-              filter: "blur(3px) brightness(0.5)",
             }}
           ></Box>
         </Box>
