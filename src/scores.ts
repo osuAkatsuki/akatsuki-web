@@ -6,28 +6,27 @@ export enum SubmissionStatus {
   Best = 2,
 }
 
-export const getGradeColor = (grade: string) => {
-  switch (grade) {
-    case "XH":
-      return "#e6e6e6"
-    case "X":
-      return "#ebcc5e"
-    case "SH":
-      return "#e6e6e6"
-    case "S":
-      return "#ebcc5e"
-    case "A":
-      return "#8EF97D"
-    case "B":
-      return "#99e4ff"
-    case "C":
-      return "#e69cff"
-    case "D":
-    case "F":
-      return "#ffa49c"
-    default:
-      return "black"
+export const getGradeColor = (grade: string, alpha: number = 1.0) => {
+  let colorCode = "#000000"
+  if (grade === "XH") {
+    colorCode = "#e6e6e6"
+  } else if (grade === "X") {
+    colorCode = "#ebcc5e"
+  } else if (grade === "SH") {
+    colorCode = "#e6e6e6"
+  } else if (grade === "S") {
+    colorCode = "#ebcc5e"
+  } else if (grade === "A") {
+    colorCode = "#8ef97d"
+  } else if (grade === "B") {
+    colorCode = "#99e4ff"
+  } else if (grade === "C") {
+    colorCode = "#e69cff"
+  } else if (grade === "D" || grade === "F") {
+    colorCode = "#ffa49c"
   }
+  const alphaHex = (alpha * 255).toString(16).padEnd(2, "0")
+  return colorCode + alphaHex
 }
 
 export const remapSSForDisplay = (
