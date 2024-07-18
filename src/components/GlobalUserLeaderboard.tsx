@@ -43,6 +43,7 @@ const LeaderboardUserCard = (user: LeaderboardUser) => {
         justifyContent="space-between"
         flexGrow={1}
         bgcolor="rgba(38, 34, 56, 1)"
+        borderRadius="8px"
       >
         <Stack
           direction="row"
