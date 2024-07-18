@@ -22,6 +22,9 @@ import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline"
 const SONG_NAME_REGEX =
   /^(?<artist>[^-]+) - (?<songName>[^[]+) \[(?<version>.+)\]$/
 
+const SCORE_PP_DISPLAY_GRADIENT =
+  "linear-gradient(0deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), linear-gradient(79.96deg, #387EFC 16.72%, #C940FD 91.26%), #FFFFFF"
+
 const UserScoreCard = (userScore: UserScore) => {
   const scoreGrade =
     calculateGrade(
@@ -92,7 +95,15 @@ const UserScoreCard = (userScore: UserScore) => {
                   display="flex"
                   justifyContent={{ xs: "flex-start", sm: "flex-end" }}
                 >
-                  <Typography variant="h6" fontWeight="bold">
+                  <Typography
+                    variant="h6"
+                    fontWeight="bold"
+                    sx={{
+                      background: SCORE_PP_DISPLAY_GRADIENT,
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                    }}
+                  >
                     {Math.round(userScore.pp)}pp
                   </Typography>
                 </Box>
