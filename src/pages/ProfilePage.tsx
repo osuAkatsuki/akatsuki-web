@@ -113,7 +113,7 @@ export const ProfilePage = () => {
           <Stack
             direction="row"
             spacing={2}
-            padding={2}
+            p={2}
             width={{ xs: "100%", sm: "50%" }}
           >
             <Avatar
@@ -202,7 +202,7 @@ export const ProfilePage = () => {
             justifyContent="flex-start"
             alignItems={{ xs: "flex-start", sm: "flex-end" }}
             spacing={1}
-            padding={2}
+            p={2}
             width={{ xs: "100%", sm: "50%" }}
           >
             <Typography variant="h5" fontWeight="bold">
@@ -258,12 +258,7 @@ export const ProfilePage = () => {
           <Divider orientation="vertical" flexItem />
           <Box width={{ xs: "100%", sm: "66.67%" }}>
             {/* TODO: figure out how to model rank vs. pp/score/etc. */}
-            <Stack
-              direction="row"
-              justifyContent="end"
-              spacing={1}
-              paddingBottom={1}
-            >
+            <Stack direction="row" justifyContent="end" spacing={1} pb={1}>
               <Button
                 variant={
                   profileHistoryType === ProfileHistoryType.GlobalRank

@@ -79,7 +79,7 @@ export default function Navbar() {
           <Stack
             direction={{ xs: "column", sm: "row" }}
             justifyContent="space-between"
-            padding={1.25}
+            p={1.25}
           >
             {/* Left Navbar */}
             <Stack

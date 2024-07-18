@@ -51,7 +51,7 @@ const LeaderboardUserCard = (user: LeaderboardUser) => {
           justifyContent="space-between"
           spacing={1}
           bgcolor="rgba(30, 27, 47, 1)"
-          padding={1}
+          p={1}
           flexGrow={1}
           borderRadius="8px"
         >
@@ -80,7 +80,7 @@ const LeaderboardUserCard = (user: LeaderboardUser) => {
             {formatDecimal(user.chosenMode.accuracy)}%
           </Typography>
         </Stack>
-        <Box paddingX={2}>
+        <Box px={2}>
           <Typography variant="body1">
             {formatNumber(user.chosenMode.pp)}pp
           </Typography>

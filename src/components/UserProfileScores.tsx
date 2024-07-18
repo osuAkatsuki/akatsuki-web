@@ -63,7 +63,7 @@ const UserScoreCard = (userScore: UserScore) => {
           justifyContent={{ sm: "space-between" }}
           position="relative"
           zIndex={1}
-          padding={1}
+          p={1}
         >
           {/* Left menu */}
           <Stack direction="column">
