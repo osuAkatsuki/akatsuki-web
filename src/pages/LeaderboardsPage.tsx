@@ -31,21 +31,21 @@ export const LeaderboardsPage = () => {
     icon,
   }: { targetGameMode: GameMode, icon: any }) => {
     const isSelected = gameMode === targetGameMode
-    const isReal = isRealGameMode(targetGameMode, relaxMode)
+    const isRealMode = isRealGameMode(targetGameMode, relaxMode)
     return (
       <Box
         height={25} width={25}
-        onClick={() => { if (isReal) setGameMode(targetGameMode) }}
+        onClick={() => { if (isRealMode) setGameMode(targetGameMode) }}
         sx={[
           {
             "&": {
-              color: isSelected ? "white" : isReal ? null : "hsl(0deg 0% 100% / 20%)",
+              color: isSelected ? "white" : isRealMode ? null : "hsl(0deg 0% 100% / 20%)",
             }
           },
           {
             "&:hover": {
-              cursor: isReal ? "pointer" : "not-allowed",
-              color: isReal ? "hsl(0deg 0% 100% / 80%)" : null,
+              cursor: isRealMode ? "pointer" : "not-allowed",
+              color: isRealMode ? "hsl(0deg 0% 100% / 80%)" : null,
             }
           }
         ]}
@@ -57,15 +57,15 @@ export const LeaderboardsPage = () => {
 
   const RelaxModeSelector = ({ targetRelaxMode }: { targetRelaxMode: RelaxMode }) => {
     const isSelected = relaxMode === targetRelaxMode
-    const isReal = isRealGameMode(gameMode, targetRelaxMode)
+    const isRealMode = isRealGameMode(gameMode, targetRelaxMode)
     return (
       <Box
-        onClick={() => { if (isReal) setRelaxMode(targetRelaxMode) }}
+        onClick={() => { if (isRealMode) setRelaxMode(targetRelaxMode) }}
         sx={[
           {
             "&:hover": {
-              cursor: isReal ? "pointer" : "not-allowed",
-              color: isReal ? "hsl(0deg 0% 100% / 80%)" : null,
+              cursor: isRealMode ? "pointer" : "not-allowed",
+              color: isRealMode ? "hsl(0deg 0% 100% / 80%)" : null,
             }
           }
         ]}
@@ -73,7 +73,7 @@ export const LeaderboardsPage = () => {
         <Typography
           fontSize={17}
           sx={{
-            color: isSelected ? "white" : isReal ? null : "hsl(0deg 0% 100% / 20%)",
+            color: isSelected ? "white" : isRealMode ? null : "hsl(0deg 0% 100% / 20%)",
             fontWeight: isSelected ? 700 : 200,
           }}
         >
