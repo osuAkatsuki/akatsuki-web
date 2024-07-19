@@ -74,11 +74,12 @@ export default function Navbar() {
 
   return (
     <>
-      <Paper elevation={1} square>
+      <Paper elevation={1} square sx={{ bgcolor: "transparent" }}>
         <Container>
           <Stack
             direction={{ xs: "column", sm: "row" }}
             justifyContent="space-between"
+            minHeight={5}
             p={1.25}
           >
             {/* Left Navbar */}
@@ -118,7 +119,7 @@ export default function Navbar() {
               sx={{ display: "flex", alignItems: "center" }}
             >
               {identity !== null &&
-              identity.privileges & UserPrivileges.ADMIN_ACCESS_RAP ? (
+                identity.privileges & UserPrivileges.ADMIN_ACCESS_RAP ? (
                 <Link to={process.env.REACT_APP_ADMIN_PANEL_HOME_URL!}>
                   <Button>
                     <Typography variant="subtitle1" fontWeight="bold">
