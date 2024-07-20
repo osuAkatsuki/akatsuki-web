@@ -29,6 +29,8 @@ import {
 } from "chart.js"
 import { AboutPage } from "./pages/AboutPage"
 import Footer from "./components/Footer"
+import Box from "@mui/material/Box"
+import Stack from "@mui/material/Stack"
 
 ChartJS.register(
   CategoryScale,
@@ -42,9 +44,13 @@ ChartJS.register(
 
 const AppLayout = () => (
   <>
-    <Navbar />
-    <Outlet />
-    <Footer />
+    <Stack direction="column" justifyContent="space-between" minHeight="100vh">
+      <Navbar />
+      <Box flexGrow={1}>
+        <Outlet />
+      </Box>
+      <Footer />
+    </Stack>
   </>
 )
 
