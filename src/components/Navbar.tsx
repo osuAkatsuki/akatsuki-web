@@ -4,7 +4,6 @@ import {
   Stack,
   Container,
   TextField,
-  Paper,
   Divider,
   IconButton,
   Autocomplete,
@@ -74,7 +73,7 @@ export default function Navbar() {
 
   return (
     <>
-      <Paper elevation={1} square sx={{ bgcolor: "transparent" }}>
+      <Box sx={{ bgcolor: "transparent" }}>
         <Container>
           <Stack
             direction={{ xs: "column", sm: "row" }}
@@ -182,7 +181,7 @@ export default function Navbar() {
             </Stack>
           </Stack>
         </Container>
-      </Paper>
+      </Box>
     </>
   )
 }
