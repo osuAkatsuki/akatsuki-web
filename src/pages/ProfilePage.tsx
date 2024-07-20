@@ -10,6 +10,7 @@ import {
   IconButton,
   Paper,
   TablePagination,
+  useMediaQuery,
 } from "@mui/material"
 import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline"
 import { linearProgressClasses } from "@mui/material/LinearProgress"
@@ -26,6 +27,7 @@ import {
   UserStats,
   UserTournamentBadge,
 } from "../adapters/akatsuki-api/users"
+import { useTheme } from "@mui/material/styles"
 import { AddUserIcon } from "../components/images/icons/AddUserIcon"
 import { userIsOnline } from "../adapters/bancho"
 import {
@@ -382,7 +384,6 @@ const UserLevelCard = ({ level }: { level: number }) => {
 const UserClanCard = ({ clan }: { clan: UserClan }) => {
   return (
     <>
-      <Divider sx={{ my: 2 }} />
       <Stack direction="row" spacing={1}>
         <Box
           component="img"
@@ -953,6 +954,9 @@ const UserpageCard = ({ userProfile }: { userProfile: UserFullResponse }) => {
 export const ProfilePage = () => {
   const queryParams = useParams()
 
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.up("xs"))
+
   const profileUserId = parseInt(queryParams["userId"] ?? "0")
 
   const [error, setError] = useState("")
@@ -1039,7 +1043,7 @@ export const ProfilePage = () => {
         <Divider />
         <Stack
           direction={{ xs: "column", sm: "row" }}
-          spacing={2}
+          spacing={{ sm: 2 }}
           px={3}
           justifyContent="space-evenly"
         >
@@ -1055,11 +1059,14 @@ export const ProfilePage = () => {
             <Divider sx={{ my: 2 }} />
             <UserLevelCard level={modeStats.level} />
             {userProfile.clan.id !== 0 && (
-              <UserClanCard clan={userProfile.clan} />
+              <>
+                <Divider sx={{ my: 2 }} />
+                <UserClanCard clan={userProfile.clan} />
+              </>
             )}
           </Box>
 
-          <Divider orientation="vertical" flexItem />
+          {!isMobile && <Divider orientation="vertical" flexItem />}
 
           {/* Right Side (Profile History, Scores, etc.) */}
           <Box width={{ xs: "100%", sm: "66.67%" }}>
