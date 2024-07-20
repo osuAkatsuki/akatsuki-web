@@ -105,7 +105,7 @@ const LeaderboardUserCard = ({
       gridTemplateColumns="75px 1fr 102px 102px 102px"
       borderRadius={4}
       overflow="hidden"
-      bgcolor="rgba(30, 27, 47, 1)"
+      bgcolor={USER_INFO_BG_COLOR}
     >
       <Box
         display="flex"
@@ -115,13 +115,13 @@ const LeaderboardUserCard = ({
       >
         <Typography>#{user.chosenMode.globalLeaderboardRank}</Typography>
       </Box>
-      <Box bgcolor="rgba(21, 18, 35, 1)">
+      <Box bgcolor={USER_RANK_BG_COLOR}>
         <Box
           display="flex"
           alignItems="center"
           p={1}
           height="100%"
-          bgcolor="rgba(30, 27, 47, 1)"
+          bgcolor={USER_INFO_BG_COLOR}
           sx={{ borderTopLeftRadius: 8, borderBottomLeftRadius: 8 }}
         >
           <Box
@@ -152,12 +152,12 @@ const LeaderboardUserCard = ({
       >
         {formatNumber(user.chosenMode.playcount)}
       </Box>
-      <Box bgcolor="rgba(38, 34, 56, 1)">
+      <Box bgcolor={SCORE_METRIC_BG_COLOR}>
         <Box
           display="flex"
           alignItems="center"
           justifyContent="center"
-          bgcolor="rgba(30, 27, 47, 1)"
+          bgcolor={USER_INFO_BG_COLOR}
           color="hsl(0deg 0 100% / 60%)"
           height="100%"
           sx={{ borderTopRightRadius: 8, borderBottomRightRadius: 8 }}
@@ -169,7 +169,7 @@ const LeaderboardUserCard = ({
         display="flex"
         alignItems="center"
         justifyContent="center"
-        bgcolor="rgba(38, 34, 56, 1)"
+        bgcolor={SCORE_METRIC_BG_COLOR}
       >
         {formatNumber(user.chosenMode.pp)}pp
       </Box>
