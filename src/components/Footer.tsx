@@ -84,13 +84,13 @@ export default function Footer() {
                 </Typography>
               </Stack>
               <Stack direction="row" spacing={2}>
-                <Link to="/discord">
+                <Link to={process.env.REACT_APP_DISCORD_INVITE_URL}>
                   <Box height={36} width={36}>
                     <DiscordLogo />
                   </Box>
                 </Link>
                 <Link
-                  to="/github"
+                  to={process.env.REACT_APP_GITHUB_ORG_URL}
                   style={{
                     color: "#FFFFFF",
                     textDecoration: "none",
