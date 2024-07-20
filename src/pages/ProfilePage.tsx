@@ -135,6 +135,13 @@ export const ProfilePage = () => {
   const currentModeStats =
     userProfile.stats[relaxMode][modeToStatsIndex(gameMode)]
 
+  // TODO: create a function which can determine title
+  // from a user's privileges & badges like hanayo does
+  const userTitleDisplay = {
+    text: "Nomination Quality Assurance",
+    color: "rgba(170, 154, 255, 1)",
+  }
+
   return (
     <>
       <Stack direction="column" spacing={2} mt={2}>
@@ -156,30 +163,37 @@ export const ProfilePage = () => {
             variant="square"
             sx={{ width: 156, height: 156, borderRadius: "16px" }}
           />
-          <Stack direction="row" alignItems="center" spacing={1}>
-            {/* TODO: clan tag prefixing username */}
-            {userProfile.clan.id !== 0 && (
-              <Box bgcolor="white" borderRadius={11} py={0.5} px={2}>
-                <Typography variant="h5" color="black">
-                  {userProfile.clan.tag}
-                </Typography>
-              </Box>
+          <Stack direction="column" spacing={1}>
+            <Stack direction="row" alignItems="center" spacing={1}>
+              {/* TODO: clan tag prefixing username */}
+              {userProfile.clan.id !== 0 && (
+                <Box bgcolor="white" borderRadius={11} py={0.5} px={2}>
+                  <Typography variant="h5" color="black">
+                    {userProfile.clan.tag}
+                  </Typography>
+                </Box>
+              )}
+              <Typography fontWeight="bold" variant="h4">
+                {userProfile.username}
+              </Typography>
+              <Tooltip
+                title={getCountryName(userProfile.country)}
+                placement="top"
+              >
+                <Box
+                  component="img"
+                  width={30}
+                  height={30}
+                  alt="flag-image"
+                  src={getFlagUrl(userProfile.country)}
+                />
+              </Tooltip>
+            </Stack>
+            {userTitleDisplay !== null && (
+              <Typography variant="h6" color={userTitleDisplay.color}>
+                {userTitleDisplay.text}
+              </Typography>
             )}
-            <Typography fontWeight="bold" variant="h4">
-              {userProfile.username}
-            </Typography>
-            <Tooltip
-              title={getCountryName(userProfile.country)}
-              placement="top"
-            >
-              <Box
-                component="img"
-                width={30}
-                height={30}
-                alt="flag-image"
-                src={getFlagUrl(userProfile.country)}
-              />
-            </Tooltip>
           </Stack>
         </Stack>
         <Stack direction="row" justifyContent="space-between" px={3} py={1}>
@@ -355,19 +369,25 @@ export const ProfilePage = () => {
                 />
               </Stack>
             </Stack>
-            <Divider sx={{ my: 2 }} />
-            <Stack direction="row" spacing={1}>
-              <Box
-                component="img"
-                width={70}
-                height={70}
-                src={userProfile.clan.icon}
-              />
-              <Stack direction="column" justifyContent="center">
-                <Typography variant="h6">Clan</Typography>
-                <Typography variant="body1">{userProfile.clan.name}</Typography>
-              </Stack>
-            </Stack>
+            {userProfile.clan.id !== 0 && (
+              <>
+                <Divider sx={{ my: 2 }} />
+                <Stack direction="row" spacing={1}>
+                  <Box
+                    component="img"
+                    width={70}
+                    height={70}
+                    src={userProfile.clan.icon}
+                  />
+                  <Stack direction="column" justifyContent="center">
+                    <Typography variant="h6">Clan</Typography>
+                    <Typography variant="body1">
+                      {userProfile.clan.name}
+                    </Typography>
+                  </Stack>
+                </Stack>
+              </>
+            )}
           </Box>
           <Divider orientation="vertical" flexItem />
           <Box width={{ xs: "100%", sm: "66.67%" }}>
