@@ -270,8 +270,8 @@ export const GlobalUserLeaderboard = ({
   if (loading || !leaderboardData) {
     return (
       <>
-        {Array.from({ length: pageSize }).map(() => (
-          <Skeleton variant="rectangular" height={75}></Skeleton>
+        {Array.from({ length: pageSize }).map((_, index) => (
+          <Skeleton key={index} variant="rectangular" height={75}></Skeleton>
         ))}
       </>
     )
@@ -289,7 +289,7 @@ export const GlobalUserLeaderboard = ({
       />
       <Stack>
         {leaderboardData?.users.map((user: LeaderboardUser) => (
-          <LeaderboardUserCard isMobile={isMobile} user={user} />
+          <LeaderboardUserCard key={user.id} isMobile={isMobile} user={user} />
         ))}
       </Stack>
       <TablePagination
