@@ -171,23 +171,23 @@ export const UserProfileScores = ({
 
   useEffect(() => {
     if (!userId) return
-      ; (async () => {
-        try {
-          const userScores = await fetchUserScores({
-            type: scoresType,
-            mode: gameMode,
-            p: page + 1,
-            l: pageSize,
-            rx: relaxMode,
-            id: userId,
-          })
-          setUserScores(userScores)
-          setError("")
-        } catch (e: any) {
-          setError("Failed to fetch user scores data from server")
-          return
-        }
-      })()
+    ;(async () => {
+      try {
+        const userScores = await fetchUserScores({
+          type: scoresType,
+          mode: gameMode,
+          p: page + 1,
+          l: pageSize,
+          rx: relaxMode,
+          id: userId,
+        })
+        setUserScores(userScores)
+        setError("")
+      } catch (e: any) {
+        setError("Failed to fetch user scores data from server")
+        return
+      }
+    })()
   }, [scoresType, userId, gameMode, relaxMode, page, pageSize])
 
   if (error) {
