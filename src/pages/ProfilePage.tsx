@@ -135,6 +135,9 @@ export const ProfilePage = () => {
   const currentModeStats =
     userProfile.stats[relaxMode][modeToStatsIndex(gameMode)]
 
+  const levelCompletionPercentage =
+    (currentModeStats.level - Math.trunc(currentModeStats.level)) * 100
+
   // TODO: create a function which can determine title
   // from a user's privileges & badges like hanayo does
   const userTitleDisplay = {
@@ -342,20 +345,12 @@ export const ProfilePage = () => {
                 width="75%"
               >
                 <Typography variant="body1" fontWeight="lighter">
-                  {formatDecimal(
-                    (currentModeStats.level -
-                      Math.trunc(currentModeStats.level)) *
-                      100
-                  )}
-                  % to level {Math.trunc(currentModeStats.level) + 1}
+                  {formatDecimal(levelCompletionPercentage)}% to level{" "}
+                  {Math.trunc(currentModeStats.level) + 1}
                 </Typography>
                 <LinearProgress
                   variant="determinate"
-                  value={
-                    (currentModeStats.level -
-                      Math.trunc(currentModeStats.level)) *
-                    100
-                  }
+                  value={levelCompletionPercentage}
                   sx={{
                     [`&.${linearProgressClasses.colorPrimary}`]: {
                       backgroundColor: "rgba(58, 52, 85, 1)",
