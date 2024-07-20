@@ -258,7 +258,7 @@ export const ProfilePage = () => {
           <Divider orientation="vertical" flexItem />
           <Box width={{ xs: "100%", sm: "66.67%" }}>
             {/* TODO: figure out how to model rank vs. pp/score/etc. */}
-            <Stack direction="row" justifyContent="end" spacing={1} pb={1}>
+            <Stack direction="row" justifyContent="flex-end" spacing={1} pb={1}>
               <Button
                 variant={
                   profileHistoryType === ProfileHistoryType.GlobalRank
