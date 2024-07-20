@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import {
   Typography,
   Tooltip,
@@ -7,7 +7,11 @@ import {
   Button,
   Divider,
   LinearProgress,
+  IconButton,
+  Paper,
+  TablePagination,
 } from "@mui/material"
+import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline"
 import { linearProgressClasses } from "@mui/material/LinearProgress"
 import Stack from "@mui/material/Stack"
 import Box from "@mui/material/Box"
@@ -23,10 +27,14 @@ import {
   UserTournamentBadge,
 } from "../adapters/akatsuki-api/users"
 import { AddUserIcon } from "../components/images/icons/AddUserIcon"
-import { UserProfileHistoryGraph } from "../components/UserProfileHistoryGraph"
-import { UserProfileScores } from "../components/UserProfileScores"
 import { userIsOnline } from "../adapters/bancho"
-import { ProfileHistoryType } from "../adapters/akatsuki-api/profileHistory"
+import {
+  captureTypeToDisplay,
+  fetchUserProfileHistory,
+  ProfileHistoryCapture,
+  ProfileHistoryResponse,
+  ProfileHistoryType,
+} from "../adapters/akatsuki-api/profileHistory"
 import moment from "moment"
 import {
   GameModeSelector,
@@ -43,7 +51,14 @@ import {
 } from "../utils/formatting"
 import { LevelDisplayPolygon } from "../components/images/polygons/LevelDisplay"
 import { UserPrivileges } from "../utils/privileges"
-import { getGradeColor } from "../scores"
+import { calculateGrade, getGradeColor, remapSSForDisplay } from "../scores"
+import {
+  fetchUserScores,
+  UserScore,
+  UserScoresResponse,
+} from "../adapters/akatsuki-api/userScores"
+import { formatMods } from "../utils/mods"
+import { Line } from "react-chartjs-2"
 
 const modeToStatsIndex = (
   mode: GameMode
@@ -83,7 +98,7 @@ const getUserTitleDisplay = (
   return null
 }
 
-const TournamentBadge = ({ badge }: { badge: UserTournamentBadge }) => {
+const TournamentBadgeCard = ({ badge }: { badge: UserTournamentBadge }) => {
   return (
     <Tooltip title={badge.name}>
       <Avatar
@@ -97,11 +112,15 @@ const TournamentBadge = ({ badge }: { badge: UserTournamentBadge }) => {
   )
 }
 
-const TournamentBadges = ({ badges }: { badges: UserTournamentBadge[] }) => {
+const TournamentBadgesCard = ({
+  badges,
+}: {
+  badges: UserTournamentBadge[]
+}) => {
   return (
     <Stack direction="row" spacing={1} flexWrap="wrap" mb={1} useFlexGap>
       {badges.map((tournamentBadge) => (
-        <TournamentBadge key={tournamentBadge.id} badge={tournamentBadge} />
+        <TournamentBadgeCard key={tournamentBadge.id} badge={tournamentBadge} />
       ))}
     </Stack>
   )
@@ -181,7 +200,7 @@ const ModeSelectionBar = ({
   )
 }
 
-const UserProfileGrades = ({ statsData }: { statsData: UserStats }) => {
+const UserGradesCard = ({ statsData }: { statsData: UserStats }) => {
   // TODO: once these are hooked up in user stats API
   const xhCount = 0
   const shCount = 0
@@ -297,7 +316,7 @@ const UserStatsCard = ({
             {formatNumber(followers)}
           </Typography>
         </Stack>
-        <UserProfileGrades statsData={statsData} />
+        <UserGradesCard statsData={statsData} />
       </Stack>
     </Box>
   )
@@ -568,6 +587,357 @@ const UserRelationshipCard = ({ followers }: { followers: number }) => {
   )
 }
 
+const SONG_NAME_REGEX =
+  /^(?<artist>[^-]+) - (?<songName>[^[]+) \[(?<version>.+)\]$/
+
+const SCORE_PP_DISPLAY_GRADIENT =
+  "linear-gradient(0deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), linear-gradient(79.96deg, #387EFC 16.72%, #C940FD 91.26%), #FFFFFF"
+
+const ProfileScoreCard = (userScore: UserScore) => {
+  const scoreGrade =
+    calculateGrade(
+      userScore.playMode,
+      userScore.mods,
+      userScore.accuracy,
+      userScore.count300,
+      userScore.count100,
+      userScore.count50,
+      userScore.countMiss
+    ) ?? "F"
+
+  const { artist, songName, version } = userScore.beatmap.songName.match(
+    SONG_NAME_REGEX
+  )?.groups ?? {
+    artist: "Unknown",
+    song: "Unknown",
+    version: "Unknown",
+  }
+  return (
+    <Stack direction="row" justifyContent="space-between">
+      <Box
+        minWidth={75}
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        bgcolor={getGradeColor(scoreGrade)}
+      >
+        <Typography variant="h5" fontWeight="bold" color="#111111">
+          {remapSSForDisplay(scoreGrade)}
+        </Typography>
+      </Box>
+      <Box position="relative" overflow="hidden" flexGrow={1}>
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          justifyContent={{ sm: "space-between" }}
+          position="relative"
+          zIndex={1}
+          p={1}
+        >
+          {/* Left menu */}
+          <Stack direction="column">
+            <Stack
+              direction={{ xs: "column", sm: "row" }}
+              spacing={{ sm: 1 }}
+              alignItems={{ xs: "flex-start", sm: "center" }}
+            >
+              <Typography variant="h6">{songName}</Typography>
+              <Typography variant="body1" fontWeight="lighter">
+                by {artist}
+              </Typography>
+            </Stack>
+            <Stack direction="row" spacing={1}>
+              <Typography variant="body2">{version}</Typography>
+              {userScore.mods ? (
+                <Typography variant="body2">
+                  +{formatMods(userScore.mods)}
+                </Typography>
+              ) : null}
+            </Stack>
+            {/* TODO: Add date played/timeago */}
+          </Stack>
+          {/* Right menu */}
+          <Stack direction={{ xs: "column", sm: "row" }}>
+            <Stack direction="column">
+              <Box
+                display="flex"
+                justifyContent={{ xs: "flex-start", sm: "flex-end" }}
+              >
+                <Typography
+                  variant="h6"
+                  fontWeight="bold"
+                  sx={{
+                    background: SCORE_PP_DISPLAY_GRADIENT,
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                  }}
+                >
+                  {Math.round(userScore.pp)}pp
+                </Typography>
+              </Box>
+              <Stack direction="row" spacing={1}>
+                <Typography variant="body2" fontWeight="lighter">
+                  {formatNumber(userScore.score)}
+                </Typography>
+                <Typography variant="body2">
+                  {formatDecimal(userScore.accuracy)}%
+                </Typography>
+              </Stack>
+            </Stack>
+            {/* TODO: add replay download option */}
+            <Box display="flex" alignItems="center">
+              <Link to={`https://akatsuki.gg/web/replays/${userScore.id}`}>
+                <IconButton aria-label="support">
+                  <DownloadForOfflineIcon />
+                </IconButton>
+              </Link>
+            </Box>
+          </Stack>
+        </Stack>
+        {/* Background Image */}
+        <Box
+          position="absolute"
+          top={0}
+          left={0}
+          width="100%"
+          height="100%"
+          zIndex={0}
+          sx={{
+            backgroundImage: `
+                  linear-gradient(90deg, ${getGradeColor(scoreGrade, 0.2)}, ${getGradeColor(scoreGrade, 0.0)} 48.5%),
+                  linear-gradient(0deg, rgba(22, 19, 35, 0.9), rgba(22, 19, 35, 0.9)),
+                  url(https://assets.ppy.sh/beatmaps/${userScore.beatmap.beatmapsetId}/covers/cover.jpg)
+                `,
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        ></Box>
+      </Box>
+    </Stack>
+  )
+}
+
+const ProfileScoresCard = ({
+  scoresType,
+  userId,
+  gameMode,
+  relaxMode,
+  title,
+}: {
+  scoresType: "best" | "recent" | "pinned"
+  userId: number
+  gameMode: GameMode
+  relaxMode: RelaxMode
+  title: string
+}) => {
+  const [userScores, setUserScores] = useState<UserScoresResponse | null>(null)
+
+  const [page, setPage] = useState(0)
+  const [pageSize, setPageSize] = useState(10)
+
+  const [error, setError] = useState("")
+
+  useEffect(() => {
+    if (!userId) return
+    ;(async () => {
+      try {
+        const userScores = await fetchUserScores({
+          type: scoresType,
+          mode: gameMode,
+          p: page + 1,
+          l: pageSize,
+          rx: relaxMode,
+          id: userId,
+        })
+        setUserScores(userScores)
+        setError("")
+      } catch (e: any) {
+        setError("Failed to fetch user scores data from server")
+        return
+      }
+    })()
+  }, [scoresType, userId, gameMode, relaxMode, page, pageSize])
+
+  if (error) {
+    return <Typography>{error}</Typography>
+  }
+
+  // TODO: show a friendly null state here
+  // if (!userScores?.scores || userScores.scores.length === 0) {
+  //   return <></>
+  // }
+
+  return (
+    <Box sx={{ p: 2 }}>
+      <Typography variant="h6" sx={{ pb: 1 }}>
+        {title}
+      </Typography>
+      <Stack spacing={1} sx={{ pb: 1 }}>
+        {userScores?.scores?.map((score: UserScore) => (
+          <Box key={score.id} borderRadius="16px" overflow="hidden">
+            <Paper elevation={1}>
+              <ProfileScoreCard {...score} />
+            </Paper>
+          </Box>
+        ))}
+      </Stack>
+
+      <TablePagination
+        component={Paper}
+        count={-1}
+        rowsPerPage={pageSize}
+        page={page}
+        onPageChange={(event, newPage) => setPage(newPage)}
+        onRowsPerPageChange={(event) => {
+          setPageSize(parseInt(event.target.value, 10))
+          setPage(0)
+        }}
+        labelDisplayedRows={({ from, to, count }) => {
+          return `Results ${from}-${to}`
+        }}
+      />
+    </Box>
+  )
+}
+
+const UserProfileHistoryGraph = ({
+  userId,
+  type,
+  gameMode,
+  relaxMode,
+}: {
+  userId: number
+  type: ProfileHistoryType
+  gameMode: GameMode
+  relaxMode: RelaxMode
+}) => {
+  const [profileHistoryResponse, setProfileHistoryResponse] =
+    useState<ProfileHistoryResponse | null>(null)
+
+  const [error, setError] = useState("")
+
+  useEffect(() => {
+    ;(async () => {
+      try {
+        const response = await fetchUserProfileHistory({
+          type,
+          userId,
+          akatsukiMode: gameMode + relaxMode * 4,
+        })
+        setProfileHistoryResponse(response)
+        setError("")
+      } catch (e: any) {
+        setError("Failed to fetch data from server")
+        return
+      }
+    })()
+  }, [type, userId, gameMode, relaxMode])
+
+  if (error || !profileHistoryResponse) {
+    return <Alert severity="error">{error}</Alert>
+  }
+
+  if (profileHistoryResponse.captures.length === 0) {
+    return (
+      <Alert severity="warning">
+        <Typography variant="body2" fontWeight="bold">
+          No data available to display with history charts
+        </Typography>
+        <Typography variant="body2">
+          (First, play some osu! to estalish a base!)
+        </Typography>
+      </Alert>
+    )
+  }
+
+  const chartData = {
+    labels: profileHistoryResponse.captures.map(
+      (capture: ProfileHistoryCapture) => {
+        return capture.capturedAt.toLocaleDateString()
+      }
+    ),
+    datasets: [
+      {
+        label: captureTypeToDisplay(type),
+        data: profileHistoryResponse.captures.map(
+          (capture: ProfileHistoryCapture) => capture.value
+        ),
+        fill: false,
+        borderColor: "#1976d2",
+        tension: 0.1,
+      },
+    ],
+  }
+
+  const options = {
+    elements: {
+      point: {
+        radius: 0,
+      },
+    },
+    scales: {
+      y: {
+        grace: "10%",
+        reverse: [
+          ProfileHistoryType.CountryRank,
+          ProfileHistoryType.GlobalRank,
+        ].includes(type),
+        type: "linear",
+        ticks: {
+          precision: 0,
+        },
+      },
+    },
+    plugins: {
+      tooltip: {
+        intersect: false,
+      },
+    },
+  } as const
+  return (
+    <>
+      <Line data={chartData} options={options} />
+    </>
+  )
+}
+
+const UserProfileHistoryCard = ({
+  userProfile,
+  gameMode,
+  relaxMode,
+  profileHistoryType,
+  setProfileHistoryType,
+}: {
+  userProfile: UserFullResponse
+  gameMode: GameMode
+  relaxMode: RelaxMode
+  profileHistoryType: ProfileHistoryType
+  setProfileHistoryType: (type: ProfileHistoryType) => void
+}) => {
+  const modeStats = userProfile.stats[relaxMode][modeToStatsIndex(gameMode)]
+
+  return (
+    <>
+      <ProfileHistoryGraphNavbar
+        userStats={modeStats}
+        country={userProfile.country}
+        setProfileHistoryType={setProfileHistoryType}
+      />
+      <UserProfileHistoryGraph
+        userId={userProfile.id}
+        type={profileHistoryType}
+        gameMode={gameMode}
+        relaxMode={relaxMode}
+      />
+    </>
+  )
+}
+
+const UserpageCard = ({ userProfile }: { userProfile: UserFullResponse }) => {
+  // TODO: setup a userpage with bbcode support, etc.
+  return <></>
+}
+
 export const ProfilePage = () => {
   const queryParams = useParams()
 
@@ -654,9 +1024,10 @@ export const ProfilePage = () => {
           px={3}
           justifyContent="space-evenly"
         >
+          {/* Left Side (Stats, Clan, etc.) */}
           <Box pb={2} pr={3} width={{ xs: "100%", sm: "33.33%" }}>
             {userProfile.tbadges && (
-              <TournamentBadges badges={userProfile.tbadges} />
+              <TournamentBadgesCard badges={userProfile.tbadges} />
             )}
             <UserStatsCard
               statsData={modeStats}
@@ -668,50 +1039,44 @@ export const ProfilePage = () => {
               <UserClanCard clan={userProfile.clan} />
             )}
           </Box>
+
           <Divider orientation="vertical" flexItem />
+
+          {/* Right Side (Profile History, Scores, etc.) */}
           <Box width={{ xs: "100%", sm: "66.67%" }}>
-            <ProfileHistoryGraphNavbar
-              userStats={modeStats}
-              country={userProfile.country}
-              setProfileHistoryType={setProfileHistoryType}
-            />
-            <UserProfileHistoryGraph
-              userId={profileUserId}
-              type={profileHistoryType}
+            <UserpageCard userProfile={userProfile} />
+
+            <UserProfileHistoryCard
+              userProfile={userProfile}
               gameMode={gameMode}
               relaxMode={relaxMode}
+              profileHistoryType={profileHistoryType}
+              setProfileHistoryType={setProfileHistoryType}
             />
 
-            <Box>
-              {/* TODO: hide if no pinned scores exist */}
-              <UserProfileScores
-                scoresType="pinned"
-                userId={profileUserId}
-                gameMode={gameMode}
-                relaxMode={relaxMode}
-                title="Pinned Scores"
-              />
-            </Box>
+            <ProfileScoresCard
+              scoresType="pinned"
+              userId={userProfile.id}
+              gameMode={gameMode}
+              relaxMode={relaxMode}
+              title="Pinned Scores"
+            />
             <Divider />
-            <Box>
-              <UserProfileScores
-                scoresType="best"
-                userId={profileUserId}
-                gameMode={gameMode}
-                relaxMode={relaxMode}
-                title="Best Scores"
-              />
-            </Box>
+            <ProfileScoresCard
+              scoresType="best"
+              userId={userProfile.id}
+              gameMode={gameMode}
+              relaxMode={relaxMode}
+              title="Best Scores"
+            />
             <Divider />
-            <Box>
-              <UserProfileScores
-                scoresType="recent"
-                userId={profileUserId}
-                gameMode={gameMode}
-                relaxMode={relaxMode}
-                title="Recent Scores"
-              />
-            </Box>
+            <ProfileScoresCard
+              scoresType="recent"
+              userId={profileUserId}
+              gameMode={gameMode}
+              relaxMode={relaxMode}
+              title="Recent Scores"
+            />
           </Box>
         </Stack>
       </Stack>
