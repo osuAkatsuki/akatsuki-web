@@ -119,7 +119,7 @@ export default function Navbar() {
               sx={{ display: "flex", alignItems: "center" }}
             >
               {identity !== null &&
-                identity.privileges & UserPrivileges.ADMIN_ACCESS_RAP ? (
+              identity.privileges & UserPrivileges.ADMIN_ACCESS_RAP ? (
                 <Link to={process.env.REACT_APP_ADMIN_PANEL_HOME_URL!}>
                   <Button>
                     <Typography variant="subtitle1" fontWeight="bold">

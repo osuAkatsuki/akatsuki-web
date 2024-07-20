@@ -71,23 +71,23 @@ export default function App() {
           mode: prefersDarkMode ? "dark" : "light",
           ...(prefersDarkMode
             ? {
-              // Use lighter variants
-              primary: {
-                main: "#2c97fb",
-              },
-              secondary: {
-                main: "#ef43fe",
-              },
-            }
+                // Use lighter variants
+                primary: {
+                  main: "#2c97fb",
+                },
+                secondary: {
+                  main: "#ef43fe",
+                },
+              }
             : {
-              // Use darker variants
-              primary: {
-                main: "#1678c2",
-              },
-              secondary: {
-                main: "#e03997",
-              },
-            }),
+                // Use darker variants
+                primary: {
+                  main: "#1678c2",
+                },
+                secondary: {
+                  main: "#e03997",
+                },
+              }),
           background: {
             default: "#110E1B",
           },
