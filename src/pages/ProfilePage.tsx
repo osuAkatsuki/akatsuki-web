@@ -40,6 +40,7 @@ import { CatchGameModeIcon } from "../components/images/gamemode-icons/CatchGame
 import { ManiaGameModeIcon } from "../components/images/gamemode-icons/ManiaGameModeIcon"
 import { formatDecimal, formatNumber } from "../utils/formatting"
 import { LevelDisplayPolygon } from "../components/images/polygons/LevelDisplay"
+import { UserPrivileges } from "../utils/privileges"
 
 const modeToStatsIndex = (
   mode: GameMode
@@ -54,6 +55,24 @@ const modeToStatsIndex = (
     case GameMode.Mania:
       return "mania"
   }
+}
+
+interface UserTitleDisplay {
+  text: string
+  color: string
+}
+
+const getUserTitleDisplay = (
+  userPrivileges: number
+): UserTitleDisplay | null => {
+  if (userPrivileges & UserPrivileges.AdminManageNominators) {
+    return {
+      text: "Nomination Quality Assurance",
+      color: "rgba(170, 154, 255, 1)",
+    }
+  }
+  // TODO: the many many others. And perhaps the concept of privilege groups.
+  return null
 }
 
 const TournamentBadges = ({ badges }: { badges: UserTournamentBadge[] }) => {
@@ -138,12 +157,7 @@ export const ProfilePage = () => {
   const levelCompletionPercentage =
     (currentModeStats.level - Math.trunc(currentModeStats.level)) * 100
 
-  // TODO: create a function which can determine title
-  // from a user's privileges & badges like hanayo does
-  const userTitleDisplay = {
-    text: "Nomination Quality Assurance",
-    color: "rgba(170, 154, 255, 1)",
-  }
+  const userTitleDisplay = getUserTitleDisplay(userProfile.privileges)
 
   return (
     <>
