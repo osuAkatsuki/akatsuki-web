@@ -76,7 +76,6 @@ export default function Navbar() {
       <Box
         width="100%"
         position={{ sm: "absolute" }}
-        px={0}
         top={0}
         left={0}
         // In line with https://mui.com/material-ui/customization/z-index/
