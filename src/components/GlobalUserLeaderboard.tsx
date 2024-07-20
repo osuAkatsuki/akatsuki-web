@@ -270,8 +270,8 @@ export const GlobalUserLeaderboard = ({
   if (loading || !leaderboardData) {
     return (
       <>
-        {Array.from({ length: pageSize }).map((_, i) => (
-          <Skeleton key={i} variant="rectangular" height={75}></Skeleton>
+        {Array.from({ length: pageSize }).map((_, index) => (
+          <Skeleton key={index} variant="rectangular" height={75}></Skeleton>
         ))}
       </>
     )
