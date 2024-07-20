@@ -221,7 +221,6 @@ export const ProfilePage = () => {
             bgcolor="rgba(18, 15, 29, 1)"
             borderRadius={11}
             py={0.5}
-            px={2}
             alignItems="center"
           >
             {/* TODO: color icon based on relationship status */}
