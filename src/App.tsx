@@ -28,6 +28,7 @@ import {
   Legend,
 } from "chart.js"
 import useMediaQuery from "@mui/material/useMediaQuery"
+import { AboutPage } from "./pages/AboutPage"
 
 ChartJS.register(
   CategoryScale,
@@ -52,6 +53,7 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<AppLayout />}>
       <Route path="/" element={<HomePage />} />
+      <Route path="/about" element={<AboutPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="login" element={<LoginPage />} />
       <Route path="/leaderboards" element={<LeaderboardsPage />} />

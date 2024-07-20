@@ -79,7 +79,7 @@ export default function Navbar() {
             direction={{ xs: "column", sm: "row" }}
             justifyContent="space-between"
             minHeight={5}
-            p={1.25}
+            pt={1.25}
           >
             {/* Left Navbar */}
             <Stack
@@ -95,18 +95,28 @@ export default function Navbar() {
                 </Button>
               </Link>
               <Divider orientation="vertical" flexItem />
+              <Link to="/">
+                <Button sx={{ color: "white", textTransform: "none" }}>
+                  <Typography variant="subtitle1">Home</Typography>
+                </Button>
+              </Link>
               <Link to="/leaderboards">
-                <Button>
+                <Button sx={{ color: "white", textTransform: "none" }}>
                   <Typography variant="subtitle1">Leaderboards</Typography>
                 </Button>
               </Link>
+              <Link to="/about">
+                <Button sx={{ color: "white", textTransform: "none" }}>
+                  <Typography variant="subtitle1">About</Typography>
+                </Button>
+              </Link>
               {/* <Link to="/information">
-                <Button>
+                <Button sx={{ color: "white", textTransform: "none" }}>
                   <Typography variant="subtitle1">Information</Typography>
                 </Button>
               </Link> */}
               <Link to={process.env.REACT_APP_PUBLIC_DISCORD_INVITE_URL!}>
-                <Button>
+                <Button sx={{ color: "white", textTransform: "none" }}>
                   <Typography variant="subtitle1">Discord</Typography>
                 </Button>
               </Link>
@@ -120,7 +130,7 @@ export default function Navbar() {
               {identity !== null &&
               identity.privileges & UserPrivileges.ADMIN_ACCESS_RAP ? (
                 <Link to={process.env.REACT_APP_ADMIN_PANEL_HOME_URL!}>
-                  <Button>
+                  <Button sx={{ color: "white", textTransform: "none" }}>
                     <Typography variant="subtitle1" fontWeight="bold">
                       Admin Panel
                     </Typography>
@@ -160,19 +170,22 @@ export default function Navbar() {
                   </Link>
 
                   {/* TODO: put this behind a profile submenu */}
-                  <Button onClick={handleLogout}>
+                  <Button
+                    onClick={handleLogout}
+                    sx={{ color: "white", textTransform: "none" }}
+                  >
                     <Typography variant="subtitle1">Logout</Typography>
                   </Button>
                 </>
               ) : (
                 <>
                   <Link to="/login">
-                    <Button>
+                    <Button sx={{ color: "white", textTransform: "none" }}>
                       <Typography variant="subtitle1">Login</Typography>
                     </Button>
                   </Link>
                   <Link to="/register">
-                    <Button>
+                    <Button sx={{ color: "white", textTransform: "none" }}>
                       <Typography variant="subtitle1">Register</Typography>
                     </Button>
                   </Link>
