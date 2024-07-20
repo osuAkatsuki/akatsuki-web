@@ -451,11 +451,7 @@ const ProfileHistoryGraphNavbar = ({
           </Stack>
         </Button>
       </Stack>
-      <Stack
-        direction={{ xs: "column", sm: "row" }}
-        alignItems={{ xs: "center" }}
-        spacing={{ xs: 1, sm: 2 }}
-      >
+      <Stack direction="row" justifyContent="center" spacing={{ xs: 1, sm: 2 }}>
         <Button
           variant="text"
           onClick={() => setProfileHistoryType(ProfileHistoryType.PP)}
@@ -626,9 +622,13 @@ const ProfileScoreCard = (userScore: UserScore) => {
     version: "Unknown",
   }
   return (
-    <Stack direction="row" justifyContent="space-between">
+    <Stack
+      direction={{ xs: "column", sm: "row" }}
+      justifyContent="space-between"
+    >
       <Box
-        minWidth={75}
+        minWidth={{ sm: 75 }}
+        minHeight={{ xs: 40, sm: 0 }}
         display="flex"
         justifyContent="center"
         alignItems="center"
