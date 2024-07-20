@@ -1,3 +1,7 @@
+body {
+  padding-left: calc(100vw - 100%);
+}
+
 ::-webkit-scrollbar {
   width: 17.5px;
   background: transparent;
