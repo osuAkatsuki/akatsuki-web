@@ -136,7 +136,10 @@ export const LeaderboardsPage = () => {
         <Box
           height={211}
           pt={{ xs: 0, sm: 10 }}
-          sx={{ background: BANNER_GRADIENT }}
+          sx={{
+            backgroundSize: "cover",
+            backgroundImage: BANNER_GRADIENT,
+          }}
         >
           <Container sx={{ height: "100%" }}>
             <Stack
