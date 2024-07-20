@@ -57,7 +57,7 @@ export const HomePage = () => {
       alignItems="center"
       justifyContent="center"
       sx={{
-        minHeight: "100vh",
+        minHeight: "70vh",
         px: 2,
       }}
     >
