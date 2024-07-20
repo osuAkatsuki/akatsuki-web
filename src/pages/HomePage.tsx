@@ -38,7 +38,6 @@ const NavButton = ({
 
 const Header = () => (
   <>
-    {" "}
     <Typography variant="h2" align="center">
       Welcome to Akatsuki
     </Typography>
@@ -56,20 +55,13 @@ export const HomePage = () => {
       direction="column"
       alignItems="center"
       justifyContent="center"
-      sx={{
-        minHeight: "70vh",
-        px: 2,
-      }}
+      minHeight="70vh"
     >
       <Grid item xs={12}>
         <Header />
       </Grid>
       <Grid item xs={12} sm={10} md={8} lg={6} xl={4}>
-        <Stack
-          direction={{ xs: "column", sm: "row" }}
-          spacing={2}
-          sx={{ mt: 2 }}
-        >
+        <Stack direction={{ xs: "column", sm: "row" }} spacing={2} mt={2}>
           {identity ? (
             <NavButton
               to={`/u/${identity.userId}`}
