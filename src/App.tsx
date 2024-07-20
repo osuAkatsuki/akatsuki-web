@@ -28,6 +28,7 @@ import {
   Legend,
 } from "chart.js"
 import { AboutPage } from "./pages/AboutPage"
+import Footer from "./components/Footer"
 
 ChartJS.register(
   CategoryScale,
@@ -43,6 +44,7 @@ const AppLayout = () => (
   <>
     <Navbar />
     <Outlet />
+    <Footer />
   </>
 )
 
