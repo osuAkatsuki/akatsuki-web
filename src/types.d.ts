@@ -6,6 +6,16 @@ declare namespace NodeJS {
   interface ProcessEnv {
     readonly NODE_ENV: "development" | "production" | "test"
     readonly PUBLIC_URL: string
+    readonly REACT_APP_RECAPTCHA_SITE_KEY: string
+    readonly REACT_APP_AUTH_API_BASE_URL: string
+    readonly REACT_APP_SEARCH_API_BASE_URL: string
+    readonly REACT_APP_LEADERBOARD_API_BASE_URL: string
+    readonly REACT_APP_USER_API_BASE_URL: string
+    readonly REACT_APP_SCORES_API_BASE_URL: string
+    readonly REACT_APP_PROFILE_HISTORY_API_BASE_URL: string
+    readonly REACT_APP_BANCHO_API_BASE_URL: string
+    readonly REACT_APP_PUBLIC_DISCORD_INVITE_URL: string
+    readonly REACT_APP_ADMIN_PANEL_HOME_URL: string
   }
 }
 
