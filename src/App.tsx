@@ -88,6 +88,9 @@ export default function App() {
                   main: "#e03997",
                 },
               }),
+          background: {
+            default: "#110E1B",
+          },
         },
         typography: {
           fontFamily: "Nunito",

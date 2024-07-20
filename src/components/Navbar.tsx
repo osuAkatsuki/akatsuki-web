@@ -74,12 +74,13 @@ export default function Navbar() {
 
   return (
     <>
-      <Paper elevation={1} square>
+      <Paper elevation={1} square sx={{ bgcolor: "transparent" }}>
         <Container>
           <Stack
             direction={{ xs: "column", sm: "row" }}
             justifyContent="space-between"
-            padding={1.25}
+            minHeight={5}
+            p={1.25}
           >
             {/* Left Navbar */}
             <Stack
