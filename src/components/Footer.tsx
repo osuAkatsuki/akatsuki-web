@@ -7,7 +7,7 @@ import { DiscordLogo } from "./images/logos/DiscordLogo"
 
 export default function Footer() {
   return (
-    <Box>
+    <Box mt={4}>
       <Divider
         sx={{
           height: "4px",
