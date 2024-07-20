@@ -404,7 +404,7 @@ export const ProfilePage = () => {
                     <Stack direction="row" alignItems="center" spacing={1}>
                       <PublicIcon sx={{ width: 32, height: 32 }} />
                       <Typography variant="h6">
-                        #{currentModeStats.globalLeaderboardRank}
+                        #{currentModeStats.globalLeaderboardRank ?? " N/A"}
                       </Typography>
                     </Stack>
                   </Stack>
@@ -426,7 +426,7 @@ export const ProfilePage = () => {
                         src={getFlagUrl(userProfile.country)}
                       />
                       <Typography variant="h6">
-                        #{currentModeStats.countryLeaderboardRank}
+                        #{currentModeStats.countryLeaderboardRank ?? " N/A"}
                       </Typography>
                     </Stack>
                   </Stack>

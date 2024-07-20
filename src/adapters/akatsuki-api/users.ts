@@ -20,8 +20,8 @@ export interface UserStats {
   level: number
   accuracy: number
   pp: number
-  globalLeaderboardRank: number
-  countryLeaderboardRank: number
+  globalLeaderboardRank: number | null
+  countryLeaderboardRank: number | null
   maxCombo: number
 }
 
