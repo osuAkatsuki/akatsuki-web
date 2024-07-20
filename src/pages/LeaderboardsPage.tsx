@@ -13,7 +13,7 @@ import Divider from "@mui/material/Divider"
 
 const BANNER_GRADIENT = `linear-gradient(0deg, rgba(21, 18, 34, 0) 0%, rgba(21, 18, 34, 0.9) 100%), url(${LeaderboardBanner})`
 
-export enum ScoreParam {
+export enum SortParam {
   Performance = "pp",
   Score = "score",
 }
@@ -21,7 +21,7 @@ export enum ScoreParam {
 export const LeaderboardsPage = () => {
   const [gameMode, setGameMode] = useState(GameMode.Standard)
   const [relaxMode, setRelaxMode] = useState(RelaxMode.Vanilla)
-  const [sortParam, setSortParam] = useState(ScoreParam.Performance)
+  const [sortParam, setSortParam] = useState(SortParam.Performance)
   const [country, setCountry] = useState<string | null>(null)
 
   const GameModeSelector = ({
@@ -101,7 +101,7 @@ export const LeaderboardsPage = () => {
     )
   }
 
-  const SortParamSelector = ({ targetSort }: { targetSort: ScoreParam }) => {
+  const SortParamSelector = ({ targetSort }: { targetSort: SortParam }) => {
     const isSelected = sortParam === targetSort
     return (
       <Box
