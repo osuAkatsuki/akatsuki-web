@@ -9,46 +9,48 @@ import { ManiaGameModeIcon } from "../components/images/gamemode-icons/ManiaGame
 import { LeaderboardIcon } from "../components/images/icons/LeaderboardIcon"
 import { GameMode, RelaxMode, isRealGameMode } from "../gameModes"
 import { useState } from "react"
+import Divider from "@mui/material/Divider"
 
-const BANNER_GRADIENT =
-  `linear-gradient(0deg, rgba(21, 18, 34, 0) 0%, rgba(21, 18, 34, 0.9) 100%), url(${LeaderboardBanner})`;
-
-const Seperator = () => {
-  return (
-    <svg width="2" height="45" viewBox="0 0 2 45" fill="none">
-      <rect opacity="0.2" x="0.18042" y="0.471191" width="1.06506" height="43.6674" rx="0.532529" fill="white" />
-    </svg>
-  )
-}
+const BANNER_GRADIENT = `linear-gradient(0deg, rgba(21, 18, 34, 0) 0%, rgba(21, 18, 34, 0.9) 100%), url(${LeaderboardBanner})`
 
 export const LeaderboardsPage = () => {
   const [gameMode, setGameMode] = useState(GameMode.Standard)
   const [relaxMode, setRelaxMode] = useState(RelaxMode.Vanilla)
   const [sortParam, setSortParam] = useState("pp")
-  const [country, setCountry] = useState<string | null>(null);
+  const [country, setCountry] = useState<string | null>(null)
 
   const GameModeSelector = ({
     targetGameMode,
     icon,
-  }: { targetGameMode: GameMode, icon: any }) => {
+  }: {
+    targetGameMode: GameMode
+    icon: any
+  }) => {
     const isSelected = gameMode === targetGameMode
     const isRealMode = isRealGameMode(targetGameMode, relaxMode)
     return (
       <Box
-        height={25} width={25}
-        onClick={() => { if (isRealMode) setGameMode(targetGameMode) }}
+        height={25}
+        width={25}
+        onClick={() => {
+          if (isRealMode) setGameMode(targetGameMode)
+        }}
         sx={[
           {
             "&": {
-              color: isSelected ? "white" : isRealMode ? null : "hsl(0deg 0% 100% / 20%)",
-            }
+              color: isSelected
+                ? "white"
+                : isRealMode
+                  ? null
+                  : "hsl(0deg 0% 100% / 20%)",
+            },
           },
           {
             "&:hover": {
               cursor: isRealMode ? "pointer" : "not-allowed",
               color: isRealMode ? "hsl(0deg 0% 100% / 80%)" : null,
-            }
-          }
+            },
+          },
         ]}
       >
         {icon}
@@ -56,25 +58,35 @@ export const LeaderboardsPage = () => {
     )
   }
 
-  const RelaxModeSelector = ({ targetRelaxMode }: { targetRelaxMode: RelaxMode }) => {
+  const RelaxModeSelector = ({
+    targetRelaxMode,
+  }: {
+    targetRelaxMode: RelaxMode
+  }) => {
     const isSelected = relaxMode === targetRelaxMode
     const isRealMode = isRealGameMode(gameMode, targetRelaxMode)
     return (
       <Box
-        onClick={() => { if (isRealMode) setRelaxMode(targetRelaxMode) }}
+        onClick={() => {
+          if (isRealMode) setRelaxMode(targetRelaxMode)
+        }}
         sx={[
           {
             "&:hover": {
               cursor: isRealMode ? "pointer" : "not-allowed",
               color: isRealMode ? "hsl(0deg 0% 100% / 80%)" : null,
-            }
-          }
+            },
+          },
         ]}
       >
         <Typography
           fontSize={17}
           sx={{
-            color: isSelected ? "white" : isRealMode ? null : "hsl(0deg 0% 100% / 20%)",
+            color: isSelected
+              ? "white"
+              : isRealMode
+                ? null
+                : "hsl(0deg 0% 100% / 20%)",
             fontWeight: isSelected ? 700 : 200,
           }}
         >
@@ -87,7 +99,11 @@ export const LeaderboardsPage = () => {
   const SortParamSelector = ({ targetSort }: { targetSort: string }) => {
     const isSelected = sortParam === targetSort
     return (
-      <Box onClick={() => { setSortParam(targetSort) }}>
+      <Box
+        onClick={() => {
+          setSortParam(targetSort)
+        }}
+      >
         <Typography
           fontSize={21}
           fontWeight={isSelected ? 700 : 200}
@@ -96,8 +112,8 @@ export const LeaderboardsPage = () => {
               "&:hover": {
                 cursor: "pointer",
                 color: "hsl(0deg 0% 100% / 80%)",
-              }
-            }
+              },
+            },
           ]}
         >
           {targetSort}
@@ -116,7 +132,11 @@ export const LeaderboardsPage = () => {
         left={0}
         zIndex={-1}
       >
-        <Box height={211} pt={{ xs: 0, sm: 10 }} sx={{ background: BANNER_GRADIENT }}>
+        <Box
+          height={211}
+          pt={{ xs: 0, sm: 10 }}
+          sx={{ background: BANNER_GRADIENT }}
+        >
           <Container sx={{ height: "100%" }}>
             <Stack
               px={3}
@@ -129,8 +149,15 @@ export const LeaderboardsPage = () => {
                 <Box width={70} height={70}>
                   <LeaderboardIcon />
                 </Box>
-                <Seperator />
-                <Typography variant="body1" fontSize={25} fontWeight={300}>Leaderboards</Typography>
+                <Divider
+                  orientation="vertical"
+                  variant="middle"
+                  flexItem
+                  sx={{ bgcolor: "#ffffff", opacity: "20%" }}
+                />
+                <Typography variant="body1" fontSize={25} fontWeight={300}>
+                  Leaderboards
+                </Typography>
               </Stack>
 
               <Stack
@@ -150,12 +177,28 @@ export const LeaderboardsPage = () => {
         {/* Mode Switches */}
         <Box width="100%" bgcolor="#211D35" color="#FFFFFF80">
           <Container>
-            <Stack px={3} direction={{ xs: "column", sm: "row" }} justifyContent="space-between">
+            <Stack
+              px={3}
+              direction={{ xs: "column", sm: "row" }}
+              justifyContent="space-between"
+            >
               <Stack direction="row" py={2} gap={3}>
-                <GameModeSelector targetGameMode={GameMode.Standard} icon={<StandardGameModeIcon />} />
-                <GameModeSelector targetGameMode={GameMode.Taiko} icon={<TaikoGameModeIcon />} />
-                <GameModeSelector targetGameMode={GameMode.Catch} icon={<CatchGameModeIcon />} />
-                <GameModeSelector targetGameMode={GameMode.Mania} icon={<ManiaGameModeIcon />} />
+                <GameModeSelector
+                  targetGameMode={GameMode.Standard}
+                  icon={<StandardGameModeIcon />}
+                />
+                <GameModeSelector
+                  targetGameMode={GameMode.Taiko}
+                  icon={<TaikoGameModeIcon />}
+                />
+                <GameModeSelector
+                  targetGameMode={GameMode.Catch}
+                  icon={<CatchGameModeIcon />}
+                />
+                <GameModeSelector
+                  targetGameMode={GameMode.Mania}
+                  icon={<ManiaGameModeIcon />}
+                />
               </Stack>
 
               <Stack direction="row" py={2} gap={3}>
@@ -167,7 +210,12 @@ export const LeaderboardsPage = () => {
           </Container>
         </Box>
         <Container sx={{ backgroundColor: "#191527" }}>
-          <GlobalUserLeaderboard gameMode={gameMode} relaxMode={relaxMode} sortParam={sortParam} country={country} />
+          <GlobalUserLeaderboard
+            gameMode={gameMode}
+            relaxMode={relaxMode}
+            sortParam={sortParam}
+            country={country}
+          />
         </Container>
       </Box>
     </>

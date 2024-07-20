@@ -24,63 +24,78 @@ import { type LeaderboardUser } from "../adapters/akatsuki-api/leaderboards"
 
 const USER_RANK_BG_COLOR = "rgba(21, 18, 35, 1)"
 const USER_INFO_BG_COLOR = "rgba(30, 27, 47, 1)"
-const STAT_BG = "rgba(38, 34, 56, 1)"
+const SCORE_METRIC_BG_COLOR = "rgba(38, 34, 56, 1)"
 
-const LeaderboardUserCard = ({ user, isMobile }: { user: LeaderboardUser; isMobile: boolean }) => {
+const MobileLeaderboardUserCard = ({ user }: { user: LeaderboardUser }) => {
+  return (
+    <Stack direction="column" borderRadius={4} mt={1} overflow="hidden">
+      <Stack direction="row" bgcolor={USER_INFO_BG_COLOR}>
+        <Box
+          minWidth={75}
+          p={1}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          bgcolor={SCORE_METRIC_BG_COLOR}
+        >
+          <Typography variant="body1">
+            #{user.chosenMode.globalLeaderboardRank}
+          </Typography>
+        </Box>
+        <Box
+          display="flex"
+          alignItems="center"
+          p={1}
+          height="100%"
+          sx={{ borderTopLeftRadius: 8, borderBottomLeftRadius: 8 }}
+        >
+          <Box
+            component="img"
+            width={36}
+            height={36}
+            alt="flag-image"
+            src={getFlagUrl(user.country)}
+          />
+          <Typography variant="body1" ml={1}>
+            <Link
+              to={`/u/${user.id}`}
+              style={{
+                color: "#FFFFFF",
+                textDecoration: "none",
+              }}
+            >
+              {user.username}
+            </Link>
+          </Typography>
+        </Box>
+      </Stack>
+      <Stack
+        direction="row"
+        justifyContent="space-around"
+        bgcolor={USER_RANK_BG_COLOR}
+      >
+        <Stack direction="row" p={1}>
+          <Typography fontSize={15} fontWeight={300}>
+            Accuracy:&nbsp;
+          </Typography>
+          <Typography>{formatDecimal(user.chosenMode.accuracy)}%</Typography>
+        </Stack>
+        <Stack direction="row" p={1}>
+          <Typography>{formatNumber(user.chosenMode.pp)}pp</Typography>
+        </Stack>
+      </Stack>
+    </Stack>
+  )
+}
+const LeaderboardUserCard = ({
+  user,
+  isMobile,
+}: {
+  user: LeaderboardUser
+  isMobile: boolean
+}) => {
   if (isMobile) {
-    return (
-      <Stack direction="column" borderRadius={4} mt={1} overflow="hidden">
-        <Stack direction="row" bgcolor={USER_INFO_BG_COLOR}>
-          <Box
-            minWidth={75}
-            p={1}
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            bgcolor={STAT_BG}
-          >
-            <Typography variant="body1">#{user.chosenMode.globalLeaderboardRank}</Typography>
-          </Box>
-          <Box
-            display="flex"
-            alignItems="center"
-            p={1}
-            height="100%"
-            sx={{ borderTopLeftRadius: 8, borderBottomLeftRadius: 8 }}
-          >
-            <Box
-              component="img"
-              width={36}
-              height={36}
-              alt="flag-image"
-              src={getFlagUrl(user.country)}
-            />
-            <Typography variant="body1" ml={1}>
-              <Link
-                to={`/u/${user.id}`}
-                style={{
-                  color: "#FFFFFF",
-                  textDecoration: "none",
-                }}
-              >
-                {user.username}
-              </Link>
-            </Typography>
-          </Box>
-        </Stack>
-        <Stack direction="row" justifyContent="space-around" bgcolor={USER_RANK_BG_COLOR}>
-          <Stack direction="row" p={1}>
-            <Typography fontSize={15} fontWeight={300}>
-              Accuracy:&nbsp;
-            </Typography>
-            <Typography>{formatDecimal(user.chosenMode.accuracy)}%</Typography>
-          </Stack>
-          <Stack direction="row" p={1}>
-            <Typography>{formatNumber(user.chosenMode.pp)}pp</Typography>
-          </Stack>
-        </Stack>
-      </Stack >
-    )
+    return <MobileLeaderboardUserCard user={user} />
   }
 
   return (
@@ -92,7 +107,12 @@ const LeaderboardUserCard = ({ user, isMobile }: { user: LeaderboardUser; isMobi
       overflow="hidden"
       bgcolor="rgba(30, 27, 47, 1)"
     >
-      <Box display="flex" alignItems="center" justifyContent="center" bgcolor={USER_RANK_BG_COLOR}>
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        bgcolor={USER_RANK_BG_COLOR}
+      >
         <Typography>#{user.chosenMode.globalLeaderboardRank}</Typography>
       </Box>
       <Box bgcolor="rgba(21, 18, 35, 1)">
@@ -157,25 +177,45 @@ const LeaderboardUserCard = ({ user, isMobile }: { user: LeaderboardUser; isMobi
   )
 }
 
-const LeaderboardTableHeader = ({ rankingStatistic, isMobile }: { rankingStatistic: string, isMobile: boolean }) => {
+const LeaderboardTableHeader = ({
+  rankingStatistic,
+  isMobile,
+}: {
+  rankingStatistic: string
+  isMobile: boolean
+}) => {
   if (isMobile) return <></>
 
   return (
     <Grid display="grid" gridTemplateColumns="75px 1fr 102px 102px 102px">
-      < Grid item p={1} display="flex" justifyContent="center" >
+      <Grid item p={1} display="flex" justifyContent="center">
         <Typography display="none">Rank</Typography>
-      </Grid >
+      </Grid>
       <Grid item p={1}>
         <Typography display="none">Username</Typography>
       </Grid>
       <Grid item p={1} display="flex" justifyContent="center">
-        <Typography fontSize={15} fontWeight={300} color="hsl(0deg 0 100% / 60%)">Playcount</Typography>
+        <Typography
+          fontSize={15}
+          fontWeight={300}
+          color="hsl(0deg 0 100% / 60%)"
+        >
+          Playcount
+        </Typography>
       </Grid>
       <Grid item p={1} display="flex" justifyContent="center">
-        <Typography fontSize={15} fontWeight={300} color="hsl(0deg 0 100% / 60%)">Accuracy</Typography>
+        <Typography
+          fontSize={15}
+          fontWeight={300}
+          color="hsl(0deg 0 100% / 60%)"
+        >
+          Accuracy
+        </Typography>
       </Grid>
       <Grid item p={1} display="flex" justifyContent="center">
-        <Typography fontSize={15} fontWeight={300}>{rankingStatistic}</Typography>
+        <Typography fontSize={15} fontWeight={300}>
+          {rankingStatistic}
+        </Typography>
       </Grid>
     </Grid>
   )
@@ -186,7 +226,12 @@ export const GlobalUserLeaderboard = ({
   relaxMode,
   sortParam,
   country,
-}: { gameMode: GameMode, relaxMode: RelaxMode, sortParam: string, country: string | null }) => {
+}: {
+  gameMode: GameMode
+  relaxMode: RelaxMode
+  sortParam: string
+  country: string | null
+}) => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
 
@@ -202,24 +247,24 @@ export const GlobalUserLeaderboard = ({
 
   useEffect(() => {
     setLoading(true)
-      ; (async () => {
-        try {
-          const leaderboardResponse = await fetchLeaderboard({
-            mode: gameMode,
-            rx: relaxMode,
-            p: page + 1,
-            l: pageSize,
-            country: country ?? "",
-            sort: sortParam,
-          })
-          setLeaderboardData(leaderboardResponse)
-          setLoading(false)
-          setError("")
-        } catch (e: any) {
-          setError("Failed to fetch data from server")
-          return
-        }
-      })()
+    ;(async () => {
+      try {
+        const leaderboardResponse = await fetchLeaderboard({
+          mode: gameMode,
+          rx: relaxMode,
+          p: page + 1,
+          l: pageSize,
+          country: country ?? "",
+          sort: sortParam,
+        })
+        setLeaderboardData(leaderboardResponse)
+        setLoading(false)
+        setError("")
+      } catch (e: any) {
+        setError("Failed to fetch data from server")
+        return
+      }
+    })()
   }, [gameMode, relaxMode, page, pageSize, country, sortParam])
 
   if (loading || !leaderboardData) {
@@ -238,7 +283,10 @@ export const GlobalUserLeaderboard = ({
 
   return (
     <>
-      <LeaderboardTableHeader isMobile={isMobile} rankingStatistic={sortParam} />
+      <LeaderboardTableHeader
+        isMobile={isMobile}
+        rankingStatistic={sortParam}
+      />
       <Stack>
         {leaderboardData?.users.map((user: LeaderboardUser) => (
           <LeaderboardUserCard isMobile={isMobile} user={user} />
