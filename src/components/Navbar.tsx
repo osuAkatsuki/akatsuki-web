@@ -110,11 +110,6 @@ export default function Navbar() {
                   <Typography variant="subtitle1">About</Typography>
                 </Button>
               </Link>
-              {/* <Link to="/information">
-                <Button sx={{ color: "white", textTransform: "none" }}>
-                  <Typography variant="subtitle1">Information</Typography>
-                </Button>
-              </Link> */}
               <Link to={process.env.REACT_APP_PUBLIC_DISCORD_INVITE_URL!}>
                 <Button sx={{ color: "white", textTransform: "none" }}>
                   <Typography variant="subtitle1">Discord</Typography>
