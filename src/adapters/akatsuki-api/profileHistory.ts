@@ -5,6 +5,7 @@ export enum ProfileHistoryType {
   GlobalRank = "global_rank",
   CountryRank = "country_rank",
   PP = "pp",
+  // TODO: other stats, like accuracy?
 }
 
 export const captureTypeToDisplay = (
