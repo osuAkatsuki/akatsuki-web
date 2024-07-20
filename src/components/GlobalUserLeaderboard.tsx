@@ -103,7 +103,7 @@ const LeaderboardUserCard = ({
       display="grid"
       mb={1}
       gridTemplateColumns="75px 1fr 102px 102px 102px"
-      borderRadius={4}
+      borderRadius={2}
       overflow="hidden"
       bgcolor={USER_INFO_BG_COLOR}
     >
@@ -200,7 +200,7 @@ const LeaderboardTableHeader = ({
           fontWeight={300}
           color="hsl(0deg 0 100% / 60%)"
         >
-          Playcount
+          Play Count
         </Typography>
       </Grid>
       <Grid item p={1} display="flex" justifyContent="center">
