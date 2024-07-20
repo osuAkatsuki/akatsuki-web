@@ -42,9 +42,7 @@ ChartJS.register(
 const AppLayout = () => (
   <>
     <Navbar />
-    <Container>
-      <Outlet />
-    </Container>
+    <Outlet />
   </>
 )
 
