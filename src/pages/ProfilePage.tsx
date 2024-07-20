@@ -505,7 +505,11 @@ const UserIdentityCard = ({
         sx={{ width: 156, height: 156, borderRadius: "16px" }}
       />
       <Stack direction="column" spacing={1}>
-        <Stack direction="row" alignItems="center" spacing={1}>
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          alignItems="center"
+          spacing={1}
+        >
           {/* TODO: clan tag prefixing username */}
           {userProfile.clan.id !== 0 && (
             <Box bgcolor="white" borderRadius={11} py={0.5} px={2}>
