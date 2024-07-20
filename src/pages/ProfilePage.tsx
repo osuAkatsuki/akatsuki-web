@@ -11,8 +11,10 @@ import {
   Paper,
   TablePagination,
   useMediaQuery,
+  Container,
 } from "@mui/material"
 import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline"
+import DefaultProfileBanner from "../components/images/banners/default_profile.png"
 import { linearProgressClasses } from "@mui/material/LinearProgress"
 import Stack from "@mui/material/Stack"
 import Box from "@mui/material/Box"
@@ -142,8 +144,7 @@ const ModeSelectionBar = ({
   return (
     <Stack
       px={3}
-      py={1}
-      pb={2}
+      py={2}
       direction={{ xs: "column", sm: "row" }}
       justifyContent="space-between"
       alignItems={{ xs: "center" }}
@@ -504,7 +505,11 @@ const UserIdentityCard = ({
         sx={{ width: 156, height: 156, borderRadius: "16px" }}
       />
       <Stack direction="column" spacing={1}>
-        <Stack direction="row" alignItems="center" spacing={1}>
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          alignItems="center"
+          spacing={1}
+        >
           {/* TODO: clan tag prefixing username */}
           {userProfile.clan.id !== 0 && (
             <Box bgcolor="white" borderRadius={11} py={0.5} px={2}>
@@ -558,7 +563,7 @@ const UserActivityDatesCard = ({
       <Stack direction="row" spacing={1}>
         <Typography variant="body1" fontWeight="lighter">
           joined
-        </Typography>{" "}
+        </Typography>
         <Typography variant="body1" fontWeight="bold">
           {moment(userProfile.registeredOn).fromNow()}
         </Typography>
@@ -566,7 +571,7 @@ const UserActivityDatesCard = ({
       <Stack direction="row" spacing={1}>
         <Typography variant="body1" fontWeight="lighter">
           last seen
-        </Typography>{" "}
+        </Typography>
         <Typography variant="body1" fontWeight="bold">
           {moment(userProfile.latestActivity).fromNow()}
         </Typography>
@@ -583,6 +588,7 @@ const UserRelationshipCard = ({ followers }: { followers: number }) => {
       bgcolor="rgba(18, 15, 29, 1)"
       borderRadius={11}
       py={0.5}
+      px={1.5}
       alignItems="center"
     >
       {/* TODO: color icon based on relationship status */}
@@ -1016,96 +1022,113 @@ export const ProfilePage = () => {
   const modeStats = userProfile.stats[relaxMode][modeToStatsIndex(gameMode)]
 
   return (
-    <>
-      <Stack direction="column" spacing={2} mt={2}>
-        <UserIdentityCard userProfile={userProfile} />
-        <Stack
-          direction={{ xs: "column", sm: "row" }}
-          alignItems="center"
-          justifyContent="space-between"
-          px={3}
-          py={1}
-          spacing={{ xs: 1, sm: 0 }}
-        >
-          <UserActivityDatesCard userProfile={userProfile} />
-          <UserRelationshipCard followers={userProfile.followers} />
+    <Box>
+      <Box
+        pt={{ xs: 0, sm: 10 }}
+        sx={{
+          backgroundSize: "cover",
+          backgroundImage: `url(${DefaultProfileBanner})`,
+          backgroundPosition: "center",
+          // TODO: figure out how to disable this shadow effect within UserIdentityCard
+          boxShadow: "inset 0px 0px 0px 2000px rgba(21, 18, 34, 0.9)",
+        }}
+      >
+        <Container>
+          <Stack direction="column">
+            <UserIdentityCard userProfile={userProfile} />
+            <Stack
+              direction={{ xs: "column", sm: "row" }}
+              alignItems="center"
+              justifyContent="space-between"
+              px={3}
+              py={2}
+              spacing={{ xs: 1, sm: 0 }}
+            >
+              <UserActivityDatesCard userProfile={userProfile} />
+              <UserRelationshipCard followers={userProfile.followers} />
+            </Stack>
+          </Stack>
+        </Container>
+      </Box>
+
+      <Box width="100%" bgcolor="#211D35" color="#FFFFFF80">
+        <Container>
+          <ModeSelectionBar
+            gameMode={gameMode}
+            setGameMode={setGameMode}
+            relaxMode={relaxMode}
+            setRelaxMode={setRelaxMode}
+          />
+        </Container>
+      </Box>
+      <Container sx={{ backgroundColor: "#191527" }}>
+        <Stack direction="column" spacing={2} pt={2}>
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            spacing={{ sm: 2 }}
+            px={3}
+            justifyContent="space-evenly"
+          >
+            {/* Left Side (Stats, Clan, etc.) */}
+            <Box pb={2} pr={{ sm: 3 }} width={{ xs: "100%", sm: "33.33%" }}>
+              {userProfile.tbadges && (
+                <TournamentBadgesCard badges={userProfile.tbadges} />
+              )}
+              <UserStatsCard
+                statsData={modeStats}
+                followers={userProfile.followers}
+              />
+              <Divider sx={{ my: 2 }} />
+              <UserLevelCard level={modeStats.level} />
+              {userProfile.clan.id !== 0 && (
+                <>
+                  <Divider sx={{ my: 2 }} />
+                  <UserClanCard clan={userProfile.clan} />
+                </>
+              )}
+            </Box>
+
+            {!isMobile && <Divider orientation="vertical" flexItem />}
+
+            {/* Right Side (Profile History, Scores, etc.) */}
+            <Box width={{ xs: "100%", sm: "66.67%" }}>
+              <UserpageCard userProfile={userProfile} />
+
+              <UserProfileHistoryCard
+                userProfile={userProfile}
+                gameMode={gameMode}
+                relaxMode={relaxMode}
+                profileHistoryType={profileHistoryType}
+                setProfileHistoryType={setProfileHistoryType}
+              />
+
+              <ProfileScoresCard
+                scoresType="pinned"
+                userId={userProfile.id}
+                gameMode={gameMode}
+                relaxMode={relaxMode}
+                title="Pinned Scores"
+              />
+              <Divider />
+              <ProfileScoresCard
+                scoresType="best"
+                userId={userProfile.id}
+                gameMode={gameMode}
+                relaxMode={relaxMode}
+                title="Best Scores"
+              />
+              <Divider />
+              <ProfileScoresCard
+                scoresType="recent"
+                userId={profileUserId}
+                gameMode={gameMode}
+                relaxMode={relaxMode}
+                title="Recent Scores"
+              />
+            </Box>
+          </Stack>
         </Stack>
-      </Stack>
-
-      <ModeSelectionBar
-        gameMode={gameMode}
-        setGameMode={setGameMode}
-        relaxMode={relaxMode}
-        setRelaxMode={setRelaxMode}
-      />
-
-      <Stack direction="column" spacing={2}>
-        <Divider />
-        <Stack
-          direction={{ xs: "column", sm: "row" }}
-          spacing={{ sm: 2 }}
-          px={3}
-          justifyContent="space-evenly"
-        >
-          {/* Left Side (Stats, Clan, etc.) */}
-          <Box pb={2} pr={{ sm: 3 }} width={{ xs: "100%", sm: "33.33%" }}>
-            {userProfile.tbadges && (
-              <TournamentBadgesCard badges={userProfile.tbadges} />
-            )}
-            <UserStatsCard
-              statsData={modeStats}
-              followers={userProfile.followers}
-            />
-            <Divider sx={{ my: 2 }} />
-            <UserLevelCard level={modeStats.level} />
-            {userProfile.clan.id !== 0 && (
-              <>
-                <Divider sx={{ my: 2 }} />
-                <UserClanCard clan={userProfile.clan} />
-              </>
-            )}
-          </Box>
-
-          {!isMobile && <Divider orientation="vertical" flexItem />}
-
-          {/* Right Side (Profile History, Scores, etc.) */}
-          <Box width={{ xs: "100%", sm: "66.67%" }}>
-            <UserpageCard userProfile={userProfile} />
-
-            <UserProfileHistoryCard
-              userProfile={userProfile}
-              gameMode={gameMode}
-              relaxMode={relaxMode}
-              profileHistoryType={profileHistoryType}
-              setProfileHistoryType={setProfileHistoryType}
-            />
-
-            <ProfileScoresCard
-              scoresType="pinned"
-              userId={userProfile.id}
-              gameMode={gameMode}
-              relaxMode={relaxMode}
-              title="Pinned Scores"
-            />
-            <Divider />
-            <ProfileScoresCard
-              scoresType="best"
-              userId={userProfile.id}
-              gameMode={gameMode}
-              relaxMode={relaxMode}
-              title="Best Scores"
-            />
-            <Divider />
-            <ProfileScoresCard
-              scoresType="recent"
-              userId={profileUserId}
-              gameMode={gameMode}
-              relaxMode={relaxMode}
-              title="Recent Scores"
-            />
-          </Box>
-        </Stack>
-      </Stack>
-    </>
+      </Container>
+    </Box>
   )
 }

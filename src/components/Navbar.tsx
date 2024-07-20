@@ -73,7 +73,15 @@ export default function Navbar() {
 
   return (
     <>
-      <Box sx={{ bgcolor: "transparent" }}>
+      <Box
+        width="100%"
+        position={{ sm: "absolute" }}
+        top={0}
+        left={0}
+        // In line with https://mui.com/material-ui/customization/z-index/
+        zIndex={900}
+        sx={{ bgcolor: "transparent" }}
+      >
         <Container>
           <Stack
             direction={{ xs: "column", sm: "row" }}
@@ -110,7 +118,7 @@ export default function Navbar() {
                   <Typography variant="subtitle1">About</Typography>
                 </Button>
               </Link>
-              <Link to={process.env.REACT_APP_PUBLIC_DISCORD_INVITE_URL}>
+              <Link to={process.env.REACT_APP_DISCORD_INVITE_URL}>
                 <Button sx={{ color: "white", textTransform: "none" }}>
                   <Typography variant="subtitle1">Discord</Typography>
                 </Button>

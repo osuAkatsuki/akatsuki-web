@@ -53,129 +53,120 @@ export const LeaderboardsPage = () => {
   return (
     <>
       <Box
-        width="100%"
-        position={{ sm: "absolute" }}
-        px={0}
-        top={0}
-        left={0}
-        zIndex={-1}
+        height={211}
+        pt={{ xs: 0, sm: 10 }}
+        sx={{
+          backgroundSize: "cover",
+          backgroundImage: BANNER_GRADIENT,
+        }}
       >
-        <Box
-          height={211}
-          pt={{ xs: 0, sm: 10 }}
-          sx={{
-            backgroundSize: "cover",
-            backgroundImage: BANNER_GRADIENT,
-          }}
-        >
-          <Container sx={{ height: "100%" }}>
+        <Container sx={{ height: "100%" }}>
+          <Stack
+            px={3}
+            height="100%"
+            direction={{ xs: "column", sm: "row" }}
+            justifyContent={{ xs: "space-around", sm: "space-between" }}
+            alignItems="center"
+          >
+            <Stack direction="row" alignItems="center" gap={3}>
+              <Box width={70} height={70}>
+                <LeaderboardIcon />
+              </Box>
+              <Divider
+                orientation="vertical"
+                variant="middle"
+                flexItem
+                sx={{ bgcolor: "#ffffff", opacity: "20%" }}
+              />
+              <Typography variant="body1" fontSize={25} fontWeight={300}>
+                Leaderboards
+              </Typography>
+            </Stack>
+
             <Stack
-              px={3}
-              height="100%"
-              direction={{ xs: "column", sm: "row" }}
-              justifyContent={{ xs: "space-around", sm: "space-between" }}
+              direction="row"
               alignItems="center"
+              gap={3}
+              fontSize={21}
+              fontWeight={200}
             >
-              <Stack direction="row" alignItems="center" gap={3}>
-                <Box width={70} height={70}>
-                  <LeaderboardIcon />
-                </Box>
-                <Divider
-                  orientation="vertical"
-                  variant="middle"
-                  flexItem
-                  sx={{ bgcolor: "#ffffff", opacity: "20%" }}
-                />
-                <Typography variant="body1" fontSize={25} fontWeight={300}>
-                  Leaderboards
-                </Typography>
-              </Stack>
-
-              <Stack
-                direction="row"
-                alignItems="center"
-                gap={3}
-                fontSize={21}
-                fontWeight={200}
-              >
-                {/* <Typography fontSize={21} fontWeight={200}>clans</Typography> */}
-                {/* <SortParamSelector targetSort="score" /> */}
-                {/* <SortParamSelector targetSort="pp" /> */}
-              </Stack>
+              {/* <Typography fontSize={21} fontWeight={200}>clans</Typography> */}
+              {/* <SortParamSelector targetSort="score" /> */}
+              {/* <SortParamSelector targetSort="pp" /> */}
             </Stack>
-          </Container>
-        </Box>
-        {/* Mode Switches */}
-        <Box width="100%" bgcolor="#211D35" color="#FFFFFF80">
-          <Container>
-            <Stack
-              px={3}
-              direction={{ xs: "column", sm: "row" }}
-              justifyContent="space-between"
-            >
-              <Stack direction="row" py={2} gap={3}>
-                <GameModeSelector
-                  currentGameMode={gameMode}
-                  currentRelaxMode={relaxMode}
-                  targetGameMode={GameMode.Standard}
-                  setGameMode={setGameMode}
-                  icon={<StandardGameModeIcon />}
-                />
-                <GameModeSelector
-                  currentGameMode={gameMode}
-                  currentRelaxMode={relaxMode}
-                  targetGameMode={GameMode.Taiko}
-                  setGameMode={setGameMode}
-                  icon={<TaikoGameModeIcon />}
-                />
-                <GameModeSelector
-                  currentGameMode={gameMode}
-                  currentRelaxMode={relaxMode}
-                  targetGameMode={GameMode.Catch}
-                  setGameMode={setGameMode}
-                  icon={<CatchGameModeIcon />}
-                />
-                <GameModeSelector
-                  currentGameMode={gameMode}
-                  currentRelaxMode={relaxMode}
-                  targetGameMode={GameMode.Mania}
-                  setGameMode={setGameMode}
-                  icon={<ManiaGameModeIcon />}
-                />
-              </Stack>
-
-              <Stack direction="row" py={2} gap={3}>
-                <RelaxModeSelector
-                  currentGameMode={gameMode}
-                  currentRelaxMode={relaxMode}
-                  targetRelaxMode={RelaxMode.Vanilla}
-                  setRelaxMode={setRelaxMode}
-                />
-                <RelaxModeSelector
-                  currentGameMode={gameMode}
-                  currentRelaxMode={relaxMode}
-                  targetRelaxMode={RelaxMode.Relax}
-                  setRelaxMode={setRelaxMode}
-                />
-                <RelaxModeSelector
-                  currentGameMode={gameMode}
-                  currentRelaxMode={relaxMode}
-                  targetRelaxMode={RelaxMode.Autopilot}
-                  setRelaxMode={setRelaxMode}
-                />
-              </Stack>
-            </Stack>
-          </Container>
-        </Box>
-        <Container sx={{ backgroundColor: "#191527" }}>
-          <GlobalUserLeaderboard
-            gameMode={gameMode}
-            relaxMode={relaxMode}
-            sortParam={sortParam}
-            country={country}
-          />
+          </Stack>
         </Container>
       </Box>
+      {/* Mode Switches */}
+      <Box width="100%" bgcolor="#211D35" color="#FFFFFF80">
+        <Container>
+          <Stack
+            px={3}
+            direction={{ xs: "column", sm: "row" }}
+            justifyContent="space-between"
+          >
+            <Stack direction="row" py={2} gap={3}>
+              <GameModeSelector
+                currentGameMode={gameMode}
+                currentRelaxMode={relaxMode}
+                targetGameMode={GameMode.Standard}
+                setGameMode={setGameMode}
+                icon={<StandardGameModeIcon />}
+              />
+              <GameModeSelector
+                currentGameMode={gameMode}
+                currentRelaxMode={relaxMode}
+                targetGameMode={GameMode.Taiko}
+                setGameMode={setGameMode}
+                icon={<TaikoGameModeIcon />}
+              />
+              <GameModeSelector
+                currentGameMode={gameMode}
+                currentRelaxMode={relaxMode}
+                targetGameMode={GameMode.Catch}
+                setGameMode={setGameMode}
+                icon={<CatchGameModeIcon />}
+              />
+              <GameModeSelector
+                currentGameMode={gameMode}
+                currentRelaxMode={relaxMode}
+                targetGameMode={GameMode.Mania}
+                setGameMode={setGameMode}
+                icon={<ManiaGameModeIcon />}
+              />
+            </Stack>
+
+            <Stack direction="row" py={2} gap={3}>
+              <RelaxModeSelector
+                currentGameMode={gameMode}
+                currentRelaxMode={relaxMode}
+                targetRelaxMode={RelaxMode.Vanilla}
+                setRelaxMode={setRelaxMode}
+              />
+              <RelaxModeSelector
+                currentGameMode={gameMode}
+                currentRelaxMode={relaxMode}
+                targetRelaxMode={RelaxMode.Relax}
+                setRelaxMode={setRelaxMode}
+              />
+              <RelaxModeSelector
+                currentGameMode={gameMode}
+                currentRelaxMode={relaxMode}
+                targetRelaxMode={RelaxMode.Autopilot}
+                setRelaxMode={setRelaxMode}
+              />
+            </Stack>
+          </Stack>
+        </Container>
+      </Box>
+      <Container sx={{ backgroundColor: "#191527" }}>
+        <GlobalUserLeaderboard
+          gameMode={gameMode}
+          relaxMode={relaxMode}
+          sortParam={sortParam}
+          country={country}
+        />
+      </Container>
     </>
   )
 }
