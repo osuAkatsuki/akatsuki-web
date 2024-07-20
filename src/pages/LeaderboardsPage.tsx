@@ -104,11 +104,7 @@ export const LeaderboardsPage = () => {
   const SortParamSelector = ({ targetSort }: { targetSort: SortParam }) => {
     const isSelected = sortParam === targetSort
     return (
-      <Box
-        onClick={() => {
-          setSortParam(targetSort)
-        }}
-      >
+      <Box onClick={() => setSortParam(targetSort)}>
         <Typography
           fontSize={21}
           fontWeight={isSelected ? 700 : 200}
