@@ -376,7 +376,12 @@ export const ProfilePage = () => {
                     component="img"
                     width={70}
                     height={70}
-                    src={userProfile.clan.icon}
+                    borderRadius={2}
+                    src={
+                      userProfile.clan.icon !== ""
+                        ? userProfile.clan.icon
+                        : "https://a.akatsuki.gg/default"
+                    }
                   />
                   <Stack direction="column" justifyContent="center">
                     <Typography variant="h6">Clan</Typography>
