@@ -73,7 +73,15 @@ export default function Navbar() {
 
   return (
     <>
-      <Box sx={{ bgcolor: "transparent" }}>
+      <Box
+        width="100%"
+        position={{ sm: "absolute" }}
+        top={0}
+        left={0}
+        // In line with https://mui.com/material-ui/customization/z-index/
+        zIndex={900}
+        sx={{ bgcolor: "transparent" }}
+      >
         <Container>
           <Stack
             direction={{ xs: "column", sm: "row" }}
