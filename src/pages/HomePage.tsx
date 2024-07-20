@@ -55,6 +55,8 @@ export const HomePage = () => {
       direction="column"
       alignItems="center"
       justifyContent="center"
+      // TODO: 70vh is an arbitrary choice that fits most desktop apps
+      // without the need for a scrollbar. Can we do better than this?
       minHeight="70vh"
     >
       <Grid item xs={12}>
