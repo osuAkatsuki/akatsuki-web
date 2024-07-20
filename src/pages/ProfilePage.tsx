@@ -1029,7 +1029,7 @@ export const ProfilePage = () => {
         }}
       >
         <Container>
-          <Stack direction="column" spacing={2} mt={2}>
+          <Stack direction="column">
             {/* TODO: disable the surrounding box shadow within the identity card */}
             <UserIdentityCard userProfile={userProfile} />
             <Stack
@@ -1037,7 +1037,7 @@ export const ProfilePage = () => {
               alignItems="center"
               justifyContent="space-between"
               px={3}
-              py={1}
+              py={2}
               spacing={{ xs: 1, sm: 0 }}
             >
               <UserActivityDatesCard userProfile={userProfile} />
