@@ -14,7 +14,7 @@ export default function Footer() {
           backgroundImage: `linear-gradient(90.09deg, #387EFC -0.08%, #C940FD 99.3%)`,
         }}
       />
-      <Box position="relative" height="19vh">
+      <Box position="relative" height="100%">
         {/* Background banner */}
         <Box
           position="absolute"
@@ -35,9 +35,11 @@ export default function Footer() {
             direction="column"
             justifyContent="space-between"
             height="100%"
+            spacing={{ xs: 2, sm: 4 }}
           >
             <Stack
-              direction="row"
+              direction={{ xs: "column", sm: "row" }}
+              spacing={{ xs: 2, sm: 0 }}
               justifyContent="space-between"
               alignItems="center"
               pt={4}
@@ -45,7 +47,11 @@ export default function Footer() {
               <Box width={178} height={38}>
                 <FooterLogo />
               </Box>
-              <Stack direction="row" spacing={2} textAlign="right">
+              <Stack
+                direction={{ xs: "column", sm: "row" }}
+                spacing={2}
+                textAlign={{ xs: "center", sm: "right" }}
+              >
                 <Stack direction="column" spacing={2}>
                   <Typography variant="h6" fontWeight="lighter">
                     Akatsuki Team
@@ -65,7 +71,7 @@ export default function Footer() {
               </Stack>
             </Stack>
             <Stack
-              direction="row"
+              direction={{ xs: "column", sm: "row" }}
               justifyContent="space-between"
               alignItems="center"
               pb={4}
