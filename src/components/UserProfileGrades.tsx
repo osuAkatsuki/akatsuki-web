@@ -13,7 +13,7 @@ export const UserProfileGrades = ({ statsData }: { statsData: UserStats }) => {
 
   return (
     <>
-      <Stack direction="row" justifyContent="space-evenly" spacing={1}>
+      <Stack direction="row" justifyContent="space-between" spacing={1}>
         <Stack direction="row" spacing={1}>
           <Typography variant="h5" color={getGradeColor("XH")}>
             SS

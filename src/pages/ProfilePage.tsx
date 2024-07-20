@@ -6,7 +6,9 @@ import {
   Avatar,
   Button,
   Divider,
+  LinearProgress,
 } from "@mui/material"
+import { linearProgressClasses } from "@mui/material/LinearProgress"
 import Stack from "@mui/material/Stack"
 import Box from "@mui/material/Box"
 import { useEffect, useState } from "react"
@@ -21,12 +23,23 @@ import {
   UserFullResponse,
   UserTournamentBadge,
 } from "../adapters/akatsuki-api/users"
+import { AddUserIcon } from "../components/images/icons/AddUserIcon"
 import { UserProfileHistoryGraph } from "../components/UserProfileHistoryGraph"
 import { UserProfileStats } from "../components/UserProfileStats"
 import { UserProfileScores } from "../components/UserProfileScores"
 import { userIsOnline } from "../adapters/bancho"
 import { ProfileHistoryType } from "../adapters/akatsuki-api/profileHistory"
 import moment from "moment"
+import {
+  GameModeSelector,
+  RelaxModeSelector,
+} from "../components/GameModeSelector"
+import { StandardGameModeIcon } from "../components/images/gamemode-icons/StandardGameModeIcon"
+import { TaikoGameModeIcon } from "../components/images/gamemode-icons/TaikoGameModeIcon"
+import { CatchGameModeIcon } from "../components/images/gamemode-icons/CatchGameModeIcon"
+import { ManiaGameModeIcon } from "../components/images/gamemode-icons/ManiaGameModeIcon"
+import { formatDecimal, formatNumber } from "../utils/formatting"
+import { LevelDisplayPolygon } from "../components/images/polygons/LevelDisplay"
 
 const modeToStatsIndex = (
   mode: GameMode
@@ -43,6 +56,23 @@ const modeToStatsIndex = (
   }
 }
 
+const TournamentBadges = ({ badges }: { badges: UserTournamentBadge[] }) => {
+  return (
+    <Stack direction="row" spacing={1} flexWrap="wrap" mb={1} useFlexGap>
+      {badges.map((tournamentBadge) => (
+        <Tooltip title={tournamentBadge.name}>
+          <Avatar
+            key={tournamentBadge.id}
+            alt={tournamentBadge.name}
+            src={tournamentBadge.icon}
+            variant="rounded"
+            sx={{ width: 104, height: 50 }}
+          />
+        </Tooltip>
+      ))}
+    </Stack>
+  )
+}
 export const ProfilePage = () => {
   const queryParams = useParams()
 
@@ -102,197 +132,305 @@ export const ProfilePage = () => {
     return <>loading data</>
   }
 
+  const currentModeStats =
+    userProfile.stats[relaxMode][modeToStatsIndex(gameMode)]
+
   return (
     <>
       <Stack direction="column" spacing={2} mt={2}>
+        {/* Left User Info Display (avatar, name, etc.) */}
         <Stack
-          direction={{ xs: "column", sm: "row" }}
-          justifyContent="space-between"
+          direction="row"
+          alignItems="center"
+          spacing={2}
+          p={2}
+          width="100%"
+          border={1}
+          borderRadius={4}
+          // TODO: try to figure out the border gradient perhaps?
+          borderColor="rgba(255, 255, 255, 0.3)"
         >
-          {/* Left User Info Display (avatar, name, etc.) */}
-          <Stack
-            direction="row"
-            spacing={2}
-            p={2}
-            width={{ xs: "100%", sm: "50%" }}
-          >
-            <Avatar
-              alt="user-avatar"
-              src={`https://a.akatsuki.gg/${userProfile.id}`}
-              variant="square"
-              sx={{ width: 156, height: 156 }}
-            />
-            <Stack direction="column" justifyContent="flex-end">
-              {/* TODO: rank label beside username */}
-              <Typography fontWeight="bold" variant="h4">
-                {userProfile.username}
-              </Typography>
-              <Stack direction="row" spacing={1} alignItems="center">
-                <Box
-                  component="img"
-                  width={30}
-                  height={30}
-                  alt="flag-image"
-                  src={getFlagUrl(userProfile.country)}
-                />{" "}
-                <Typography variant="body1">
-                  {getCountryName(userProfile.country)}
-                </Typography>{" "}
-              </Stack>
-              {isOnline ? (
-                <Stack direction="row" spacing={1} alignItems="center">
-                  <WifiIcon sx={{ width: 20, height: 20 }} color="success" />
-                  <Typography variant="body1">
-                    Status:{" "}
-                    <Typography display="inline" fontWeight="bold">
-                      Online
-                    </Typography>
-                  </Typography>
-                </Stack>
-              ) : (
-                <Stack direction="row" spacing={1} alignItems="center">
-                  <WifiOffIcon sx={{ width: 20, height: 20 }} color="error" />
-                  <Typography variant="body1">
-                    Status:{" "}
-                    <Typography display="inline" fontWeight="bold">
-                      Offline
-                    </Typography>
-                  </Typography>
-                </Stack>
-              )}
-              <Typography variant="subtitle2">
-                Last seen:{" "}
-                <Typography display="inline" fontWeight="bold">
-                  {userProfile !== null
-                    ? moment(userProfile.latestActivity).fromNow()
-                    : "N/A"}
+          <Avatar
+            alt="user-avatar"
+            src={`https://a.akatsuki.gg/${userProfile.id}`}
+            variant="square"
+            sx={{ width: 156, height: 156, borderRadius: "16px" }}
+          />
+          <Stack direction="row" alignItems="center" spacing={1}>
+            {/* TODO: clan tag prefixing username */}
+            {userProfile.clan.id !== 0 && (
+              <Box bgcolor="white" borderRadius={11} py={0.5} px={2}>
+                <Typography variant="h5" color="black">
+                  {userProfile.clan.tag}
                 </Typography>
-              </Typography>
-              <Typography variant="subtitle2">
-                Registered:{" "}
-                <Typography display="inline" fontWeight="bold">
-                  {userProfile !== null
-                    ? moment(userProfile.registeredOn).fromNow()
-                    : "N/A"}
-                </Typography>
-              </Typography>
-              {/* Tournament Badges */}
-              <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
-                {userProfile.tbadges
-                  ? userProfile.tbadges.map(
-                      (tournamentBadge: UserTournamentBadge) => (
-                        <Tooltip title={tournamentBadge.name}>
-                          <Avatar
-                            key={tournamentBadge.id}
-                            alt={tournamentBadge.name}
-                            src={tournamentBadge.icon}
-                            variant="rounded"
-                            sx={{ width: 86, height: 40 }}
-                          />
-                        </Tooltip>
-                      )
-                    )
-                  : ""}
-              </Stack>
-            </Stack>
-          </Stack>
-          {/* Right user info display (global/country ranking) */}
-          <Stack
-            direction="column"
-            justifyContent="flex-start"
-            alignItems={{ xs: "flex-start", sm: "flex-end" }}
-            spacing={1}
-            p={2}
-            width={{ xs: "100%", sm: "50%" }}
-          >
-            <Typography variant="h5" fontWeight="bold">
-              Overall Ranking
+              </Box>
+            )}
+            <Typography fontWeight="bold" variant="h4">
+              {userProfile.username}
             </Typography>
-            {/* TODO: add a method for fetching global & country rank from the backend */}
-            <Stack direction="row" spacing={1} alignItems="center">
-              <Typography variant="h6">
-                #
-                {userProfile.stats[relaxMode][modeToStatsIndex(gameMode)]
-                  .globalLeaderboardRank ?? "N/A"}
-              </Typography>
-              <PublicIcon sx={{ width: 36, height: 36 }} />
-            </Stack>
-            <Stack direction="row" spacing={1} alignItems="center">
-              <Typography variant="h6">
-                #
-                {userProfile.stats[relaxMode][modeToStatsIndex(gameMode)]
-                  .countryLeaderboardRank ?? "N/A"}
-              </Typography>
+            <Tooltip
+              title={getCountryName(userProfile.country)}
+              placement="top"
+            >
               <Box
                 component="img"
-                width={36}
-                height={36}
+                width={30}
+                height={30}
                 alt="flag-image"
                 src={getFlagUrl(userProfile.country)}
               />
+            </Tooltip>
+          </Stack>
+        </Stack>
+        <Stack direction="row" justifyContent="space-between" px={3} py={1}>
+          <Stack direction="row" alignItems="center" spacing={3}>
+            <Stack direction="row" spacing={1}>
+              <Typography variant="body1" fontWeight="lighter">
+                joined
+              </Typography>{" "}
+              <Typography variant="body1" fontWeight="bold">
+                {moment(userProfile.registeredOn).fromNow()}
+              </Typography>
             </Stack>
+            <Stack direction="row" spacing={1}>
+              <Typography variant="body1" fontWeight="lighter">
+                last seen
+              </Typography>{" "}
+              <Typography variant="body1" fontWeight="bold">
+                {moment(userProfile.latestActivity).fromNow()}
+              </Typography>
+            </Stack>
+          </Stack>
+          <Stack
+            direction="row"
+            spacing={1.5}
+            bgcolor="rgba(18, 15, 29, 1)"
+            borderRadius={11}
+            py={0.5}
+            px={2}
+            alignItems="center"
+          >
+            {/* TODO: color icon based on relationship status */}
+            {/* https://www.figma.com/design/moJEAJT6UYGnwQYIuKzanf?node-id=76-1050#878804687 */}
+
+            <Box width={23} height={23}>
+              <AddUserIcon />
+            </Box>
+            <Typography variant="h6">{userProfile.followers}</Typography>
           </Stack>
         </Stack>
       </Stack>
+      <Stack
+        px={3}
+        py={1}
+        pb={2}
+        direction={{ xs: "column", sm: "row" }}
+        justifyContent="space-between"
+      >
+        <Stack direction="row" gap={3}>
+          <GameModeSelector
+            currentGameMode={gameMode}
+            currentRelaxMode={relaxMode}
+            targetGameMode={GameMode.Standard}
+            setGameMode={setGameMode}
+            icon={<StandardGameModeIcon />}
+          />
+          <GameModeSelector
+            currentGameMode={gameMode}
+            currentRelaxMode={relaxMode}
+            targetGameMode={GameMode.Taiko}
+            setGameMode={setGameMode}
+            icon={<TaikoGameModeIcon />}
+          />
+          <GameModeSelector
+            currentGameMode={gameMode}
+            currentRelaxMode={relaxMode}
+            targetGameMode={GameMode.Catch}
+            setGameMode={setGameMode}
+            icon={<CatchGameModeIcon />}
+          />
+          <GameModeSelector
+            currentGameMode={gameMode}
+            currentRelaxMode={relaxMode}
+            targetGameMode={GameMode.Mania}
+            setGameMode={setGameMode}
+            icon={<ManiaGameModeIcon />}
+          />
+        </Stack>
+
+        <Stack direction="row" gap={3}>
+          <RelaxModeSelector
+            currentGameMode={gameMode}
+            currentRelaxMode={relaxMode}
+            targetRelaxMode={RelaxMode.Vanilla}
+            setRelaxMode={setRelaxMode}
+          />
+          <RelaxModeSelector
+            currentGameMode={gameMode}
+            currentRelaxMode={relaxMode}
+            targetRelaxMode={RelaxMode.Relax}
+            setRelaxMode={setRelaxMode}
+          />
+          <RelaxModeSelector
+            currentGameMode={gameMode}
+            currentRelaxMode={relaxMode}
+            targetRelaxMode={RelaxMode.Autopilot}
+            setRelaxMode={setRelaxMode}
+          />
+        </Stack>
+      </Stack>
+
       <Stack direction="column" spacing={2}>
-        <ProfileSelectionBar
-          gameMode={gameMode}
-          relaxMode={relaxMode}
-          setGameMode={setGameMode}
-          setRelaxMode={setRelaxMode}
-        />
         <Divider />
         <Stack
           direction={{ xs: "column", sm: "row" }}
           spacing={2}
+          px={3}
           justifyContent="space-evenly"
         >
-          <Box width={{ xs: "100%", sm: "33.33%" }}>
+          <Box pb={2} pr={3} width={{ xs: "100%", sm: "33.33%" }}>
+            {/* Tournament Badges */}
+            {userProfile.tbadges && (
+              <TournamentBadges badges={userProfile.tbadges} />
+            )}
             <UserProfileStats
-              statsData={
-                userProfile.stats[relaxMode][modeToStatsIndex(gameMode)]
-              }
+              statsData={currentModeStats}
               followers={userProfile.followers}
             />
+            <Divider sx={{ my: 2 }} />
+            <Stack direction="row" spacing={1}>
+              <Box position="relative" width="25%" height={80}>
+                <Box
+                  position="absolute"
+                  zIndex={0}
+                  top={0}
+                  left={0}
+                  height={80}
+                  width={80}
+                >
+                  <LevelDisplayPolygon />
+                </Box>
+                <Box
+                  display="flex"
+                  height="100%"
+                  width="100%"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <Typography variant="h5" fontWeight="bold">
+                    {Math.trunc(currentModeStats.level)}
+                  </Typography>
+                </Box>
+              </Box>
+              <Stack
+                direction="column"
+                justifyContent="center"
+                spacing={0.5}
+                width="75%"
+              >
+                <Typography variant="body1" fontWeight="lighter">
+                  {formatDecimal(
+                    (currentModeStats.level -
+                      Math.trunc(currentModeStats.level)) *
+                      100
+                  )}
+                  % to level {Math.trunc(currentModeStats.level) + 1}
+                </Typography>
+                <LinearProgress
+                  variant="determinate"
+                  value={
+                    (currentModeStats.level -
+                      Math.trunc(currentModeStats.level)) *
+                    100
+                  }
+                  sx={{
+                    [`&.${linearProgressClasses.colorPrimary}`]: {
+                      backgroundColor: "rgba(58, 52, 85, 1)",
+                    },
+                    "> span": {
+                      background:
+                        "linear-gradient(90.09deg, #387EFC -0.08%, #C940FD 99.3%)",
+                    },
+                  }}
+                />
+              </Stack>
+            </Stack>
+            <Divider sx={{ my: 2 }} />
+            <Stack direction="row" spacing={1}>
+              <Box
+                component="img"
+                width={70}
+                height={70}
+                src={userProfile.clan.icon}
+              />
+              <Stack direction="column" justifyContent="center">
+                <Typography variant="h6">Clan</Typography>
+                <Typography variant="body1">{userProfile.clan.name}</Typography>
+              </Stack>
+            </Stack>
           </Box>
           <Divider orientation="vertical" flexItem />
           <Box width={{ xs: "100%", sm: "66.67%" }}>
-            {/* TODO: figure out how to model rank vs. pp/score/etc. */}
-            <Stack direction="row" justifyContent="flex-end" spacing={1} pb={1}>
-              <Button
-                variant={
-                  profileHistoryType === ProfileHistoryType.GlobalRank
-                    ? "contained"
-                    : "outlined"
-                }
-                onClick={() =>
-                  setProfileHistoryType(ProfileHistoryType.GlobalRank)
-                }
-              >
-                Global Rank
-              </Button>
-              <Button
-                variant={
-                  profileHistoryType === ProfileHistoryType.CountryRank
-                    ? "contained"
-                    : "outlined"
-                }
-                onClick={() =>
-                  setProfileHistoryType(ProfileHistoryType.CountryRank)
-                }
-              >
-                Country Rank
-              </Button>
-              <Button
-                variant={
-                  profileHistoryType === ProfileHistoryType.PP
-                    ? "contained"
-                    : "outlined"
-                }
-                onClick={() => setProfileHistoryType(ProfileHistoryType.PP)}
-              >
-                PP
-              </Button>
+            <Stack direction="row" justifyContent="space-between">
+              <Stack direction="row" spacing={1}>
+                <Button
+                  variant="text"
+                  onClick={() =>
+                    setProfileHistoryType(ProfileHistoryType.GlobalRank)
+                  }
+                  sx={{ color: "white" }}
+                >
+                  <Stack direction="row" spacing={1}>
+                    <Stack direction="row" alignItems="center" spacing={1}>
+                      <PublicIcon sx={{ width: 32, height: 32 }} />
+                      <Typography variant="h6">
+                        #{currentModeStats.globalLeaderboardRank}
+                      </Typography>
+                    </Stack>
+                  </Stack>
+                </Button>
+                <Button
+                  variant="text"
+                  onClick={() =>
+                    setProfileHistoryType(ProfileHistoryType.CountryRank)
+                  }
+                  sx={{ color: "white" }}
+                >
+                  <Stack direction="row" spacing={1}>
+                    <Stack direction="row" alignItems="center" spacing={1}>
+                      <Box
+                        component="img"
+                        width={32}
+                        height={32}
+                        alt="flag-image"
+                        src={getFlagUrl(userProfile.country)}
+                      />
+                      <Typography variant="h6">
+                        #{currentModeStats.countryLeaderboardRank}
+                      </Typography>
+                    </Stack>
+                  </Stack>
+                </Button>
+                {/* TODO: performance graph? accuracy graph? */}
+              </Stack>
+              <Stack direction="row" spacing={2}>
+                <Stack direction="row" alignItems="center" spacing={1}>
+                  <Typography variant="h6">
+                    {formatNumber(currentModeStats.pp)}
+                  </Typography>{" "}
+                  <Typography variant="h6" fontWeight="lighter">
+                    pp
+                  </Typography>
+                </Stack>
+                <Stack direction="row" alignItems="center" spacing={1}>
+                  <Typography variant="h6">
+                    {formatDecimal(currentModeStats.accuracy)}%
+                  </Typography>
+                  <Typography variant="h6" fontWeight="lighter">
+                    accuracy
+                  </Typography>
+                </Stack>
+              </Stack>
             </Stack>
             <UserProfileHistoryGraph
               userId={profileUserId}
@@ -300,39 +438,39 @@ export const ProfilePage = () => {
               gameMode={gameMode}
               relaxMode={relaxMode}
             />
+
+            <Box>
+              {/* TODO: hide if no pinned scores exist */}
+              <UserProfileScores
+                scoresType="pinned"
+                userId={profileUserId}
+                gameMode={gameMode}
+                relaxMode={relaxMode}
+                title="Pinned Scores"
+              />
+            </Box>
+            <Divider />
+            <Box>
+              <UserProfileScores
+                scoresType="best"
+                userId={profileUserId}
+                gameMode={gameMode}
+                relaxMode={relaxMode}
+                title="Best Scores"
+              />
+            </Box>
+            <Divider />
+            <Box>
+              <UserProfileScores
+                scoresType="recent"
+                userId={profileUserId}
+                gameMode={gameMode}
+                relaxMode={relaxMode}
+                title="Recent Scores"
+              />
+            </Box>
           </Box>
         </Stack>
-        <Divider />
-        <Box>
-          {/* TODO: hide if no pinned scores exist */}
-          <UserProfileScores
-            scoresType="pinned"
-            userId={profileUserId}
-            gameMode={gameMode}
-            relaxMode={relaxMode}
-            title="Pinned Scores"
-          />
-        </Box>
-        <Divider />
-        <Box>
-          <UserProfileScores
-            scoresType="best"
-            userId={profileUserId}
-            gameMode={gameMode}
-            relaxMode={relaxMode}
-            title="Best Scores"
-          />
-        </Box>
-        <Divider />
-        <Box>
-          <UserProfileScores
-            scoresType="recent"
-            userId={profileUserId}
-            gameMode={gameMode}
-            relaxMode={relaxMode}
-            title="Recent Scores"
-          />
-        </Box>
       </Stack>
     </>
   )

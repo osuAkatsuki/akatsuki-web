@@ -18,6 +18,7 @@ export const ProfileSelectionBar = ({
         direction={{ xs: "column", sm: "row" }}
         justifyContent="space-between"
         spacing={1}
+        px={3}
       >
         <Stack direction="row" spacing={1}>
           <Button

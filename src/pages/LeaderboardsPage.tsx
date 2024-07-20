@@ -10,6 +10,10 @@ import { LeaderboardIcon } from "../components/images/icons/LeaderboardIcon"
 import { GameMode, RelaxMode, isRealGameMode } from "../gameModes"
 import { useState } from "react"
 import Divider from "@mui/material/Divider"
+import {
+  GameModeSelector,
+  RelaxModeSelector,
+} from "../components/GameModeSelector"
 
 const BANNER_GRADIENT = `linear-gradient(0deg, rgba(21, 18, 34, 0) 0%, rgba(21, 18, 34, 0.9) 100%), url(${LeaderboardBanner})`
 
@@ -23,83 +27,6 @@ export const LeaderboardsPage = () => {
   const [relaxMode, setRelaxMode] = useState(RelaxMode.Vanilla)
   const [sortParam, setSortParam] = useState(SortParam.Performance)
   const [country, setCountry] = useState<string | null>(null)
-
-  const GameModeSelector = ({
-    targetGameMode,
-    icon,
-  }: {
-    targetGameMode: GameMode
-    icon: JSX.Element
-  }) => {
-    const isSelected = gameMode === targetGameMode
-    const isRealMode = isRealGameMode(targetGameMode, relaxMode)
-    return (
-      <Box
-        height={25}
-        width={25}
-        onClick={() => {
-          if (isRealMode) setGameMode(targetGameMode)
-        }}
-        sx={[
-          {
-            "&": {
-              color: isSelected
-                ? "white"
-                : isRealMode
-                  ? null
-                  : "hsl(0deg 0% 100% / 20%)",
-            },
-          },
-          {
-            "&:hover": {
-              cursor: isRealMode ? "pointer" : "not-allowed",
-              color: isRealMode ? "hsl(0deg 0% 100% / 80%)" : null,
-            },
-          },
-        ]}
-      >
-        {icon}
-      </Box>
-    )
-  }
-
-  const RelaxModeSelector = ({
-    targetRelaxMode,
-  }: {
-    targetRelaxMode: RelaxMode
-  }) => {
-    const isSelected = relaxMode === targetRelaxMode
-    const isRealMode = isRealGameMode(gameMode, targetRelaxMode)
-    return (
-      <Box
-        onClick={() => {
-          if (isRealMode) setRelaxMode(targetRelaxMode)
-        }}
-        sx={[
-          {
-            "&:hover": {
-              cursor: isRealMode ? "pointer" : "not-allowed",
-              color: isRealMode ? "hsl(0deg 0% 100% / 80%)" : null,
-            },
-          },
-        ]}
-      >
-        <Typography
-          fontSize={17}
-          sx={{
-            color: isSelected
-              ? "white"
-              : isRealMode
-                ? null
-                : "hsl(0deg 0% 100% / 20%)",
-            fontWeight: isSelected ? 700 : 200,
-          }}
-        >
-          {RelaxMode[targetRelaxMode].toLowerCase()}
-        </Typography>
-      </Box>
-    )
-  }
 
   const SortParamSelector = ({ targetSort }: { targetSort: SortParam }) => {
     const isSelected = sortParam === targetSort
@@ -188,27 +115,54 @@ export const LeaderboardsPage = () => {
             >
               <Stack direction="row" py={2} gap={3}>
                 <GameModeSelector
+                  currentGameMode={gameMode}
+                  currentRelaxMode={relaxMode}
                   targetGameMode={GameMode.Standard}
+                  setGameMode={setGameMode}
                   icon={<StandardGameModeIcon />}
                 />
                 <GameModeSelector
+                  currentGameMode={gameMode}
+                  currentRelaxMode={relaxMode}
                   targetGameMode={GameMode.Taiko}
+                  setGameMode={setGameMode}
                   icon={<TaikoGameModeIcon />}
                 />
                 <GameModeSelector
+                  currentGameMode={gameMode}
+                  currentRelaxMode={relaxMode}
                   targetGameMode={GameMode.Catch}
+                  setGameMode={setGameMode}
                   icon={<CatchGameModeIcon />}
                 />
                 <GameModeSelector
+                  currentGameMode={gameMode}
+                  currentRelaxMode={relaxMode}
                   targetGameMode={GameMode.Mania}
+                  setGameMode={setGameMode}
                   icon={<ManiaGameModeIcon />}
                 />
               </Stack>
 
               <Stack direction="row" py={2} gap={3}>
-                <RelaxModeSelector targetRelaxMode={RelaxMode.Vanilla} />
-                <RelaxModeSelector targetRelaxMode={RelaxMode.Relax} />
-                <RelaxModeSelector targetRelaxMode={RelaxMode.Autopilot} />
+                <RelaxModeSelector
+                  currentGameMode={gameMode}
+                  currentRelaxMode={relaxMode}
+                  targetRelaxMode={RelaxMode.Vanilla}
+                  setRelaxMode={setRelaxMode}
+                />
+                <RelaxModeSelector
+                  currentGameMode={gameMode}
+                  currentRelaxMode={relaxMode}
+                  targetRelaxMode={RelaxMode.Relax}
+                  setRelaxMode={setRelaxMode}
+                />
+                <RelaxModeSelector
+                  currentGameMode={gameMode}
+                  currentRelaxMode={relaxMode}
+                  targetRelaxMode={RelaxMode.Autopilot}
+                  setRelaxMode={setRelaxMode}
+                />
               </Stack>
             </Stack>
           </Container>
