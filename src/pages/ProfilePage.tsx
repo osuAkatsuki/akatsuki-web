@@ -13,8 +13,6 @@ import Stack from "@mui/material/Stack"
 import Box from "@mui/material/Box"
 import { useEffect, useState } from "react"
 import PublicIcon from "@mui/icons-material/Public"
-import WifiIcon from "@mui/icons-material/Wifi"
-import WifiOffIcon from "@mui/icons-material/WifiOff"
 import { GameMode, RelaxMode } from "../gameModes"
 import { getCountryName, getFlagUrl } from "../utils/countries"
 import {
@@ -103,7 +101,7 @@ const TournamentBadges = ({ badges }: { badges: UserTournamentBadge[] }) => {
   return (
     <Stack direction="row" spacing={1} flexWrap="wrap" mb={1} useFlexGap>
       {badges.map((tournamentBadge) => (
-        <TournamentBadge badge={tournamentBadge} />
+        <TournamentBadge key={tournamentBadge.id} badge={tournamentBadge} />
       ))}
     </Stack>
   )
