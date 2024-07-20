@@ -293,7 +293,8 @@ export const GlobalUserLeaderboard = ({
         ))}
       </Stack>
       <TablePagination
-        component={Paper}
+        component={Box}
+        sx={{ background: "#191527" }}
         count={-1}
         rowsPerPage={pageSize}
         page={page}
