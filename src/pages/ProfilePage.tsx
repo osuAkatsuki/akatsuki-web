@@ -70,7 +70,12 @@ interface UserTitleDisplay {
 const getUserTitleDisplay = (
   userPrivileges: number
 ): UserTitleDisplay | null => {
-  if (userPrivileges & UserPrivileges.AdminManageNominators) {
+  if (userPrivileges & UserPrivileges.AdminCaker) {
+    return {
+      text: "Core Development Team",
+      color: "linear-gradient(90deg, #387EFC 0%, #C940FD 100%)",
+    }
+  } else if (userPrivileges & UserPrivileges.AdminManageNominators) {
     return {
       text: "Nomination Quality Assurance",
       color: "rgba(170, 154, 255, 1)",
@@ -493,7 +498,15 @@ const UserIdentityCard = ({
           </Tooltip>
         </Stack>
         {userTitleDisplay !== null && (
-          <Typography variant="h6" color={userTitleDisplay.color}>
+          <Typography
+            variant="h6"
+            sx={{
+              background: userTitleDisplay.color,
+              backgroundClip: "text",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
             {userTitleDisplay.text}
           </Typography>
         )}
