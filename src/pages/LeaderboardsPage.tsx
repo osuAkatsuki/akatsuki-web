@@ -29,7 +29,7 @@ export const LeaderboardsPage = () => {
     icon,
   }: {
     targetGameMode: GameMode
-    icon: any
+    icon: JSX.Element
   }) => {
     const isSelected = gameMode === targetGameMode
     const isRealMode = isRealGameMode(targetGameMode, relaxMode)
