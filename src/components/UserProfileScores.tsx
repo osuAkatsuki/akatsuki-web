@@ -206,7 +206,7 @@ export const UserProfileScores = ({
       </Typography>
       <Stack spacing={1} sx={{ pb: 1 }}>
         {userScores?.scores?.map((score: UserScore) => (
-          <Box borderRadius="16px" overflow="hidden">
+          <Box key={score.id} borderRadius="16px" overflow="hidden">
             <Paper elevation={1}>
               <UserScoreCard {...score} />
             </Paper>
