@@ -440,6 +440,7 @@ const ProfileHistoryGraphNavbar = ({
             </Typography>
           </Stack>
         </Button>
+        {/* TODO: profile history data collection for accuracy */}
         <Stack direction="row" alignItems="center" spacing={1}>
           <Typography variant="h6">
             {formatDecimal(userStats.accuracy)}%
