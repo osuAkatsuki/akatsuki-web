@@ -141,8 +141,8 @@ export const LeaderboardsPage = () => {
                 fontWeight={200}
               >
                 {/* <Typography fontSize={21} fontWeight={200}>clans</Typography> */}
-                <SortParamSelector targetSort="score" />
-                <SortParamSelector targetSort="pp" />
+                {/* <SortParamSelector targetSort="score" /> */}
+                {/* <SortParamSelector targetSort="pp" /> */}
               </Stack>
             </Stack>
           </Container>
