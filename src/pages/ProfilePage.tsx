@@ -428,12 +428,18 @@ const ProfileHistoryGraphNavbar = ({
         </Button>
       </Stack>
       <Stack direction="row" spacing={2}>
-        <Stack direction="row" alignItems="center" spacing={1}>
-          <Typography variant="h6">{formatNumber(userStats.pp)}</Typography>{" "}
-          <Typography variant="h6" fontWeight="lighter">
-            pp
-          </Typography>
-        </Stack>
+        <Button
+          variant="text"
+          onClick={() => setProfileHistoryType(ProfileHistoryType.PP)}
+          sx={{ color: "white", textTransform: "none" }}
+        >
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <Typography variant="h6">{formatNumber(userStats.pp)}</Typography>{" "}
+            <Typography variant="h6" fontWeight="lighter">
+              pp
+            </Typography>
+          </Stack>
+        </Button>
         <Stack direction="row" alignItems="center" spacing={1}>
           <Typography variant="h6">
             {formatDecimal(userStats.accuracy)}%
