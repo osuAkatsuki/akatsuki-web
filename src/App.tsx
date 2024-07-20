@@ -27,7 +27,6 @@ import {
   Tooltip,
   Legend,
 } from "chart.js"
-import useMediaQuery from "@mui/material/useMediaQuery"
 import { AboutPage } from "./pages/AboutPage"
 
 ChartJS.register(
@@ -64,32 +63,17 @@ const router = createBrowserRouter(
 )
 
 export default function App() {
-  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)")
-
   const theme = React.useMemo(
     () =>
       createTheme({
         palette: {
-          mode: prefersDarkMode ? "dark" : "light",
-          ...(prefersDarkMode
-            ? {
-                // Use lighter variants
-                primary: {
-                  main: "#2c97fb",
-                },
-                secondary: {
-                  main: "#ef43fe",
-                },
-              }
-            : {
-                // Use darker variants
-                primary: {
-                  main: "#1678c2",
-                },
-                secondary: {
-                  main: "#e03997",
-                },
-              }),
+          mode: "dark",
+          primary: {
+            main: "#2c97fb",
+          },
+          secondary: {
+            main: "#ef43fe",
+          },
           background: {
             default: "#110E1B",
           },
@@ -98,7 +82,7 @@ export default function App() {
           fontFamily: "Nunito",
         },
       }),
-    [prefersDarkMode]
+    []
   )
 
   return (
