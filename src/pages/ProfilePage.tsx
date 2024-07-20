@@ -1029,12 +1029,12 @@ export const ProfilePage = () => {
           backgroundSize: "cover",
           backgroundImage: `url(${DefaultProfileBanner})`,
           backgroundPosition: "center",
+          // TODO: figure out how to disable this shadow effect within UserIdentityCard
           boxShadow: "inset 0px 0px 0px 2000px rgba(21, 18, 34, 0.9)",
         }}
       >
         <Container>
           <Stack direction="column">
-            {/* TODO: disable the surrounding box shadow within the identity card */}
             <UserIdentityCard userProfile={userProfile} />
             <Stack
               direction={{ xs: "column", sm: "row" }}
