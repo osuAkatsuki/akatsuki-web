@@ -144,6 +144,7 @@ const ModeSelectionBar = ({
       pb={2}
       direction={{ xs: "column", sm: "row" }}
       justifyContent="space-between"
+      alignItems={{ xs: "center" }}
     >
       <Stack direction="row" gap={3}>
         <GameModeSelector
@@ -333,8 +334,8 @@ const UserLevelCard = ({ level }: { level: number }) => {
           zIndex={0}
           top={0}
           left={0}
-          height={80}
-          width={80}
+          height="100%"
+          width="100%"
         >
           <LevelDisplayPolygon />
         </Box>
@@ -409,8 +410,11 @@ const ProfileHistoryGraphNavbar = ({
   setProfileHistoryType: (type: ProfileHistoryType) => void
 }) => {
   return (
-    <Stack direction="row" justifyContent="space-between">
-      <Stack direction="row" spacing={1}>
+    <Stack
+      direction={{ xs: "column", sm: "row" }}
+      justifyContent={{ sm: "space-between" }}
+    >
+      <Stack direction="row" spacing={1} justifyContent={{ xs: "center" }}>
         <Button
           variant="text"
           onClick={() => setProfileHistoryType(ProfileHistoryType.GlobalRank)}
@@ -446,14 +450,18 @@ const ProfileHistoryGraphNavbar = ({
           </Stack>
         </Button>
       </Stack>
-      <Stack direction="row" spacing={2}>
+      <Stack
+        direction={{ xs: "column", sm: "row" }}
+        alignItems={{ xs: "center" }}
+        spacing={{ xs: 1, sm: 2 }}
+      >
         <Button
           variant="text"
           onClick={() => setProfileHistoryType(ProfileHistoryType.PP)}
           sx={{ color: "white", textTransform: "none" }}
         >
           <Stack direction="row" alignItems="center" spacing={1}>
-            <Typography variant="h6">{formatNumber(userStats.pp)}</Typography>{" "}
+            <Typography variant="h6">{formatNumber(userStats.pp)}</Typography>
             <Typography variant="h6" fontWeight="lighter">
               pp
             </Typography>
@@ -545,7 +553,11 @@ const UserActivityDatesCard = ({
   userProfile: UserFullResponse
 }) => {
   return (
-    <Stack direction="row" alignItems="center" spacing={3}>
+    <Stack
+      direction={{ xs: "column", sm: "row" }}
+      alignItems="center"
+      spacing={{ xs: 1, sm: 3 }}
+    >
       <Stack direction="row" spacing={1}>
         <Typography variant="body1" fontWeight="lighter">
           joined
@@ -1003,7 +1015,14 @@ export const ProfilePage = () => {
     <>
       <Stack direction="column" spacing={2} mt={2}>
         <UserIdentityCard userProfile={userProfile} />
-        <Stack direction="row" justifyContent="space-between" px={3} py={1}>
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          alignItems="center"
+          justifyContent="space-between"
+          px={3}
+          py={1}
+          spacing={{ xs: 1, sm: 0 }}
+        >
           <UserActivityDatesCard userProfile={userProfile} />
           <UserRelationshipCard followers={userProfile.followers} />
         </Stack>
@@ -1025,7 +1044,7 @@ export const ProfilePage = () => {
           justifyContent="space-evenly"
         >
           {/* Left Side (Stats, Clan, etc.) */}
-          <Box pb={2} pr={3} width={{ xs: "100%", sm: "33.33%" }}>
+          <Box pb={2} pr={{ sm: 3 }} width={{ xs: "100%", sm: "33.33%" }}>
             {userProfile.tbadges && (
               <TournamentBadgesCard badges={userProfile.tbadges} />
             )}
