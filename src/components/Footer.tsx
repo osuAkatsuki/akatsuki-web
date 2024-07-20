@@ -44,29 +44,69 @@ export default function Footer() {
               alignItems="center"
               pt={4}
             >
-              <Box width={178} height={38}>
-                <FooterLogo />
-              </Box>
+              <Link
+                to="/"
+                style={{
+                  color: "#FFFFFF",
+                  textDecoration: "none",
+                }}
+              >
+                <Box width={178} height={38}>
+                  <FooterLogo />
+                </Box>
+              </Link>
               <Stack
                 direction={{ xs: "column", sm: "row" }}
                 spacing={2}
                 textAlign={{ xs: "center", sm: "right" }}
               >
                 <Stack direction="column" spacing={2}>
-                  <Typography variant="h6" fontWeight="lighter">
-                    Akatsuki Team
-                  </Typography>
-                  <Typography variant="h6" fontWeight="lighter">
-                    Contact Us
-                  </Typography>
+                  <Link
+                    to="/team"
+                    style={{
+                      color: "#FFFFFF",
+                      textDecoration: "none",
+                    }}
+                  >
+                    <Typography variant="h6" fontWeight="lighter">
+                      Akatsuki Team
+                    </Typography>
+                  </Link>
+                  <Link
+                    to="/contact"
+                    style={{
+                      color: "#FFFFFF",
+                      textDecoration: "none",
+                    }}
+                  >
+                    <Typography variant="h6" fontWeight="lighter">
+                      Contact Us
+                    </Typography>
+                  </Link>
                 </Stack>
                 <Stack direction="column" spacing={2}>
-                  <Typography variant="h6" fontWeight="lighter">
-                    Community Guidelines
-                  </Typography>
-                  <Typography variant="h6" fontWeight="lighter">
-                    Terms of Service
-                  </Typography>
+                  <Link
+                    to="/privacy-policy"
+                    style={{
+                      color: "#FFFFFF",
+                      textDecoration: "none",
+                    }}
+                  >
+                    <Typography variant="h6" fontWeight="lighter">
+                      Privacy Policy
+                    </Typography>
+                  </Link>
+                  <Link
+                    to="/terms-of-service"
+                    style={{
+                      color: "#FFFFFF",
+                      textDecoration: "none",
+                    }}
+                  >
+                    <Typography variant="h6" fontWeight="lighter">
+                      Terms of Service
+                    </Typography>
+                  </Link>
                 </Stack>
               </Stack>
             </Stack>
@@ -99,7 +139,7 @@ export default function Footer() {
                   <GitHub sx={{ width: 36, height: 36 }} />
                 </Link>
                 <Link
-                  to="/twitter"
+                  to={process.env.REACT_APP_TWITTER_URL}
                   style={{
                     color: "#FFFFFF",
                     textDecoration: "none",
