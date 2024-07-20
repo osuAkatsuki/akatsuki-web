@@ -75,6 +75,7 @@ export default function Footer() {
               justifyContent="space-between"
               alignItems="center"
               pb={4}
+              spacing={{ xs: 2, sm: 0 }}
             >
               <Stack direction="row">
                 <Copyright />
