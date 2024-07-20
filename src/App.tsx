@@ -28,6 +28,13 @@ import {
   Legend,
 } from "chart.js"
 import { AboutPage } from "./pages/AboutPage"
+import Footer from "./components/Footer"
+import Box from "@mui/material/Box"
+import Stack from "@mui/material/Stack"
+import { TeamPage } from "./pages/TeamPage"
+import { ContactPage } from "./pages/ContactPage"
+import { TermsOfServicePage } from "./pages/TermsOfServicePage"
+import { PrivacyPolicyPage } from "./pages/PrivacyPolicyPage"
 
 ChartJS.register(
   CategoryScale,
@@ -41,8 +48,13 @@ ChartJS.register(
 
 const AppLayout = () => (
   <>
-    <Navbar />
-    <Outlet />
+    <Stack direction="column" justifyContent="space-between" minHeight="100vh">
+      <Navbar />
+      <Box flexGrow={1}>
+        <Outlet />
+      </Box>
+      <Footer />
+    </Stack>
   </>
 )
 
@@ -57,6 +69,10 @@ const router = createBrowserRouter(
       {/* TODO: support `/u/{username}` redirects */}
       <Route path="/u/:userId" element={<ProfilePage />} />
       <Route path="/support" element={<SupportPage />} />
+      <Route path="/team" element={<TeamPage />} />
+      <Route path="/contact" element={<ContactPage />} />
+      <Route path="/terms-of-service" element={<TermsOfServicePage />} />
+      <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
     </Route>
   )
 )

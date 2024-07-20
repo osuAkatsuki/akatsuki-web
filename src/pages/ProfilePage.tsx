@@ -563,7 +563,7 @@ const UserActivityDatesCard = ({
       <Stack direction="row" spacing={1}>
         <Typography variant="body1" fontWeight="lighter">
           joined
-        </Typography>{" "}
+        </Typography>
         <Typography variant="body1" fontWeight="bold">
           {moment(userProfile.registeredOn).fromNow()}
         </Typography>
@@ -571,7 +571,7 @@ const UserActivityDatesCard = ({
       <Stack direction="row" spacing={1}>
         <Typography variant="body1" fontWeight="lighter">
           last seen
-        </Typography>{" "}
+        </Typography>
         <Typography variant="body1" fontWeight="bold">
           {moment(userProfile.latestActivity).fromNow()}
         </Typography>
