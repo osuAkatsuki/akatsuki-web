@@ -110,8 +110,13 @@ export default function Footer() {
                                 <DiscordLogo />
                             </Link>
 
-                            <Twitter />
-                            <GitHub />
+                            <Link to={process.env.REACT_APP_PUBLIC_TWITTER_INVITE_URL!}>
+                                <Twitter />
+                            </Link>
+
+                            <Link to={process.env.REACT_APP_PUBLIC_GITHUB_INVITE_URL!}>
+                                <GitHub />
+                            </Link>
                         </Stack>
                     </Stack>
                 </Stack>
