@@ -247,31 +247,31 @@ export const GlobalUserLeaderboard = ({
 
   useEffect(() => {
     setLoading(true)
-    ;(async () => {
-      try {
-        const leaderboardResponse = await fetchLeaderboard({
-          mode: gameMode,
-          rx: relaxMode,
-          p: page + 1,
-          l: pageSize,
-          country: country ?? "",
-          sort: sortParam,
-        })
-        setLeaderboardData(leaderboardResponse)
-        setLoading(false)
-        setError("")
-      } catch (e: any) {
-        setError("Failed to fetch data from server")
-        return
-      }
-    })()
+      ; (async () => {
+        try {
+          const leaderboardResponse = await fetchLeaderboard({
+            mode: gameMode,
+            rx: relaxMode,
+            p: page + 1,
+            l: pageSize,
+            country: country ?? "",
+            sort: sortParam,
+          })
+          setLeaderboardData(leaderboardResponse)
+          setLoading(false)
+          setError("")
+        } catch (e: any) {
+          setError("Failed to fetch data from server")
+          return
+        }
+      })()
   }, [gameMode, relaxMode, page, pageSize, country, sortParam])
 
   if (loading || !leaderboardData) {
     return (
       <>
-        {Array.from({ length: pageSize }).map(() => (
-          <Skeleton variant="rectangular" height={75}></Skeleton>
+        {Array.from({ length: pageSize }).map((_, i) => (
+          <Skeleton key={i} variant="rectangular" height={75}></Skeleton>
         ))}
       </>
     )
@@ -289,7 +289,7 @@ export const GlobalUserLeaderboard = ({
       />
       <Stack>
         {leaderboardData?.users.map((user: LeaderboardUser) => (
-          <LeaderboardUserCard isMobile={isMobile} user={user} />
+          <LeaderboardUserCard key={user.id} isMobile={isMobile} user={user} />
         ))}
       </Stack>
       <TablePagination

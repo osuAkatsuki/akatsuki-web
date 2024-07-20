@@ -171,23 +171,23 @@ export const UserProfileScores = ({
 
   useEffect(() => {
     if (!userId) return
-    ;(async () => {
-      try {
-        const userScores = await fetchUserScores({
-          type: scoresType,
-          mode: gameMode,
-          p: page + 1,
-          l: pageSize,
-          rx: relaxMode,
-          id: userId,
-        })
-        setUserScores(userScores)
-        setError("")
-      } catch (e: any) {
-        setError("Failed to fetch user scores data from server")
-        return
-      }
-    })()
+      ; (async () => {
+        try {
+          const userScores = await fetchUserScores({
+            type: scoresType,
+            mode: gameMode,
+            p: page + 1,
+            l: pageSize,
+            rx: relaxMode,
+            id: userId,
+          })
+          setUserScores(userScores)
+          setError("")
+        } catch (e: any) {
+          setError("Failed to fetch user scores data from server")
+          return
+        }
+      })()
   }, [scoresType, userId, gameMode, relaxMode, page, pageSize])
 
   if (error) {
@@ -206,7 +206,7 @@ export const UserProfileScores = ({
       </Typography>
       <Stack spacing={1} sx={{ pb: 1 }}>
         {userScores?.scores?.map((score: UserScore) => (
-          <Box borderRadius="16px" overflow="hidden">
+          <Box key={score.id} borderRadius="16px" overflow="hidden">
             <Paper elevation={1}>
               <UserScoreCard {...score} />
             </Paper>
