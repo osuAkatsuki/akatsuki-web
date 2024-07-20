@@ -51,39 +51,41 @@ export const HomePage = () => {
   const { identity } = useIdentityContext()
 
   return (
-    <Stack
+    <Grid
+      container
       direction="column"
-      position="absolute"
-      top={0}
-      left={{ xs: "10%", sm: 0 }}
-      paddingTop={{ xs: 20, sm: 10 }}
-      height="100%"
-      width={{ xs: "10%", sm: "100%" }}
+      alignItems="center"
       justifyContent="center"
+      sx={{
+        minHeight: "100vh",
+        px: 2,
+      }}
     >
-      <Header />
-
-      <Stack
-        direction={{ xs: "column", sm: "row" }}
-        justifyContent="center"
-        spacing={2}
-        sx={{ mt: 2 }}
-      >
-        {identity ? (
+      <Grid item xs={12}>
+        <Header />
+      </Grid>
+      <Grid item xs={12} sm={10} md={8} lg={6} xl={4}>
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          spacing={2}
+          sx={{ mt: 2 }}
+        >
+          {identity ? (
+            <NavButton
+              to={`/u/${identity.userId}`}
+              color="primary"
+              label="My Profile"
+            />
+          ) : (
+            <NavButton to="/register" color="primary" label="Sign Up" />
+          )}
           <NavButton
-            to={`/u/${identity.userId}`}
-            color="primary"
-            label="My Profile"
+            to="/leaderboards"
+            color="secondary"
+            label="Leaderboards"
           />
-        ) : (
-          <NavButton to="/register" color="primary" label="Sign Up" />
-        )}
-        <NavButton
-          to="/leaderboards"
-          color="secondary"
-          label="Leaderboards"
-        />
-      </Stack>
-    </Stack>
+        </Stack>
+      </Grid>
+    </Grid>
   )
 }
