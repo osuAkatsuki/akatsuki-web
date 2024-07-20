@@ -1,4 +1,4 @@
-import { Box, Button, Container, Stack, Typography, withStyles } from "@mui/material"
+import { Box, Container, Stack, Typography } from "@mui/material"
 
 import { GlobalUserLeaderboard } from "../components/GlobalUserLeaderboard"
 import LeaderboardBanner from "../components/images/banners/leaderboard_banner.svg"
@@ -25,6 +25,7 @@ export const LeaderboardsPage = () => {
   const [gameMode, setGameMode] = useState(GameMode.Standard)
   const [relaxMode, setRelaxMode] = useState(RelaxMode.Vanilla)
   const [sortParam, setSortParam] = useState("pp")
+  const [country, setCountry] = useState<string | null>(null);
 
   const GameModeSelector = ({
     targetGameMode,
@@ -165,8 +166,8 @@ export const LeaderboardsPage = () => {
             </Stack>
           </Container>
         </Box>
-        <Container sx={{ backgroundColor: "#191527", pt: 4 }}>
-          <GlobalUserLeaderboard gameMode={gameMode} relaxMode={relaxMode} sortParam={sortParam} />
+        <Container sx={{ backgroundColor: "#191527" }}>
+          <GlobalUserLeaderboard gameMode={gameMode} relaxMode={relaxMode} sortParam={sortParam} country={country} />
         </Container>
       </Box>
     </>
