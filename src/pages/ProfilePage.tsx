@@ -300,13 +300,9 @@ const UserStatsCard = ({
   )
 }
 
-const UserLevelCard = ({
-  level,
-  levelCompletionPercentage,
-}: {
-  level: number
-  levelCompletionPercentage: number
-}) => {
+const UserLevelCard = ({ level }: { level: number }) => {
+  const levelCompletionPercentage = (level - Math.trunc(level)) * 100
+
   return (
     <Stack direction="row" spacing={1}>
       <Box position="relative" width="25%" height={80}>
@@ -649,12 +645,7 @@ export const ProfilePage = () => {
               followers={userProfile.followers}
             />
             <Divider sx={{ my: 2 }} />
-            <UserLevelCard
-              level={modeStats.level}
-              levelCompletionPercentage={
-                (modeStats.level - Math.trunc(modeStats.level)) * 100
-              }
-            />
+            <UserLevelCard level={modeStats.level} />
             {userProfile.clan.id !== 0 && (
               <UserClanCard clan={userProfile.clan} />
             )}
