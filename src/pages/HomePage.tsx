@@ -41,7 +41,7 @@ export const HomePage = () => {
             <Grid
               container
               direction={{ xs: "column", sm: "row-reverse" }}
-              spacing={2}
+              spacing={{ xs: 2, sm: 16 }}
               justifyContent="center"
             >
               <Grid item xs={6}>
@@ -97,7 +97,6 @@ export const HomePage = () => {
                 <Stack
                   direction="column"
                   alignItems="center"
-                  spacing={3}
                 >
                   <Stack
                     direction="row"
@@ -124,6 +123,7 @@ export const HomePage = () => {
                   <Stack
                     direction="row"
                     width="100%"
+                    mt={-1}
                     spacing={2}
                     justifyContent="flex-end"
                     alignItems="flex-end"
@@ -145,7 +145,7 @@ export const HomePage = () => {
                       <HomepageScoresIcon />
                     </Box>
                   </Stack>
-                  <Stack direction="row" spacing={2}>
+                  <Stack direction="row" mt={5} spacing={2}>
                     <Box
                       height={111}
                       width={111}
