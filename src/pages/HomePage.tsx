@@ -14,7 +14,14 @@ export const HomePage = () => {
   return (
     <Box>
       {/* TODO: scale the text outline with screen size */}
-      <Box position="absolute" zIndex={0} top={0} left={0} width="100%">
+      <Box
+        position="absolute"
+        zIndex={0}
+        top={{ sm: 0 }}
+        left={0}
+        width="100%"
+        sx={{ opacity: { xs: 0.5, sm: 0.25 } }}
+      >
         <HomepageTextOutline />
       </Box>
       <Stack direction="column" justifyContent="space-between" spacing={2}>

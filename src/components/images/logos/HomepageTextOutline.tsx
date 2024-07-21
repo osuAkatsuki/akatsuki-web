@@ -7,7 +7,7 @@ export const HomepageTextOutline = () => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g style={{ mixBlendMode: "overlay", opacity: 0.25 }}>
+      <g style={{ mixBlendMode: "overlay" }}>
         <mask
           id="path-1-outside-1_79_3021"
           maskUnits="userSpaceOnUse"
