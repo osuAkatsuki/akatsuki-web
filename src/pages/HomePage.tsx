@@ -17,10 +17,14 @@ export const HomePage = () => {
       <Box
         position="absolute"
         zIndex={0}
+        pt={{ sm: 10 }}
         top={{ sm: 0 }}
         left={0}
         width="100%"
-        sx={{ opacity: { xs: 0.5, sm: 0.25 } }}
+        sx={{
+          opacity: { xs: 0.5, sm: 0.25 },
+          pointerEvents: "none",
+        }}
       >
         <HomepageTextOutline />
       </Box>
