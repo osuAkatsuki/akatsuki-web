@@ -143,7 +143,6 @@ export const HomePage = () => {
             </Grid>
           </Container>
         </Box>
-        <Stack direction="row">todo: score carousel here</Stack>
       </Stack>
     </Box>
   )
