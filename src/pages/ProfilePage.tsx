@@ -646,10 +646,13 @@ const ProfileScoreCard = (userScore: UserScore) => {
               direction={{ xs: "column", sm: "row" }}
               spacing={{ sm: 1 }}
               alignItems={{ xs: "flex-start", sm: "center" }}
+              maxWidth="15vw"
             >
-              <Typography variant="h6">{songName}</Typography>
-              <Typography variant="body1" fontWeight="lighter">
-                by {artist}
+              <Typography variant="h6" noWrap={true}>
+                {songName}&nbsp;
+                <Box component="span" fontWeight="lighter" fontSize="1rem">
+                  by {artist}
+                </Box>
               </Typography>
             </Stack>
             <Stack direction="row" spacing={1}>
