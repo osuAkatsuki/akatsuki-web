@@ -13,30 +13,30 @@ import { Link } from "react-router-dom"
 export const HomePage = () => {
   return (
     <Box>
-      {/* TODO: scale the text outline with screen size */}
-      <Box
-        position="absolute"
-        zIndex={0}
-        pt={{ sm: 10 }}
-        top={{ sm: 0 }}
-        left={0}
-        width="100%"
-        sx={{
-          opacity: { xs: 0.5, sm: 0.25 },
-          pointerEvents: "none",
-        }}
-      >
-        <HomepageTextOutline />
-      </Box>
       <Stack direction="column" justifyContent="space-between" spacing={2}>
         <Box
-          py={{ xs: 0, sm: 16 }}
+          py={{ xs: 4, sm: 16 }}
           sx={{
             backgroundImage: `url(${HomepageBanner})`,
             backgroundSize: "cover",
             backgroundPosition: "bottom",
           }}
         >
+          {/* TODO: scale the text outline with screen size */}
+          <Box
+            position="absolute"
+            zIndex={0}
+            pt={{ sm: 10 }}
+            top={{ sm: 0 }}
+            left={0}
+            width="100%"
+            sx={{
+              opacity: { xs: 0.5, sm: 0.25 },
+              pointerEvents: "none",
+            }}
+          >
+            <HomepageTextOutline />
+          </Box>
           <Container>
             <Grid
               container
