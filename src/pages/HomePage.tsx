@@ -94,9 +94,16 @@ export const HomePage = () => {
                 </Stack>
               </Grid>
               <Grid item xs={6}>
-                <Stack direction="column" alignItems="center" spacing={3}>
-                  <Stack direction="row" spacing={2}>
-                    <Box height={111} width={111}>
+                <Stack
+                  direction="column"
+                  alignItems="center"
+                  spacing={3}
+                >
+                  <Stack
+                    direction="row"
+                    width="100%"
+                    spacing={2}
+                  >
                       <HomepagePPIcon />
                     </Box>
                     <Stack direction="column" justifyContent="flex-end">
@@ -108,12 +115,14 @@ export const HomePage = () => {
                       </Typography>
                     </Stack>
                   </Stack>
-                  <Stack direction="row" spacing={2}>
                     <Stack
-                      direction="column"
+                    direction="row"
+                    width="100%"
+                    spacing={2}
                       justifyContent="flex-end"
                       alignItems="flex-end"
                     >
+                    <Stack direction="column">
                       <Typography variant="h4" fontWeight="lighter">
                         92,383,238
                       </Typography>
