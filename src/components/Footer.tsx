@@ -117,8 +117,10 @@ export default function Footer() {
               pb={4}
               spacing={{ xs: 2, sm: 0 }}
             >
-              <Stack direction="row">
-                <Copyright />
+              <Stack direction="row" alignItems="center">
+                <Box height={28} width={28}>
+                  <Copyright />
+                </Box>
                 <Typography variant="h6" fontWeight="lighter">
                   Akatsuki 2024
                 </Typography>
