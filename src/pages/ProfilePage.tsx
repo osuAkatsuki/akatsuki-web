@@ -250,13 +250,7 @@ const UserGradesCard = ({ statsData }: { statsData: UserStats }) => {
   )
 }
 
-const UserStatsCard = ({
-  statsData,
-  followers,
-}: {
-  statsData: UserStats
-  followers: number
-}) => {
+const UserStatsCard = ({ statsData }: { statsData: UserStats }) => {
   return (
     <Box>
       <Stack direction="column" spacing={1}>
@@ -312,12 +306,6 @@ const UserStatsCard = ({
           <Typography variant="body1">Replays Watched</Typography>
           <Typography variant="body1" textAlign="end">
             {formatNumber(statsData.replaysWatched)}
-          </Typography>
-        </Stack>
-        <Stack direction="row" justifyContent="space-between">
-          <Typography variant="body1">Followers</Typography>
-          <Typography variant="body1" textAlign="end">
-            {formatNumber(followers)}
           </Typography>
         </Stack>
         <UserGradesCard statsData={statsData} />
@@ -1074,10 +1062,7 @@ export const ProfilePage = () => {
               {userProfile.tbadges && (
                 <TournamentBadgesCard badges={userProfile.tbadges} />
               )}
-              <UserStatsCard
-                statsData={modeStats}
-                followers={userProfile.followers}
-              />
+              <UserStatsCard statsData={modeStats} />
               <Divider sx={{ my: 2 }} />
               <UserLevelCard level={modeStats.level} />
               {userProfile.clan.id !== 0 && (
