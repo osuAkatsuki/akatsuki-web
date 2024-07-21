@@ -104,6 +104,12 @@ export const HomePage = () => {
                     width="100%"
                     spacing={2}
                   >
+                    <Box
+                      height={111}
+                      width={111}
+                      borderRadius={"50px 50px 27px 50px"}
+                      boxShadow="hsl(0deg 0% 0% / 0.2) -20px 20px"
+                    >
                       <HomepagePPIcon />
                     </Box>
                     <Stack direction="column" justifyContent="flex-end">
@@ -115,13 +121,13 @@ export const HomePage = () => {
                       </Typography>
                     </Stack>
                   </Stack>
-                    <Stack
+                  <Stack
                     direction="row"
                     width="100%"
                     spacing={2}
-                      justifyContent="flex-end"
-                      alignItems="flex-end"
-                    >
+                    justifyContent="flex-end"
+                    alignItems="flex-end"
+                  >
                     <Stack direction="column">
                       <Typography variant="h4" fontWeight="lighter">
                         92,383,238
@@ -130,12 +136,22 @@ export const HomePage = () => {
                         scores set
                       </Typography>
                     </Stack>
-                    <Box height={111} width={111}>
+                    <Box
+                      height={111}
+                      width={111}
+                      borderRadius={"50px 50px 50px 27px"}
+                      boxShadow="hsl(0deg 0% 0% / 0.2) 20px 20px"
+                    >
                       <HomepageScoresIcon />
                     </Box>
                   </Stack>
                   <Stack direction="row" spacing={2}>
-                    <Box height={111} width={111}>
+                    <Box
+                      height={111}
+                      width={111}
+                      borderRadius={"50px 27px 50px 50px"}
+                      boxShadow="hsl(0deg 0% 0% / 0.2) -20px 20px"
+                    >
                       <HomepageUsersIcon />
                     </Box>
                     <Stack direction="column">
