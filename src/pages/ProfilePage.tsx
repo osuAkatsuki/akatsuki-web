@@ -250,11 +250,7 @@ const UserGradesCard = ({ statsData }: { statsData: UserStats }) => {
   )
 }
 
-const UserStatsCard = ({
-  statsData,
-}: {
-  statsData: UserStats
-}) => {
+const UserStatsCard = ({ statsData }: { statsData: UserStats }) => {
   return (
     <Box>
       <Stack direction="column" spacing={1}>
@@ -1066,9 +1062,7 @@ export const ProfilePage = () => {
               {userProfile.tbadges && (
                 <TournamentBadgesCard badges={userProfile.tbadges} />
               )}
-              <UserStatsCard
-                statsData={modeStats}
-              />
+              <UserStatsCard statsData={modeStats} />
               <Divider sx={{ my: 2 }} />
               <UserLevelCard level={modeStats.level} />
               {userProfile.clan.id !== 0 && (
