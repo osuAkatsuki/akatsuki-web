@@ -34,7 +34,7 @@ export const HomePage = () => {
           sx={{
             backgroundImage: `url(${HomepageBanner})`,
             backgroundSize: "cover",
-            backgroundPosition: "center",
+            backgroundPosition: "bottom",
           }}
         >
           <Container>
