@@ -55,7 +55,7 @@ export const HomePage = () => {
                       <WhiteoutAkatsukiLogo />
                     </Box>
                   </Button>
-                  <Typography>
+                  <Typography align="right">
                     Welcome to Akatsuki! We are an osu! private server mainly
                     based around the relax mod - featuring score submission,
                     leaderboards & rankings, custom pp, and much more for relax,
