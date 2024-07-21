@@ -251,11 +251,9 @@ const UserGradesCard = ({ statsData }: { statsData: UserStats }) => {
 }
 
 const UserStatsCard = ({
-  statsData,
-  followers,
+  statsData
 }: {
   statsData: UserStats
-  followers: number
 }) => {
   return (
     <Box>
@@ -312,12 +310,6 @@ const UserStatsCard = ({
           <Typography variant="body1">Replays Watched</Typography>
           <Typography variant="body1" textAlign="end">
             {formatNumber(statsData.replaysWatched)}
-          </Typography>
-        </Stack>
-        <Stack direction="row" justifyContent="space-between">
-          <Typography variant="body1">Followers</Typography>
-          <Typography variant="body1" textAlign="end">
-            {formatNumber(followers)}
           </Typography>
         </Stack>
         <UserGradesCard statsData={statsData} />
@@ -1076,7 +1068,6 @@ export const ProfilePage = () => {
               )}
               <UserStatsCard
                 statsData={modeStats}
-                followers={userProfile.followers}
               />
               <Divider sx={{ my: 2 }} />
               <UserLevelCard level={modeStats.level} />
