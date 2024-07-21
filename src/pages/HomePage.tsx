@@ -19,8 +19,7 @@ export const HomePage = () => {
       </Box>
       <Stack direction="column" justifyContent="space-between" spacing={2}>
         <Box
-          pt={{ xs: 0, sm: 16 }}
-          pb={{ xs: 0, sm: 16 }}
+          py={{ xs: 0, sm: 16 }}
           sx={{
             backgroundImage: `url(${HomepageBanner})`,
             backgroundSize: "cover",
