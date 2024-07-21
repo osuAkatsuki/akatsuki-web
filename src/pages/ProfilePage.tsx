@@ -251,7 +251,7 @@ const UserGradesCard = ({ statsData }: { statsData: UserStats }) => {
 }
 
 const UserStatsCard = ({
-  statsData
+  statsData,
 }: {
   statsData: UserStats
 }) => {
