@@ -11,7 +11,7 @@ export const HomepageScoresIcon = () => {
         <path
           d="M61 -2.18557e-06C88.6142 -9.78513e-07 111 22.3858 111 50L111 61C111 88.6142 88.6142 111 61 111L27 111C12.0883 111 -4.32357e-06 98.9117 -3.67176e-06 84L-2.18557e-06 50C-9.78513e-07 22.3858 22.3858 -3.87345e-06 50 -2.66639e-06L61 -2.18557e-06Z"
           fill="#A200FF"
-          fill-opacity="0.7"
+          fillOpacity="0.7"
         />
       </g>
       <path
@@ -26,9 +26,9 @@ export const HomepageScoresIcon = () => {
           width="115"
           height="115"
           filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB"
+          colorInterpolationFilters="sRGB"
         >
-          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          <feFlood floodOpacity="0" result="BackgroundImageFix" />
           <feGaussianBlur in="BackgroundImageFix" stdDeviation="1" />
           <feComposite
             in2="SourceAlpha"
