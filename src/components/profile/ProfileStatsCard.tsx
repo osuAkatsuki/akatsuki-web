@@ -28,6 +28,7 @@ const GradeCountDisplay = ({
     </Stack>
   )
 }
+
 const ProfileGradesCard = ({ statsData }: { statsData: UserStats }) => {
   // TODO: once these are hooked up in user stats API
   const xhCount = 0
