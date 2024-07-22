@@ -9,7 +9,6 @@ import {
 } from "react-router-dom"
 import { HomePage } from "./pages/HomePage"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
-import Container from "@mui/material/Container"
 import { IdentityContextProvider } from "./context/identity"
 import { RegisterPage } from "./pages/RegisterPage"
 import { LoginPage } from "./pages/LoginPage"
