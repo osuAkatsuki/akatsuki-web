@@ -119,3 +119,18 @@ export const calculateGrade = (
       return "D"
   }
 }
+
+export const modeToStatsIndex = (
+  mode: GameMode
+): "std" | "taiko" | "ctb" | "mania" => {
+  switch (mode) {
+    case GameMode.Standard:
+      return "std"
+    case GameMode.Taiko:
+      return "taiko"
+    case GameMode.Catch:
+      return "ctb"
+    case GameMode.Mania:
+      return "mania"
+  }
+}

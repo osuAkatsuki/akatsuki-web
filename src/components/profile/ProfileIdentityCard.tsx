@@ -1,0 +1,97 @@
+import { Typography, Tooltip, Avatar } from "@mui/material"
+import Stack from "@mui/material/Stack"
+import Box from "@mui/material/Box"
+import { getCountryName, getFlagUrl } from "../../utils/countries"
+import { UserFullResponse } from "../../adapters/akatsuki-api/users"
+import { UserPrivileges } from "../../utils/privileges"
+
+interface UserTitleDisplay {
+  text: string
+  color: string
+}
+
+const getDisplayTitle = (userPrivileges: number): UserTitleDisplay | null => {
+  if (userPrivileges & UserPrivileges.AdminCaker) {
+    return {
+      text: "Core Development Team",
+      color: "linear-gradient(90deg, #387EFC 0%, #C940FD 100%)",
+    }
+  } else if (userPrivileges & UserPrivileges.AdminManageNominators) {
+    return {
+      text: "Nomination Quality Assurance",
+      color: "rgba(170, 154, 255, 1)",
+    }
+  }
+  // TODO: the many many others. And perhaps the concept of privilege groups.
+  return null
+}
+
+export const ProfileIdentityCard = ({
+  userProfile,
+}: {
+  userProfile: UserFullResponse
+}) => {
+  const userTitleDisplay = getDisplayTitle(userProfile.privileges)
+
+  return (
+    <Stack
+      direction="row"
+      alignItems="center"
+      spacing={2}
+      p={2}
+      width="100%"
+      border={1}
+      borderRadius={4}
+      // TODO: try to figure out the border gradient perhaps?
+      borderColor="rgba(255, 255, 255, 0.3)"
+    >
+      <Avatar
+        alt="user-avatar"
+        src={`https://a.akatsuki.gg/${userProfile.id}`}
+        variant="square"
+        sx={{ width: 156, height: 156, borderRadius: "16px" }}
+      />
+      <Stack direction="column" spacing={1}>
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          alignItems="center"
+          spacing={1}
+        >
+          {/* TODO: clan tag prefixing username */}
+          {userProfile.clan.id !== 0 && (
+            <Box bgcolor="white" borderRadius={11} py={0.5} px={2}>
+              <Typography variant="h5" color="black">
+                {userProfile.clan.tag}
+              </Typography>
+            </Box>
+          )}
+          <Typography fontWeight="bold" variant="h4">
+            {userProfile.username}
+          </Typography>
+          <Tooltip title={getCountryName(userProfile.country)} placement="top">
+            <Box
+              component="img"
+              width={30}
+              height={30}
+              alt="flag-image"
+              src={getFlagUrl(userProfile.country)}
+            />
+          </Tooltip>
+        </Stack>
+        {userTitleDisplay !== null && (
+          <Typography
+            variant="h6"
+            sx={{
+              background: userTitleDisplay.color,
+              backgroundClip: "text",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
+            {userTitleDisplay.text}
+          </Typography>
+        )}
+      </Stack>
+    </Stack>
+  )
+}
