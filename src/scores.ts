@@ -29,9 +29,7 @@ export const getGradeColor = (grade: string, alpha: number = 1.0) => {
   return colorCode + alphaHex
 }
 
-export const remapSSForDisplay = (
-  grade: "XH" | "X" | "SH" | "S" | "A" | "B" | "C" | "D" | "F"
-): "SS" | "S" | "A" | "B" | "C" | "D" | "F" => {
+export const remapSSForDisplay = (grade: string): string => {
   switch (grade) {
     case "XH":
     case "X":

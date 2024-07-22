@@ -7,8 +7,27 @@ import {
   formatNumber,
   formatTimespan,
 } from "../../utils/formatting"
-import { getGradeColor } from "../../scores"
+import {
+  getGradeColor,
+  remapSSForDisplay as getGradeDisplayName,
+} from "../../scores"
 
+const GradeCountDisplay = ({
+  grade,
+  count,
+}: {
+  grade: string
+  count: number
+}) => {
+  return (
+    <Stack direction="row" spacing={1}>
+      <Typography variant="h5" color={getGradeColor(grade)}>
+        {getGradeDisplayName(grade)}
+      </Typography>
+      <Typography variant="h5">{formatNumber(count)}</Typography>
+    </Stack>
+  )
+}
 const ProfileGradesCard = ({ statsData }: { statsData: UserStats }) => {
   // TODO: once these are hooked up in user stats API
   const xhCount = 0
@@ -18,40 +37,24 @@ const ProfileGradesCard = ({ statsData }: { statsData: UserStats }) => {
   const aCount = 0
 
   return (
-    <>
-      <Stack direction="row" justifyContent="space-between" spacing={1}>
-        <Stack direction="row" spacing={1}>
-          <Typography variant="h5" color={getGradeColor("XH")}>
-            SS
-          </Typography>
-          <Typography variant="h5">{formatNumber(xhCount)}</Typography>
-        </Stack>
-        <Stack direction="row" spacing={1}>
-          <Typography variant="h5" color={getGradeColor("SH")}>
-            S
-          </Typography>
-          <Typography variant="h5">{formatNumber(shCount)}</Typography>
-        </Stack>
-        <Stack direction="row" spacing={1}>
-          <Typography variant="h5" color={getGradeColor("X")}>
-            SS
-          </Typography>
-          <Typography variant="h5">{formatNumber(xCount)}</Typography>
-        </Stack>
-        <Stack direction="row" spacing={1}>
-          <Typography variant="h5" color={getGradeColor("S")}>
-            S
-          </Typography>
-          <Typography variant="h5">{formatNumber(sCount)}</Typography>
-        </Stack>
-        <Stack direction="row" spacing={1}>
-          <Typography variant="h5" color={getGradeColor("A")}>
-            A
-          </Typography>
-          <Typography variant="h5">{formatNumber(aCount)}</Typography>
-        </Stack>
-      </Stack>
-    </>
+    <Stack direction="row" justifyContent="space-between" spacing={1}>
+      <GradeCountDisplay grade="XH" count={xhCount} />
+      <GradeCountDisplay grade="SH" count={shCount} />
+      <GradeCountDisplay grade="X" count={xCount} />
+      <GradeCountDisplay grade="S" count={sCount} />
+      <GradeCountDisplay grade="A" count={aCount} />
+    </Stack>
+  )
+}
+
+const StatDisplay = ({ name, value }: { name: string; value: string }) => {
+  return (
+    <Stack direction="row" justifyContent="space-between">
+      <Typography variant="body1">{name}</Typography>
+      <Typography variant="body1" textAlign="end">
+        {value}
+      </Typography>
+    </Stack>
   )
 }
 
@@ -59,60 +62,42 @@ export const ProfileStatsCard = ({ statsData }: { statsData: UserStats }) => {
   return (
     <Box>
       <Stack direction="column" spacing={1}>
-        <Stack direction="row" justifyContent="space-between">
-          <Typography variant="body1">Performance Points</Typography>
-          <Typography variant="body1" textAlign="end">
-            {formatNumber(statsData.pp)}pp
-          </Typography>
-        </Stack>
-        <Stack direction="row" justifyContent="space-between">
-          <Typography variant="body1">Overall Accuracy</Typography>
-          <Typography variant="body1" textAlign="end">
-            {formatDecimal(statsData.accuracy)}%
-          </Typography>
-        </Stack>
-        <Stack direction="row" justifyContent="space-between">
-          <Typography variant="body1">Ranked Score</Typography>
-          <Typography variant="body1" textAlign="end">
-            {formatNumber(statsData.rankedScore)}
-          </Typography>
-        </Stack>
-        <Stack direction="row" justifyContent="space-between">
-          <Typography variant="body1">Total Score</Typography>
-          <Typography variant="body1" textAlign="end">
-            {formatNumber(statsData.totalScore)}
-          </Typography>
-        </Stack>
-        <Stack direction="row" justifyContent="space-between">
-          <Typography variant="body1">Highest Combo</Typography>
-          <Typography variant="body1" textAlign="end">
-            {formatNumber(statsData.maxCombo)}
-          </Typography>
-        </Stack>
-        <Stack direction="row" justifyContent="space-between">
-          <Typography variant="body1">Total Hits</Typography>
-          <Typography variant="body1" textAlign="end">
-            {formatNumber(statsData.totalHits)}
-          </Typography>
-        </Stack>
-        <Stack direction="row" justifyContent="space-between">
-          <Typography variant="body1">Play Count</Typography>
-          <Typography variant="body1" textAlign="end">
-            {formatNumber(statsData.playcount)}
-          </Typography>
-        </Stack>
-        <Stack direction="row" justifyContent="space-between">
-          <Typography variant="body1">Play Time</Typography>
-          <Typography variant="body1" textAlign="end">
-            {formatTimespan(statsData.playtime) || "Never played"}
-          </Typography>
-        </Stack>
-        <Stack direction="row" justifyContent="space-between">
-          <Typography variant="body1">Replays Watched</Typography>
-          <Typography variant="body1" textAlign="end">
-            {formatNumber(statsData.replaysWatched)}
-          </Typography>
-        </Stack>
+        <StatDisplay
+          name="Performance Points"
+          value={`${formatNumber(statsData.pp)}pp`}
+        />
+        <StatDisplay
+          name="Overall Accuracy"
+          value={`${formatDecimal(statsData.accuracy)}%`}
+        />
+        <StatDisplay
+          name="Ranked Score"
+          value={formatNumber(statsData.rankedScore)}
+        />
+        <StatDisplay
+          name="Total Score"
+          value={formatNumber(statsData.totalScore)}
+        />
+        <StatDisplay
+          name="Highest Combo"
+          value={formatNumber(statsData.maxCombo)}
+        />
+        <StatDisplay
+          name="Total Hits"
+          value={formatNumber(statsData.totalHits)}
+        />
+        <StatDisplay
+          name="Play Count"
+          value={formatNumber(statsData.playcount)}
+        />
+        <StatDisplay
+          name="Play Time"
+          value={formatTimespan(statsData.playtime) || "Never played"}
+        />
+        <StatDisplay
+          name="Replays Watched"
+          value={formatNumber(statsData.replaysWatched)}
+        />
         <ProfileGradesCard statsData={statsData} />
       </Stack>
     </Box>
