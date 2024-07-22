@@ -298,7 +298,7 @@ export const GlobalUserLeaderboard = ({
         count={-1}
         rowsPerPage={pageSize}
         page={page}
-        onPageChange={(event, newPage) => setPage(newPage)}
+        onPageChange={(_, newPage) => setPage(newPage)}
         onRowsPerPageChange={(event) => {
           setPageSize(parseInt(event.target.value, 10))
           setPage(0)
