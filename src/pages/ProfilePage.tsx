@@ -31,7 +31,6 @@ import {
 } from "../adapters/akatsuki-api/users"
 import { useTheme } from "@mui/material/styles"
 import { AddUserIcon } from "../components/images/icons/AddUserIcon"
-import { userIsOnline } from "../adapters/bancho"
 import {
   captureTypeToDisplay,
   fetchUserProfileHistory,
@@ -797,7 +796,7 @@ const ProfileScoresCard = ({
         count={-1}
         rowsPerPage={pageSize}
         page={page}
-        onPageChange={(event, newPage) => setPage(newPage)}
+        onPageChange={(_, newPage) => setPage(newPage)}
         onRowsPerPageChange={(event) => {
           setPageSize(parseInt(event.target.value, 10))
           setPage(0)
@@ -961,7 +960,7 @@ export const ProfilePage = () => {
   const [userProfile, setUserProfile] = useState<UserFullResponse | null>(null)
   const [profileHistoryType, setProfileHistoryType] =
     useState<ProfileHistoryType>(ProfileHistoryType.GlobalRank)
-  const [isOnline, setIsOnline] = useState(false)
+  // const [isOnline, setIsOnline] = useState(false)
 
   const [gameMode, setGameMode] = useState(GameMode.Standard)
   const [relaxMode, setRelaxMode] = useState(RelaxMode.Vanilla)
@@ -981,12 +980,12 @@ export const ProfilePage = () => {
     })()
   }, [profileUserId])
 
-  useEffect(() => {
-    ;(async () => {
-      const response = await userIsOnline({ userId: profileUserId })
-      setIsOnline(response.result)
-    })()
-  })
+  // useEffect(() => {
+  //   ;(async () => {
+  //     const response = await userIsOnline({ userId: profileUserId })
+  //     setIsOnline(response.result)
+  //   })()
+  // })
 
   if (!profileUserId) {
     return (
