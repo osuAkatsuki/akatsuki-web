@@ -30,6 +30,7 @@ export const HomePage = () => {
             top={{ sm: 0 }}
             left={0}
             width="100%"
+            height="calc(600px - 10%)"
             sx={{
               opacity: { xs: 0.5, sm: 0.25 },
               pointerEvents: "none",
