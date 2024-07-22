@@ -17,9 +17,6 @@ import { formatMods } from "../../utils/mods"
 const SONG_NAME_REGEX =
   /^(?<artist>[^-]+) - (?<songName>[^[]+) \[(?<version>.+)\]$/
 
-const SCORE_PP_DISPLAY_GRADIENT =
-  "linear-gradient(0deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), linear-gradient(79.96deg, #387EFC 16.72%, #C940FD 91.26%), #FFFFFF"
-
 const ProfileScoreCard = (userScore: UserScore) => {
   const scoreGrade =
     calculateGrade(
@@ -100,7 +97,11 @@ const ProfileScoreCard = (userScore: UserScore) => {
                   variant="h6"
                   fontWeight="bold"
                   sx={{
-                    background: SCORE_PP_DISPLAY_GRADIENT,
+                    background: `
+                    linear-gradient(0deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)),
+                    linear-gradient(79.96deg, #387EFC 16.72%, #C940FD 91.26%),
+                    #FFFFFF
+                  `,
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                   }}
@@ -137,10 +138,10 @@ const ProfileScoreCard = (userScore: UserScore) => {
           zIndex={0}
           sx={{
             backgroundImage: `
-                  linear-gradient(90deg, ${getGradeColor(scoreGrade, 0.2)}, ${getGradeColor(scoreGrade, 0.0)} 48.5%),
-                  linear-gradient(0deg, rgba(22, 19, 35, 0.9), rgba(22, 19, 35, 0.9)),
-                  url(https://assets.ppy.sh/beatmaps/${userScore.beatmap.beatmapsetId}/covers/cover.jpg)
-                `,
+              linear-gradient(90deg, ${getGradeColor(scoreGrade, 0.2)}, ${getGradeColor(scoreGrade, 0.0)} 48.5%),
+              linear-gradient(0deg, rgba(22, 19, 35, 0.9), rgba(22, 19, 35, 0.9)),
+              url(https://assets.ppy.sh/beatmaps/${userScore.beatmap.beatmapsetId}/covers/cover.jpg)
+            `,
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
             backgroundPosition: "center",

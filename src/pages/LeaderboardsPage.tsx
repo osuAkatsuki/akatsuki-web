@@ -7,15 +7,13 @@ import { TaikoGameModeIcon } from "../components/images/gamemode-icons/TaikoGame
 import { CatchGameModeIcon } from "../components/images/gamemode-icons/CatchGameModeIcon"
 import { ManiaGameModeIcon } from "../components/images/gamemode-icons/ManiaGameModeIcon"
 import { LeaderboardIcon } from "../components/images/icons/LeaderboardIcon"
-import { GameMode, RelaxMode, isRealGameMode } from "../gameModes"
+import { GameMode, RelaxMode } from "../gameModes"
 import { useState } from "react"
 import Divider from "@mui/material/Divider"
 import {
   GameModeSelector,
   RelaxModeSelector,
 } from "../components/GameModeSelector"
-
-const BANNER_GRADIENT = `linear-gradient(0deg, rgba(21, 18, 34, 0) 0%, rgba(21, 18, 34, 0.9) 100%), url(${LeaderboardBanner})`
 
 export enum SortParam {
   Performance = "pp",
@@ -57,7 +55,10 @@ export const LeaderboardsPage = () => {
         pt={{ xs: 0, sm: 10 }}
         sx={{
           backgroundSize: "cover",
-          backgroundImage: BANNER_GRADIENT,
+          backgroundImage: `
+            linear-gradient(0deg, rgba(21, 18, 34, 0) 0%, rgba(21, 18, 34, 0.9) 100%),
+            url(${LeaderboardBanner})
+          `,
         }}
       >
         <Container sx={{ height: "100%" }}>
