@@ -17,6 +17,36 @@ import { formatDecimal, formatNumber } from "../../utils/formatting"
 import { Line } from "react-chartjs-2"
 import { modeToStatsIndex } from "../../scores"
 
+const getChartOptions = (chartType: ProfileHistoryType) => {
+  const useReverseYAxis = [
+    ProfileHistoryType.CountryRank,
+    ProfileHistoryType.GlobalRank,
+  ].includes(chartType)
+
+  return {
+    elements: {
+      point: {
+        radius: 0,
+      },
+    },
+    scales: {
+      y: {
+        grace: "10%",
+        reverse: useReverseYAxis,
+        type: "linear",
+        ticks: {
+          precision: 0,
+        },
+      },
+    },
+    plugins: {
+      tooltip: {
+        intersect: false,
+      },
+    },
+  } as const
+}
+
 const ProfileHistoryGraphNavbar = ({
   userStats,
   country,
@@ -163,36 +193,7 @@ const ProfileHistoryGraph = ({
     ],
   }
 
-  const options = {
-    elements: {
-      point: {
-        radius: 0,
-      },
-    },
-    scales: {
-      y: {
-        grace: "10%",
-        reverse: [
-          ProfileHistoryType.CountryRank,
-          ProfileHistoryType.GlobalRank,
-        ].includes(type),
-        type: "linear",
-        ticks: {
-          precision: 0,
-        },
-      },
-    },
-    plugins: {
-      tooltip: {
-        intersect: false,
-      },
-    },
-  } as const
-  return (
-    <>
-      <Line data={chartData} options={options} />
-    </>
-  )
+  return <Line data={chartData} options={getChartOptions(type)} />
 }
 
 export const ProfileHistoryCard = ({
