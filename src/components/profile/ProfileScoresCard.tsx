@@ -67,6 +67,7 @@ const ProfileScoreCard = (userScore: UserScore) => {
               direction={{ xs: "column", sm: "row" }}
               spacing={{ sm: 1 }}
               alignItems={{ xs: "flex-start", sm: "center" }}
+              // TODO: adjust this to work better on xs/sm devices
               maxWidth="15vw"
             >
               <Typography variant="h6" noWrap={true}>
