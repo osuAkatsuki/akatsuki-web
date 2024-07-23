@@ -7,12 +7,14 @@ export const HomepageStatDisplay = ({
   icon,
   lessRoundedCorner,
   shadowDirection,
+  textAlign,
 }: {
   title: string
   value: number
   icon: JSX.Element
   lessRoundedCorner: 'top-left' | 'bottom-left' | 'top-right' | 'bottom-right'
   shadowDirection: 'top-left' | 'bottom-left' | 'top-right' | 'bottom-right'
+  textAlign: 'top' | 'bottom'
 }) => {
   const CORNERS = ['top-left', 'top-right', 'bottom-right', 'bottom-left'];
   const borderRadius = CORNERS.map(corner => corner === lessRoundedCorner ? "27px" : "50px").join(' ')
@@ -21,6 +23,7 @@ export const HomepageStatDisplay = ({
   const shadowOffsetX = shadowDirection.endsWith("left") ? -20 : 20
   const shadowOffsetY = shadowDirection.startsWith("top") ? -20 : 20
   const boxShadow = `${SHADOW_COLOR} ${shadowOffsetX}px ${shadowOffsetY}px`
+  const justifyContent = textAlign === "top" ? "flex-start" : "flex-end"
   return (
     <>
       <Box
@@ -31,7 +34,7 @@ export const HomepageStatDisplay = ({
       >
         {icon}
       </Box>
-      <Stack direction="column" justifyContent="flex-end">
+      <Stack direction="column" justifyContent={justifyContent}>
         <Typography variant="h4" fontWeight="lighter">
           {formatNumber(value)}
         </Typography>

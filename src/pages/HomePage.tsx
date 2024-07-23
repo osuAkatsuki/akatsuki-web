@@ -105,6 +105,7 @@ export const HomePage = () => {
                       icon={<HomepagePPIcon />}
                       lessRoundedCorner="bottom-right"
                       shadowDirection="bottom-left"
+                      textAlign="bottom"
                     />
                   </Stack>
                   <Stack
@@ -120,15 +121,23 @@ export const HomePage = () => {
                       icon={<HomepageScoresIcon />}
                       lessRoundedCorner="bottom-left"
                       shadowDirection="bottom-right"
+                      textAlign="bottom"
                     />
                   </Stack>
-                  <Stack direction="row" mt={5} spacing={2}>
+                  <Stack
+                    direction="row"
+                    width="100%"
+                    mt={5}
+                    spacing={2}
+                    justifyContent="center"
+                  >
                     <HomepageStatDisplay
                       title="registered users"
                       value={totalUsersRegistered}
                       icon={<HomepageUsersIcon />}
                       lessRoundedCorner="top-right"
                       shadowDirection="bottom-left"
+                      textAlign="top"
                     />
                   </Stack>
                 </Stack>
