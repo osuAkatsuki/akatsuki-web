@@ -119,7 +119,7 @@ export const HomePage = () => {
                       value={totalScoresSet}
                       icon={<HomepageScoresIcon />}
                       lessRoundedCorner="bottom-left"
-                      shadowDirection="bottom-left"
+                      shadowDirection="bottom-right"
                     />
                   </Stack>
                   <Stack direction="row" mt={5} spacing={2}>
