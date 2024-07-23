@@ -22,7 +22,7 @@ enum TimeUnits {
   Centuries = 100 * Years,
 }
 
-export const formatTimespan = (seconds: number): string => {
+export const formatTimespan = (seconds: number, precision: number): string => {
   const centuries = Math.floor(seconds / TimeUnits.Centuries)
   seconds %= TimeUnits.Centuries
   const years = Math.floor(seconds / TimeUnits.Years)
@@ -43,5 +43,5 @@ export const formatTimespan = (seconds: number): string => {
   if (minutes > 0) parts.push(`${minutes}m`)
   if (seconds > 0) parts.push(`${seconds}s`)
 
-  return parts.join(" ")
+  return parts.slice(0, precision).join(" ")
 }

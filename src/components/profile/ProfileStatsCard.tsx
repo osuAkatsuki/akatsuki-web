@@ -64,14 +64,6 @@ export const ProfileStatsCard = ({ statsData }: { statsData: UserStats }) => {
     <Box>
       <Stack direction="column" spacing={1}>
         <StatDisplay
-          name="Performance Points"
-          value={`${formatNumber(statsData.pp)}pp`}
-        />
-        <StatDisplay
-          name="Overall Accuracy"
-          value={`${formatDecimal(statsData.accuracy)}%`}
-        />
-        <StatDisplay
           name="Ranked Score"
           value={formatNumber(statsData.rankedScore)}
         />
@@ -80,24 +72,24 @@ export const ProfileStatsCard = ({ statsData }: { statsData: UserStats }) => {
           value={formatNumber(statsData.totalScore)}
         />
         <StatDisplay
-          name="Highest Combo"
-          value={formatNumber(statsData.maxCombo)}
+          name="Play Count"
+          value={formatNumber(statsData.playcount)}
+        />
+        <StatDisplay
+          name="Play Time"
+          value={formatTimespan(statsData.playtime, 2) || "Never played"}
+        />
+        <StatDisplay
+          name="Replays Watched"
+          value={formatNumber(statsData.replaysWatched)}
         />
         <StatDisplay
           name="Total Hits"
           value={formatNumber(statsData.totalHits)}
         />
         <StatDisplay
-          name="Play Count"
-          value={formatNumber(statsData.playcount)}
-        />
-        <StatDisplay
-          name="Play Time"
-          value={formatTimespan(statsData.playtime) || "Never played"}
-        />
-        <StatDisplay
-          name="Replays Watched"
-          value={formatNumber(statsData.replaysWatched)}
+          name="Max Combo"
+          value={formatNumber(statsData.maxCombo)}
         />
         <ProfileGradesCard statsData={statsData} />
       </Stack>
