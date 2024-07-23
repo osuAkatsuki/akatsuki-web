@@ -21,10 +21,10 @@ describe("formatting", () => {
     [5, "5s"],
     [65, "1m 5s"],
     [3665, "1h 1m 5s"],
-    [90065, "1d 1h 1m 5s"],
-    [31626065, "1y 1d 1h 1m 5s"],
-    [3185226065, "1c 1y 1d 1h 1m 5s"],
+    [90065, "1d 1h 1m"],
+    [31626065, "1y 1d 1h"],
+    [3185226065, "1c 1y 1d"],
   ])("formatTimespan", (input: number, expected: string) => {
-    expect(formatTimespan(input)).toEqual(expected)
+    expect(formatTimespan(input, 3)).toEqual(expected)
   })
 })

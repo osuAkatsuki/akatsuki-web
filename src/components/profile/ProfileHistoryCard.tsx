@@ -1,10 +1,8 @@
-import { Typography, Alert, Button } from "@mui/material"
+import { Typography, Alert, Button, Divider } from "@mui/material"
 import Stack from "@mui/material/Stack"
 import Box from "@mui/material/Box"
 import { useEffect, useState } from "react"
-import PublicIcon from "@mui/icons-material/Public"
 import { GameMode, RelaxMode } from "../../gameModes"
-import { getFlagUrl } from "../../utils/countries"
 import { UserFullResponse, UserStats } from "../../adapters/akatsuki-api/users"
 import {
   captureTypeToDisplay,
@@ -13,9 +11,10 @@ import {
   ProfileHistoryResponse,
   ProfileHistoryType,
 } from "../../adapters/akatsuki-api/profileHistory"
-import { formatDecimal, formatNumber } from "../../utils/formatting"
+import { formatDecimal } from "../../utils/formatting"
 import { Line as LineChart } from "react-chartjs-2"
 import { modeToStatsIndex } from "../../scores"
+import { FlagIcon, GlobalIcon } from "../DestinationIcons"
 
 const getChartOptions = (chartType: ProfileHistoryType) => {
   const useReverseYAxis = [
@@ -55,13 +54,70 @@ const getChartOptions = (chartType: ProfileHistoryType) => {
   } as const
 }
 
+const ActiveUnderline = ({ isActive }: { isActive: boolean }) => {
+  return (
+    <Box minHeight="4px">
+      {isActive && (
+        <Divider
+          sx={{
+            height: "4px",
+            borderRadius: "2px",
+            backgroundImage: `linear-gradient(90.09deg, #387EFC -0.08%, #C940FD 99.3%)`,
+          }}
+        />
+      )}
+    </Box>
+  )
+}
+
+const ProfileHistoryTypeSelectionButton = ({
+  onClick,
+  displayValue,
+  isActive,
+  icon,
+  textSuffix,
+}: {
+  onClick?: () => void
+  displayValue: string
+  isActive: boolean
+  icon?: JSX.Element
+  textSuffix?: string
+}) => {
+  return (
+    <Button
+      variant="text"
+      onClick={onClick}
+      sx={{
+        color: "white",
+        opacity: isActive ? "100%" : "60%",
+        textTransform: "none",
+      }}
+    >
+      <Stack direction="column" spacing={1}>
+        <Stack direction="row" spacing={1}>
+          {icon}
+          <Typography variant="h6">{displayValue}</Typography>
+          {textSuffix && (
+            <Typography variant="h6" fontWeight="lighter">
+              {textSuffix}
+            </Typography>
+          )}
+        </Stack>
+        <ActiveUnderline isActive={isActive} />
+      </Stack>
+    </Button>
+  )
+}
+
 const ProfileHistoryGraphNavbar = ({
   userStats,
   country,
+  profileHistoryType,
   setProfileHistoryType,
 }: {
   userStats: UserStats
   country: string
+  profileHistoryType: ProfileHistoryType
   setProfileHistoryType: (type: ProfileHistoryType) => void
 }) => {
   return (
@@ -70,63 +126,37 @@ const ProfileHistoryGraphNavbar = ({
       justifyContent={{ sm: "space-between" }}
     >
       <Stack direction="row" spacing={1} justifyContent={{ xs: "center" }}>
-        <Button
-          variant="text"
+        <ProfileHistoryTypeSelectionButton
           onClick={() => setProfileHistoryType(ProfileHistoryType.GlobalRank)}
-          sx={{ color: "white" }}
-        >
-          <Stack direction="row" spacing={1}>
-            <Stack direction="row" alignItems="center" spacing={1}>
-              <PublicIcon sx={{ width: 32, height: 32 }} />
-              <Typography variant="h6">
-                #{userStats.globalLeaderboardRank ?? " N/A"}
-              </Typography>
-            </Stack>
-          </Stack>
-        </Button>
-        <Button
-          variant="text"
+          displayValue={`#${userStats.globalLeaderboardRank ?? "N/A"}`}
+          isActive={profileHistoryType === ProfileHistoryType.GlobalRank}
+          icon={<GlobalIcon height={32} width={32} />}
+        />
+        <ProfileHistoryTypeSelectionButton
           onClick={() => setProfileHistoryType(ProfileHistoryType.CountryRank)}
-          sx={{ color: "white" }}
-        >
-          <Stack direction="row" spacing={1}>
-            <Stack direction="row" alignItems="center" spacing={1}>
-              <Box
-                component="img"
-                width={32}
-                height={32}
-                alt="flag-image"
-                src={getFlagUrl(country)}
-              />
-              <Typography variant="h6">
-                #{userStats.countryLeaderboardRank ?? " N/A"}
-              </Typography>
-            </Stack>
-          </Stack>
-        </Button>
+          displayValue={`#${userStats.countryLeaderboardRank ?? "N/A"}`}
+          isActive={profileHistoryType === ProfileHistoryType.CountryRank}
+          icon={<FlagIcon country={country} height={32} width={32} />}
+        />
       </Stack>
       <Stack direction="row" justifyContent="center" spacing={{ xs: 1, sm: 2 }}>
-        <Button
-          variant="text"
+        <ProfileHistoryTypeSelectionButton
           onClick={() => setProfileHistoryType(ProfileHistoryType.PP)}
-          sx={{ color: "white", textTransform: "none" }}
-        >
-          <Stack direction="row" alignItems="center" spacing={1}>
-            <Typography variant="h6">{formatNumber(userStats.pp)}</Typography>
-            <Typography variant="h6" fontWeight="lighter">
-              pp
-            </Typography>
-          </Stack>
-        </Button>
+          displayValue={`${userStats.pp}`}
+          isActive={profileHistoryType === ProfileHistoryType.PP}
+          textSuffix="pp"
+        />
         {/* TODO: profile history data collection for accuracy */}
-        <Stack direction="row" alignItems="center" spacing={1}>
-          <Typography variant="h6">
-            {formatDecimal(userStats.accuracy)}%
-          </Typography>
-          <Typography variant="h6" fontWeight="lighter">
-            accuracy
-          </Typography>
-        </Stack>
+
+        <ProfileHistoryTypeSelectionButton
+          onClick={
+            // TODO: support accuracy history
+            () => undefined
+          }
+          displayValue={`${formatDecimal(userStats.accuracy)}%`}
+          isActive={profileHistoryType === ProfileHistoryType.Accuracy}
+          textSuffix="accuracy"
+        />
       </Stack>
     </Stack>
   )
@@ -228,6 +258,7 @@ export const ProfileHistoryCard = ({
       <ProfileHistoryGraphNavbar
         userStats={modeStats}
         country={userProfile.country}
+        profileHistoryType={profileHistoryType}
         setProfileHistoryType={setProfileHistoryType}
       />
       <ProfileHistoryGraph

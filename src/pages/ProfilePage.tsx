@@ -121,7 +121,14 @@ export const ProfilePage = () => {
         </Container>
       </Box>
 
-      <Box width="100%" bgcolor="#211D35" color="#FFFFFF80">
+      <Box
+        width="100%"
+        bgcolor="#211D35"
+        color="#FFFFFF80"
+        /* NOTE: increase zindex here to put the profile graph below this */
+        position="relative"
+        zIndex={2}
+      >
         <Container>
           <GamemodeSelectionBar
             gameMode={gameMode}
@@ -131,16 +138,17 @@ export const ProfilePage = () => {
           />
         </Container>
       </Box>
-      <Container sx={{ backgroundColor: "#191527" }}>
-        <Stack direction="column" spacing={2} pt={2}>
-          <Stack
-            direction={{ xs: "column", sm: "row" }}
-            spacing={{ sm: 2 }}
-            px={3}
-            justifyContent="space-evenly"
+      <Container disableGutters sx={{ backgroundColor: "#191527" }}>
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          justifyContent="space-evenly"
+        >
+          {/* Left Side (Stats, Clan, etc.) */}
+          <Box
+            width={{ xs: "100%", sm: "33.33%" }}
+            sx={{ background: "rgba(21, 18, 35, 1)" }}
           >
-            {/* Left Side (Stats, Clan, etc.) */}
-            <Box pb={2} pr={{ sm: 3 }} width={{ xs: "100%", sm: "33.33%" }}>
+            <Box p={4}>
               {userProfile.tbadges && (
                 <ProfileTournamentBadgesCard badges={userProfile.tbadges} />
               )}
@@ -154,13 +162,20 @@ export const ProfilePage = () => {
                 </>
               )}
             </Box>
+          </Box>
 
-            {!isMobile && <Divider orientation="vertical" flexItem />}
+          {!isMobile && <Divider orientation="vertical" flexItem />}
 
-            {/* Right Side (Profile History, Scores, etc.) */}
-            <Box width={{ xs: "100%", sm: "66.67%" }}>
-              <ProfileUserpageCard userProfile={userProfile} />
-
+          {/* Right Side (Profile History, Scores, etc.) */}
+          <Box width={{ xs: "100%", sm: "66.67%" }}>
+            <ProfileUserpageCard userProfile={userProfile} />
+            <Box
+              borderRadius={2}
+              p={2}
+              pt={3}
+              mt={-1}
+              sx={{ background: "rgba(30, 27, 47, 1)" }}
+            >
               <ProfileHistoryCard
                 userProfile={userProfile}
                 gameMode={gameMode}
@@ -168,32 +183,31 @@ export const ProfilePage = () => {
                 profileHistoryType={profileHistoryType}
                 setProfileHistoryType={setProfileHistoryType}
               />
-
-              <ProfileScoresCard
-                scoresType="pinned"
-                userId={userProfile.id}
-                gameMode={gameMode}
-                relaxMode={relaxMode}
-                title="Pinned Scores"
-              />
-              <Divider />
-              <ProfileScoresCard
-                scoresType="best"
-                userId={userProfile.id}
-                gameMode={gameMode}
-                relaxMode={relaxMode}
-                title="Best Scores"
-              />
-              <Divider />
-              <ProfileScoresCard
-                scoresType="recent"
-                userId={profileUserId}
-                gameMode={gameMode}
-                relaxMode={relaxMode}
-                title="Recent Scores"
-              />
             </Box>
-          </Stack>
+            <ProfileScoresCard
+              scoresType="pinned"
+              userId={userProfile.id}
+              gameMode={gameMode}
+              relaxMode={relaxMode}
+              title="Pinned Scores"
+            />
+            <Divider />
+            <ProfileScoresCard
+              scoresType="best"
+              userId={userProfile.id}
+              gameMode={gameMode}
+              relaxMode={relaxMode}
+              title="Best Scores"
+            />
+            <Divider />
+            <ProfileScoresCard
+              scoresType="recent"
+              userId={profileUserId}
+              gameMode={gameMode}
+              relaxMode={relaxMode}
+              title="Recent Scores"
+            />
+          </Box>
         </Stack>
       </Container>
     </Box>
