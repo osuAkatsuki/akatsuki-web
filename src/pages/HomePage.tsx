@@ -1,85 +1,168 @@
-import {
-  Button,
-  Grid,
-  Typography,
-  type ButtonPropsColorOverrides,
-} from "@mui/material"
-import { Link } from "react-router-dom"
+import { HomepageTextOutline } from "../components/images/logos/HomepageTextOutline"
+import HomepageBanner from "../components/images/banners/homepage_banner.svg"
+
+import Box from "@mui/material/Box"
 import Stack from "@mui/material/Stack"
-import { type OverridableStringUnion } from "@mui/types"
-import { useIdentityContext } from "../context/identity"
-
-const NavButton = ({
-  to,
-  color,
-  label,
-}: {
-  to: string
-  color: OverridableStringUnion<
-    | "inherit"
-    | "primary"
-    | "secondary"
-    | "success"
-    | "error"
-    | "info"
-    | "warning",
-    ButtonPropsColorOverrides
-  >
-  label: string
-}) => {
-  return (
-    <Link to={to} style={{ textDecoration: "none" }}>
-      <Button variant="contained" color={color} fullWidth>
-        <Typography variant="h6">{label}</Typography>
-      </Button>
-    </Link>
-  )
-}
-
-const Header = () => (
-  <>
-    <Typography variant="h2" align="center">
-      Welcome to Akatsuki
-    </Typography>
-    <Typography variant="h4" align="center">
-      The largest competitive osu! private server
-    </Typography>
-  </>
-)
+import Typography from "@mui/material/Typography"
+import { Button, Container, Grid } from "@mui/material"
+import { HomepagePPIcon } from "../components/images/icons/HomepagePPIcon"
+import { HomepageUsersIcon } from "../components/images/icons/HomepageUsersIcon"
+import { HomepageScoresIcon } from "../components/images/icons/HomepageScoresIcon"
+import { WhiteoutAkatsukiLogo } from "../components/images/logos/WhiteoutAkatsukiLogo"
+import { Link } from "react-router-dom"
 export const HomePage = () => {
-  const { identity } = useIdentityContext()
-
   return (
-    <Grid
-      container
-      direction="column"
-      alignItems="center"
-      justifyContent="center"
-      // TODO: 70vh is an arbitrary choice that fits most desktop apps
-      // without the need for a scrollbar. Can we do better than this?
-      minHeight="70vh"
-    >
-      <Grid item xs={12}>
-        <Header />
-      </Grid>
-      <Grid item xs={12} sm={10} md={8} lg={6} xl={4}>
-        <Stack direction={{ xs: "column", sm: "row" }} spacing={2} mt={2}>
-          {identity ? (
-            <NavButton
-              to={`/u/${identity.userId}`}
-              color="primary"
-              label="My Profile"
-            />
-          ) : (
-            <NavButton to="/register" color="primary" label="Sign Up" />
-          )}
-          <NavButton
-            to="/leaderboards"
-            color="secondary"
-            label="Leaderboards"
-          />
-        </Stack>
-      </Grid>
-    </Grid>
+    <Box>
+      <Stack direction="column" justifyContent="space-between" spacing={2}>
+        <Box
+          py={{ xs: 4, sm: 16 }}
+          sx={{
+            backgroundImage: `url(${HomepageBanner})`,
+            backgroundSize: "cover",
+            backgroundPosition: "bottom",
+          }}
+        >
+          {/* TODO: figure out how to scale this */}
+          {/* <Box
+            position="absolute"
+            zIndex={0}
+            pt={{ sm: 10 }}
+            top={{ sm: 0 }}
+            left={0}
+            width="100%"
+            height="calc(600px - 10%)"
+            sx={{
+              opacity: { xs: 0.5, sm: 0.25 },
+              pointerEvents: "none",
+            }}
+          >
+            <HomepageTextOutline />
+          </Box> */}
+          <Container>
+            <Grid
+              container
+              direction={{ xs: "column", sm: "row-reverse" }}
+              spacing={{ xs: 2, sm: 16 }}
+              justifyContent="center"
+            >
+              <Grid item xs={6}>
+                <Stack
+                  direction="column"
+                  alignItems={{ xs: "center", sm: "flex-end" }}
+                  spacing={3}
+                >
+                  <Button>
+                    <Box width={315} height={68}>
+                      <WhiteoutAkatsukiLogo />
+                    </Box>
+                  </Button>
+                  <Typography textAlign={{ xs: "center", sm: "right" }}>
+                    Welcome to Akatsuki! We are an osu! private server mainly
+                    based around the relax mod - featuring score submission,
+                    leaderboards & rankings, custom pp, and much more for relax,
+                    autopilot and vanilla osu!
+                  </Typography>
+                  <Stack direction="row" spacing={2}>
+                    <Link to="/register">
+                      <Button
+                        variant="contained"
+                        sx={{
+                          color: "black",
+                          bgcolor: "white",
+                          borderRadius: 2,
+                          px: 3,
+                          py: 1,
+                        }}
+                      >
+                        <Typography variant="body1">Get Started!</Typography>
+                      </Button>
+                    </Link>
+                    <Link to="/login">
+                      <Button
+                        variant="contained"
+                        sx={{
+                          color: "white",
+                          bgcolor: "rgba(21, 18, 34, 0.2)",
+                          borderRadius: 2,
+                          px: 3,
+                          py: 1,
+                        }}
+                      >
+                        <Typography variant="body1">Sign In</Typography>
+                      </Button>
+                    </Link>
+                  </Stack>
+                </Stack>
+              </Grid>
+              <Grid item xs={6}>
+                <Stack direction="column" alignItems="center">
+                  <Stack direction="row" width="100%" spacing={2}>
+                    <Box
+                      height={111}
+                      width={111}
+                      borderRadius={"50px 50px 27px 50px"}
+                      boxShadow="hsl(0deg 0% 0% / 0.2) -20px 20px"
+                    >
+                      <HomepagePPIcon />
+                    </Box>
+                    <Stack direction="column" justifyContent="flex-end">
+                      <Typography variant="h4" fontWeight="lighter">
+                        1,483,238
+                      </Typography>
+                      <Typography variant="h6" fontWeight="lighter">
+                        pp earned
+                      </Typography>
+                    </Stack>
+                  </Stack>
+                  <Stack
+                    direction="row"
+                    width="100%"
+                    mt={-1}
+                    spacing={2}
+                    justifyContent="flex-end"
+                    alignItems="flex-end"
+                  >
+                    <Stack direction="column">
+                      <Typography variant="h4" fontWeight="lighter">
+                        92,383,238
+                      </Typography>
+                      <Typography variant="h6" fontWeight="lighter">
+                        scores set
+                      </Typography>
+                    </Stack>
+                    <Box
+                      height={111}
+                      width={111}
+                      borderRadius={"50px 50px 50px 27px"}
+                      boxShadow="hsl(0deg 0% 0% / 0.2) 20px 20px"
+                    >
+                      <HomepageScoresIcon />
+                    </Box>
+                  </Stack>
+                  <Stack direction="row" mt={5} spacing={2}>
+                    <Box
+                      height={111}
+                      width={111}
+                      borderRadius={"50px 27px 50px 50px"}
+                      boxShadow="hsl(0deg 0% 0% / 0.2) -20px 20px"
+                    >
+                      <HomepageUsersIcon />
+                    </Box>
+                    <Stack direction="column">
+                      <Typography variant="h4" fontWeight="lighter">
+                        172,395
+                      </Typography>
+                      <Typography variant="h6" fontWeight="lighter">
+                        registered users
+                      </Typography>
+                    </Stack>
+                  </Stack>
+                </Stack>
+              </Grid>
+            </Grid>
+          </Container>
+        </Box>
+      </Stack>
+    </Box>
   )
 }
