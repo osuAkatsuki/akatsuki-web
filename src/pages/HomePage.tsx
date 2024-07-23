@@ -22,8 +22,8 @@ export const HomePage = () => {
             backgroundPosition: "bottom",
           }}
         >
-          {/* TODO: scale the text outline with screen size */}
-          <Box
+          {/* TODO: figure out how to scale this */}
+          {/* <Box
             position="absolute"
             zIndex={0}
             pt={{ sm: 10 }}
@@ -37,7 +37,7 @@ export const HomePage = () => {
             }}
           >
             <HomepageTextOutline />
-          </Box>
+          </Box> */}
           <Container>
             <Grid
               container
@@ -95,15 +95,8 @@ export const HomePage = () => {
                 </Stack>
               </Grid>
               <Grid item xs={6}>
-                <Stack
-                  direction="column"
-                  alignItems="center"
-                >
-                  <Stack
-                    direction="row"
-                    width="100%"
-                    spacing={2}
-                  >
+                <Stack direction="column" alignItems="center">
+                  <Stack direction="row" width="100%" spacing={2}>
                     <Box
                       height={111}
                       width={111}
