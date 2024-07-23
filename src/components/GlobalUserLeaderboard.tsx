@@ -17,9 +17,9 @@ import {
 } from "../adapters/akatsuki-api/leaderboards"
 import { formatDecimal, formatNumber } from "../utils/formatting"
 
-import { getFlagUrl } from "../utils/countries"
 import { GameMode, RelaxMode } from "../gameModes"
 import { type LeaderboardUser } from "../adapters/akatsuki-api/leaderboards"
+import { FlagIcon } from "./DestinationIcons"
 
 const USER_RANK_BG_COLOR = "rgba(21, 18, 35, 1)"
 const USER_INFO_BG_COLOR = "rgba(30, 27, 47, 1)"
@@ -48,13 +48,7 @@ const MobileLeaderboardUserCard = ({ user }: { user: LeaderboardUser }) => {
           height="100%"
           sx={{ borderTopLeftRadius: 8, borderBottomLeftRadius: 8 }}
         >
-          <Box
-            component="img"
-            width={36}
-            height={36}
-            alt="flag-image"
-            src={getFlagUrl(user.country)}
-          />
+          <FlagIcon country={user.country} height={36} width={36} />
           <Typography variant="body1" ml={1}>
             <Link
               to={`/u/${user.id}`}
@@ -123,13 +117,7 @@ const LeaderboardUserCard = ({
           bgcolor={USER_INFO_BG_COLOR}
           sx={{ borderTopLeftRadius: 8, borderBottomLeftRadius: 8 }}
         >
-          <Box
-            component="img"
-            width={36}
-            height={36}
-            alt="flag-image"
-            src={getFlagUrl(user.country)}
-          />
+          <FlagIcon country={user.country} height={36} width={36} />
           <Typography variant="body1" ml={1}>
             <Link
               to={`/u/${user.id}`}

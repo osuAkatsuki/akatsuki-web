@@ -1,9 +1,9 @@
-import { Typography, Tooltip, Avatar } from "@mui/material"
+import { Typography, Avatar } from "@mui/material"
 import Stack from "@mui/material/Stack"
 import Box from "@mui/material/Box"
-import { getCountryName, getFlagUrl } from "../../utils/countries"
 import { UserFullResponse } from "../../adapters/akatsuki-api/users"
 import { UserPrivileges } from "../../utils/privileges"
+import { FlagIcon } from "../DestinationIcons"
 
 interface UserTitleDisplay {
   text: string
@@ -68,15 +68,7 @@ export const ProfileIdentityCard = ({
           <Typography fontWeight="bold" variant="h4">
             {userProfile.username}
           </Typography>
-          <Tooltip title={getCountryName(userProfile.country)} placement="top">
-            <Box
-              component="img"
-              width={30}
-              height={30}
-              alt="flag-image"
-              src={getFlagUrl(userProfile.country)}
-            />
-          </Tooltip>
+          <FlagIcon country={userProfile.country} height={30} width={30} />
         </Stack>
         {userTitleDisplay !== null && (
           <Typography

@@ -5,7 +5,7 @@ export enum ProfileHistoryType {
   GlobalRank = "global_rank",
   CountryRank = "country_rank",
   PP = "pp",
-  // TODO: other stats, like accuracy?
+  Accuracy = "accuracy",
 }
 
 export const captureTypeToDisplay = (
@@ -18,6 +18,8 @@ export const captureTypeToDisplay = (
       return "Country Rank"
     case ProfileHistoryType.PP:
       return "Performance Points"
+    case ProfileHistoryType.Accuracy:
+      return "Accuracy"
     default:
       throw new Error("Invalid capture type")
   }
@@ -31,6 +33,8 @@ const getCaptureType = (historyType: ProfileHistoryType): string => {
       return "rank"
     case ProfileHistoryType.PP:
       return "pp"
+    case ProfileHistoryType.Accuracy:
+      return "accuracy"
     default:
       throw new Error("Invalid capture type")
   }
@@ -47,6 +51,8 @@ const getCaptureValue = (
       return requestCapture.country
     case ProfileHistoryType.PP:
       return requestCapture.pp
+    case ProfileHistoryType.Accuracy:
+      return requestCapture.accuracy
     default:
       throw new Error("Invalid capture type")
   }
