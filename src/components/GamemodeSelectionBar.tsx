@@ -109,6 +109,7 @@ export const GamemodeSelectionBar = ({
 }) => {
   return (
     <Stack
+      spacing={1}
       px={3}
       py={2}
       direction={{ xs: "column", sm: "row" }}
