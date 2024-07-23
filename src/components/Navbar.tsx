@@ -100,6 +100,7 @@ export default function Navbar() {
             justifyContent="space-between"
             minHeight={5}
             py={1.25}
+            spacing={{ xs: 1, sm: 0 }}
           >
             {/* Left Navbar */}
             <Stack
