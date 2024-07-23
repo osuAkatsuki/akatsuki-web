@@ -44,17 +44,9 @@ export default function Footer() {
               alignItems="center"
               pt={4}
             >
-              <Link
-                to="/"
-                style={{
-                  color: "#FFFFFF",
-                  textDecoration: "none",
-                }}
-              >
-                <Box width={178} height={38}>
-                  <FooterLogo />
-                </Box>
-              </Link>
+              <Box width={178} height={38}>
+                <FooterLogo />
+              </Box>
               <Stack
                 direction={{ xs: "column", sm: "row" }}
                 spacing={2}

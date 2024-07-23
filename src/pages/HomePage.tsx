@@ -52,11 +52,9 @@ export const HomePage = () => {
                   alignItems={{ xs: "center", sm: "flex-end" }}
                   spacing={3}
                 >
-                  <Button>
-                    <Box width={315} height={68}>
-                      <WhiteoutAkatsukiLogo />
-                    </Box>
-                  </Button>
+                  <Box width={315} height={68}>
+                    <WhiteoutAkatsukiLogo />
+                  </Box>
                   <Typography textAlign={{ xs: "center", sm: "right" }}>
                     Welcome to Akatsuki! We are an osu! private server mainly
                     based around the relax mod - featuring score submission,
