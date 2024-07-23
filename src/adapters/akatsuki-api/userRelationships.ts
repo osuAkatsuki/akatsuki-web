@@ -18,6 +18,7 @@ export interface UserFriendsWithResponse {
 
 const userRelationshipsApiInstance = axios.create({
   baseURL: process.env.REACT_APP_USER_RELATIONSHIPS_API_BASE_URL,
+  withCredentials: true,
 })
 
 export const fetchUserFriendsWith = async (
