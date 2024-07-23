@@ -31,7 +31,6 @@ export const fetchUserFriendsWith = async (
         params: {
           id: request.id,
         },
-        // TODO: attach the auth cookie(s)
       }
     )
     return {
