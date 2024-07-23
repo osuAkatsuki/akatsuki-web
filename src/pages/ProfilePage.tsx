@@ -26,6 +26,10 @@ import { ProfileClanCard } from "../components/profile/ProfileClanCard"
 import { ProfileUserpageCard } from "../components/profile/ProfileUserpageCard"
 import { ProfileHistoryCard } from "../components/profile/ProfileHistoryCard"
 import { ProfileScoresCard } from "../components/profile/ProfileScoresCard"
+import {
+  fetchUserFriendsWith,
+  RelationshipType,
+} from "../adapters/akatsuki-api/userRelationships"
 
 export const ProfilePage = () => {
   const queryParams = useParams()
@@ -40,6 +44,8 @@ export const ProfilePage = () => {
   const [userProfile, setUserProfile] = useState<UserFullResponse | null>(null)
   const [profileHistoryType, setProfileHistoryType] =
     useState<ProfileHistoryType>(ProfileHistoryType.GlobalRank)
+  const [relationship, setRelationship] = useState(RelationshipType.NotFriend)
+
   // const [isOnline, setIsOnline] = useState(false)
 
   const [gameMode, setGameMode] = useState(GameMode.Standard)
@@ -55,6 +61,26 @@ export const ProfilePage = () => {
         setError("")
       } catch (e: any) {
         setError("Failed to fetch user profile data from server")
+        return
+      }
+    })()
+  }, [profileUserId])
+
+  useEffect(() => {
+    ;(async () => {
+      if (!profileUserId) return
+
+      try {
+        const response = await fetchUserFriendsWith({ id: profileUserId })
+        if (response.friend) {
+          setRelationship(RelationshipType.Friend)
+        } else if (response.mutual) {
+          setRelationship(RelationshipType.Mutual)
+        } else {
+          setRelationship(RelationshipType.NotFriend)
+        }
+      } catch (e: any) {
+        setError("Failed to fetch user relationship data from server")
         return
       }
     })()
@@ -115,7 +141,11 @@ export const ProfilePage = () => {
               spacing={{ xs: 1, sm: 0 }}
             >
               <ProfileActivityDatesCard userProfile={userProfile} />
-              <ProfileRelationshipCard followers={userProfile.followers} />
+              <ProfileRelationshipCard
+                relationship={relationship}
+                setRelationship={setRelationship}
+                followers={userProfile.followers}
+              />
             </Stack>
           </Stack>
         </Container>
