@@ -124,7 +124,7 @@ export const HomePage = () => {
                   </Stack>
                   <Stack direction="row" mt={5} spacing={2}>
                     <HomepageStatDisplay
-                      title="scores set"
+                      title="registered users"
                       value={totalUsersRegistered}
                       icon={<HomepageUsersIcon />}
                       lessRoundedCorner="top-right"
