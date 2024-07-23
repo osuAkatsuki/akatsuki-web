@@ -14,7 +14,7 @@ import {
   ProfileHistoryType,
 } from "../../adapters/akatsuki-api/profileHistory"
 import { formatDecimal, formatNumber } from "../../utils/formatting"
-import { Line } from "react-chartjs-2"
+import { Line as LineChart } from "react-chartjs-2"
 import { modeToStatsIndex } from "../../scores"
 
 const getChartOptions = (chartType: ProfileHistoryType) => {
@@ -24,6 +24,8 @@ const getChartOptions = (chartType: ProfileHistoryType) => {
   ].includes(chartType)
 
   return {
+    responsive: true,
+    maintainAspectRatio: false,
     elements: {
       point: {
         radius: 0,
@@ -31,17 +33,23 @@ const getChartOptions = (chartType: ProfileHistoryType) => {
     },
     scales: {
       y: {
-        grace: "10%",
+        display: false,
         reverse: useReverseYAxis,
         type: "linear",
         ticks: {
           precision: 0,
         },
       },
+      x: {
+        display: false,
+      },
     },
     plugins: {
       tooltip: {
         intersect: false,
+      },
+      legend: {
+        display: false,
       },
     },
   } as const
@@ -186,14 +194,18 @@ const ProfileHistoryGraph = ({
         data: profileHistoryResponse.captures.map(
           (capture: ProfileHistoryCapture) => capture.value
         ),
-        fill: false,
-        borderColor: "#1976d2",
-        tension: 0.1,
+        borderColor: "#ffffff",
+        tension: 0.5,
+        borderWidth: 6,
       },
     ],
   }
 
-  return <Line data={chartData} options={getChartOptions(type)} />
+  return (
+    <Box py={2}>
+      <LineChart data={chartData} options={getChartOptions(type)} />
+    </Box>
+  )
 }
 
 export const ProfileHistoryCard = ({
