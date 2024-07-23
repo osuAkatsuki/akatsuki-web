@@ -105,7 +105,8 @@ export const HomePage = () => {
                       icon={<HomepagePPIcon />}
                       lessRoundedCorner="bottom-right"
                       shadowDirection="bottom-left"
-                      textAlign="bottom"
+                      justifyText="bottom"
+                      textAlign="left"
                     />
                   </Stack>
                   <Stack
@@ -121,7 +122,8 @@ export const HomePage = () => {
                       icon={<HomepageScoresIcon />}
                       lessRoundedCorner="bottom-left"
                       shadowDirection="bottom-right"
-                      textAlign="bottom"
+                      justifyText="bottom"
+                      textAlign="right"
                     />
                   </Stack>
                   <Stack
@@ -137,7 +139,8 @@ export const HomePage = () => {
                       icon={<HomepageUsersIcon />}
                       lessRoundedCorner="top-right"
                       shadowDirection="bottom-left"
-                      textAlign="top"
+                      justifyText="top"
+                      textAlign="left"
                     />
                   </Stack>
                 </Stack>

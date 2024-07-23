@@ -7,6 +7,7 @@ export const HomepageStatDisplay = ({
   icon,
   lessRoundedCorner,
   shadowDirection,
+  justifyText,
   textAlign,
 }: {
   title: string
@@ -14,7 +15,8 @@ export const HomepageStatDisplay = ({
   icon: JSX.Element
   lessRoundedCorner: 'top-left' | 'bottom-left' | 'top-right' | 'bottom-right'
   shadowDirection: 'top-left' | 'bottom-left' | 'top-right' | 'bottom-right'
-  textAlign: 'top' | 'bottom'
+  justifyText: 'top' | 'bottom'
+  textAlign: 'left' | 'right'
 }) => {
   const CORNERS = ['top-left', 'top-right', 'bottom-right', 'bottom-left'];
   const borderRadius = CORNERS.map(corner => corner === lessRoundedCorner ? "27px" : "50px").join(' ')
@@ -23,7 +25,7 @@ export const HomepageStatDisplay = ({
   const shadowOffsetX = shadowDirection.endsWith("left") ? -20 : 20
   const shadowOffsetY = shadowDirection.startsWith("top") ? -20 : 20
   const boxShadow = `${SHADOW_COLOR} ${shadowOffsetX}px ${shadowOffsetY}px`
-  const justifyContent = textAlign === "top" ? "flex-start" : "flex-end"
+  const justifyContent = justifyText === "top" ? "flex-start" : "flex-end"
   return (
     <>
       <Box
@@ -34,7 +36,7 @@ export const HomepageStatDisplay = ({
       >
         {icon}
       </Box>
-      <Stack direction="column" justifyContent={justifyContent}>
+      <Stack direction="column" justifyContent={justifyContent} textAlign={textAlign}>
         <Typography variant="h4" fontWeight="lighter">
           {formatNumber(value)}
         </Typography>
