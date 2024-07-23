@@ -10,7 +10,7 @@ import {
   debounce,
   Box,
 } from "@mui/material"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { FavoriteOutlined } from "@mui/icons-material"
 import {
   removeIdentityFromLocalStorage,
@@ -25,6 +25,11 @@ import {
 } from "../adapters/akatsuki-api/search"
 import { UserPrivileges } from "../privileges"
 
+const PAGES_WITH_VISIBLE_OUTLINE = ["/"]
+
+const shouldUseVisibleOutline = (pagePathName: string) =>
+  PAGES_WITH_VISIBLE_OUTLINE.includes(pagePathName)
+
 export default function Navbar() {
   const navigate = useNavigate()
   const { identity, setIdentity } = useIdentityContext()
@@ -35,6 +40,9 @@ export default function Navbar() {
   >([])
   const [searchQueryValue, setSearchQueryValue] =
     useState<SingleUserSearchResult | null>(null)
+
+  const location = useLocation()
+  const useVisibleOutline = shouldUseVisibleOutline(location.pathname)
 
   const handleLogout = async () => {
     if (identity !== null) {
@@ -80,14 +88,18 @@ export default function Navbar() {
         left={0}
         // In line with https://mui.com/material-ui/customization/z-index/
         zIndex={900}
-        sx={{ bgcolor: "transparent" }}
+        sx={{
+          background: useVisibleOutline
+            ? "linear-gradient(0deg, rgba(17, 14, 27, 0.6) 0%, rgba(17, 14, 27, 0.528) 100%)"
+            : "transparent",
+        }}
       >
         <Container>
           <Stack
             direction={{ xs: "column", sm: "row" }}
             justifyContent="space-between"
             minHeight={5}
-            pt={1.25}
+            py={1.25}
           >
             {/* Left Navbar */}
             <Stack
