@@ -6,6 +6,7 @@ import { HomepageUsersIcon } from "../components/images/icons/HomepageUsersIcon"
 import { HomepageScoresIcon } from "../components/images/icons/HomepageScoresIcon"
 import { WhiteoutAkatsukiLogo } from "../components/images/logos/WhiteoutAkatsukiLogo"
 import { Link } from "react-router-dom"
+import { ScoresCarousel } from "../components/homepage/Carousel"
 
 export const HomePage = () => {
   const totalPPEarned = 1_483_238
@@ -145,6 +146,7 @@ export const HomePage = () => {
             </Grid>
           </Container>
         </Box>
+        <ScoresCarousel />
       </Stack>
     </Box>
   )
