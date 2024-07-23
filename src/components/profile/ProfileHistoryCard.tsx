@@ -78,7 +78,7 @@ const ProfileHistoryTypeSelectionButton = ({
   textSuffix,
 }: {
   onClick?: () => void
-  displayValue: string | null
+  displayValue: string
   isActive: boolean
   icon?: JSX.Element
   textSuffix?: string
@@ -96,7 +96,7 @@ const ProfileHistoryTypeSelectionButton = ({
       <Stack direction="column" spacing={1}>
         <Stack direction="row" spacing={1}>
           {icon ?? null}
-          <Typography variant="h6">{displayValue ?? " N/A"}</Typography>
+          <Typography variant="h6">{displayValue}</Typography>
           {textSuffix ? (
             <Typography variant="h6" fontWeight="lighter">
               {textSuffix}
@@ -128,13 +128,13 @@ const ProfileHistoryGraphNavbar = ({
       <Stack direction="row" spacing={1} justifyContent={{ xs: "center" }}>
         <ProfileHistoryTypeSelectionButton
           onClick={() => setProfileHistoryType(ProfileHistoryType.GlobalRank)}
-          displayValue={`#${userStats.globalLeaderboardRank}`}
+          displayValue={`#${userStats.globalLeaderboardRank ?? "N/A"}`}
           isActive={profileHistoryType === ProfileHistoryType.GlobalRank}
           icon={<GlobalIcon height={32} width={32} />}
         />
         <ProfileHistoryTypeSelectionButton
           onClick={() => setProfileHistoryType(ProfileHistoryType.CountryRank)}
-          displayValue={`#${userStats.countryLeaderboardRank}`}
+          displayValue={`#${userStats.countryLeaderboardRank ?? "N/A"}`}
           isActive={profileHistoryType === ProfileHistoryType.CountryRank}
           icon={<FlagIcon country={country} height={32} width={32} />}
         />
