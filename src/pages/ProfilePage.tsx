@@ -140,81 +140,74 @@ export const ProfilePage = () => {
       </Box>
       <Container disableGutters sx={{ backgroundColor: "#191527" }}>
         <Stack
-          direction="column"
-          // TODO audit if this is still necessary
-          spacing={2}
-          pt={{ xs: 2, sm: 0 }}
+          direction={{ xs: "column", sm: "row" }}
+          justifyContent="space-evenly"
         >
-          <Stack
-            direction={{ xs: "column", sm: "row" }}
-            justifyContent="space-evenly"
+          {/* Left Side (Stats, Clan, etc.) */}
+          <Box
+            width={{ xs: "100%", sm: "33.33%" }}
+            sx={{ background: "rgba(21, 18, 35, 1)" }}
           >
-            {/* Left Side (Stats, Clan, etc.) */}
+            <Box p={4}>
+              {userProfile.tbadges && (
+                <ProfileTournamentBadgesCard badges={userProfile.tbadges} />
+              )}
+              <ProfileStatsCard statsData={modeStats} />
+              <Divider sx={{ my: 2 }} />
+              <ProfileLevelCard level={modeStats.level} />
+              {userProfile.clan.id !== 0 && (
+                <>
+                  <Divider sx={{ my: 2 }} />
+                  <ProfileClanCard clan={userProfile.clan} />
+                </>
+              )}
+            </Box>
+          </Box>
+
+          {!isMobile && <Divider orientation="vertical" flexItem />}
+
+          {/* Right Side (Profile History, Scores, etc.) */}
+          <Box width={{ xs: "100%", sm: "66.67%" }}>
+            <ProfileUserpageCard userProfile={userProfile} />
             <Box
-              width={{ xs: "100%", sm: "33.33%" }}
-              sx={{ background: "rgba(21, 18, 35, 1)" }}
+              borderRadius={2}
+              p={2}
+              pt={3}
+              mt={-1}
+              sx={{ background: "rgba(30, 27, 47, 1)" }}
             >
-              <Box p={4}>
-                {userProfile.tbadges && (
-                  <ProfileTournamentBadgesCard badges={userProfile.tbadges} />
-                )}
-                <ProfileStatsCard statsData={modeStats} />
-                <Divider sx={{ my: 2 }} />
-                <ProfileLevelCard level={modeStats.level} />
-                {userProfile.clan.id !== 0 && (
-                  <>
-                    <Divider sx={{ my: 2 }} />
-                    <ProfileClanCard clan={userProfile.clan} />
-                  </>
-                )}
-              </Box>
-            </Box>
-
-            {!isMobile && <Divider orientation="vertical" flexItem />}
-
-            {/* Right Side (Profile History, Scores, etc.) */}
-            <Box width={{ xs: "100%", sm: "66.67%" }}>
-              <ProfileUserpageCard userProfile={userProfile} />
-              <Box
-                borderRadius={2}
-                p={2}
-                pt={3}
-                mt={-1}
-                sx={{ background: "rgba(30, 27, 47, 1)" }}
-              >
-                <ProfileHistoryCard
-                  userProfile={userProfile}
-                  gameMode={gameMode}
-                  relaxMode={relaxMode}
-                  profileHistoryType={profileHistoryType}
-                  setProfileHistoryType={setProfileHistoryType}
-                />
-              </Box>
-              <ProfileScoresCard
-                scoresType="pinned"
-                userId={userProfile.id}
+              <ProfileHistoryCard
+                userProfile={userProfile}
                 gameMode={gameMode}
                 relaxMode={relaxMode}
-                title="Pinned Scores"
-              />
-              <Divider />
-              <ProfileScoresCard
-                scoresType="best"
-                userId={userProfile.id}
-                gameMode={gameMode}
-                relaxMode={relaxMode}
-                title="Best Scores"
-              />
-              <Divider />
-              <ProfileScoresCard
-                scoresType="recent"
-                userId={profileUserId}
-                gameMode={gameMode}
-                relaxMode={relaxMode}
-                title="Recent Scores"
+                profileHistoryType={profileHistoryType}
+                setProfileHistoryType={setProfileHistoryType}
               />
             </Box>
-          </Stack>
+            <ProfileScoresCard
+              scoresType="pinned"
+              userId={userProfile.id}
+              gameMode={gameMode}
+              relaxMode={relaxMode}
+              title="Pinned Scores"
+            />
+            <Divider />
+            <ProfileScoresCard
+              scoresType="best"
+              userId={userProfile.id}
+              gameMode={gameMode}
+              relaxMode={relaxMode}
+              title="Best Scores"
+            />
+            <Divider />
+            <ProfileScoresCard
+              scoresType="recent"
+              userId={profileUserId}
+              gameMode={gameMode}
+              relaxMode={relaxMode}
+              title="Recent Scores"
+            />
+          </Box>
         </Stack>
       </Container>
     </Box>

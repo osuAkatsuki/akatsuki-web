@@ -2,11 +2,7 @@ import { Typography } from "@mui/material"
 import Stack from "@mui/material/Stack"
 import Box from "@mui/material/Box"
 import { UserStats } from "../../adapters/akatsuki-api/users"
-import {
-  formatDecimal,
-  formatNumber,
-  formatTimespan,
-} from "../../utils/formatting"
+import { formatNumber, formatTimespan } from "../../utils/formatting"
 import {
   getGradeColor,
   remapSSForDisplay as getGradeDisplayName,
