@@ -10,10 +10,7 @@ import { LeaderboardIcon } from "../components/images/icons/LeaderboardIcon"
 import { GameMode, RelaxMode } from "../gameModes"
 import { useState } from "react"
 import Divider from "@mui/material/Divider"
-import {
-  GameModeSelector,
-  RelaxModeSelector,
-} from "../components/GameModeSelector"
+import { GamemodeSelectionBar } from "../components/GamemodeSelectionBar"
 
 export enum SortParam {
   Performance = "pp",
@@ -101,63 +98,12 @@ export const LeaderboardsPage = () => {
       {/* Mode Switches */}
       <Box width="100%" bgcolor="#211D35" color="#FFFFFF80">
         <Container>
-          <Stack
-            px={3}
-            direction={{ xs: "column", sm: "row" }}
-            justifyContent="space-between"
-          >
-            <Stack direction="row" py={2} gap={3}>
-              <GameModeSelector
-                currentGameMode={gameMode}
-                currentRelaxMode={relaxMode}
-                targetGameMode={GameMode.Standard}
-                setGameMode={setGameMode}
-                icon={<StandardGameModeIcon />}
-              />
-              <GameModeSelector
-                currentGameMode={gameMode}
-                currentRelaxMode={relaxMode}
-                targetGameMode={GameMode.Taiko}
-                setGameMode={setGameMode}
-                icon={<TaikoGameModeIcon />}
-              />
-              <GameModeSelector
-                currentGameMode={gameMode}
-                currentRelaxMode={relaxMode}
-                targetGameMode={GameMode.Catch}
-                setGameMode={setGameMode}
-                icon={<CatchGameModeIcon />}
-              />
-              <GameModeSelector
-                currentGameMode={gameMode}
-                currentRelaxMode={relaxMode}
-                targetGameMode={GameMode.Mania}
-                setGameMode={setGameMode}
-                icon={<ManiaGameModeIcon />}
-              />
-            </Stack>
-
-            <Stack direction="row" py={2} gap={3}>
-              <RelaxModeSelector
-                currentGameMode={gameMode}
-                currentRelaxMode={relaxMode}
-                targetRelaxMode={RelaxMode.Vanilla}
-                setRelaxMode={setRelaxMode}
-              />
-              <RelaxModeSelector
-                currentGameMode={gameMode}
-                currentRelaxMode={relaxMode}
-                targetRelaxMode={RelaxMode.Relax}
-                setRelaxMode={setRelaxMode}
-              />
-              <RelaxModeSelector
-                currentGameMode={gameMode}
-                currentRelaxMode={relaxMode}
-                targetRelaxMode={RelaxMode.Autopilot}
-                setRelaxMode={setRelaxMode}
-              />
-            </Stack>
-          </Stack>
+          <GamemodeSelectionBar
+            gameMode={gameMode}
+            setGameMode={setGameMode}
+            relaxMode={relaxMode}
+            setRelaxMode={setRelaxMode}
+          />
         </Container>
       </Box>
       <Container sx={{ backgroundColor: "#191527" }}>
