@@ -1,4 +1,4 @@
-import { Typography, Alert, Button } from "@mui/material"
+import { Typography, Alert, Button, Divider } from "@mui/material"
 import Stack from "@mui/material/Stack"
 import Box from "@mui/material/Box"
 import { useEffect, useState } from "react"
@@ -55,6 +55,53 @@ const getChartOptions = (chartType: ProfileHistoryType) => {
   } as const
 }
 
+const ActiveUnderline = ({ isActive }: { isActive: boolean }) => {
+  return (
+    <Box minHeight="4px">
+      {isActive && (
+        <Divider
+          sx={{
+            height: "4px",
+            borderRadius: "2px",
+            backgroundImage: `linear-gradient(90.09deg, #387EFC -0.08%, #C940FD 99.3%)`,
+          }}
+        />
+      )}
+    </Box>
+  )
+}
+
+const ProfileHistoryTypeSelectionButton = ({
+  onClick,
+  displayValue,
+  isActive,
+  icon,
+}: {
+  onClick: () => void
+  displayValue: number | null
+  isActive: boolean
+  icon: JSX.Element
+}) => {
+  return (
+    <Button
+      variant="text"
+      onClick={onClick}
+      sx={{
+        color: "white",
+        opacity: isActive ? "100%" : "60%",
+      }}
+    >
+      <Stack direction="column" spacing={1}>
+        <Stack direction="row" spacing={1}>
+          {icon}
+          <Typography variant="h6">#{displayValue ?? " N/A"}</Typography>
+        </Stack>
+        <ActiveUnderline isActive={isActive} />
+      </Stack>
+    </Button>
+  )
+}
+
 const ProfileHistoryGraphNavbar = ({
   userStats,
   country,
@@ -66,58 +113,34 @@ const ProfileHistoryGraphNavbar = ({
   profileHistoryType: ProfileHistoryType
   setProfileHistoryType: (type: ProfileHistoryType) => void
 }) => {
+  const isGlobalRankGraph = profileHistoryType === ProfileHistoryType.GlobalRank
+
   return (
     <Stack
       direction={{ xs: "column", sm: "row" }}
       justifyContent={{ sm: "space-between" }}
     >
       <Stack direction="row" spacing={1} justifyContent={{ xs: "center" }}>
-        <Button
-          variant="text"
+        <ProfileHistoryTypeSelectionButton
           onClick={() => setProfileHistoryType(ProfileHistoryType.GlobalRank)}
-          sx={{
-            color: "white",
-            opacity:
-              profileHistoryType === ProfileHistoryType.GlobalRank
-                ? "100%"
-                : "60%",
-          }}
-        >
-          <Stack direction="row" spacing={1}>
-            <Stack direction="row" alignItems="center" spacing={1}>
-              <PublicIcon sx={{ width: 32, height: 32 }} />
-              <Typography variant="h6">
-                #{userStats.globalLeaderboardRank ?? " N/A"}
-              </Typography>
-            </Stack>
-          </Stack>
-        </Button>
-        <Button
-          variant="text"
+          displayValue={userStats.globalLeaderboardRank}
+          isActive={isGlobalRankGraph}
+          icon={<PublicIcon sx={{ width: 32, height: 32 }} />}
+        />
+        <ProfileHistoryTypeSelectionButton
           onClick={() => setProfileHistoryType(ProfileHistoryType.CountryRank)}
-          sx={{
-            color: "white",
-            opacity:
-              profileHistoryType === ProfileHistoryType.CountryRank
-                ? "100%"
-                : "60%",
-          }}
-        >
-          <Stack direction="row" spacing={1}>
-            <Stack direction="row" alignItems="center" spacing={1}>
-              <Box
-                component="img"
-                width={32}
-                height={32}
-                alt="flag-image"
-                src={getFlagUrl(country)}
-              />
-              <Typography variant="h6">
-                #{userStats.countryLeaderboardRank ?? " N/A"}
-              </Typography>
-            </Stack>
-          </Stack>
-        </Button>
+          displayValue={userStats.countryLeaderboardRank}
+          isActive={!isGlobalRankGraph}
+          icon={
+            <Box
+              component="img"
+              width={32}
+              height={32}
+              alt="flag-image"
+              src={getFlagUrl(country)}
+            />
+          }
+        />
       </Stack>
       <Stack direction="row" justifyContent="center" spacing={{ xs: 1, sm: 2 }}>
         <Button
