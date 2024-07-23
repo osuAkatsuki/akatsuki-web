@@ -8,9 +8,9 @@ import { useIdentityContext } from "../../context/identity"
 const getRelationshipColor = (relationship: RelationshipType) => {
   switch (relationship) {
     case RelationshipType.Friend:
-      return "#00FF00"
+      return "rgba(142, 249, 125, 1)"
     case RelationshipType.Mutual:
-      return "#CF6179"
+      return "rgba(231, 86, 255, 1)"
     case RelationshipType.NotFriend:
       return "rgba(18, 15, 29, 1)"
   }
