@@ -1,15 +1,17 @@
+import { Box, Button, Container, Grid, Stack, Typography } from "@mui/material"
+import { HomepageStatDisplay } from "../components/home/HomepageStatDisplay"
 import HomepageBanner from "../components/images/banners/homepage_banner.svg"
-
-import Box from "@mui/material/Box"
-import Stack from "@mui/material/Stack"
-import Typography from "@mui/material/Typography"
-import { Button, Container, Grid } from "@mui/material"
 import { HomepagePPIcon } from "../components/images/icons/HomepagePPIcon"
 import { HomepageUsersIcon } from "../components/images/icons/HomepageUsersIcon"
 import { HomepageScoresIcon } from "../components/images/icons/HomepageScoresIcon"
 import { WhiteoutAkatsukiLogo } from "../components/images/logos/WhiteoutAkatsukiLogo"
 import { Link } from "react-router-dom"
+
 export const HomePage = () => {
+  const totalPPEarned = 1_483_238
+  const totalScoresSet = 92_383_238
+  const totalUsersRegistered = 172_395
+
   return (
     <Box>
       <Stack direction="column" justifyContent="space-between" spacing={2}>
@@ -94,67 +96,51 @@ export const HomePage = () => {
                 </Stack>
               </Grid>
               <Grid item xs={6}>
-                <Stack direction="column" alignItems="center">
+                <Stack direction="column">
                   <Stack direction="row" width="100%" spacing={2}>
-                    <Box
-                      height={111}
-                      width={111}
-                      borderRadius="50px 50px 27px 50px"
-                      boxShadow="hsl(0deg 0% 0% / 0.2) -20px 20px"
-                    >
-                      <HomepagePPIcon />
-                    </Box>
-                    <Stack direction="column" justifyContent="flex-end">
-                      <Typography variant="h4" fontWeight="lighter">
-                        1,483,238
-                      </Typography>
-                      <Typography variant="h6" fontWeight="lighter">
-                        pp earned
-                      </Typography>
-                    </Stack>
+                    <HomepageStatDisplay
+                      title="pp earned"
+                      value={totalPPEarned}
+                      icon={<HomepagePPIcon />}
+                      lessRoundedCorner="bottom-right"
+                      shadowDirection="bottom-left"
+                      justifyText="bottom"
+                      textAlign="left"
+                    />
+                  </Stack>
+                  <Stack
+                    direction="row-reverse"
+                    width="100%"
+                    mt={-1}
+                    spacing={2}
+                    justifyContent="flex-start"
+                  >
+                    <HomepageStatDisplay
+                      title="scores set"
+                      value={totalScoresSet}
+                      icon={<HomepageScoresIcon />}
+                      lessRoundedCorner="bottom-left"
+                      shadowDirection="bottom-right"
+                      justifyText="bottom"
+                      textAlign="right"
+                    />
                   </Stack>
                   <Stack
                     direction="row"
                     width="100%"
-                    mt={-1}
+                    mt={5}
                     spacing={2}
-                    justifyContent="flex-end"
-                    alignItems="flex-end"
+                    justifyContent="center"
                   >
-                    <Stack direction="column">
-                      <Typography variant="h4" fontWeight="lighter">
-                        92,383,238
-                      </Typography>
-                      <Typography variant="h6" fontWeight="lighter">
-                        scores set
-                      </Typography>
-                    </Stack>
-                    <Box
-                      height={111}
-                      width={111}
-                      borderRadius="50px 50px 50px 27px"
-                      boxShadow="hsl(0deg 0% 0% / 0.2) 20px 20px"
-                    >
-                      <HomepageScoresIcon />
-                    </Box>
-                  </Stack>
-                  <Stack direction="row" mt={5} spacing={2}>
-                    <Box
-                      height={111}
-                      width={111}
-                      borderRadius="50px 27px 50px 50px"
-                      boxShadow="hsl(0deg 0% 0% / 0.2) -20px 20px"
-                    >
-                      <HomepageUsersIcon />
-                    </Box>
-                    <Stack direction="column">
-                      <Typography variant="h4" fontWeight="lighter">
-                        172,395
-                      </Typography>
-                      <Typography variant="h6" fontWeight="lighter">
-                        registered users
-                      </Typography>
-                    </Stack>
+                    <HomepageStatDisplay
+                      title="registered users"
+                      value={totalUsersRegistered}
+                      icon={<HomepageUsersIcon />}
+                      lessRoundedCorner="top-right"
+                      shadowDirection="bottom-left"
+                      justifyText="top"
+                      textAlign="left"
+                    />
                   </Stack>
                 </Stack>
               </Grid>
