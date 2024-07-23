@@ -95,13 +95,13 @@ const ProfileHistoryTypeSelectionButton = ({
     >
       <Stack direction="column" spacing={1}>
         <Stack direction="row" spacing={1}>
-          {icon ?? null}
+          {icon}
           <Typography variant="h6">{displayValue}</Typography>
-          {textSuffix ? (
+          {textSuffix && (
             <Typography variant="h6" fontWeight="lighter">
               {textSuffix}
             </Typography>
-          ) : null}
+          )}
         </Stack>
         <ActiveUnderline isActive={isActive} />
       </Stack>
