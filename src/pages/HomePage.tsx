@@ -7,11 +7,10 @@ import { HomepageScoresIcon } from "../components/images/icons/HomepageScoresIco
 import { WhiteoutAkatsukiLogo } from "../components/images/logos/WhiteoutAkatsukiLogo"
 import { Link } from "react-router-dom"
 
-
 export const HomePage = () => {
-  const totalPPEarned = 1_483_238;
-  const totalScoresSet = 92_383_238;
-  const totalUsersRegistered = 172_395;
+  const totalPPEarned = 1_483_238
+  const totalScoresSet = 92_383_238
+  const totalUsersRegistered = 172_395
 
   return (
     <Box>
