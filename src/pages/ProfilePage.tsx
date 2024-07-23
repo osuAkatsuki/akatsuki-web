@@ -121,7 +121,14 @@ export const ProfilePage = () => {
         </Container>
       </Box>
 
-      <Box width="100%" bgcolor="#211D35" color="#FFFFFF80">
+      <Box
+        width="100%"
+        bgcolor="#211D35"
+        color="#FFFFFF80"
+        /* NOTE: increase zindex here to put the profile graph below this */
+        position="relative"
+        zIndex={2}
+      >
         <Container>
           <GamemodeSelectionBar
             gameMode={gameMode}
@@ -132,7 +139,7 @@ export const ProfilePage = () => {
         </Container>
       </Box>
       <Container sx={{ backgroundColor: "#191527" }}>
-        <Stack direction="column" spacing={2} pt={2}>
+        <Stack direction="column" spacing={2} pt={{ xs: 2, sm: 0 }}>
           <Stack
             direction={{ xs: "column", sm: "row" }}
             spacing={{ sm: 2 }}
@@ -140,7 +147,12 @@ export const ProfilePage = () => {
             justifyContent="space-evenly"
           >
             {/* Left Side (Stats, Clan, etc.) */}
-            <Box pb={2} pr={{ sm: 3 }} width={{ xs: "100%", sm: "33.33%" }}>
+            <Box
+              pb={2}
+              pt={{ xs: 0, sm: 2 }}
+              pr={{ sm: 3 }}
+              width={{ xs: "100%", sm: "33.33%" }}
+            >
               {userProfile.tbadges && (
                 <ProfileTournamentBadgesCard badges={userProfile.tbadges} />
               )}
@@ -160,15 +172,21 @@ export const ProfilePage = () => {
             {/* Right Side (Profile History, Scores, etc.) */}
             <Box width={{ xs: "100%", sm: "66.67%" }}>
               <ProfileUserpageCard userProfile={userProfile} />
-
-              <ProfileHistoryCard
-                userProfile={userProfile}
-                gameMode={gameMode}
-                relaxMode={relaxMode}
-                profileHistoryType={profileHistoryType}
-                setProfileHistoryType={setProfileHistoryType}
-              />
-
+              <Box
+                borderRadius={2}
+                p={2}
+                pt={3}
+                mt={-1}
+                sx={{ background: "rgba(30, 27, 47, 1)" }}
+              >
+                <ProfileHistoryCard
+                  userProfile={userProfile}
+                  gameMode={gameMode}
+                  relaxMode={relaxMode}
+                  profileHistoryType={profileHistoryType}
+                  setProfileHistoryType={setProfileHistoryType}
+                />
+              </Box>
               <ProfileScoresCard
                 scoresType="pinned"
                 userId={userProfile.id}

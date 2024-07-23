@@ -58,10 +58,12 @@ const getChartOptions = (chartType: ProfileHistoryType) => {
 const ProfileHistoryGraphNavbar = ({
   userStats,
   country,
+  profileHistoryType,
   setProfileHistoryType,
 }: {
   userStats: UserStats
   country: string
+  profileHistoryType: ProfileHistoryType
   setProfileHistoryType: (type: ProfileHistoryType) => void
 }) => {
   return (
@@ -73,7 +75,13 @@ const ProfileHistoryGraphNavbar = ({
         <Button
           variant="text"
           onClick={() => setProfileHistoryType(ProfileHistoryType.GlobalRank)}
-          sx={{ color: "white" }}
+          sx={{
+            color: "white",
+            opacity:
+              profileHistoryType === ProfileHistoryType.GlobalRank
+                ? "100%"
+                : "60%",
+          }}
         >
           <Stack direction="row" spacing={1}>
             <Stack direction="row" alignItems="center" spacing={1}>
@@ -87,7 +95,13 @@ const ProfileHistoryGraphNavbar = ({
         <Button
           variant="text"
           onClick={() => setProfileHistoryType(ProfileHistoryType.CountryRank)}
-          sx={{ color: "white" }}
+          sx={{
+            color: "white",
+            opacity:
+              profileHistoryType === ProfileHistoryType.CountryRank
+                ? "100%"
+                : "60%",
+          }}
         >
           <Stack direction="row" spacing={1}>
             <Stack direction="row" alignItems="center" spacing={1}>
@@ -228,6 +242,7 @@ export const ProfileHistoryCard = ({
       <ProfileHistoryGraphNavbar
         userStats={modeStats}
         country={userProfile.country}
+        profileHistoryType={profileHistoryType}
         setProfileHistoryType={setProfileHistoryType}
       />
       <ProfileHistoryGraph
