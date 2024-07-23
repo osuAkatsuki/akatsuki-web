@@ -3,6 +3,7 @@ import Stack from "@mui/material/Stack"
 import Box from "@mui/material/Box"
 import { AddUserIcon } from "../images/icons/AddUserIcon"
 import { RelationshipType } from "../../adapters/akatsuki-api/userRelationships"
+import { useIdentityContext } from "../../context/identity"
 
 const getRelationshipColor = (relationship: RelationshipType) => {
   switch (relationship) {
@@ -16,15 +17,23 @@ const getRelationshipColor = (relationship: RelationshipType) => {
 }
 
 export const ProfileRelationshipCard = ({
+  profileUserId,
   relationship,
   setRelationship,
   followers,
 }: {
+  profileUserId: number
   relationship: RelationshipType
   setRelationship: (relationship: RelationshipType) => void
   followers: number
 }) => {
+  const { identity } = useIdentityContext()
+
   const onClick = () => {
+    if (profileUserId === identity?.userId) {
+      return
+    }
+
     if (relationship === RelationshipType.NotFriend) {
       // Add them as a friend over the API
       // Conditionally set mutual vs. friend

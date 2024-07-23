@@ -142,6 +142,7 @@ export const ProfilePage = () => {
             >
               <ProfileActivityDatesCard userProfile={userProfile} />
               <ProfileRelationshipCard
+                profileUserId={profileUserId}
                 relationship={relationship}
                 setRelationship={setRelationship}
                 followers={userProfile.followers}
