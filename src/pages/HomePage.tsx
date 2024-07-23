@@ -1,4 +1,3 @@
-import { HomepageTextOutline } from "../components/images/logos/HomepageTextOutline"
 import HomepageBanner from "../components/images/banners/homepage_banner.svg"
 
 import Box from "@mui/material/Box"
