@@ -100,7 +100,7 @@ export const HomePage = () => {
                     <Box
                       height={111}
                       width={111}
-                      borderRadius={"50px 50px 27px 50px"}
+                      borderRadius="50px 50px 27px 50px"
                       boxShadow="hsl(0deg 0% 0% / 0.2) -20px 20px"
                     >
                       <HomepagePPIcon />
@@ -133,7 +133,7 @@ export const HomePage = () => {
                     <Box
                       height={111}
                       width={111}
-                      borderRadius={"50px 50px 50px 27px"}
+                      borderRadius="50px 50px 50px 27px"
                       boxShadow="hsl(0deg 0% 0% / 0.2) 20px 20px"
                     >
                       <HomepageScoresIcon />
@@ -143,7 +143,7 @@ export const HomePage = () => {
                     <Box
                       height={111}
                       width={111}
-                      borderRadius={"50px 27px 50px 50px"}
+                      borderRadius="50px 27px 50px 50px"
                       boxShadow="hsl(0deg 0% 0% / 0.2) -20px 20px"
                     >
                       <HomepageUsersIcon />
