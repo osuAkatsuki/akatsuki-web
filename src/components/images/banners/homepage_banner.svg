@@ -19,8 +19,5 @@
 <stop stop-color="#EF43FE"/>
 <stop offset="1" stop-color="#2C97FB"/>
 </linearGradient>
-<clipPath id="clip0_13_980">
-<path d="M0 0H1920V1080C1920 1080 1592.5 998.5 960 998.5C327.5 998.5 0 1080 0 1080V0Z" fill="white"/>
-</clipPath>
 </defs>
 </svg>
