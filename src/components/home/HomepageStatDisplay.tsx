@@ -18,7 +18,7 @@ export const HomepageStatDisplay = ({
   justifyText: 'top' | 'bottom'
   textAlign: 'left' | 'right'
 }) => {
-  const CORNERS = ['top-left', 'top-right', 'bottom-right', 'bottom-left'];
+  const CORNERS = ['top-left', 'top-right', 'bottom-right', 'bottom-left']
   const borderRadius = CORNERS.map(corner => corner === lessRoundedCorner ? "27px" : "50px").join(' ')
 
   const SHADOW_COLOR = "hsl(0deg 0% 0% / 0.2)"
