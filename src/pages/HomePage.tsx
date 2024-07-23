@@ -6,6 +6,8 @@ import { HomepageUsersIcon } from "../components/images/icons/HomepageUsersIcon"
 import { HomepageScoresIcon } from "../components/images/icons/HomepageScoresIcon"
 import { WhiteoutAkatsukiLogo } from "../components/images/logos/WhiteoutAkatsukiLogo"
 import { Link } from "react-router-dom"
+
+
 export const HomePage = () => {
   const totalPPEarned = 1_483_238;
   const totalScoresSet = 92_383_238;
