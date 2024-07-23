@@ -138,33 +138,36 @@ export const ProfilePage = () => {
           />
         </Container>
       </Box>
-      <Container sx={{ backgroundColor: "#191527" }}>
-        <Stack direction="column" spacing={2} pt={{ xs: 2, sm: 0 }}>
+      <Container disableGutters sx={{ backgroundColor: "#191527" }}>
+        <Stack
+          direction="column"
+          // TODO audit if this is still necessary
+          spacing={2}
+          pt={{ xs: 2, sm: 0 }}
+        >
           <Stack
             direction={{ xs: "column", sm: "row" }}
-            spacing={{ sm: 2 }}
-            px={3}
             justifyContent="space-evenly"
           >
             {/* Left Side (Stats, Clan, etc.) */}
             <Box
-              pb={2}
-              pt={{ xs: 0, sm: 2 }}
-              pr={{ sm: 3 }}
               width={{ xs: "100%", sm: "33.33%" }}
+              sx={{ background: "rgba(21, 18, 35, 1)" }}
             >
-              {userProfile.tbadges && (
-                <ProfileTournamentBadgesCard badges={userProfile.tbadges} />
-              )}
-              <ProfileStatsCard statsData={modeStats} />
-              <Divider sx={{ my: 2 }} />
-              <ProfileLevelCard level={modeStats.level} />
-              {userProfile.clan.id !== 0 && (
-                <>
-                  <Divider sx={{ my: 2 }} />
-                  <ProfileClanCard clan={userProfile.clan} />
-                </>
-              )}
+              <Box p={4}>
+                {userProfile.tbadges && (
+                  <ProfileTournamentBadgesCard badges={userProfile.tbadges} />
+                )}
+                <ProfileStatsCard statsData={modeStats} />
+                <Divider sx={{ my: 2 }} />
+                <ProfileLevelCard level={modeStats.level} />
+                {userProfile.clan.id !== 0 && (
+                  <>
+                    <Divider sx={{ my: 2 }} />
+                    <ProfileClanCard clan={userProfile.clan} />
+                  </>
+                )}
+              </Box>
             </Box>
 
             {!isMobile && <Divider orientation="vertical" flexItem />}
