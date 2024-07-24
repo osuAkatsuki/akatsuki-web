@@ -32,9 +32,9 @@ export const isRealGameMode = (gameMode: GameMode, relaxMode: RelaxMode) => {
 }
 
 export const getRelaxModeFromMods = (mods: number) => {
-  if (mods & Mods.AUTOPILOT) {
+  if (mods & Mods.AutoPilot) {
     return RelaxMode.Autopilot
-  } else if (mods & Mods.RELAX) {
+  } else if (mods & Mods.Relax) {
     return RelaxMode.Relax
   } else {
     return RelaxMode.Vanilla
