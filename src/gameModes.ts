@@ -1,3 +1,5 @@
+import { Mods } from "./utils/mods"
+
 export enum GameMode {
   Standard = 0,
   Taiko = 1,
@@ -30,9 +32,9 @@ export const isRealGameMode = (gameMode: GameMode, relaxMode: RelaxMode) => {
 }
 
 export const getRelaxModeFromMods = (mods: number) => {
-  if (mods & 8192) {
+  if (mods & Mods.AUTOPILOT) {
     return RelaxMode.Autopilot
-  } else if (mods & 64) {
+  } else if (mods & Mods.RELAX) {
     return RelaxMode.Relax
   } else {
     return RelaxMode.Vanilla

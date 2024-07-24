@@ -1,4 +1,4 @@
-enum Mods {
+export enum Mods {
   NOMOD = 0,
   NOFAIL = 1 << 0,
   EASY = 1 << 1,
