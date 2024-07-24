@@ -22,9 +22,59 @@ import { useIdentityContext } from "../../context/identity"
 const SONG_NAME_REGEX =
   /^(?<artist>[^-]+) - (?<songName>[^[]+) \[(?<version>.+)\]$/
 
-const ScoreOptionsMenu = ({ score }: { score: UserScore }) => {
+const DownloadReplayMenuItem = ({
+  score,
+  handleMenuClose,
+}: {
+  score: UserScore
+  handleMenuClose: () => void
+}) => {
+  return (
+    <MenuItem key="download-replay" onClick={() => handleMenuClose()}>
+      <Link
+        to={`https://akatsuki.gg/web/replays/${score.id}`}
+        style={{
+          color: "#FFFFFF",
+          textDecoration: "none",
+        }}
+      >
+        Download Replay
+      </Link>
+    </MenuItem>
+  )
+}
+
+const PinUnpinScoreMenuItem = ({
+  score,
+  handleMenuClose,
+}: {
+  score: UserScore
+  handleMenuClose: () => void
+}) => {
   const { identity } = useIdentityContext()
 
+  if (identity?.userId !== score.userId) {
+    return null
+  }
+
+  return (
+    <MenuItem
+      key="pin-unpin-score"
+      onClick={() => {
+        pinUnpinUserScore({
+          id: parseInt(score.id),
+          rx: getRelaxModeFromMods(score.mods),
+          shouldPin: false,
+        })
+        handleMenuClose()
+      }}
+    >
+      {score.pinned ? "Unpin" : "Pin"} Score
+    </MenuItem>
+  )
+}
+
+const ScoreOptionsMenu = ({ score }: { score: UserScore }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -56,49 +106,8 @@ const ScoreOptionsMenu = ({ score }: { score: UserScore }) => {
         open={open}
         onClose={handleClose}
       >
-        <MenuItem key="download-replay" onClick={() => handleClose()}>
-          <Link
-            to={`https://akatsuki.gg/web/replays/${score.id}`}
-            style={{
-              color: "#FFFFFF",
-              textDecoration: "none",
-            }}
-          >
-            Download Replay
-          </Link>
-        </MenuItem>
-
-        {identity?.userId === score.userId ? (
-          score.pinned ? (
-            <MenuItem
-              key="unpin-score"
-              onClick={() => {
-                pinUnpinUserScore({
-                  id: parseInt(score.id),
-                  rx: getRelaxModeFromMods(score.mods),
-                  shouldPin: false,
-                })
-                handleClose()
-              }}
-            >
-              Unpin Score
-            </MenuItem>
-          ) : (
-            <MenuItem
-              key="pin-score"
-              onClick={() => {
-                pinUnpinUserScore({
-                  id: parseInt(score.id),
-                  rx: getRelaxModeFromMods(score.mods),
-                  shouldPin: true,
-                })
-                handleClose()
-              }}
-            >
-              Pin Score
-            </MenuItem>
-          )
-        ) : null}
+        <DownloadReplayMenuItem score={score} handleMenuClose={handleClose} />
+        <PinUnpinScoreMenuItem score={score} handleMenuClose={handleClose} />
       </Menu>
     </>
   )

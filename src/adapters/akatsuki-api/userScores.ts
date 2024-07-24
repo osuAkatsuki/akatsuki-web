@@ -156,6 +156,7 @@ export const pinUnpinUserScore = async (
           id: request.id,
           rx: request.rx,
         },
+        withCredentials: true,
       }
     )
     return {
