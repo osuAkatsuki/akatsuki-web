@@ -30,9 +30,11 @@ import {
   fetchUserFriendsWith,
   RelationshipType,
 } from "../adapters/akatsuki-api/userRelationships"
+import { useIdentityContext } from "../context/identity"
 
 export const ProfilePage = () => {
   const queryParams = useParams()
+  const { identity } = useIdentityContext()
 
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.up("xs"))
@@ -68,7 +70,10 @@ export const ProfilePage = () => {
 
   useEffect(() => {
     ;(async () => {
-      if (!profileUserId) return
+      if (!profileUserId || !identity) {
+        setRelationship(RelationshipType.NotFriend)
+        return
+      }
 
       try {
         const response = await fetchUserFriendsWith({ id: profileUserId })
@@ -84,7 +89,7 @@ export const ProfilePage = () => {
         return
       }
     })()
-  }, [profileUserId])
+  }, [profileUserId, identity])
 
   // useEffect(() => {
   //   ;(async () => {
