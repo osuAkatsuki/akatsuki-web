@@ -153,10 +153,8 @@ export const pinUnpinUserScore = async (
     const repsonse = await scoresApiInstance.post(
       `/v1/users/scores/${request.shouldPin ? "pin" : "unpin"}`,
       {
-        params: {
-          id: request.id,
-          rx: request.rx,
-        },
+        id: request.id,
+        rx: request.rx,
       }
     )
     return {
