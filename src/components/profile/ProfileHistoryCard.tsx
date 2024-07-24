@@ -93,7 +93,7 @@ const ProfileHistoryTypeSelectionButton = ({
         textTransform: "none",
       }}
     >
-      <Stack direction="column" spacing={1}>
+      <Stack direction="column" spacing={0.5}>
         <Stack direction="row" spacing={1}>
           {icon}
           <Typography variant="h6">{displayValue}</Typography>
