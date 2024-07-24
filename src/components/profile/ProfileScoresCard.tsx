@@ -64,7 +64,7 @@ const PinUnpinScoreMenuItem = ({
         pinUnpinUserScore({
           id: parseInt(score.id),
           rx: getRelaxModeFromMods(score.mods),
-          shouldPin: false,
+          shouldPin: !score.pinned,
         })
         handleMenuClose()
       }}
