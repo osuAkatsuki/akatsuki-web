@@ -61,6 +61,7 @@ export interface UserScoresResponse {
 
 const scoresApiInstance = axios.create({
   baseURL: process.env.REACT_APP_SCORES_API_BASE_URL,
+  withCredentials: true,
 })
 
 export const fetchUserScores = async (
@@ -156,7 +157,6 @@ export const pinUnpinUserScore = async (
           id: request.id,
           rx: request.rx,
         },
-        withCredentials: true,
       }
     )
     return {
