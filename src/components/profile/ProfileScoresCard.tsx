@@ -1,21 +1,108 @@
 import { Link } from "react-router-dom"
 import { Typography, IconButton, Paper, TablePagination } from "@mui/material"
-import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline"
 import Stack from "@mui/material/Stack"
 import Box from "@mui/material/Box"
 import { useEffect, useState } from "react"
-import { GameMode, RelaxMode } from "../../gameModes"
+import { GameMode, getRelaxModeFromMods, RelaxMode } from "../../gameModes"
 import { formatDecimal, formatNumber } from "../../utils/formatting"
 import { calculateGrade, getGradeColor, remapSSForDisplay } from "../../scores"
 import {
   fetchUserScores,
+  pinUnpinUserScore,
   UserScore,
   UserScoresResponse,
 } from "../../adapters/akatsuki-api/userScores"
 import { formatMods } from "../../utils/mods"
+import MoreVertIcon from "@mui/icons-material/MoreVert"
+
+import Menu from "@mui/material/Menu"
+import MenuItem from "@mui/material/MenuItem"
+import { useIdentityContext } from "../../context/identity"
 
 const SONG_NAME_REGEX =
   /^(?<artist>[^-]+) - (?<songName>[^[]+) \[(?<version>.+)\]$/
+
+const ScoreOptionsMenu = ({ score }: { score: UserScore }) => {
+  const { identity } = useIdentityContext()
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const open = Boolean(anchorEl)
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
+
+  return (
+    <>
+      <IconButton
+        aria-label="more"
+        id="long-button"
+        aria-controls={open ? "long-menu" : undefined}
+        aria-expanded={open ? "true" : undefined}
+        aria-haspopup="true"
+        onClick={handleClick}
+      >
+        <MoreVertIcon />
+      </IconButton>
+
+      <Menu
+        id="long-menu"
+        MenuListProps={{
+          "aria-labelledby": "long-button",
+        }}
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+      >
+        <MenuItem key="download-replay" onClick={() => handleClose()}>
+          <Link
+            to={`https://akatsuki.gg/web/replays/${score.id}`}
+            style={{
+              color: "#FFFFFF",
+              textDecoration: "none",
+            }}
+          >
+            Download Replay
+          </Link>
+        </MenuItem>
+
+        {identity?.userId === score.userId ? (
+          score.pinned ? (
+            <MenuItem
+              key="unpin-score"
+              onClick={() => {
+                pinUnpinUserScore({
+                  id: parseInt(score.id),
+                  rx: getRelaxModeFromMods(score.mods),
+                  shouldPin: false,
+                })
+                handleClose()
+              }}
+            >
+              Unpin Score
+            </MenuItem>
+          ) : (
+            <MenuItem
+              key="pin-score"
+              onClick={() => {
+                pinUnpinUserScore({
+                  id: parseInt(score.id),
+                  rx: getRelaxModeFromMods(score.mods),
+                  shouldPin: true,
+                })
+                handleClose()
+              }}
+            >
+              Pin Score
+            </MenuItem>
+          )
+        ) : null}
+      </Menu>
+    </>
+  )
+}
 
 const ProfileScoreCard = (userScore: UserScore) => {
   const scoreGrade =
@@ -119,13 +206,8 @@ const ProfileScoreCard = (userScore: UserScore) => {
                 </Typography>
               </Stack>
             </Stack>
-            {/* TODO: add replay download option */}
             <Box display="flex" alignItems="center">
-              <Link to={`https://akatsuki.gg/web/replays/${userScore.id}`}>
-                <IconButton aria-label="support">
-                  <DownloadForOfflineIcon />
-                </IconButton>
-              </Link>
+              <ScoreOptionsMenu score={userScore} />
             </Box>
           </Stack>
         </Stack>

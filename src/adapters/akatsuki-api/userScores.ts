@@ -133,3 +133,37 @@ export const fetchUserScores = async (
     throw new Error(e.response.data.user_feedback)
   }
 }
+
+interface PinUnpinUserScoreRequest {
+  id: number
+  rx: number
+  shouldPin: boolean
+}
+
+export interface PinUnpinUserScoreResponse {
+  code: number
+  scoreId: number
+}
+
+export const pinUnpinUserScore = async (
+  request: PinUnpinUserScoreRequest
+): Promise<PinUnpinUserScoreResponse> => {
+  try {
+    const repsonse = await scoresApiInstance.post(
+      `/v1/users/scores/${request.shouldPin ? "pin" : "unpin"}`,
+      {
+        params: {
+          id: request.id,
+          rx: request.rx,
+        },
+      }
+    )
+    return {
+      code: repsonse.status,
+      scoreId: repsonse.data.score_id,
+    }
+  } catch (e: any) {
+    console.log(e)
+    throw new Error(e.response.data.user_feedback)
+  }
+}
