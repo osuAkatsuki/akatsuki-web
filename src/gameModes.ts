@@ -28,3 +28,13 @@ export const isRealGameMode = (gameMode: GameMode, relaxMode: RelaxMode) => {
     return gameMode === GameMode.Standard
   }
 }
+
+export const getRelaxModeFromMods = (mods: number) => {
+  if (mods & 8192) {
+    return RelaxMode.Autopilot
+  } else if (mods & 64) {
+    return RelaxMode.Relax
+  } else {
+    return RelaxMode.Vanilla
+  }
+}
