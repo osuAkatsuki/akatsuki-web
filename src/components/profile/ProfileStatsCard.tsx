@@ -26,20 +26,13 @@ const GradeCountDisplay = ({
 }
 
 const ProfileGradesCard = ({ statsData }: { statsData: UserStats }) => {
-  // TODO: once these are hooked up in user stats API
-  const xhCount = 0
-  const shCount = 0
-  const xCount = 0
-  const sCount = 0
-  const aCount = 0
-
   return (
     <Stack direction="row" justifyContent="space-between" spacing={1}>
-      <GradeCountDisplay grade="XH" count={xhCount} />
-      <GradeCountDisplay grade="SH" count={shCount} />
-      <GradeCountDisplay grade="X" count={xCount} />
-      <GradeCountDisplay grade="S" count={sCount} />
-      <GradeCountDisplay grade="A" count={aCount} />
+      <GradeCountDisplay grade="XH" count={statsData.grades.XHCount} />
+      <GradeCountDisplay grade="SH" count={statsData.grades.SHCount} />
+      <GradeCountDisplay grade="X" count={statsData.grades.XCount} />
+      <GradeCountDisplay grade="S" count={statsData.grades.SCount} />
+      <GradeCountDisplay grade="A" count={statsData.grades.ACount} />
     </Stack>
   )
 }

@@ -10,6 +10,17 @@ export interface UserResponse {
   country: string
 }
 
+export interface UserGrades {
+  XHCount: number
+  XCount: number
+  SHCount: number
+  SCount: number
+  ACount: number
+  BCount: number
+  CCount: number
+  DCount: number
+}
+
 export interface UserStats {
   rankedScore: number
   totalScore: number
@@ -23,6 +34,7 @@ export interface UserStats {
   globalLeaderboardRank: number | null
   countryLeaderboardRank: number | null
   maxCombo: number
+  grades: UserGrades
 }
 
 export interface AllModeUserStats {
@@ -108,6 +120,16 @@ export const fetchUser = async (userId: number): Promise<UserFullResponse> => {
           globalLeaderboardRank: stats.std.global_leaderboard_rank,
           countryLeaderboardRank: stats.std.country_leaderboard_rank,
           maxCombo: stats.std.max_combo,
+          grades: {
+            XHCount: stats.std.grades.xh_count,
+            XCount: stats.std.grades.x_count,
+            SHCount: stats.std.grades.sh_count,
+            SCount: stats.std.grades.s_count,
+            ACount: stats.std.grades.a_count,
+            BCount: stats.std.grades.b_count,
+            CCount: stats.std.grades.c_count,
+            DCount: stats.std.grades.d_count,
+          },
         },
         taiko: {
           rankedScore: stats.taiko.ranked_score,
@@ -122,6 +144,16 @@ export const fetchUser = async (userId: number): Promise<UserFullResponse> => {
           globalLeaderboardRank: stats.taiko.global_leaderboard_rank,
           countryLeaderboardRank: stats.taiko.country_leaderboard_rank,
           maxCombo: stats.taiko.max_combo,
+          grades: {
+            XHCount: stats.taiko.grades.xh_count,
+            XCount: stats.taiko.grades.x_count,
+            SHCount: stats.taiko.grades.sh_count,
+            SCount: stats.taiko.grades.s_count,
+            ACount: stats.taiko.grades.a_count,
+            BCount: stats.taiko.grades.b_count,
+            CCount: stats.taiko.grades.c_count,
+            DCount: stats.taiko.grades.d_count,
+          },
         },
         ctb: {
           rankedScore: stats.ctb.ranked_score,
@@ -136,6 +168,16 @@ export const fetchUser = async (userId: number): Promise<UserFullResponse> => {
           globalLeaderboardRank: stats.ctb.global_leaderboard_rank,
           countryLeaderboardRank: stats.ctb.country_leaderboard_rank,
           maxCombo: stats.ctb.max_combo,
+          grades: {
+            XHCount: stats.ctb.grades.xh_count,
+            XCount: stats.ctb.grades.x_count,
+            SHCount: stats.ctb.grades.sh_count,
+            SCount: stats.ctb.grades.s_count,
+            ACount: stats.ctb.grades.a_count,
+            BCount: stats.ctb.grades.b_count,
+            CCount: stats.ctb.grades.c_count,
+            DCount: stats.ctb.grades.d_count,
+          },
         },
         mania: {
           rankedScore: stats.mania.ranked_score,
@@ -150,6 +192,16 @@ export const fetchUser = async (userId: number): Promise<UserFullResponse> => {
           globalLeaderboardRank: stats.mania.global_leaderboard_rank,
           countryLeaderboardRank: stats.mania.country_leaderboard_rank,
           maxCombo: stats.mania.max_combo,
+          grades: {
+            XHCount: stats.mania.grades.xh_count,
+            XCount: stats.mania.grades.x_count,
+            SHCount: stats.mania.grades.sh_count,
+            SCount: stats.mania.grades.s_count,
+            ACount: stats.mania.grades.a_count,
+            BCount: stats.mania.grades.b_count,
+            CCount: stats.mania.grades.c_count,
+            DCount: stats.mania.grades.d_count,
+          },
         },
       })),
       playStyle: response.data.play_style,
