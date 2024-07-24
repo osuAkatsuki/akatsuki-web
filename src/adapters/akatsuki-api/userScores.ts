@@ -51,6 +51,7 @@ export interface UserScore {
   completed: number
   pinned: boolean
   beatmap: UserScoreBeatmap
+  userId: number
 }
 
 export interface UserScoresResponse {
@@ -123,6 +124,7 @@ export const fetchUserScores = async (
               rankedStatusFrozen: score.beatmap.ranked_status_frozen,
               latestUpdate: score.beatmap.latest_update,
             },
+            userId: score.user_id,
           }))
         : null,
     }
