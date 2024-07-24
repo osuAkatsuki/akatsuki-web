@@ -62,6 +62,7 @@ export const ProfilePage = () => {
         setUserProfile(usersResponse)
         setError("")
       } catch (e: any) {
+        console.error("Failed to fetch user profile data from server")
         setError("Failed to fetch user profile data from server")
         return
       }
@@ -85,7 +86,10 @@ export const ProfilePage = () => {
           setRelationship(RelationshipType.NotFriend)
         }
       } catch (e: any) {
-        setError("Failed to fetch user relationship data from server")
+        console.error(
+          "Failed to fetch user relationship information from server"
+        )
+        setRelationship(RelationshipType.NotFriend)
         return
       }
     })()
