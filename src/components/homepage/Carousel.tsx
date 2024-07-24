@@ -1,5 +1,10 @@
 import { Box, Grid, Stack, Typography } from "@mui/material"
 import { HomepageCarouselBackground } from "../images/HomepageCarouselBackground"
+import {
+  getGradeColor,
+  remapSSForDisplay as getGradeDisplayName,
+} from "../../scores"
+import { formatNumber } from "../../utils/formatting"
 
 interface Score {
   username: string
@@ -20,14 +25,22 @@ const FAKE_SCORE_DATA = [
     timeago: "24 min",
     pp: 420,
     mode: "vanilla",
-    song: "Hitorigoto",
-    artist: "ClariS",
-    version: "TV Size",
-    mods: "HDHR",
-    grade: "SS",
+    song: "Say Goodbye (Nightcore & Cut Ver.)",
+    artist: "Krewella",
+    version: "Impossible",
+    mods: "",
+    grade: "A",
     accuracy: 100,
   },
 ]
+
+const ScoreGradeIcon = ({ grade }: { grade: string }) => {
+  return (
+    <Stack direction="row" spacing={1}>
+      <Typography variant="h5">{getGradeDisplayName(grade)}</Typography>
+    </Stack>
+  )
+}
 
 const ScoresCarouselItem = ({ score }: { score: Score }) => {
   return (
@@ -57,8 +70,9 @@ const ScoresCarouselItem = ({ score }: { score: Score }) => {
               {score.song}
             </Typography>
             <Typography variant="body2" color="white">
-              by {score.artist}
+              by {score.artist} [{score.version}]
             </Typography>
+            <ScoreGradeIcon grade={score.grade} />
           </Stack>
         </Box>
       </Box>
