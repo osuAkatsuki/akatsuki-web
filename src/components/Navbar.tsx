@@ -12,6 +12,7 @@ import {
 } from "@mui/material"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { FavoriteOutlined } from "@mui/icons-material"
+import * as amplitude from '@amplitude/analytics-browser';
 import {
   removeIdentityFromLocalStorage,
   useIdentityContext,
@@ -56,6 +57,7 @@ export default function Navbar() {
     } catch (e: any) {
       console.error("Failed to logout on API:", e)
     }
+    amplitude.reset()
     removeIdentityFromLocalStorage()
     setIdentity(null)
   }

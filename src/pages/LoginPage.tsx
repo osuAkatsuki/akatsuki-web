@@ -7,6 +7,7 @@ import Alert from "@mui/material/Alert"
 import Typography from "@mui/material/Typography"
 import TextField from "@mui/material/TextField"
 import Button from "@mui/material/Button"
+import * as amplitude from '@amplitude/analytics-browser';
 
 export const LoginPage = () => {
   const navigate = useNavigate()
@@ -27,6 +28,7 @@ export const LoginPage = () => {
       return
     }
 
+    amplitude.setUserId(String(identity.userId))
     setLoginError("")
     setIdentity(identity)
     navigate("/", { replace: true })
