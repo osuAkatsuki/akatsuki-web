@@ -91,7 +91,31 @@
     <title>Akatsuki</title>
 
     <!-- Statically disable dark reader on the site -->
-    <meta name="darkreader-lock">
+    <meta name="darkreader-lock" />
+
+    <!-- Analytics Pixels -->
+
+    <!-- Microsoft Clarity -->
+    <script type="text/javascript">
+      ;(function (c, l, a, r, i, t, y) {
+        c[a] =
+          c[a] ||
+          function () {
+            ;(c[a].q = c[a].q || []).push(arguments)
+          }
+        t = l.createElement(r)
+        t.async = 1
+        t.src = "https://www.clarity.ms/tag/" + i
+        y = l.getElementsByTagName(r)[0]
+        y.parentNode.insertBefore(t, y)
+      })(
+        window,
+        document,
+        "clarity",
+        "script",
+        process.env.REACT_APP_CLARITY_PROJECT_ID
+      )
+    </script>
 
     <!-- The server will inject REACT_APP_* env variables here -->
     <script>
