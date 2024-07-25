@@ -80,6 +80,7 @@ const router = createBrowserRouter(
 export default function App() {
   amplitude.init(process.env.REACT_APP_AMPLITUDE_API_KEY, {
     defaultTracking: true,
+    minIdLength: 4,
   });
 
   const theme = React.useMemo(
