@@ -28,6 +28,7 @@ import {
   Legend,
 } from "chart.js"
 import { AboutPage } from "./pages/AboutPage"
+import './App.css'
 import Footer from "./components/Footer"
 import Box from "@mui/material/Box"
 import Stack from "@mui/material/Stack"
