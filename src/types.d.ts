@@ -19,6 +19,7 @@ declare namespace NodeJS {
     readonly REACT_APP_GITHUB_ORG_URL: string
     readonly REACT_APP_TWITTER_URL: string
     readonly REACT_APP_DISCORD_INVITE_URL: string
+    readonly REACT_APP_AMPLITUDE_API_KEY: string
   }
 }
 

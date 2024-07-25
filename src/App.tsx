@@ -7,6 +7,7 @@ import {
   RouterProvider,
   Outlet,
 } from "react-router-dom"
+import * as amplitude from '@amplitude/analytics-browser';
 import { HomePage } from "./pages/HomePage"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import { IdentityContextProvider } from "./context/identity"
@@ -77,6 +78,10 @@ const router = createBrowserRouter(
 )
 
 export default function App() {
+  amplitude.init(process.env.REACT_APP_AMPLITUDE_API_KEY, {
+    defaultTracking: true,
+  });
+
   const theme = React.useMemo(
     () =>
       createTheme({
