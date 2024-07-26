@@ -2,6 +2,13 @@
   "name": "akatsuki-web",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "start": "node scripts/start.js",
+    "build": "node scripts/build.js",
+    "test": "node scripts/test.js",
+    "lint-fix": "yarn eslint --fix src/",
+    "preinstall": "npx only-allow yarn"
+  },
   "dependencies": {
     "@amplitude/analytics-browser": "^2.9.3",
     "@babel/core": "^7.16.0",
@@ -74,12 +81,15 @@
     "webpack-manifest-plugin": "^4.0.2",
     "workbox-webpack-plugin": "^6.4.1"
   },
-  "scripts": {
-    "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
-    "test": "node scripts/test.js",
-    "lint-fix": "yarn eslint --fix src/",
-    "preinstall": "npx only-allow yarn"
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "dotenv-webpack": "^8.0.1",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-check-file": "^2.8.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "prettier": "^3.3.2"
   },
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",
@@ -226,16 +236,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "dotenv-webpack": "^8.0.1",
-    "eslint": "^8.57.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-check-file": "^2.8.0",
-    "eslint-plugin-prettier": "^5.2.1",
-    "eslint-plugin-simple-import-sort": "^12.1.1",
-    "prettier": "^3.3.2"
   },
   "jest": {
     "roots": [
