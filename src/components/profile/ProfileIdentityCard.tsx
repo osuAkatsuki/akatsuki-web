@@ -1,6 +1,7 @@
-import { Typography, Avatar } from "@mui/material"
-import Stack from "@mui/material/Stack"
+import { Avatar, Typography } from "@mui/material"
 import Box from "@mui/material/Box"
+import Stack from "@mui/material/Stack"
+
 import { UserFullResponse } from "../../adapters/akatsuki-api/users"
 import { UserPrivileges } from "../../utils/privileges"
 import { FlagIcon } from "../DestinationIcons"

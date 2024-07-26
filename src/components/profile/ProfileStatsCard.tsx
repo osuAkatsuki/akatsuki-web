@@ -1,12 +1,13 @@
 import { Typography } from "@mui/material"
-import Stack from "@mui/material/Stack"
 import Box from "@mui/material/Box"
+import Stack from "@mui/material/Stack"
+
 import { UserStats } from "../../adapters/akatsuki-api/users"
-import { formatNumber, formatTimespan } from "../../utils/formatting"
 import {
   getGradeColor,
   remapSSForDisplay as getGradeDisplayName,
 } from "../../scores"
+import { formatNumber, formatTimespan } from "../../utils/formatting"
 
 const GradeCountDisplay = ({
   grade,

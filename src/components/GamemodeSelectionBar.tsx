@@ -1,10 +1,11 @@
-import Box from "@mui/material/Box"
-import { GameMode, isRealGameMode, RelaxMode } from "../gameModes"
-import Typography from "@mui/material/Typography"
 import { Stack } from "@mui/material"
-import { StandardGameModeIcon } from "./images/gamemode-icons/StandardGameModeIcon"
-import { ManiaGameModeIcon } from "./images/gamemode-icons/ManiaGameModeIcon"
+import Box from "@mui/material/Box"
+import Typography from "@mui/material/Typography"
+
+import { GameMode, isRealGameMode, RelaxMode } from "../gameModes"
 import { CatchGameModeIcon } from "./images/gamemode-icons/CatchGameModeIcon"
+import { ManiaGameModeIcon } from "./images/gamemode-icons/ManiaGameModeIcon"
+import { StandardGameModeIcon } from "./images/gamemode-icons/StandardGameModeIcon"
 import { TaikoGameModeIcon } from "./images/gamemode-icons/TaikoGameModeIcon"
 
 const GameModeSelector = ({

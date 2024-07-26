@@ -7,6 +7,7 @@ export const HomepageTextOutline = () => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
+      {/* eslint-disable-next-line react/forbid-dom-props */}
       <g style={{ mixBlendMode: "overlay" }}>
         <mask
           id="path-1-outside-1_79_3021"

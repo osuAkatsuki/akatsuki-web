@@ -38,7 +38,7 @@ export const formatMods = (mods: number): string => {
     return ""
   }
 
-  let activeMods: string[] = []
+  const activeMods: string[] = []
 
   if (mods & Mods.NoFail) {
     activeMods.push("NF")

@@ -1,30 +1,31 @@
+import * as amplitude from "@amplitude/analytics-browser"
+import { FavoriteOutlined } from "@mui/icons-material"
 import {
-  Typography,
+  Autocomplete,
+  Box,
   Button,
-  Stack,
   Container,
-  TextField,
+  debounce,
   Divider,
   IconButton,
-  Autocomplete,
-  debounce,
-  Box,
+  Stack,
+  TextField,
+  Typography,
 } from "@mui/material"
-import { Link, useLocation, useNavigate } from "react-router-dom"
-import { FavoriteOutlined } from "@mui/icons-material"
-import * as amplitude from '@amplitude/analytics-browser';
-import {
-  removeIdentityFromLocalStorage,
-  useIdentityContext,
-} from "../context/identity"
-import { logout } from "../adapters/akatsuki-api/authentication"
 import { useEffect, useMemo, useState } from "react"
-import { AkatsukiLogo } from "./images/logos/AkatsukiLogo"
+import { Link, useLocation, useNavigate } from "react-router-dom"
+
+import { logout } from "../adapters/akatsuki-api/authentication"
 import {
   searchUsers,
   SingleUserSearchResult,
 } from "../adapters/akatsuki-api/search"
+import {
+  removeIdentityFromLocalStorage,
+  useIdentityContext,
+} from "../context/identity"
 import { UserPrivileges } from "../privileges"
+import { AkatsukiLogo } from "./images/logos/AkatsukiLogo"
 
 const PAGES_WITH_VISIBLE_OUTLINE = ["/"]
 
@@ -117,7 +118,7 @@ export default function Navbar() {
                   </Box>
                 </Button>
               </Link>
-              <Divider orientation="vertical" flexItem />
+              <Divider flexItem orientation="vertical" />
               <Link to="/">
                 <Button sx={{ color: "white", textTransform: "none" }}>
                   <Typography variant="subtitle1">Home</Typography>

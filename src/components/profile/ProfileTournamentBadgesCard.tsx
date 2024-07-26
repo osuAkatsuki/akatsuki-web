@@ -1,5 +1,6 @@
-import { Tooltip, Avatar } from "@mui/material"
+import { Avatar, Tooltip } from "@mui/material"
 import Stack from "@mui/material/Stack"
+
 import { UserTournamentBadge } from "../../adapters/akatsuki-api/users"
 
 const ProfileTournamentBadgeCard = ({
@@ -26,7 +27,7 @@ export const ProfileTournamentBadgesCard = ({
   badges: UserTournamentBadge[]
 }) => {
   return (
-    <Stack direction="row" spacing={1} flexWrap="wrap" mb={1} useFlexGap>
+    <Stack useFlexGap direction="row" spacing={1} flexWrap="wrap" mb={1}>
       {badges.map((tournamentBadge) => (
         <ProfileTournamentBadgeCard
           key={tournamentBadge.id}

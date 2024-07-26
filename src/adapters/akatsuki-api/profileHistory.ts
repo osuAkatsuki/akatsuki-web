@@ -1,4 +1,5 @@
 import axios from "axios"
+
 import { GameMode } from "../../gameModes"
 
 export enum ProfileHistoryType {

@@ -6,7 +6,7 @@ export enum SubmissionStatus {
   Best = 2,
 }
 
-export const getGradeColor = (grade: string, alpha: number = 1.0) => {
+export const getGradeColor = (grade: string, alpha = 1.0) => {
   let colorCode = "#000000"
   if (grade === "XH") {
     colorCode = "#e6e6e6"
@@ -59,8 +59,8 @@ export const calculateGrade = (
   switch (gameMode) {
     case GameMode.Standard:
     case GameMode.Taiko:
-      var ratio300 = num_300s / objectCount
-      var ratio50 = num_50s / objectCount
+      const ratio300 = num_300s / objectCount
+      const ratio50 = num_50s / objectCount
 
       if (ratio300 === 1) {
         return shouldUseSilverGrades ? "XH" : "X"

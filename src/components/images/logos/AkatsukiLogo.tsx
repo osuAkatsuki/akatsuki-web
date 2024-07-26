@@ -9,6 +9,7 @@ export const AkatsukiLogo = () => {
     >
       <mask
         id="mask0_1_130"
+        // eslint-disable-next-line react/forbid-dom-props
         style={{ maskType: "alpha" }}
         maskUnits="userSpaceOnUse"
         x="0"

@@ -1,7 +1,8 @@
-import { Typography, LinearProgress } from "@mui/material"
+import { LinearProgress, Typography } from "@mui/material"
+import Box from "@mui/material/Box"
 import { linearProgressClasses } from "@mui/material/LinearProgress"
 import Stack from "@mui/material/Stack"
-import Box from "@mui/material/Box"
+
 import { formatDecimal } from "../../utils/formatting"
 import { LevelDisplayPolygon } from "../images/polygons/LevelDisplay"
 

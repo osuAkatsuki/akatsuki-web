@@ -1,36 +1,37 @@
-import { useParams } from "react-router-dom"
 import {
-  Typography,
   Alert,
-  Divider,
-  useMediaQuery,
   Container,
+  Divider,
+  Typography,
+  useMediaQuery,
 } from "@mui/material"
-import DefaultProfileBanner from "../components/images/banners/default_profile.png"
-import Stack from "@mui/material/Stack"
 import Box from "@mui/material/Box"
-import { useEffect, useState } from "react"
-import { GameMode, RelaxMode } from "../gameModes"
-import { fetchUser, UserFullResponse } from "../adapters/akatsuki-api/users"
+import Stack from "@mui/material/Stack"
 import { useTheme } from "@mui/material/styles"
+import { useEffect, useState } from "react"
+import { useParams } from "react-router-dom"
+
 import { ProfileHistoryType } from "../adapters/akatsuki-api/profileHistory"
-import { modeToStatsIndex } from "../scores"
-import { ProfileIdentityCard } from "../components/profile/ProfileIdentityCard"
-import { ProfileActivityDatesCard } from "../components/profile/ProfileActivityDatesCard"
-import { ProfileRelationshipCard } from "../components/profile/ProfileRelationshipCard"
-import { GamemodeSelectionBar } from "../components/GamemodeSelectionBar"
-import { ProfileTournamentBadgesCard } from "../components/profile/ProfileTournamentBadgesCard"
-import { ProfileStatsCard } from "../components/profile/ProfileStatsCard"
-import { ProfileLevelCard } from "../components/profile/ProfileLevelCard"
-import { ProfileClanCard } from "../components/profile/ProfileClanCard"
-import { ProfileUserpageCard } from "../components/profile/ProfileUserpageCard"
-import { ProfileHistoryCard } from "../components/profile/ProfileHistoryCard"
-import { ProfileScoresCard } from "../components/profile/ProfileScoresCard"
 import {
   fetchUserFriendsWith,
   RelationshipType,
 } from "../adapters/akatsuki-api/userRelationships"
+import { fetchUser, UserFullResponse } from "../adapters/akatsuki-api/users"
+import { GamemodeSelectionBar } from "../components/GamemodeSelectionBar"
+import DefaultProfileBanner from "../components/images/banners/default_profile.png"
+import { ProfileActivityDatesCard } from "../components/profile/ProfileActivityDatesCard"
+import { ProfileClanCard } from "../components/profile/ProfileClanCard"
+import { ProfileHistoryCard } from "../components/profile/ProfileHistoryCard"
+import { ProfileIdentityCard } from "../components/profile/ProfileIdentityCard"
+import { ProfileLevelCard } from "../components/profile/ProfileLevelCard"
+import { ProfileRelationshipCard } from "../components/profile/ProfileRelationshipCard"
+import { ProfileScoresCard } from "../components/profile/ProfileScoresCard"
+import { ProfileStatsCard } from "../components/profile/ProfileStatsCard"
+import { ProfileTournamentBadgesCard } from "../components/profile/ProfileTournamentBadgesCard"
+import { ProfileUserpageCard } from "../components/profile/ProfileUserpageCard"
 import { useIdentityContext } from "../context/identity"
+import { GameMode, RelaxMode } from "../gameModes"
+import { modeToStatsIndex } from "../scores"
 
 export const ProfilePage = () => {
   const queryParams = useParams()
@@ -204,7 +205,7 @@ export const ProfilePage = () => {
             </Box>
           </Box>
 
-          {!isMobile && <Divider orientation="vertical" flexItem />}
+          {!isMobile && <Divider flexItem orientation="vertical" />}
 
           {/* Right Side (Profile History, Scores, etc.) */}
           <Box width={{ xs: "100%", sm: "66.67%" }}>

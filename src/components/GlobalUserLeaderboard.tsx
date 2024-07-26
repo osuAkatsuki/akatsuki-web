@@ -1,24 +1,24 @@
-import TablePagination from "@mui/material/TablePagination"
-import { Link } from "react-router-dom"
 import {
-  Box,
   Alert,
-  Typography,
+  Box,
+  Grid,
   Skeleton,
   Stack,
+  Typography,
   useMediaQuery,
-  Grid,
   useTheme,
 } from "@mui/material"
+import TablePagination from "@mui/material/TablePagination"
 import { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
+
 import {
   fetchLeaderboard,
   type LeaderboardResponse,
+  type LeaderboardUser,
 } from "../adapters/akatsuki-api/leaderboards"
-import { formatDecimal, formatNumber } from "../utils/formatting"
-
 import { GameMode, RelaxMode } from "../gameModes"
-import { type LeaderboardUser } from "../adapters/akatsuki-api/leaderboards"
+import { formatDecimal, formatNumber } from "../utils/formatting"
 import { FlagIcon } from "./DestinationIcons"
 
 const USER_RANK_BG_COLOR = "rgba(21, 18, 35, 1)"
@@ -52,6 +52,7 @@ const MobileLeaderboardUserCard = ({ user }: { user: LeaderboardUser }) => {
           <Typography variant="body1" ml={1}>
             <Link
               to={`/u/${user.id}`}
+              // eslint-disable-next-line react/forbid-component-props
               style={{
                 color: "#FFFFFF",
                 textDecoration: "none",
@@ -121,6 +122,7 @@ const LeaderboardUserCard = ({
           <Typography variant="body1" ml={1}>
             <Link
               to={`/u/${user.id}`}
+              // eslint-disable-next-line react/forbid-component-props
               style={{
                 color: "#FFFFFF",
                 textDecoration: "none",
@@ -290,7 +292,7 @@ export const GlobalUserLeaderboard = ({
           setPageSize(parseInt(event.target.value, 10))
           setPage(0)
         }}
-        labelDisplayedRows={({ from, to, count }) => {
+        labelDisplayedRows={({ from, to }) => {
           return `Results ${from}-${to}`
         }}
       />

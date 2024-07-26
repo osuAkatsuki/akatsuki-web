@@ -1,13 +1,15 @@
 import { Box, Button, Container, Grid, Stack, Typography } from "@mui/material"
+import { Link } from "react-router-dom"
+
 import { HomepageStatDisplay } from "../components/home/HomepageStatDisplay"
 import HomepageBanner from "../components/images/banners/homepage_banner.svg"
 import { HomepagePPIcon } from "../components/images/icons/HomepagePPIcon"
-import { HomepageUsersIcon } from "../components/images/icons/HomepageUsersIcon"
 import { HomepageScoresIcon } from "../components/images/icons/HomepageScoresIcon"
+import { HomepageUsersIcon } from "../components/images/icons/HomepageUsersIcon"
 import { WhiteoutAkatsukiLogo } from "../components/images/logos/WhiteoutAkatsukiLogo"
-import { Link } from "react-router-dom"
 
 export const HomePage = () => {
+  // TODO: fetch these from a backend API
   const totalPPEarned = 1_483_238
   const totalScoresSet = 92_383_238
   const totalUsersRegistered = 172_395
