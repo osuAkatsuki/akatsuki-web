@@ -78,7 +78,8 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
-    "lint-fix": "yarn eslint --fix src/"
+    "lint-fix": "yarn eslint --fix src/",
+    "preinstall": "npx only-allow yarn"
   },
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",
