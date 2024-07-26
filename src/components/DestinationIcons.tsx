@@ -1,7 +1,7 @@
-import { Box, Tooltip } from "@mui/material"
-import { getCountryName, getFlagUrl } from "../utils/countries"
-
 import PublicIcon from "@mui/icons-material/Public"
+import { Box, Tooltip } from "@mui/material"
+
+import { getCountryName, getFlagUrl } from "../utils/countries"
 
 export const GlobalIcon = ({
   width,

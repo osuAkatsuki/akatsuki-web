@@ -1,23 +1,23 @@
-import { Link } from "react-router-dom"
-import { Typography, IconButton, Paper, TablePagination } from "@mui/material"
-import Stack from "@mui/material/Stack"
+import MoreVertIcon from "@mui/icons-material/MoreVert"
+import { IconButton, Paper, TablePagination, Typography } from "@mui/material"
 import Box from "@mui/material/Box"
+import Menu from "@mui/material/Menu"
+import MenuItem from "@mui/material/MenuItem"
+import Stack from "@mui/material/Stack"
 import { useEffect, useState } from "react"
-import { GameMode, getRelaxModeFromMods, RelaxMode } from "../../gameModes"
-import { formatDecimal, formatNumber } from "../../utils/formatting"
-import { calculateGrade, getGradeColor, remapSSForDisplay } from "../../scores"
+import { Link } from "react-router-dom"
+
 import {
   fetchUserScores,
   pinUnpinUserScore,
   UserScore,
   UserScoresResponse,
 } from "../../adapters/akatsuki-api/userScores"
-import { formatMods } from "../../utils/mods"
-import MoreVertIcon from "@mui/icons-material/MoreVert"
-
-import Menu from "@mui/material/Menu"
-import MenuItem from "@mui/material/MenuItem"
 import { useIdentityContext } from "../../context/identity"
+import { GameMode, getRelaxModeFromMods, RelaxMode } from "../../gameModes"
+import { calculateGrade, getGradeColor, remapSSForDisplay } from "../../scores"
+import { formatDecimal, formatNumber } from "../../utils/formatting"
+import { formatMods } from "../../utils/mods"
 
 const SONG_NAME_REGEX =
   /^(?<artist>[^-]+) - (?<songName>[^[]+) \[(?<version>.+)\]$/
@@ -33,6 +33,7 @@ const DownloadReplayMenuItem = ({
     <MenuItem key="download-replay" onClick={() => handleMenuClose()}>
       <Link
         to={`https://akatsuki.gg/web/replays/${score.id}`}
+        // eslint-disable-next-line react/forbid-component-props
         style={{
           color: "#FFFFFF",
           textDecoration: "none",
@@ -166,7 +167,7 @@ const ProfileScoreCard = (userScore: UserScore) => {
               // TODO: adjust this to work better on xs/sm devices
               maxWidth="15vw"
             >
-              <Typography variant="h6" noWrap={true}>
+              <Typography noWrap variant="h6">
                 {songName}&nbsp;
                 <Box component="span" fontWeight="lighter" fontSize="1rem">
                   by {artist}
@@ -320,7 +321,7 @@ export const ProfileScoresCard = ({
           setPageSize(parseInt(event.target.value, 10))
           setPage(0)
         }}
-        labelDisplayedRows={({ from, to, count }) => {
+        labelDisplayedRows={({ from, to }) => {
           return `Results ${from}-${to}`
         }}
       />

@@ -1,7 +1,8 @@
 import { Typography } from "@mui/material"
 import Stack from "@mui/material/Stack"
-import { UserFullResponse } from "../../adapters/akatsuki-api/users"
 import moment from "moment"
+
+import { UserFullResponse } from "../../adapters/akatsuki-api/users"
 
 export const ProfileActivityDatesCard = ({
   userProfile,

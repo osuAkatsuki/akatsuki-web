@@ -1,9 +1,10 @@
-import { Link } from "react-router-dom"
-import { FooterLogo } from "./images/logos/FooterLogo"
-import { Box, Container, Divider, Stack, Typography } from "@mui/material"
-import FooterBanner from "./images/banners/footer_banner.png"
 import { Copyright, GitHub, Twitter } from "@mui/icons-material"
+import { Box, Container, Divider, Stack, Typography } from "@mui/material"
+import { Link } from "react-router-dom"
+
+import FooterBanner from "./images/banners/footer_banner.png"
 import { DiscordLogo } from "./images/logos/DiscordLogo"
+import { FooterLogo } from "./images/logos/FooterLogo"
 
 export default function Footer() {
   return (
@@ -55,6 +56,7 @@ export default function Footer() {
                 <Stack direction="column" spacing={2}>
                   <Link
                     to="/team"
+                    // eslint-disable-next-line react/forbid-component-props
                     style={{
                       color: "#FFFFFF",
                       textDecoration: "none",
@@ -66,6 +68,7 @@ export default function Footer() {
                   </Link>
                   <Link
                     to="/contact"
+                    // eslint-disable-next-line react/forbid-component-props
                     style={{
                       color: "#FFFFFF",
                       textDecoration: "none",
@@ -79,6 +82,7 @@ export default function Footer() {
                 <Stack direction="column" spacing={2}>
                   <Link
                     to="/privacy-policy"
+                    // eslint-disable-next-line react/forbid-component-props
                     style={{
                       color: "#FFFFFF",
                       textDecoration: "none",
@@ -90,6 +94,7 @@ export default function Footer() {
                   </Link>
                   <Link
                     to="/terms-of-service"
+                    // eslint-disable-next-line react/forbid-component-props
                     style={{
                       color: "#FFFFFF",
                       textDecoration: "none",
@@ -125,6 +130,7 @@ export default function Footer() {
                 </Link>
                 <Link
                   to={process.env.REACT_APP_GITHUB_ORG_URL}
+                  // eslint-disable-next-line react/forbid-component-props
                   style={{
                     color: "#FFFFFF",
                     textDecoration: "none",
@@ -134,6 +140,7 @@ export default function Footer() {
                 </Link>
                 <Link
                   to={process.env.REACT_APP_TWITTER_URL}
+                  // eslint-disable-next-line react/forbid-component-props
                   style={{
                     color: "#FFFFFF",
                     textDecoration: "none",

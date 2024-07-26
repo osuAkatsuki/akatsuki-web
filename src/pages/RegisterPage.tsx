@@ -5,7 +5,7 @@ export const RegisterPage = () => {
 
   if (identity !== null) {
     // TODO: redirect to homepage
-    return <>You're already signed up!</>
+    return <>You&apos;re already signed up!</>
   }
 
   return <></>

@@ -1,6 +1,7 @@
 import { Typography } from "@mui/material"
-import Stack from "@mui/material/Stack"
 import Box from "@mui/material/Box"
+import Stack from "@mui/material/Stack"
+
 import { UserClan } from "../../adapters/akatsuki-api/users"
 
 export const ProfileClanCard = ({ clan }: { clan: UserClan }) => {

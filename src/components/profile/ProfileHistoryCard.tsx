@@ -1,9 +1,9 @@
-import { Typography, Alert, Button, Divider } from "@mui/material"
-import Stack from "@mui/material/Stack"
+import { Alert, Button, Divider, Typography } from "@mui/material"
 import Box from "@mui/material/Box"
+import Stack from "@mui/material/Stack"
 import { useEffect, useState } from "react"
-import { GameMode, RelaxMode } from "../../gameModes"
-import { UserFullResponse, UserStats } from "../../adapters/akatsuki-api/users"
+import { Line as LineChart } from "react-chartjs-2"
+
 import {
   captureTypeToDisplay,
   fetchUserProfileHistory,
@@ -11,9 +11,10 @@ import {
   ProfileHistoryResponse,
   ProfileHistoryType,
 } from "../../adapters/akatsuki-api/profileHistory"
-import { formatDecimal } from "../../utils/formatting"
-import { Line as LineChart } from "react-chartjs-2"
+import { UserFullResponse, UserStats } from "../../adapters/akatsuki-api/users"
+import { GameMode, RelaxMode } from "../../gameModes"
 import { modeToStatsIndex } from "../../scores"
+import { formatDecimal } from "../../utils/formatting"
 import { FlagIcon, GlobalIcon } from "../DestinationIcons"
 
 const getChartOptions = (chartType: ProfileHistoryType) => {

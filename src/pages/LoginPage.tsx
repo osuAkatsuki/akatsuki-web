@@ -1,13 +1,14 @@
+import * as amplitude from "@amplitude/analytics-browser"
+import Alert from "@mui/material/Alert"
+import Button from "@mui/material/Button"
+import Stack from "@mui/material/Stack"
+import TextField from "@mui/material/TextField"
+import Typography from "@mui/material/Typography"
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
+
 import { authenticate } from "../adapters/akatsuki-api/authentication"
 import { useIdentityContext } from "../context/identity"
-import { useNavigate } from "react-router-dom"
-import Stack from "@mui/material/Stack"
-import Alert from "@mui/material/Alert"
-import Typography from "@mui/material/Typography"
-import TextField from "@mui/material/TextField"
-import Button from "@mui/material/Button"
-import * as amplitude from '@amplitude/analytics-browser';
 
 export const LoginPage = () => {
   const navigate = useNavigate()

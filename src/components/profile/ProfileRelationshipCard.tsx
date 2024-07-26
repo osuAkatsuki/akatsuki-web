@@ -1,9 +1,10 @@
 import { Button, Typography } from "@mui/material"
-import Stack from "@mui/material/Stack"
 import Box from "@mui/material/Box"
-import { AddUserIcon } from "../images/icons/AddUserIcon"
+import Stack from "@mui/material/Stack"
+
 import { RelationshipType } from "../../adapters/akatsuki-api/userRelationships"
 import { useIdentityContext } from "../../context/identity"
+import { AddUserIcon } from "../images/icons/AddUserIcon"
 
 const getRelationshipColor = (relationship: RelationshipType) => {
   switch (relationship) {

@@ -1,40 +1,41 @@
+import * as amplitude from "@amplitude/analytics-browser"
+import Box from "@mui/material/Box"
+import CssBaseline from "@mui/material/CssBaseline"
+import Stack from "@mui/material/Stack"
+import { createTheme, ThemeProvider } from "@mui/material/styles"
+import {
+  CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LinearScale,
+  LineElement,
+  PointElement,
+  Title,
+  Tooltip,
+} from "chart.js"
 import React from "react"
-import Navbar from "./components/Navbar"
 import {
   createBrowserRouter,
   createRoutesFromElements,
+  Outlet,
   Route,
   RouterProvider,
-  Outlet,
 } from "react-router-dom"
-import * as amplitude from '@amplitude/analytics-browser';
-import { HomePage } from "./pages/HomePage"
-import { createTheme, ThemeProvider } from "@mui/material/styles"
-import { IdentityContextProvider } from "./context/identity"
-import { RegisterPage } from "./pages/RegisterPage"
-import { LoginPage } from "./pages/LoginPage"
-import { LeaderboardsPage } from "./pages/LeaderboardsPage"
-import { ProfilePage } from "./pages/ProfilePage"
-import { SupportPage } from "./pages/SupportPage"
-import CssBaseline from "@mui/material/CssBaseline"
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js"
-import { AboutPage } from "./pages/AboutPage"
+
 import Footer from "./components/Footer"
-import Box from "@mui/material/Box"
-import Stack from "@mui/material/Stack"
-import { TeamPage } from "./pages/TeamPage"
+import Navbar from "./components/Navbar"
+import { IdentityContextProvider } from "./context/identity"
+import { AboutPage } from "./pages/AboutPage"
 import { ContactPage } from "./pages/ContactPage"
-import { TermsOfServicePage } from "./pages/TermsOfServicePage"
+import { HomePage } from "./pages/HomePage"
+import { LeaderboardsPage } from "./pages/LeaderboardsPage"
+import { LoginPage } from "./pages/LoginPage"
 import { PrivacyPolicyPage } from "./pages/PrivacyPolicyPage"
+import { ProfilePage } from "./pages/ProfilePage"
+import { RegisterPage } from "./pages/RegisterPage"
+import { SupportPage } from "./pages/SupportPage"
+import { TeamPage } from "./pages/TeamPage"
+import { TermsOfServicePage } from "./pages/TermsOfServicePage"
 
 ChartJS.register(
   CategoryScale,
@@ -81,7 +82,7 @@ export default function App() {
   amplitude.init(process.env.REACT_APP_AMPLITUDE_API_KEY, {
     defaultTracking: true,
     minIdLength: 4,
-  });
+  })
 
   const theme = React.useMemo(
     () =>

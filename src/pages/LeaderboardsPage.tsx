@@ -1,12 +1,12 @@
 import { Box, Container, Stack, Typography } from "@mui/material"
+import Divider from "@mui/material/Divider"
+import { useState } from "react"
 
+import { GamemodeSelectionBar } from "../components/GamemodeSelectionBar"
 import { GlobalUserLeaderboard } from "../components/GlobalUserLeaderboard"
 import LeaderboardBanner from "../components/images/banners/leaderboard_banner.svg"
 import { LeaderboardIcon } from "../components/images/icons/LeaderboardIcon"
 import { GameMode, RelaxMode } from "../gameModes"
-import { useState } from "react"
-import Divider from "@mui/material/Divider"
-import { GamemodeSelectionBar } from "../components/GamemodeSelectionBar"
 
 export enum SortParam {
   Performance = "pp",
@@ -17,8 +17,9 @@ export const LeaderboardsPage = () => {
   const [gameMode, setGameMode] = useState(GameMode.Standard)
   const [relaxMode, setRelaxMode] = useState(RelaxMode.Vanilla)
   const [sortParam, setSortParam] = useState(SortParam.Performance)
-  const [country, setCountry] = useState<string | null>(null)
+  const [country] = useState<string | null>(null)
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const SortParamSelector = ({ targetSort }: { targetSort: SortParam }) => {
     const isSelected = sortParam === targetSort
     return (
@@ -67,9 +68,9 @@ export const LeaderboardsPage = () => {
                 <LeaderboardIcon />
               </Box>
               <Divider
+                flexItem
                 orientation="vertical"
                 variant="middle"
-                flexItem
                 sx={{ bgcolor: "#ffffff", opacity: "20%" }}
               />
               <Typography variant="body1" fontSize={25} fontWeight={300}>
