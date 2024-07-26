@@ -129,9 +129,6 @@
         }
       ],
       "import/no-default-export": "off",
-      "import/no-cycle": [
-        "error"
-      ],
       "react/forbid-elements": [
         "error",
         {
