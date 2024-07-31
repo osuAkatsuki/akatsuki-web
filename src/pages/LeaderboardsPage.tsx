@@ -1,4 +1,12 @@
-import { Box, Container, Stack, Typography } from "@mui/material"
+import {
+  Box,
+  Button,
+  Container,
+  Menu,
+  MenuItem,
+  Stack,
+  Typography,
+} from "@mui/material"
 import Divider from "@mui/material/Divider"
 import { useState } from "react"
 
@@ -13,11 +21,51 @@ export enum SortParam {
   Score = "score",
 }
 
+const CountrySelectorMenu = ({
+  country,
+  setCountry,
+}: {
+  country: string | null
+  setCountry: (country: string | null) => void
+}) => {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const open = Boolean(anchorEl)
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
+
+  return (
+    <Stack direction="column" py={2}>
+      <Typography variant="body1">Country</Typography>
+      <Button id="country-selection-button" onClick={handleClick}>
+        {country ?? "All"}
+      </Button>
+      <Menu
+        id="country-selection-menu"
+        MenuListProps={{
+          "aria-labelledby": "country-selection-button",
+        }}
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+      >
+        {/* TODO: support all countries by list */}
+        <MenuItem key="canada" onClick={() => setCountry("Canada")}>
+          Canada
+        </MenuItem>
+      </Menu>
+    </Stack>
+  )
+}
+
 export const LeaderboardsPage = () => {
   const [gameMode, setGameMode] = useState(GameMode.Standard)
   const [relaxMode, setRelaxMode] = useState(RelaxMode.Vanilla)
   const [sortParam, setSortParam] = useState(SortParam.Performance)
-  const [country] = useState<string | null>(null)
+  const [country, setCountry] = useState<string | null>(null)
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const SortParamSelector = ({ targetSort }: { targetSort: SortParam }) => {
@@ -103,6 +151,9 @@ export const LeaderboardsPage = () => {
           />
         </Container>
       </Box>
+      <Container sx={{ backgroundColor: "#151223" }}>
+        <CountrySelectorMenu country={country} setCountry={setCountry} />
+      </Container>
       <Container sx={{ backgroundColor: "#191527" }}>
         <GlobalUserLeaderboard
           gameMode={gameMode}
