@@ -61,9 +61,7 @@ export const addRemoveFriend = async (
   try {
     const response = await userRelationshipsApiInstance.post(
       `v1/friends/${request.add ? "add" : "del"}`,
-      {
-        user: request.user,
-      }
+      { user: request.user }
     )
     return {
       code: response.status,
