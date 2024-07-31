@@ -40,7 +40,17 @@ export interface CountrySelection {
   countryName: string
 }
 
-const MobileLeaderboardUserCard = ({ user }: { user: LeaderboardUser }) => {
+const MobileLeaderboardUserCard = ({
+  user,
+  sortParam,
+  userRank,
+}: {
+  user: LeaderboardUser
+  sortParam: SortParam
+  userRank: number
+}) => {
+  const isPPLeaderboard = sortParam === SortParam.Performance
+
   return (
     <Stack direction="column" borderRadius={4} mt={1} overflow="hidden">
       <Stack direction="row" bgcolor={USER_INFO_BG_COLOR}>
@@ -52,9 +62,7 @@ const MobileLeaderboardUserCard = ({ user }: { user: LeaderboardUser }) => {
           justifyContent="center"
           bgcolor={SCORE_METRIC_BG_COLOR}
         >
-          <Typography variant="body1">
-            #{user.chosenMode.globalLeaderboardRank}
-          </Typography>
+          <Typography variant="body1">#{userRank}</Typography>
         </Box>
         <Box
           display="flex"
@@ -90,7 +98,17 @@ const MobileLeaderboardUserCard = ({ user }: { user: LeaderboardUser }) => {
           <Typography>{formatDecimal(user.chosenMode.accuracy)}%</Typography>
         </Stack>
         <Stack direction="row" p={1}>
-          <Typography>{formatNumber(user.chosenMode.pp)}pp</Typography>
+          <Typography>
+            {isPPLeaderboard ? (
+              `${formatNumber(user.chosenMode.pp)}pp`
+            ) : (
+              <Tooltip title={formatNumber(user.chosenMode.rankedScore)}>
+                <Typography variant="body1">
+                  {formatNumberCompact(user.chosenMode.rankedScore)}
+                </Typography>
+              </Tooltip>
+            )}
+          </Typography>
         </Stack>
       </Stack>
     </Stack>
@@ -100,13 +118,21 @@ const LeaderboardUserCard = ({
   user,
   isMobile,
   sortParam,
+  userRank,
 }: {
   user: LeaderboardUser
   isMobile: boolean
   sortParam: SortParam
+  userRank: number
 }) => {
   if (isMobile) {
-    return <MobileLeaderboardUserCard user={user} />
+    return (
+      <MobileLeaderboardUserCard
+        user={user}
+        sortParam={sortParam}
+        userRank={userRank}
+      />
+    )
   }
 
   const isPPLeaderboard = sortParam === SortParam.Performance
@@ -126,7 +152,7 @@ const LeaderboardUserCard = ({
         justifyContent="center"
         bgcolor={USER_RANK_BG_COLOR}
       >
-        <Typography>#{user.chosenMode.globalLeaderboardRank}</Typography>
+        <Typography>#{userRank}</Typography>
       </Box>
       <Box bgcolor={USER_RANK_BG_COLOR}>
         <Box
@@ -304,14 +330,17 @@ export const GlobalUserLeaderboard = ({
         rankingStatistic={sortParam}
       />
       <Stack>
-        {leaderboardData?.users.map((user: LeaderboardUser) => (
-          <LeaderboardUserCard
-            key={user.id}
-            isMobile={isMobile}
-            user={user}
-            sortParam={sortParam}
-          />
-        ))}
+        {leaderboardData?.users.map(
+          (user: LeaderboardUser, userPageRank: number) => (
+            <LeaderboardUserCard
+              key={user.id}
+              isMobile={isMobile}
+              user={user}
+              userRank={userPageRank + page * pageSize + 1}
+              sortParam={sortParam}
+            />
+          )
+        )}
       </Stack>
       <TablePagination
         component={Box}
