@@ -66,7 +66,6 @@ const CountrySelectorMenu = ({
           open={open}
           onClose={handleClose}
         >
-          {/* TODO: support all countries by list */}
           {Object.entries(ALPHA2_COUNTRY_LIST).map(
             ([countryCode, countryName]) => (
               <MenuItem
