@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import axios from "axios"
 
 interface UserFriendsWithRequest {
@@ -40,5 +41,36 @@ export const fetchUserFriendsWith = async (
     }
   } catch (e: any) {
     throw new Error("Failed to fetch user friends data from server")
+  }
+}
+
+interface AddRemoveFriendRequest {
+  user: number
+  add: boolean
+}
+
+export interface AddRemoveFriendResponse {
+  code: number
+  friend: boolean
+  mutual: boolean
+}
+
+export const addRemoveFriend = async (
+  request: AddRemoveFriendRequest
+): Promise<AddRemoveFriendResponse> => {
+  try {
+    const response = await userRelationshipsApiInstance.post(
+      `v1/friends/${request.add ? "add" : "del"}`,
+      {
+        user: request.user,
+      }
+    )
+    return {
+      code: response.status,
+      friend: response.data.friend,
+      mutual: response.data.mutual,
+    }
+  } catch (e: any) {
+    throw new Error("Failed to add friend")
   }
 }

@@ -2,7 +2,10 @@ import { Button, Typography } from "@mui/material"
 import Box from "@mui/material/Box"
 import Stack from "@mui/material/Stack"
 
-import { RelationshipType } from "../../adapters/akatsuki-api/userRelationships"
+import {
+  addRemoveFriend,
+  RelationshipType,
+} from "../../adapters/akatsuki-api/userRelationships"
 import { useIdentityContext } from "../../context/identity"
 import { AddUserIcon } from "../images/icons/AddUserIcon"
 
@@ -38,7 +41,17 @@ export const ProfileRelationshipCard = ({
     if (relationship === RelationshipType.NotFriend) {
       // Add them as a friend over the API
       // Conditionally set mutual vs. friend
+      addRemoveFriend({
+        user: profileUserId,
+        add: true,
+      })
+      followers += 1 // TODO: test this
     } else {
+      addRemoveFriend({
+        user: profileUserId,
+        add: false,
+      })
+      followers -= 1 // TODO: test this
       // Remove them as a friend over the API
       setRelationship(RelationshipType.NotFriend)
     }
