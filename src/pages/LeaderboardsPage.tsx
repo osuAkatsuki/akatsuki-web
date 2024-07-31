@@ -10,6 +10,7 @@ import {
 } from "@mui/material"
 import Divider from "@mui/material/Divider"
 import { useState } from "react"
+import { useSearchParams } from "react-router-dom"
 
 import { GamemodeSelectionBar } from "../components/GamemodeSelectionBar"
 import {
@@ -85,11 +86,73 @@ const CountrySelectorMenu = ({
   )
 }
 
+interface LeaderboardQueryParams {
+  mode: GameMode
+  relax: RelaxMode
+  sort: SortParam
+  country: CountrySelection | null
+}
+
+const parseLeaderboardQueryParams = (
+  queryParams: URLSearchParams
+): LeaderboardQueryParams => {
+  const requestedGameMode = queryParams.get("mode")
+  let defaultGameMode = GameMode.Standard
+  if (requestedGameMode !== null) {
+    const mode = parseInt(requestedGameMode)
+    if (!isNaN(mode) && mode >= 0 && mode <= 3) {
+      defaultGameMode = mode
+    }
+  }
+
+  const requestedRelaxMode = queryParams.get("relax")
+  let defaultRelaxMode = RelaxMode.Vanilla
+  if (requestedRelaxMode !== null) {
+    const mode = parseInt(requestedRelaxMode)
+    if (!isNaN(mode) && mode >= 0 && mode <= 2) {
+      defaultRelaxMode = mode
+    }
+  }
+
+  const requestedSortParam = queryParams.get("sort")
+  let defaultSortParam = SortParam.Performance
+  if (requestedSortParam !== null) {
+    const sortParam = requestedSortParam as SortParam
+    if (Object.values(SortParam).includes(sortParam)) {
+      defaultSortParam = sortParam
+    }
+  }
+
+  const requestedCountryCode = queryParams.get("country")?.toUpperCase() ?? null
+  let defaultCountry = null
+  if (requestedCountryCode !== null) {
+    const countryName = ALPHA2_COUNTRY_LIST[requestedCountryCode]
+    if (countryName) {
+      defaultCountry = {
+        countryCode: requestedCountryCode,
+        countryName,
+      }
+    }
+  }
+
+  return {
+    mode: defaultGameMode,
+    relax: defaultRelaxMode,
+    sort: defaultSortParam,
+    country: defaultCountry,
+  }
+}
+
 export const LeaderboardsPage = () => {
-  const [gameMode, setGameMode] = useState(GameMode.Standard)
-  const [relaxMode, setRelaxMode] = useState(RelaxMode.Vanilla)
-  const [sortParam, setSortParam] = useState(SortParam.Performance)
-  const [country, setCountry] = useState<CountrySelection | null>(null)
+  const [queryParams, setQueryParams] = useSearchParams()
+  const parsedQueryParams = parseLeaderboardQueryParams(queryParams)
+
+  const [gameMode, setGameMode] = useState(parsedQueryParams.mode)
+  const [relaxMode, setRelaxMode] = useState(parsedQueryParams.relax)
+  const [sortParam, setSortParam] = useState(parsedQueryParams.sort)
+  const [country, setCountry] = useState<CountrySelection | null>(
+    parsedQueryParams.country
+  )
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const SortParamSelector = ({ targetSort }: { targetSort: SortParam }) => {
