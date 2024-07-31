@@ -214,12 +214,12 @@ export const GlobalUserLeaderboard = ({
   gameMode,
   relaxMode,
   sortParam,
-  country,
+  countryCode,
 }: {
   gameMode: GameMode
   relaxMode: RelaxMode
   sortParam: string
-  country: string | null
+  countryCode: string | null
 }) => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
@@ -243,7 +243,7 @@ export const GlobalUserLeaderboard = ({
           rx: relaxMode,
           p: page + 1,
           l: pageSize,
-          country: country ?? "",
+          country: countryCode?.toLowerCase() ?? "",
           sort: sortParam,
         })
         setLeaderboardData(leaderboardResponse)
@@ -254,7 +254,7 @@ export const GlobalUserLeaderboard = ({
         return
       }
     })()
-  }, [gameMode, relaxMode, page, pageSize, country, sortParam])
+  }, [gameMode, relaxMode, page, pageSize, countryCode, sortParam])
 
   if (loading || !leaderboardData) {
     return (

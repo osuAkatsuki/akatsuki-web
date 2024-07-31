@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Container,
+  Grid,
   Menu,
   MenuItem,
   Stack,
@@ -15,18 +16,24 @@ import { GlobalUserLeaderboard } from "../components/GlobalUserLeaderboard"
 import LeaderboardBanner from "../components/images/banners/leaderboard_banner.svg"
 import { LeaderboardIcon } from "../components/images/icons/LeaderboardIcon"
 import { GameMode, RelaxMode } from "../gameModes"
+import { ALPHA2_COUNTRY_LIST } from "../utils/countries"
 
-export enum SortParam {
+enum SortParam {
   Performance = "pp",
   Score = "score",
+}
+
+interface CountrySelection {
+  countryCode: string
+  countryName: string
 }
 
 const CountrySelectorMenu = ({
   country,
   setCountry,
 }: {
-  country: string | null
-  setCountry: (country: string | null) => void
+  country: CountrySelection | null
+  setCountry: (country: CountrySelection | null) => void
 }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
@@ -38,26 +45,38 @@ const CountrySelectorMenu = ({
   }
 
   return (
-    <Stack direction="column" py={2}>
-      <Typography variant="body1">Country</Typography>
-      <Button id="country-selection-button" onClick={handleClick}>
-        {country ?? "All"}
-      </Button>
-      <Menu
-        id="country-selection-menu"
-        MenuListProps={{
-          "aria-labelledby": "country-selection-button",
-        }}
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-      >
-        {/* TODO: support all countries by list */}
-        <MenuItem key="canada" onClick={() => setCountry("Canada")}>
-          Canada
-        </MenuItem>
-      </Menu>
-    </Stack>
+    <Grid container>
+      <Stack direction="column" py={2}>
+        <Typography variant="body1">Country</Typography>
+        <Button id="country-selection-button" onClick={handleClick}>
+          {country ? country.countryName : "All"}
+        </Button>
+        <Menu
+          id="country-selection-menu"
+          MenuListProps={{
+            "aria-labelledby": "country-selection-button",
+          }}
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+        >
+          {/* TODO: support all countries by list */}
+          {Object.entries(ALPHA2_COUNTRY_LIST).map(
+            ([countryCode, countryName]) => (
+              <MenuItem
+                key={countryCode}
+                onClick={() => {
+                  setCountry({ countryCode, countryName })
+                  handleClose()
+                }}
+              >
+                {countryName}
+              </MenuItem>
+            )
+          )}
+        </Menu>
+      </Stack>
+    </Grid>
   )
 }
 
@@ -65,7 +84,7 @@ export const LeaderboardsPage = () => {
   const [gameMode, setGameMode] = useState(GameMode.Standard)
   const [relaxMode, setRelaxMode] = useState(RelaxMode.Vanilla)
   const [sortParam, setSortParam] = useState(SortParam.Performance)
-  const [country, setCountry] = useState<string | null>(null)
+  const [country, setCountry] = useState<CountrySelection | null>(null)
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const SortParamSelector = ({ targetSort }: { targetSort: SortParam }) => {
@@ -159,7 +178,7 @@ export const LeaderboardsPage = () => {
           gameMode={gameMode}
           relaxMode={relaxMode}
           sortParam={sortParam}
-          country={country}
+          countryCode={country ? country.countryCode : null}
         />
       </Container>
     </>
