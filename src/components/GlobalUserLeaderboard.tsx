@@ -4,6 +4,7 @@ import {
   Grid,
   Skeleton,
   Stack,
+  Tooltip,
   Typography,
   useMediaQuery,
   useTheme,
@@ -18,12 +19,26 @@ import {
   type LeaderboardUser,
 } from "../adapters/akatsuki-api/leaderboards"
 import { GameMode, RelaxMode } from "../gameModes"
-import { formatDecimal, formatNumber } from "../utils/formatting"
+import {
+  formatDecimal,
+  formatNumber,
+  formatNumberCompact,
+} from "../utils/formatting"
 import { FlagIcon } from "./DestinationIcons"
 
 const USER_RANK_BG_COLOR = "rgba(21, 18, 35, 1)"
 const USER_INFO_BG_COLOR = "rgba(30, 27, 47, 1)"
 const SCORE_METRIC_BG_COLOR = "rgba(38, 34, 56, 1)"
+
+export enum SortParam {
+  Performance = "pp",
+  Score = "score",
+}
+
+export interface CountrySelection {
+  countryCode: string
+  countryName: string
+}
 
 const MobileLeaderboardUserCard = ({ user }: { user: LeaderboardUser }) => {
   return (
@@ -84,13 +99,17 @@ const MobileLeaderboardUserCard = ({ user }: { user: LeaderboardUser }) => {
 const LeaderboardUserCard = ({
   user,
   isMobile,
+  sortParam,
 }: {
   user: LeaderboardUser
   isMobile: boolean
+  sortParam: SortParam
 }) => {
   if (isMobile) {
     return <MobileLeaderboardUserCard user={user} />
   }
+
+  const isPPLeaderboard = sortParam === SortParam.Performance
 
   return (
     <Grid
@@ -160,7 +179,15 @@ const LeaderboardUserCard = ({
         justifyContent="center"
         bgcolor={SCORE_METRIC_BG_COLOR}
       >
-        {formatNumber(user.chosenMode.pp)}pp
+        {isPPLeaderboard ? (
+          `${formatNumber(user.chosenMode.pp)}pp`
+        ) : (
+          <Tooltip title={formatNumber(user.chosenMode.rankedScore)}>
+            <Typography variant="body1">
+              {formatNumberCompact(user.chosenMode.rankedScore)}
+            </Typography>
+          </Tooltip>
+        )}
       </Box>
     </Grid>
   )
@@ -218,7 +245,7 @@ export const GlobalUserLeaderboard = ({
 }: {
   gameMode: GameMode
   relaxMode: RelaxMode
-  sortParam: string
+  sortParam: SortParam
   countryCode: string | null
 }) => {
   const theme = useTheme()
@@ -278,7 +305,12 @@ export const GlobalUserLeaderboard = ({
       />
       <Stack>
         {leaderboardData?.users.map((user: LeaderboardUser) => (
-          <LeaderboardUserCard key={user.id} isMobile={isMobile} user={user} />
+          <LeaderboardUserCard
+            key={user.id}
+            isMobile={isMobile}
+            user={user}
+            sortParam={sortParam}
+          />
         ))}
       </Stack>
       <TablePagination

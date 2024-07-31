@@ -12,21 +12,15 @@ import Divider from "@mui/material/Divider"
 import { useState } from "react"
 
 import { GamemodeSelectionBar } from "../components/GamemodeSelectionBar"
-import { GlobalUserLeaderboard } from "../components/GlobalUserLeaderboard"
+import {
+  CountrySelection,
+  GlobalUserLeaderboard,
+  SortParam,
+} from "../components/GlobalUserLeaderboard"
 import LeaderboardBanner from "../components/images/banners/leaderboard_banner.svg"
 import { LeaderboardIcon } from "../components/images/icons/LeaderboardIcon"
 import { GameMode, RelaxMode } from "../gameModes"
 import { ALPHA2_COUNTRY_LIST } from "../utils/countries"
-
-enum SortParam {
-  Performance = "pp",
-  Score = "score",
-}
-
-interface CountrySelection {
-  countryCode: string
-  countryName: string
-}
 
 const CountrySelectorMenu = ({
   country,
@@ -153,8 +147,8 @@ export const LeaderboardsPage = () => {
               fontWeight={200}
             >
               {/* <Typography fontSize={21} fontWeight={200}>clans</Typography> */}
-              {/* <SortParamSelector targetSort="score" /> */}
-              {/* <SortParamSelector targetSort="pp" /> */}
+              <SortParamSelector targetSort={SortParam.Score} />
+              <SortParamSelector targetSort={SortParam.Performance} />
             </Stack>
           </Stack>
         </Container>
