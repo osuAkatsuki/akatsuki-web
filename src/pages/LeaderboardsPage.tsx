@@ -147,12 +147,44 @@ export const LeaderboardsPage = () => {
   const [queryParams, setQueryParams] = useSearchParams()
   const parsedQueryParams = parseLeaderboardQueryParams(queryParams)
 
-  const [gameMode, setGameMode] = useState(parsedQueryParams.mode)
-  const [relaxMode, setRelaxMode] = useState(parsedQueryParams.relax)
-  const [sortParam, setSortParam] = useState(parsedQueryParams.sort)
-  const [country, setCountry] = useState<CountrySelection | null>(
+  const [gameMode, _setGameMode] = useState(parsedQueryParams.mode)
+  const [relaxMode, _setRelaxMode] = useState(parsedQueryParams.relax)
+  const [sortParam, _setSortParam] = useState(parsedQueryParams.sort)
+  const [country, _setCountry] = useState<CountrySelection | null>(
     parsedQueryParams.country
   )
+
+  const setGameMode = (newGameMode: GameMode) => {
+    _setGameMode(newGameMode)
+    setQueryParams((searchParams) => {
+      searchParams.set("mode", newGameMode.toString())
+      return searchParams
+    })
+  }
+
+  const setRelaxMode = (newRelaxMode: RelaxMode) => {
+    _setRelaxMode(newRelaxMode)
+    setQueryParams((searchParams) => {
+      searchParams.set("relax", newRelaxMode.toString())
+      return searchParams
+    })
+  }
+
+  const setSortParam = (newSortParam: SortParam) => {
+    _setSortParam(newSortParam)
+    setQueryParams((searchParams) => {
+      searchParams.set("sort", newSortParam)
+      return searchParams
+    })
+  }
+
+  const setCountry = (newCountry: CountrySelection | null) => {
+    _setCountry(newCountry)
+    setQueryParams((searchParams) => {
+      searchParams.set("country", newCountry?.countryCode.toLowerCase() ?? "")
+      return searchParams
+    })
+  }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const SortParamSelector = ({ targetSort }: { targetSort: SortParam }) => {

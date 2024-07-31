@@ -330,16 +330,22 @@ export const GlobalUserLeaderboard = ({
         rankingStatistic={sortParam}
       />
       <Stack>
-        {leaderboardData?.users.map(
-          (user: LeaderboardUser, userPageRank: number) => (
-            <LeaderboardUserCard
-              key={user.id}
-              isMobile={isMobile}
-              user={user}
-              userRank={userPageRank + page * pageSize + 1}
-              sortParam={sortParam}
-            />
+        {leaderboardData?.users ? (
+          leaderboardData.users.map(
+            (user: LeaderboardUser, userPageRank: number) => (
+              <LeaderboardUserCard
+                key={user.id}
+                isMobile={isMobile}
+                user={user}
+                userRank={userPageRank + page * pageSize + 1}
+                sortParam={sortParam}
+              />
+            )
           )
+        ) : (
+          <Alert severity="warning">
+            <Typography variant="body1">No users found!</Typography>
+          </Alert>
         )}
       </Stack>
       <TablePagination
