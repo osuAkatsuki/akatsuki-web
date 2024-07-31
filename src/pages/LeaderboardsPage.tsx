@@ -42,7 +42,19 @@ const CountrySelectorMenu = ({
     <Grid container>
       <Stack direction="column" py={2}>
         <Typography variant="body1">Country</Typography>
-        <Button id="country-selection-button" onClick={handleClick}>
+        <Button
+          id="country-selection-button"
+          sx={{
+            color: "white",
+            textTransform: "none",
+            bgcolor: "#110E1B",
+            // TODO: make this grid-based/responsive
+            minWidth: 300,
+            justifyContent: "flex-start",
+            borderRadius: 3,
+          }}
+          onClick={handleClick}
+        >
           {country ? country.countryName : "All"}
         </Button>
         <Menu
