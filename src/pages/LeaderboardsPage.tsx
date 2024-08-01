@@ -12,6 +12,7 @@ import Divider from "@mui/material/Divider"
 import { useState } from "react"
 import { useSearchParams } from "react-router-dom"
 
+import { GlobalIcon } from "../components/DestinationIcons"
 import { GamemodeSelectionBar } from "../components/GamemodeSelectionBar"
 import {
   CountrySelection,
@@ -21,8 +22,47 @@ import {
 import LeaderboardBanner from "../components/images/banners/leaderboard_banner.svg"
 import { LeaderboardIcon } from "../components/images/icons/LeaderboardIcon"
 import { GameMode, RelaxMode } from "../gameModes"
-import { ALPHA2_COUNTRY_LIST } from "../utils/countries"
+import { ALPHA2_COUNTRY_LIST, getFlagUrl } from "../utils/countries"
 
+const CountryMenuItem = ({
+  divider,
+  countryCode,
+  countryName,
+  setCountry,
+  handleClose,
+}: {
+  divider?: boolean
+  countryCode: string
+  countryName: string
+  setCountry: (country: CountrySelection) => void
+  handleClose: () => void
+}) => {
+  return (
+    <MenuItem
+      key={countryCode}
+      onClick={() => {
+        setCountry({ countryCode, countryName })
+        handleClose()
+      }}
+      divider={divider}
+    >
+      <Stack direction="row" alignItems="center" gap={1}>
+        {countryCode !== "all" ? (
+          <Box
+            component="img"
+            src={getFlagUrl(countryCode)}
+            alt={countryCode}
+            height={20}
+            width={20}
+          />
+        ) : (
+          <GlobalIcon width={20} height={20} />
+        )}
+        <Typography variant="body1">{countryName}</Typography>
+      </Stack>
+    </MenuItem>
+  )
+}
 const CountrySelectorMenu = ({
   country,
   setCountry,
@@ -67,17 +107,23 @@ const CountrySelectorMenu = ({
           open={open}
           onClose={handleClose}
         >
+          <CountryMenuItem
+            key="all"
+            divider
+            countryCode="all"
+            countryName="All"
+            setCountry={setCountry}
+            handleClose={handleClose}
+          />
           {Object.entries(ALPHA2_COUNTRY_LIST).map(
             ([countryCode, countryName]) => (
-              <MenuItem
+              <CountryMenuItem
                 key={countryCode}
-                onClick={() => {
-                  setCountry({ countryCode, countryName })
-                  handleClose()
-                }}
-              >
-                {countryName}
-              </MenuItem>
+                countryCode={countryCode}
+                countryName={countryName}
+                setCountry={setCountry}
+                handleClose={handleClose}
+              />
             )
           )}
         </Menu>
