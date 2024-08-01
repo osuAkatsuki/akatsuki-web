@@ -227,10 +227,10 @@ export const LeaderboardsPage = () => {
   const setCountry = (newCountry: CountrySelection | null) => {
     _setCountry(newCountry)
     setQueryParams((searchParams) => {
-      if (newCountry === null) {
-        searchParams.delete("country")
+      if (newCountry !== null) {
+        searchParams.set("country", newCountry.countryCode.toLowerCase())
       } else {
-        searchParams.set("country", newCountry?.countryCode.toLowerCase() ?? "")
+        searchParams.delete("country")
       }
       return searchParams
     })
