@@ -1,13 +1,14 @@
 import * as amplitude from "@amplitude/analytics-browser"
-import { FavoriteOutlined } from "@mui/icons-material"
 import {
   Autocomplete,
+  Avatar,
   Box,
   Button,
   Container,
   debounce,
   Divider,
-  IconButton,
+  Menu,
+  MenuItem,
   Stack,
   TextField,
   Typography,
@@ -21,6 +22,7 @@ import {
   SingleUserSearchResult,
 } from "../adapters/akatsuki-api/search"
 import {
+  Identity,
   removeIdentityFromLocalStorage,
   useIdentityContext,
 } from "../context/identity"
@@ -32,19 +34,21 @@ const PAGES_WITH_VISIBLE_OUTLINE = ["/"]
 const shouldUseVisibleOutline = (pagePathName: string) =>
   PAGES_WITH_VISIBLE_OUTLINE.includes(pagePathName)
 
-export default function Navbar() {
-  const navigate = useNavigate()
-  const { identity, setIdentity } = useIdentityContext()
-
-  const [searchQuery, setSearchQuery] = useState("")
-  const [searchQueryOptions, setSearchQueryOptions] = useState<
-    SingleUserSearchResult[] | null
-  >([])
-  const [searchQueryValue, setSearchQueryValue] =
-    useState<SingleUserSearchResult | null>(null)
-
-  const location = useLocation()
-  const useVisibleOutline = shouldUseVisibleOutline(location.pathname)
+export const ProfileSettingsMenu = ({
+  identity,
+  setIdentity,
+}: {
+  identity: Identity
+  setIdentity: (identity: Identity | null) => void
+}) => {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const open = Boolean(anchorEl)
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
 
   const handleLogout = async () => {
     if (identity !== null) {
@@ -62,6 +66,76 @@ export default function Navbar() {
     removeIdentityFromLocalStorage()
     setIdentity(null)
   }
+
+  return (
+    <>
+      <Button
+        aria-label="profile-settings-button"
+        id="profile-settings-button"
+        aria-controls={open ? "profile-settings-button" : undefined}
+        aria-expanded={open ? "true" : undefined}
+        aria-haspopup="true"
+        onClick={handleClick}
+        sx={{ textTransform: "none" }}
+      >
+        <Stack direction="row" alignItems="center" spacing={1}>
+          <Typography variant="h6" sx={{ color: "white" }}>
+            {identity.username}
+          </Typography>
+          <Avatar
+            alt="user-avatar"
+            src={`https://a.akatsuki.gg/${identity.userId}`}
+            variant="rounded"
+            sx={{ width: 36, height: 36, borderRadius: "16px" }}
+          />
+        </Stack>
+      </Button>
+      <Menu
+        id="profile-settings-menu"
+        MenuListProps={{
+          "aria-labelledby": "profile-settings-button",
+        }}
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+      >
+        <MenuItem
+          component={Link}
+          onClick={handleClose}
+          to={`/u/${identity.userId}`}
+        >
+          <Typography variant="body1">Profile</Typography>
+        </MenuItem>
+        {identity.privileges & UserPrivileges.ADMIN_ACCESS_RAP && (
+          <MenuItem
+            component={Link}
+            onClick={handleClose}
+            to={process.env.REACT_APP_ADMIN_PANEL_HOME_URL}
+          >
+            <Typography variant="body1">Admin Panel</Typography>
+          </MenuItem>
+        )}
+        <MenuItem onClick={handleLogout}>
+          <Typography variant="body1">Logout</Typography>
+        </MenuItem>
+      </Menu>
+    </>
+  )
+}
+
+export default function Navbar() {
+  const navigate = useNavigate()
+  const { identity, setIdentity } = useIdentityContext()
+
+  const [searchQuery, setSearchQuery] = useState("")
+  const [searchQueryOptions, setSearchQueryOptions] = useState<
+    SingleUserSearchResult[] | null
+  >([])
+  const [searchQueryValue, setSearchQueryValue] =
+    useState<SingleUserSearchResult | null>(null)
+
+  const location = useLocation()
+  const useVisibleOutline = shouldUseVisibleOutline(location.pathname)
 
   const searchForUsers = useMemo(
     () =>
@@ -97,7 +171,7 @@ export default function Navbar() {
             : "transparent",
         }}
       >
-        <Container>
+        <Container disableGutters>
           <Stack
             direction={{ xs: "column", sm: "row" }}
             justifyContent="space-between"
@@ -121,41 +195,24 @@ export default function Navbar() {
               <Divider flexItem orientation="vertical" />
               <Link to="/">
                 <Button sx={{ color: "white", textTransform: "none" }}>
-                  <Typography variant="subtitle1">Home</Typography>
+                  <Typography variant="body1">Home</Typography>
                 </Button>
               </Link>
               <Link to="/leaderboards">
                 <Button sx={{ color: "white", textTransform: "none" }}>
-                  <Typography variant="subtitle1">Leaderboards</Typography>
+                  <Typography variant="body1">Leaderboards</Typography>
                 </Button>
               </Link>
               <Link to="/about">
                 <Button sx={{ color: "white", textTransform: "none" }}>
-                  <Typography variant="subtitle1">About</Typography>
+                  <Typography variant="body1">About</Typography>
                 </Button>
               </Link>
               <Link to={process.env.REACT_APP_DISCORD_INVITE_URL}>
                 <Button sx={{ color: "white", textTransform: "none" }}>
-                  <Typography variant="subtitle1">Discord</Typography>
+                  <Typography variant="body1">Discord</Typography>
                 </Button>
               </Link>
-            </Stack>
-            {/* Right Navbar */}
-            <Stack
-              direction={{ xs: "column", sm: "row" }}
-              spacing={1}
-              sx={{ display: "flex", alignItems: "center" }}
-            >
-              {identity !== null &&
-              identity.privileges & UserPrivileges.ADMIN_ACCESS_RAP ? (
-                <Link to={process.env.REACT_APP_ADMIN_PANEL_HOME_URL}>
-                  <Button sx={{ color: "white", textTransform: "none" }}>
-                    <Typography variant="subtitle1" fontWeight="bold">
-                      Admin Panel
-                    </Typography>
-                  </Button>
-                </Link>
-              ) : null}
 
               <Autocomplete
                 id="user-search"
@@ -180,32 +237,28 @@ export default function Navbar() {
                   navigate(`/u/${newValue.id}`)
                 }}
               />
+            </Stack>
+            {/* Right Navbar */}
+            <Stack
+              direction={{ xs: "column", sm: "row" }}
+              spacing={1}
+              sx={{ display: "flex", alignItems: "center" }}
+            >
               {identity !== null ? (
-                <>
-                  <Link to="/support">
-                    <IconButton aria-label="support">
-                      <FavoriteOutlined sx={{ color: "#db2828" }} />
-                    </IconButton>
-                  </Link>
-
-                  {/* TODO: put this behind a profile submenu */}
-                  <Button
-                    onClick={handleLogout}
-                    sx={{ color: "white", textTransform: "none" }}
-                  >
-                    <Typography variant="subtitle1">Logout</Typography>
-                  </Button>
-                </>
+                <ProfileSettingsMenu
+                  identity={identity}
+                  setIdentity={setIdentity}
+                />
               ) : (
                 <>
                   <Link to="/login">
                     <Button sx={{ color: "white", textTransform: "none" }}>
-                      <Typography variant="subtitle1">Login</Typography>
+                      <Typography variant="body1">Login</Typography>
                     </Button>
                   </Link>
                   <Link to="/register">
                     <Button sx={{ color: "white", textTransform: "none" }}>
-                      <Typography variant="subtitle1">Register</Typography>
+                      <Typography variant="body1">Register</Typography>
                     </Button>
                   </Link>
                 </>
