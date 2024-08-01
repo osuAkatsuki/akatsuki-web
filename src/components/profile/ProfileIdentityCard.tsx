@@ -84,6 +84,19 @@ export const ProfileIdentityCard = ({
             {userTitleDisplay.text}
           </Typography>
         )}
+        {!(userProfile.privileges & UserPrivileges.UserPublic) && (
+          <Typography
+            variant="h6"
+            sx={{
+              background: "linear-gradient(90deg, #FF5E5E 0%, #FFC530 100%)",
+              backgroundClip: "text",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
+            Restricted
+          </Typography>
+        )}
       </Stack>
     </Stack>
   )
