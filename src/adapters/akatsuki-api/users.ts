@@ -91,6 +91,7 @@ export interface UserFullResponse extends UserResponse {
 
 const userApiInstance = axios.create({
   baseURL: process.env.REACT_APP_USER_API_BASE_URL,
+  withCredentials: true,
 })
 
 export const fetchUser = async (userId: number): Promise<UserFullResponse> => {
