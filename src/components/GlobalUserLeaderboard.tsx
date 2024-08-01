@@ -4,6 +4,7 @@ import {
   Grid,
   Skeleton,
   Stack,
+  Tooltip,
   Typography,
   useMediaQuery,
   useTheme,
@@ -18,14 +19,38 @@ import {
   type LeaderboardUser,
 } from "../adapters/akatsuki-api/leaderboards"
 import { GameMode, RelaxMode } from "../gameModes"
-import { formatDecimal, formatNumber } from "../utils/formatting"
+import {
+  formatDecimal,
+  formatNumber,
+  formatNumberCompact,
+} from "../utils/formatting"
 import { FlagIcon } from "./DestinationIcons"
 
 const USER_RANK_BG_COLOR = "rgba(21, 18, 35, 1)"
 const USER_INFO_BG_COLOR = "rgba(30, 27, 47, 1)"
 const SCORE_METRIC_BG_COLOR = "rgba(38, 34, 56, 1)"
 
-const MobileLeaderboardUserCard = ({ user }: { user: LeaderboardUser }) => {
+export enum SortParam {
+  Performance = "pp",
+  Score = "score",
+}
+
+export interface CountrySelection {
+  countryCode: string
+  countryName: string
+}
+
+const MobileLeaderboardUserCard = ({
+  user,
+  sortParam,
+  userRank,
+}: {
+  user: LeaderboardUser
+  sortParam: SortParam
+  userRank: number
+}) => {
+  const isPPLeaderboard = sortParam === SortParam.Performance
+
   return (
     <Stack direction="column" borderRadius={4} mt={1} overflow="hidden">
       <Stack direction="row" bgcolor={USER_INFO_BG_COLOR}>
@@ -37,9 +62,7 @@ const MobileLeaderboardUserCard = ({ user }: { user: LeaderboardUser }) => {
           justifyContent="center"
           bgcolor={SCORE_METRIC_BG_COLOR}
         >
-          <Typography variant="body1">
-            #{user.chosenMode.globalLeaderboardRank}
-          </Typography>
+          <Typography variant="body1">#{userRank}</Typography>
         </Box>
         <Box
           display="flex"
@@ -49,18 +72,18 @@ const MobileLeaderboardUserCard = ({ user }: { user: LeaderboardUser }) => {
           sx={{ borderTopLeftRadius: 8, borderBottomLeftRadius: 8 }}
         >
           <FlagIcon country={user.country} height={36} width={36} />
-          <Typography variant="body1" ml={1}>
-            <Link
-              to={`/u/${user.id}`}
-              // eslint-disable-next-line react/forbid-component-props
-              style={{
-                color: "#FFFFFF",
-                textDecoration: "none",
-              }}
-            >
+          <Link
+            to={`/u/${user.id}`}
+            // eslint-disable-next-line react/forbid-component-props
+            style={{
+              color: "#FFFFFF",
+              textDecoration: "none",
+            }}
+          >
+            <Typography variant="body1" ml={1}>
               {user.username}
-            </Link>
-          </Typography>
+            </Typography>
+          </Link>
         </Box>
       </Stack>
       <Stack
@@ -75,7 +98,17 @@ const MobileLeaderboardUserCard = ({ user }: { user: LeaderboardUser }) => {
           <Typography>{formatDecimal(user.chosenMode.accuracy)}%</Typography>
         </Stack>
         <Stack direction="row" p={1}>
-          <Typography>{formatNumber(user.chosenMode.pp)}pp</Typography>
+          {isPPLeaderboard ? (
+            <Typography variant="body1">
+              ${formatNumber(user.chosenMode.pp)}pp
+            </Typography>
+          ) : (
+            <Tooltip title={formatNumber(user.chosenMode.rankedScore)}>
+              <Typography variant="body1">
+                {formatNumberCompact(user.chosenMode.rankedScore)}
+              </Typography>
+            </Tooltip>
+          )}
         </Stack>
       </Stack>
     </Stack>
@@ -84,13 +117,25 @@ const MobileLeaderboardUserCard = ({ user }: { user: LeaderboardUser }) => {
 const LeaderboardUserCard = ({
   user,
   isMobile,
+  sortParam,
+  userRank,
 }: {
   user: LeaderboardUser
   isMobile: boolean
+  sortParam: SortParam
+  userRank: number
 }) => {
   if (isMobile) {
-    return <MobileLeaderboardUserCard user={user} />
+    return (
+      <MobileLeaderboardUserCard
+        user={user}
+        sortParam={sortParam}
+        userRank={userRank}
+      />
+    )
   }
+
+  const isPPLeaderboard = sortParam === SortParam.Performance
 
   return (
     <Grid
@@ -107,7 +152,7 @@ const LeaderboardUserCard = ({
         justifyContent="center"
         bgcolor={USER_RANK_BG_COLOR}
       >
-        <Typography>#{user.chosenMode.globalLeaderboardRank}</Typography>
+        <Typography variant="body1">#{userRank}</Typography>
       </Box>
       <Box bgcolor={USER_RANK_BG_COLOR}>
         <Box
@@ -119,18 +164,18 @@ const LeaderboardUserCard = ({
           sx={{ borderTopLeftRadius: 8, borderBottomLeftRadius: 8 }}
         >
           <FlagIcon country={user.country} height={36} width={36} />
-          <Typography variant="body1" ml={1}>
-            <Link
-              to={`/u/${user.id}`}
-              // eslint-disable-next-line react/forbid-component-props
-              style={{
-                color: "#FFFFFF",
-                textDecoration: "none",
-              }}
-            >
+          <Link
+            to={`/u/${user.id}`}
+            // eslint-disable-next-line react/forbid-component-props
+            style={{
+              color: "#FFFFFF",
+              textDecoration: "none",
+            }}
+          >
+            <Typography variant="body1" ml={1}>
               {user.username}
-            </Link>
-          </Typography>
+            </Typography>
+          </Link>
         </Box>
       </Box>
       <Box
@@ -139,7 +184,9 @@ const LeaderboardUserCard = ({
         justifyContent="center"
         color="hsl(0deg 0 100% / 60%)"
       >
-        {formatNumber(user.chosenMode.playcount)}
+        <Typography variant="body1">
+          {formatNumber(user.chosenMode.playcount)}
+        </Typography>
       </Box>
       <Box bgcolor={SCORE_METRIC_BG_COLOR}>
         <Box
@@ -151,7 +198,9 @@ const LeaderboardUserCard = ({
           height="100%"
           sx={{ borderTopRightRadius: 8, borderBottomRightRadius: 8 }}
         >
-          {formatDecimal(user.chosenMode.accuracy)}%
+          <Typography variant="body1">
+            {formatDecimal(user.chosenMode.accuracy)}%
+          </Typography>
         </Box>
       </Box>
       <Box
@@ -160,7 +209,17 @@ const LeaderboardUserCard = ({
         justifyContent="center"
         bgcolor={SCORE_METRIC_BG_COLOR}
       >
-        {formatNumber(user.chosenMode.pp)}pp
+        {isPPLeaderboard ? (
+          <Typography variant="body1">
+            {formatNumber(user.chosenMode.pp)}pp
+          </Typography>
+        ) : (
+          <Tooltip title={formatNumber(user.chosenMode.rankedScore)}>
+            <Typography variant="body1">
+              {formatNumberCompact(user.chosenMode.rankedScore)}
+            </Typography>
+          </Tooltip>
+        )}
       </Box>
     </Grid>
   )
@@ -214,12 +273,12 @@ export const GlobalUserLeaderboard = ({
   gameMode,
   relaxMode,
   sortParam,
-  country,
+  countryCode,
 }: {
   gameMode: GameMode
   relaxMode: RelaxMode
-  sortParam: string
-  country: string | null
+  sortParam: SortParam
+  countryCode: string | null
 }) => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
@@ -243,7 +302,7 @@ export const GlobalUserLeaderboard = ({
           rx: relaxMode,
           p: page + 1,
           l: pageSize,
-          country: country ?? "",
+          country: countryCode?.toLowerCase() ?? "",
           sort: sortParam,
         })
         setLeaderboardData(leaderboardResponse)
@@ -254,7 +313,7 @@ export const GlobalUserLeaderboard = ({
         return
       }
     })()
-  }, [gameMode, relaxMode, page, pageSize, country, sortParam])
+  }, [gameMode, relaxMode, page, pageSize, countryCode, sortParam])
 
   if (loading || !leaderboardData) {
     return (
@@ -277,9 +336,23 @@ export const GlobalUserLeaderboard = ({
         rankingStatistic={sortParam}
       />
       <Stack>
-        {leaderboardData?.users.map((user: LeaderboardUser) => (
-          <LeaderboardUserCard key={user.id} isMobile={isMobile} user={user} />
-        ))}
+        {leaderboardData?.users ? (
+          leaderboardData.users.map(
+            (user: LeaderboardUser, userPageRank: number) => (
+              <LeaderboardUserCard
+                key={user.id}
+                isMobile={isMobile}
+                user={user}
+                userRank={userPageRank + page * pageSize + 1}
+                sortParam={sortParam}
+              />
+            )
+          )
+        ) : (
+          <Alert severity="warning">
+            <Typography variant="body1">No users found!</Typography>
+          </Alert>
+        )}
       </Stack>
       <TablePagination
         component={Box}

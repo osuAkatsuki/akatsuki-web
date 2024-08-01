@@ -11,7 +11,7 @@ export const getFlagUrl = (country: string): string => {
 }
 
 // https://gist.github.com/incredimike/1469814#file-variouscountrylistformats-js-L528
-const countryListAlpha2: { [key: string]: string } = {
+export const ALPHA2_COUNTRY_LIST: { [key: string]: string } = {
   AF: "Afghanistan",
   AL: "Albania",
   DZ: "Algeria",
@@ -264,5 +264,5 @@ const countryListAlpha2: { [key: string]: string } = {
 }
 
 export const getCountryName = (countryCode: string): string => {
-  return countryListAlpha2[countryCode] ?? "??"
+  return ALPHA2_COUNTRY_LIST[countryCode] ?? "??"
 }

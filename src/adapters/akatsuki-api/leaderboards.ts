@@ -30,7 +30,7 @@ export interface LeaderboardUser {
 
 export interface LeaderboardResponse {
   code: number
-  users: LeaderboardUser[]
+  users: LeaderboardUser[] | null
 }
 
 interface LeaderboardRequest {
@@ -63,31 +63,33 @@ export const fetchLeaderboard = async (
     })
     return {
       code: response.status,
-      users: response.data.users.map((user: any) => ({
-        id: user.id,
-        username: user.username,
-        usernameAka: user.username_aka,
-        registeredOn: user.registered_on,
-        privileges: user.privileges,
-        latestActivity: user.latest_activity,
-        country: user.country,
-        chosenMode: {
-          rankedScore: user.chosen_mode.ranked_score,
-          totalScore: user.chosen_mode.total_score,
-          playcount: user.chosen_mode.playcount,
-          playtime: user.chosen_mode.playtime,
-          replaysWatched: user.chosen_mode.replays_watched,
-          totalHits: user.chosen_mode.total_hits,
-          level: user.chosen_mode.level,
-          accuracy: user.chosen_mode.accuracy,
-          pp: user.chosen_mode.pp,
-          globalLeaderboardRank: user.chosen_mode.global_leaderboard_rank,
-          countryLeaderboardRank: user.chosen_mode.country_leaderboard_rank,
-          maxCombo: user.chosen_mode.max_combo,
-        },
-        playStyle: user.play_style,
-        favouriteMode: user.favourite_mode,
-      })),
+      users: response.data.users
+        ? response.data.users.map((user: any) => ({
+            id: user.id,
+            username: user.username,
+            usernameAka: user.username_aka,
+            registeredOn: user.registered_on,
+            privileges: user.privileges,
+            latestActivity: user.latest_activity,
+            country: user.country,
+            chosenMode: {
+              rankedScore: user.chosen_mode.ranked_score,
+              totalScore: user.chosen_mode.total_score,
+              playcount: user.chosen_mode.playcount,
+              playtime: user.chosen_mode.playtime,
+              replaysWatched: user.chosen_mode.replays_watched,
+              totalHits: user.chosen_mode.total_hits,
+              level: user.chosen_mode.level,
+              accuracy: user.chosen_mode.accuracy,
+              pp: user.chosen_mode.pp,
+              globalLeaderboardRank: user.chosen_mode.global_leaderboard_rank,
+              countryLeaderboardRank: user.chosen_mode.country_leaderboard_rank,
+              maxCombo: user.chosen_mode.max_combo,
+            },
+            playStyle: user.play_style,
+            favouriteMode: user.favourite_mode,
+          }))
+        : null,
     }
   } catch (e: any) {
     console.log(e)
