@@ -106,7 +106,7 @@ export const ProfileSettingsMenu = ({
         >
           <Typography variant="body1">Profile</Typography>
         </MenuItem>
-        {identity.privileges & UserPrivileges.ADMIN_ACCESS_RAP && (
+        {(identity.privileges & UserPrivileges.ADMIN_ACCESS_RAP) !== 0 && (
           <MenuItem
             component={Link}
             onClick={handleClose}
