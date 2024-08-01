@@ -56,7 +56,7 @@ const CountrySelectorMenu = ({
           }}
           onClick={handleClick}
         >
-          {country ? country.countryName : "All"}
+          {country?.countryName ?? "All"}
         </Button>
         <Menu
           id="country-selection-menu"
@@ -278,7 +278,7 @@ export const LeaderboardsPage = () => {
           gameMode={gameMode}
           relaxMode={relaxMode}
           sortParam={sortParam}
-          countryCode={country ? country.countryCode : null}
+          countryCode={country?.countryCode ?? null}
         />
       </Container>
     </>

@@ -29,12 +29,11 @@ export const searchUsers = async (
     })
     return {
       code: response.status,
-      users: response.data.users
-        ? response.data.users.map((user: any) => ({
-            id: user.id,
-            username: user.username,
-          }))
-        : null,
+      users:
+        response.data.users?.map((user: any) => ({
+          id: user.id,
+          username: user.username,
+        })) ?? null,
     }
   } catch (e: any) {
     console.log(e)

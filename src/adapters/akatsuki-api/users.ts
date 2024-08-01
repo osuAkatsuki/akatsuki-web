@@ -206,14 +206,13 @@ export const fetchUser = async (userId: number): Promise<UserFullResponse> => {
       })),
       playStyle: response.data.play_style,
       favouriteMode: response.data.favourite_mode,
-      badges: response.data.badges
-        ? response.data.badges.map((badge: any) => ({
-            id: badge.id,
-            name: badge.name,
-            icon: badge.icon,
-            colour: badge.colour,
-          }))
-        : null,
+      badges:
+        response.data.badges?.map((badge: any) => ({
+          id: badge.id,
+          name: badge.name,
+          icon: badge.icon,
+          colour: badge.colour,
+        })) ?? null,
       clan: {
         id: response.data.clan.id,
         name: response.data.clan.name,

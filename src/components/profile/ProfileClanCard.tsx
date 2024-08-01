@@ -13,7 +13,7 @@ export const ProfileClanCard = ({ clan }: { clan: UserClan }) => {
           width={70}
           height={70}
           borderRadius={2}
-          src={clan.icon !== "" ? clan.icon : "https://a.akatsuki.gg/default"}
+          src={clan.icon ?? "https://a.akatsuki.gg/default"}
         />
         <Stack direction="column" justifyContent="center">
           <Typography variant="h6">Clan</Typography>
