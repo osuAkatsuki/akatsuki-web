@@ -72,18 +72,18 @@ const MobileLeaderboardUserCard = ({
           sx={{ borderTopLeftRadius: 8, borderBottomLeftRadius: 8 }}
         >
           <FlagIcon country={user.country} height={36} width={36} />
-          <Typography variant="body1" ml={1}>
-            <Link
-              to={`/u/${user.id}`}
-              // eslint-disable-next-line react/forbid-component-props
-              style={{
-                color: "#FFFFFF",
-                textDecoration: "none",
-              }}
-            >
+          <Link
+            to={`/u/${user.id}`}
+            // eslint-disable-next-line react/forbid-component-props
+            style={{
+              color: "#FFFFFF",
+              textDecoration: "none",
+            }}
+          >
+            <Typography variant="body1" ml={1}>
               {user.username}
-            </Link>
-          </Typography>
+            </Typography>
+          </Link>
         </Box>
       </Stack>
       <Stack
@@ -98,17 +98,17 @@ const MobileLeaderboardUserCard = ({
           <Typography>{formatDecimal(user.chosenMode.accuracy)}%</Typography>
         </Stack>
         <Stack direction="row" p={1}>
-          <Typography>
-            {isPPLeaderboard ? (
-              `${formatNumber(user.chosenMode.pp)}pp`
-            ) : (
-              <Tooltip title={formatNumber(user.chosenMode.rankedScore)}>
-                <Typography variant="body1">
-                  {formatNumberCompact(user.chosenMode.rankedScore)}
-                </Typography>
-              </Tooltip>
-            )}
-          </Typography>
+          {isPPLeaderboard ? (
+            <Typography variant="body1">
+              ${formatNumber(user.chosenMode.pp)}pp
+            </Typography>
+          ) : (
+            <Tooltip title={formatNumber(user.chosenMode.rankedScore)}>
+              <Typography variant="body1">
+                {formatNumberCompact(user.chosenMode.rankedScore)}
+              </Typography>
+            </Tooltip>
+          )}
         </Stack>
       </Stack>
     </Stack>
@@ -152,7 +152,7 @@ const LeaderboardUserCard = ({
         justifyContent="center"
         bgcolor={USER_RANK_BG_COLOR}
       >
-        <Typography>#{userRank}</Typography>
+        <Typography variant="body1">#{userRank}</Typography>
       </Box>
       <Box bgcolor={USER_RANK_BG_COLOR}>
         <Box
@@ -164,18 +164,18 @@ const LeaderboardUserCard = ({
           sx={{ borderTopLeftRadius: 8, borderBottomLeftRadius: 8 }}
         >
           <FlagIcon country={user.country} height={36} width={36} />
-          <Typography variant="body1" ml={1}>
-            <Link
-              to={`/u/${user.id}`}
-              // eslint-disable-next-line react/forbid-component-props
-              style={{
-                color: "#FFFFFF",
-                textDecoration: "none",
-              }}
-            >
+          <Link
+            to={`/u/${user.id}`}
+            // eslint-disable-next-line react/forbid-component-props
+            style={{
+              color: "#FFFFFF",
+              textDecoration: "none",
+            }}
+          >
+            <Typography variant="body1" ml={1}>
               {user.username}
-            </Link>
-          </Typography>
+            </Typography>
+          </Link>
         </Box>
       </Box>
       <Box
@@ -184,7 +184,9 @@ const LeaderboardUserCard = ({
         justifyContent="center"
         color="hsl(0deg 0 100% / 60%)"
       >
-        {formatNumber(user.chosenMode.playcount)}
+        <Typography variant="body1">
+          {formatNumber(user.chosenMode.playcount)}
+        </Typography>
       </Box>
       <Box bgcolor={SCORE_METRIC_BG_COLOR}>
         <Box
@@ -196,7 +198,9 @@ const LeaderboardUserCard = ({
           height="100%"
           sx={{ borderTopRightRadius: 8, borderBottomRightRadius: 8 }}
         >
-          {formatDecimal(user.chosenMode.accuracy)}%
+          <Typography variant="body1">
+            {formatDecimal(user.chosenMode.accuracy)}%
+          </Typography>
         </Box>
       </Box>
       <Box
@@ -206,7 +210,9 @@ const LeaderboardUserCard = ({
         bgcolor={SCORE_METRIC_BG_COLOR}
       >
         {isPPLeaderboard ? (
-          `${formatNumber(user.chosenMode.pp)}pp`
+          <Typography variant="body1">
+            {formatNumber(user.chosenMode.pp)}pp
+          </Typography>
         ) : (
           <Tooltip title={formatNumber(user.chosenMode.rankedScore)}>
             <Typography variant="body1">
