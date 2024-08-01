@@ -34,14 +34,14 @@ const CountryMenuItem = ({
   divider?: boolean
   countryCode: string
   countryName: string
-  setCountry: (country: CountrySelection) => void
+  setCountry: (country: CountrySelection | null) => void
   handleClose: () => void
 }) => {
   return (
     <MenuItem
       key={countryCode}
       onClick={() => {
-        setCountry({ countryCode, countryName })
+        setCountry(countryCode !== "all" ? { countryCode, countryName } : null)
         handleClose()
       }}
       divider={divider}
@@ -227,7 +227,11 @@ export const LeaderboardsPage = () => {
   const setCountry = (newCountry: CountrySelection | null) => {
     _setCountry(newCountry)
     setQueryParams((searchParams) => {
-      searchParams.set("country", newCountry?.countryCode.toLowerCase() ?? "")
+      if (newCountry === null) {
+        searchParams.delete("country")
+      } else {
+        searchParams.set("country", newCountry?.countryCode.toLowerCase() ?? "")
+      }
       return searchParams
     })
   }
