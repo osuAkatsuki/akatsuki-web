@@ -104,7 +104,7 @@ export const ProfileSettingsMenu = ({
           onClick={handleClose}
           to={`/u/${identity.userId}`}
         >
-          <Typography variant="subtitle1">Profile</Typography>
+          <Typography variant="body1">Profile</Typography>
         </MenuItem>
         {identity.privileges & UserPrivileges.ADMIN_ACCESS_RAP && (
           <MenuItem
@@ -112,11 +112,11 @@ export const ProfileSettingsMenu = ({
             onClick={handleClose}
             to={process.env.REACT_APP_ADMIN_PANEL_HOME_URL}
           >
-            <Typography variant="subtitle1">Admin Panel</Typography>
+            <Typography variant="body1">Admin Panel</Typography>
           </MenuItem>
         )}
         <MenuItem onClick={handleLogout}>
-          <Typography variant="subtitle1">Logout</Typography>
+          <Typography variant="body1">Logout</Typography>
         </MenuItem>
       </Menu>
     </>
@@ -195,22 +195,22 @@ export default function Navbar() {
               <Divider flexItem orientation="vertical" />
               <Link to="/">
                 <Button sx={{ color: "white", textTransform: "none" }}>
-                  <Typography variant="subtitle1">Home</Typography>
+                  <Typography variant="body1">Home</Typography>
                 </Button>
               </Link>
               <Link to="/leaderboards">
                 <Button sx={{ color: "white", textTransform: "none" }}>
-                  <Typography variant="subtitle1">Leaderboards</Typography>
+                  <Typography variant="body1">Leaderboards</Typography>
                 </Button>
               </Link>
               <Link to="/about">
                 <Button sx={{ color: "white", textTransform: "none" }}>
-                  <Typography variant="subtitle1">About</Typography>
+                  <Typography variant="body1">About</Typography>
                 </Button>
               </Link>
               <Link to={process.env.REACT_APP_DISCORD_INVITE_URL}>
                 <Button sx={{ color: "white", textTransform: "none" }}>
-                  <Typography variant="subtitle1">Discord</Typography>
+                  <Typography variant="body1">Discord</Typography>
                 </Button>
               </Link>
 
@@ -253,12 +253,12 @@ export default function Navbar() {
                 <>
                   <Link to="/login">
                     <Button sx={{ color: "white", textTransform: "none" }}>
-                      <Typography variant="subtitle1">Login</Typography>
+                      <Typography variant="body1">Login</Typography>
                     </Button>
                   </Link>
                   <Link to="/register">
                     <Button sx={{ color: "white", textTransform: "none" }}>
-                      <Typography variant="subtitle1">Register</Typography>
+                      <Typography variant="body1">Register</Typography>
                     </Button>
                   </Link>
                 </>
