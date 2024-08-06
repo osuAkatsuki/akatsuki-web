@@ -17,7 +17,15 @@ import { FormEvent, useState } from "react"
 
 import StaticPageBanner from "../components/images/banners/static_page_banner.svg"
 
-const ChangeUsernameFormButton = () => {
+const ChangeFormButton = ({
+  fieldName,
+  displayName,
+  inputType,
+}: {
+  fieldName: string
+  displayName: string
+  inputType: string
+}) => {
   const [open, setOpen] = useState(false)
 
   const handleClickOpen = () => setOpen(true)
@@ -29,7 +37,7 @@ const ChangeUsernameFormButton = () => {
         onClick={handleClickOpen}
         sx={{ color: "white", textTransform: "none" }}
       >
-        <Typography variant="body1">Change Username</Typography>
+        <Typography variant="body1">Change {displayName}</Typography>
       </Button>
       <Dialog
         open={open}
@@ -40,26 +48,26 @@ const ChangeUsernameFormButton = () => {
             event.preventDefault()
             const formData = new FormData(event.currentTarget)
             const formJson = Object.fromEntries(formData.entries())
-            const newUsername = formJson.username
+            const newValue = formJson[fieldName]
             // TODO: potentially automatically validate debounced input
             //       is available server-side as-they-type?
-            // TODO: submit the new username to the server
+            // TODO: submit the new value to the server
             handleClose()
           },
         }}
       >
-        <DialogTitle>Change Username</DialogTitle>
+        <DialogTitle>Change {displayName}</DialogTitle>
         <DialogContent>
-          <DialogContentText>Change your username here</DialogContentText>
+          <DialogContentText>Change your {displayName} here</DialogContentText>
           <TextField
             autoFocus
             required
             fullWidth
             margin="dense"
-            id="username"
-            name="username"
-            label="New Username"
-            type="text"
+            id={fieldName}
+            name={fieldName}
+            label={`New ${displayName}`}
+            type={inputType}
             variant="standard"
           />
         </DialogContent>
@@ -72,20 +80,33 @@ const ChangeUsernameFormButton = () => {
   )
 }
 
+const ChangeUsernameFormButton = () => {
+  return (
+    <ChangeFormButton
+      fieldName="username"
+      displayName="Username"
+      inputType="text"
+    />
+  )
+}
 const ChangePasswordFormButton = () => {
-  return <></>
+  return (
+    <ChangeFormButton
+      fieldName="password"
+      displayName="Password"
+      inputType="password"
+    />
+  )
 }
 
 const ChangeEmailFormButton = () => {
-  return <></>
-}
-
-const CustomizeProfileFormButton = () => {
-  return <></>
-}
-
-const GameplayPreferencesFormButton = () => {
-  return <></>
+  return (
+    <ChangeFormButton
+      fieldName="email"
+      displayName="Email Address"
+      inputType="email"
+    />
+  )
 }
 
 export const UserSettingsPage = () => {
@@ -124,10 +145,10 @@ export const UserSettingsPage = () => {
               <ChangePasswordFormButton />
               <Divider />
               <ChangeEmailFormButton />
-              <Divider />
+              {/* <Divider />
               <CustomizeProfileFormButton />
               <Divider />
-              <GameplayPreferencesFormButton />
+              <GameplayPreferencesFormButton /> */}
             </Stack>
           </Box>
         </Stack>
