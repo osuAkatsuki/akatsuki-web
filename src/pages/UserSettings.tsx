@@ -28,15 +28,6 @@ const ChangeUsernameFormButton = () => {
     setOpen(false)
   }
 
-  const handleSubmit = (event: any) => {
-    event.preventDefault()
-    debugger
-    const formData = new FormData(event.currentTarget)
-    const formJson = Object.fromEntries(formData.entries())
-    console.log(formJson)
-    handleClose()
-  }
-
   return (
     <>
       <Button
@@ -53,8 +44,10 @@ const ChangeUsernameFormButton = () => {
           onSubmit: (event: FormEvent<HTMLFormElement>) => {
             event.preventDefault()
             const formData = new FormData(event.currentTarget)
-            const formJson = Object.fromEntries((formData as any).entries())
+            const formJson = Object.fromEntries(formData.entries())
             const newUsername = formJson.username
+            // TODO: potentially automatically validate debounced input
+            //       is available server-side as-they-type?
             // TODO: submit the new username to the server
             handleClose()
           },
