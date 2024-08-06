@@ -21,10 +21,12 @@ const ChangeFormButton = ({
   fieldName,
   displayName,
   inputType,
+  autoComplete,
 }: {
   fieldName: string
   displayName: string
   inputType: string
+  autoComplete?: string
 }) => {
   const [open, setOpen] = useState(false)
 
@@ -63,6 +65,7 @@ const ChangeFormButton = ({
             autoFocus
             required
             fullWidth
+            autoComplete={autoComplete}
             margin="dense"
             id={fieldName}
             name={fieldName}
@@ -115,12 +118,14 @@ export const UserSettingsPage = () => {
                 fieldName="username"
                 displayName="Username"
                 inputType="text"
+                autoComplete="username"
               />
               <Divider />
               <ChangeFormButton
                 fieldName="password"
                 displayName="Password"
                 inputType="password"
+                autoComplete="new-password"
               />
               <Divider />
               <ChangeFormButton
