@@ -80,35 +80,6 @@ const ChangeFormButton = ({
   )
 }
 
-const ChangeUsernameFormButton = () => {
-  return (
-    <ChangeFormButton
-      fieldName="username"
-      displayName="Username"
-      inputType="text"
-    />
-  )
-}
-const ChangePasswordFormButton = () => {
-  return (
-    <ChangeFormButton
-      fieldName="password"
-      displayName="Password"
-      inputType="password"
-    />
-  )
-}
-
-const ChangeEmailFormButton = () => {
-  return (
-    <ChangeFormButton
-      fieldName="email"
-      displayName="Email Address"
-      inputType="email"
-    />
-  )
-}
-
 export const UserSettingsPage = () => {
   return (
     <>
@@ -140,15 +111,23 @@ export const UserSettingsPage = () => {
           </Box>
           <Box bgcolor="#191527">
             <Stack direction="column" spacing={2} p={2}>
-              <ChangeUsernameFormButton />
+              <ChangeFormButton
+                fieldName="username"
+                displayName="Username"
+                inputType="text"
+              />
               <Divider />
-              <ChangePasswordFormButton />
+              <ChangeFormButton
+                fieldName="password"
+                displayName="Password"
+                inputType="password"
+              />
               <Divider />
-              <ChangeEmailFormButton />
-              {/* <Divider />
-              <CustomizeProfileFormButton />
-              <Divider />
-              <GameplayPreferencesFormButton /> */}
+              <ChangeFormButton
+                fieldName="email"
+                displayName="Email Address"
+                inputType="email"
+              />
             </Stack>
           </Box>
         </Stack>
@@ -156,24 +135,3 @@ export const UserSettingsPage = () => {
     </>
   )
 }
-
-// <Button sx={{ color: "white", textTransform: "none" }}>
-// <Typography variant="body1">Change Username</Typography>
-// </Button>
-// <Divider />
-// <Button sx={{ color: "white", textTransform: "none" }}>
-// <Typography variant="body1">Change Password</Typography>
-// </Button>
-// <Divider />
-// <Button sx={{ color: "white", textTransform: "none" }}>
-// <Typography variant="body1">Change Email</Typography>
-// </Button>
-// <Divider />
-// <Button sx={{ color: "white", textTransform: "none" }}>
-// <Typography variant="body1">Customize Profile</Typography>
-// </Button>
-// <Divider />
-// <Button sx={{ color: "white", textTransform: "none" }}>
-// <Typography variant="body1">Gameplay Preferences</Typography>
-// </Button>
-// </Stack>
