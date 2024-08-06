@@ -12,6 +12,8 @@ import {
   Stack,
   TextField,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material"
 import { FormEvent, useState } from "react"
 
@@ -84,10 +86,13 @@ const ChangeFormButton = ({
 }
 
 export const UserSettingsPage = () => {
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
+
   return (
     <>
       <Box
-        height={340}
+        height={{ xs: 0, sm: 340 }}
         // TODO: do we need anything like this?
         // pt={{ xs: 0, sm: 10 }}
         sx={{
@@ -95,7 +100,7 @@ export const UserSettingsPage = () => {
           backgroundImage: `url(${StaticPageBanner})`,
         }}
       />
-      <Container maxWidth="xs" sx={{ mt: -20 }}>
+      <Container maxWidth="xs" sx={{ mt: isMobile ? 0 : -20 }}>
         <Stack direction="column" borderRadius={4}>
           <Box
             display="flex"
