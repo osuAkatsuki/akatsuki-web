@@ -36,6 +36,7 @@ import { RegisterPage } from "./pages/RegisterPage"
 import { SupportPage } from "./pages/SupportPage"
 import { TeamPage } from "./pages/TeamPage"
 import { TermsOfServicePage } from "./pages/TermsOfServicePage"
+import { UserSettingsPage } from "./pages/UserSettings"
 
 ChartJS.register(
   CategoryScale,
@@ -69,6 +70,7 @@ const router = createBrowserRouter(
       <Route path="/leaderboards" element={<LeaderboardsPage />} />
       {/* TODO: support `/u/{username}` redirects */}
       <Route path="/u/:userId" element={<ProfilePage />} />
+      <Route path="/u/:userId/settings" element={<UserSettingsPage />} />
       <Route path="/support" element={<SupportPage />} />
       <Route path="/team" element={<TeamPage />} />
       <Route path="/contact" element={<ContactPage />} />
