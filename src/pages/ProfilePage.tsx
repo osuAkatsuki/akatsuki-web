@@ -33,6 +33,15 @@ import { useIdentityContext } from "../context/identity"
 import { GameMode, RelaxMode } from "../gameModes"
 import { modeToStatsIndex } from "../scores"
 
+const getUserIdFromQueryParams = (identifier?: string): number => {
+  let userId = parseInt(identifier || "")
+  if (isNaN(userId)) {
+    // TODO: do API lookup
+    userId = 0
+  }
+  return userId
+}
+
 export const ProfilePage = () => {
   const queryParams = useParams()
   const { identity } = useIdentityContext()
@@ -40,7 +49,7 @@ export const ProfilePage = () => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.up("xs"))
 
-  const profileUserId = parseInt(queryParams["userId"] ?? "0")
+  const profileUserId = getUserIdFromQueryParams(queryParams["userId"])
 
   const [error, setError] = useState("")
 

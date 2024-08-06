@@ -68,7 +68,6 @@ const router = createBrowserRouter(
       <Route path="/register" element={<RegisterPage />} />
       <Route path="login" element={<LoginPage />} />
       <Route path="/leaderboards" element={<LeaderboardsPage />} />
-      {/* TODO: support `/u/{username}` redirects */}
       <Route path="/u/:userId" element={<ProfilePage />} />
       <Route path="/u/:userId/settings" element={<UserSettingsPage />} />
       <Route path="/support" element={<SupportPage />} />
