@@ -20,13 +20,8 @@ import StaticPageBanner from "../components/images/banners/static_page_banner.sv
 const ChangeUsernameFormButton = () => {
   const [open, setOpen] = useState(false)
 
-  const handleClickOpen = () => {
-    setOpen(true)
-  }
-
-  const handleClose = () => {
-    setOpen(false)
-  }
+  const handleClickOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
 
   return (
     <>
