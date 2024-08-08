@@ -1,4 +1,4 @@
-import { Copyright, GitHub, Twitter } from "@mui/icons-material"
+import { GitHub, Twitter } from "@mui/icons-material"
 import { Box, Container, Divider, Stack, Typography } from "@mui/material"
 import { Link } from "react-router-dom"
 
@@ -115,11 +115,8 @@ export default function Footer() {
               spacing={{ xs: 2, sm: 0 }}
             >
               <Stack direction="row" alignItems="center">
-                <Box height={28} width={28}>
-                  <Copyright />
-                </Box>
                 <Typography variant="h6" fontWeight="lighter">
-                  Akatsuki 2024
+                  © Akatsuki 2024
                 </Typography>
               </Stack>
               <Stack direction="row" spacing={2}>
