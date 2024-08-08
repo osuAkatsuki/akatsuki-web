@@ -355,7 +355,7 @@ export const UserSettingsPage = () => {
                 identity={identity}
                 setIdentity={setIdentity}
                 isSupporter={
-                  ((identity?.privileges || 0) & UserPrivileges.USER_DONOR) !==
+                  ((identity?.privileges ?? 0) & UserPrivileges.USER_DONOR) !==
                   0
                 }
               />
