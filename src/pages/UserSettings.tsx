@@ -254,7 +254,7 @@ const ChangeEmailAddressButton = ({
             autoFocus
             required
             fullWidth
-            autoComplete="new-email-address"
+            autoComplete="email"
             margin="dense"
             id="new-email-address"
             name="new-email-address"
