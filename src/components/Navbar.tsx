@@ -13,6 +13,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material"
+import Cookies from "js-cookie"
 import { useEffect, useMemo, useState } from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 
@@ -62,6 +63,7 @@ export const ProfileSettingsMenu = ({
     } catch (e: any) {
       console.error("Failed to logout on API:", e)
     }
+    Cookies.remove("X-Ripple-Token")
     amplitude.reset()
     removeIdentityFromLocalStorage()
     setIdentity(null)
