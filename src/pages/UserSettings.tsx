@@ -16,7 +16,13 @@ import {
   useTheme,
 } from "@mui/material"
 import { FormEvent, useState } from "react"
+import { useParams } from "react-router-dom"
 
+import {
+  updateEmailAddress,
+  updatePassword,
+  updateUsername,
+} from "../adapters/akatsuki-api/users"
 import StaticPageBanner from "../components/images/banners/static_page_banner.svg"
 
 const ChangeFormButton = ({
@@ -24,11 +30,13 @@ const ChangeFormButton = ({
   displayName,
   inputType,
   autoComplete,
+  onSubmit,
 }: {
   fieldName: string
   displayName: string
   inputType: string
   autoComplete?: string
+  onSubmit: (newValue: string) => void
 }) => {
   const [open, setOpen] = useState(false)
 
@@ -55,7 +63,7 @@ const ChangeFormButton = ({
             const newValue = formJson[fieldName]
             // TODO: potentially automatically validate debounced input
             //       is available server-side as-they-type?
-            // TODO: submit the new value to the server
+            onSubmit(newValue.toString())
             handleClose()
           },
         }}
@@ -85,7 +93,19 @@ const ChangeFormButton = ({
   )
 }
 
+const getUserIdFromQueryParams = (identifier?: string): number => {
+  let userId = parseInt(identifier || "")
+  if (isNaN(userId)) {
+    // TODO: do API lookup
+    userId = 0
+  }
+  return userId
+}
+
 export const UserSettingsPage = () => {
+  const queryParams = useParams()
+  const pageUserId = getUserIdFromQueryParams(queryParams["userId"])
+
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
 
@@ -124,6 +144,7 @@ export const UserSettingsPage = () => {
                 displayName="Username"
                 inputType="text"
                 autoComplete="username"
+                onSubmit={(newValue) => updateUsername(pageUserId, newValue)}
               />
               <Divider />
               <ChangeFormButton
@@ -131,12 +152,17 @@ export const UserSettingsPage = () => {
                 displayName="Password"
                 inputType="password"
                 autoComplete="new-password"
+                onSubmit={(newValue) => updatePassword(pageUserId, newValue)}
               />
               <Divider />
               <ChangeFormButton
                 fieldName="email"
                 displayName="Email Address"
                 inputType="email"
+                autoComplete="email"
+                onSubmit={(newValue) =>
+                  updateEmailAddress(pageUserId, newValue)
+                }
               />
             </Stack>
           </Box>
