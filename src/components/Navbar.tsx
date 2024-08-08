@@ -52,7 +52,7 @@ export const ProfileSettingsMenu = ({
   }
 
   const handleLogout = async () => {
-    if (identity !== null) {
+    if (identity === null) {
       console.warn("User attempted a logout without being logged in")
       setIdentity(null)
       removeIdentityFromLocalStorage()
