@@ -21,8 +21,12 @@ import {
   searchUsers,
   SingleUserSearchResult,
 } from "../adapters/akatsuki-api/search"
+import HomepageBanner from "../components/images/banners/homepage_banner.svg"
 import { Identity, useIdentityContext } from "../context/identity"
-import { UserPrivileges } from "../privileges"
+import { UserFriendsIcon } from "./images/icons/UserFriendsIcon"
+import { UserLogoutIcon } from "./images/icons/UserLogoutIcon"
+import { UserProfileIcon } from "./images/icons/UserProfileIcon"
+import { UserSettingsIcon } from "./images/icons/UserSettingsIcon"
 import { AkatsukiLogo } from "./images/logos/AkatsukiLogo"
 
 const PAGES_WITH_VISIBLE_OUTLINE = ["/"]
@@ -88,19 +92,58 @@ export const ProfileSettingsMenu = ({
         id="profile-settings-menu"
         MenuListProps={{
           "aria-labelledby": "profile-settings-button",
+          sx: { bgcolor: "#191527", paddingTop: 0 },
         }}
+        slotProps={{ paper: { sx: { width: 242 } } }}
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
       >
+        <Box
+          p={2}
+          mb={1}
+          sx={{
+            backgroundImage: `url(${HomepageBanner})`,
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
+          <Stack direction="column" alignItems="center" spacing={1}>
+            <Avatar
+              alt="user-avatar"
+              src={`https://a.akatsuki.gg/${identity.userId}`}
+              variant="circular"
+              sx={{ width: 84, height: 84 }}
+            />
+            <Typography variant="h6">{identity.username}</Typography>
+          </Stack>
+        </Box>
         <MenuItem
           component={Link}
           onClick={handleClose}
           to={`/u/${identity.userId}`}
         >
-          <Typography variant="body1">Profile</Typography>
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <Box width={22} height={22}>
+              <UserProfileIcon />
+            </Box>
+            <Typography variant="body1">My Profile</Typography>
+          </Stack>
         </MenuItem>
-        {identity.privileges & UserPrivileges.ADMIN_ACCESS_RAP && (
+        <MenuItem
+          component={Link}
+          onClick={handleClose}
+          to={`/u/${identity.userId}/friends`}
+        >
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <Box width={22} height={22}>
+              <UserFriendsIcon />
+            </Box>
+            <Typography variant="body1">Friends</Typography>
+          </Stack>
+        </MenuItem>
+        {/* {identity.privileges & UserPrivileges.ADMIN_ACCESS_RAP && (
           <MenuItem
             component={Link}
             onClick={handleClose}
@@ -108,16 +151,26 @@ export const ProfileSettingsMenu = ({
           >
             <Typography variant="body1">Admin Panel</Typography>
           </MenuItem>
-        )}
+        )} */}
         <MenuItem
           component={Link}
           onClick={handleClose}
           to={`/u/${identity.userId}/settings`}
         >
-          <Typography variant="body1">Settings</Typography>
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <Box width={22} height={22}>
+              <UserSettingsIcon />
+            </Box>
+            <Typography variant="body1">Settings</Typography>
+          </Stack>
         </MenuItem>
         <MenuItem onClick={handleLogout}>
-          <Typography variant="body1">Logout</Typography>
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <Box width={22} height={22}>
+              <UserLogoutIcon />
+            </Box>
+            <Typography variant="body1">Logout</Typography>
+          </Stack>
         </MenuItem>
       </Menu>
     </>
