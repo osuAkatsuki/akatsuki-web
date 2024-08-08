@@ -88,10 +88,10 @@ export const ProfilePage = () => {
 
       try {
         const response = await fetchUserFriendsWith({ id: profileUserId })
-        if (response.friend) {
-          setRelationship(RelationshipType.Friend)
-        } else if (response.mutual) {
+        if (response.mutual) {
           setRelationship(RelationshipType.Mutual)
+        } else if (response.friend) {
+          setRelationship(RelationshipType.Friend)
         } else {
           setRelationship(RelationshipType.NotFriend)
         }
@@ -164,7 +164,8 @@ export const ProfilePage = () => {
                 profileUserId={profileUserId}
                 relationship={relationship}
                 setRelationship={setRelationship}
-                followers={userProfile.followers}
+                userProfile={userProfile}
+                setUserProfile={setUserProfile}
               />
             </Stack>
           </Stack>

@@ -6,6 +6,7 @@ import {
   addRemoveFriend,
   RelationshipType,
 } from "../../adapters/akatsuki-api/userRelationships"
+import { type UserFullResponse } from "../../adapters/akatsuki-api/users"
 import { useIdentityContext } from "../../context/identity"
 import { AddUserIcon } from "../images/icons/AddUserIcon"
 
@@ -24,16 +25,22 @@ export const ProfileRelationshipCard = ({
   profileUserId,
   relationship,
   setRelationship,
-  followers,
+  userProfile,
+  setUserProfile,
 }: {
   profileUserId: number
   relationship: RelationshipType
   setRelationship: (relationship: RelationshipType) => void
-  followers: number
+  userProfile: UserFullResponse | null
+  setUserProfile: (userProfile: UserFullResponse | null) => void
 }) => {
   const { identity } = useIdentityContext()
 
-  const onClick = () => {
+  if (userProfile === null) {
+    return null
+  }
+
+  const onClick = async () => {
     if (profileUserId === identity?.userId) {
       return
     }
@@ -41,17 +48,30 @@ export const ProfileRelationshipCard = ({
     if (relationship === RelationshipType.NotFriend) {
       // Add them as a friend over the API
       // Conditionally set mutual vs. friend
-      addRemoveFriend({
+      const response = await addRemoveFriend({
         user: profileUserId,
         add: true,
       })
-      followers += 1 // TODO: test this
+      setUserProfile(
+        userProfile && {
+          ...userProfile,
+          followers: userProfile.followers + 1,
+        }
+      )
+      setRelationship(
+        response.mutual ? RelationshipType.Mutual : RelationshipType.Friend
+      )
     } else {
       addRemoveFriend({
         user: profileUserId,
         add: false,
       })
-      followers -= 1 // TODO: test this
+      setUserProfile(
+        userProfile && {
+          ...userProfile,
+          followers: userProfile.followers - 1,
+        }
+      )
       // Remove them as a friend over the API
       setRelationship(RelationshipType.NotFriend)
     }
@@ -60,7 +80,7 @@ export const ProfileRelationshipCard = ({
   return (
     <Box borderRadius={11} overflow="hidden">
       <Button
-        onClick={() => onClick()}
+        onClick={async () => await onClick()}
         sx={{ textDecoration: "none", color: "white", padding: 0 }}
       >
         <Stack
@@ -77,7 +97,7 @@ export const ProfileRelationshipCard = ({
           <Box width={23} height={23}>
             <AddUserIcon />
           </Box>
-          <Typography variant="h6">{followers}</Typography>
+          <Typography variant="h6">{userProfile.followers}</Typography>
         </Stack>
       </Button>
     </Box>
