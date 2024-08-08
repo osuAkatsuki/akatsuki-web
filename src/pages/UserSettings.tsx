@@ -57,14 +57,14 @@ const ChangeFormButton = ({
         onClose={handleClose}
         PaperProps={{
           component: "form",
-          onSubmit: (event: FormEvent<HTMLFormElement>) => {
+          onSubmit: async (event: FormEvent<HTMLFormElement>) => {
             event.preventDefault()
             const formData = new FormData(event.currentTarget)
             const formJson = Object.fromEntries(formData.entries())
             const newValue = formJson[fieldName]
             // TODO: potentially automatically validate debounced input
             //       is available server-side as-they-type?
-            onSubmit(newValue.toString())
+            await onSubmit(newValue.toString())
             handleClose()
           },
         }}
@@ -147,8 +147,8 @@ export const UserSettingsPage = () => {
                 displayName="Username"
                 inputType="text"
                 autoComplete="username"
-                onSubmit={(newValue) => {
-                  updateUsername(pageUserId, newValue)
+                onSubmit={async (newValue) => {
+                  await updateUsername(pageUserId, newValue)
                   if (identity !== null) {
                     setIdentity({ ...identity, username: newValue })
                   }
@@ -160,7 +160,9 @@ export const UserSettingsPage = () => {
                 displayName="Password"
                 inputType="password"
                 autoComplete="new-password"
-                onSubmit={(newValue) => updatePassword(pageUserId, newValue)}
+                onSubmit={async (newValue) =>
+                  await updatePassword(pageUserId, newValue)
+                }
               />
               <Divider />
               <ChangeFormButton
@@ -168,8 +170,8 @@ export const UserSettingsPage = () => {
                 displayName="Email Address"
                 inputType="email"
                 autoComplete="email"
-                onSubmit={(newValue) =>
-                  updateEmailAddress(pageUserId, newValue)
+                onSubmit={async (newValue) =>
+                  await updateEmailAddress(pageUserId, newValue)
                 }
               />
             </Stack>
