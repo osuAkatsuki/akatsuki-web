@@ -161,11 +161,10 @@ export const ProfilePage = () => {
             >
               <ProfileActivityDatesCard userProfile={userProfile} />
               <ProfileRelationshipCard
-                profileUserId={profileUserId}
-                relationship={relationship}
-                setRelationship={setRelationship}
                 userProfile={userProfile}
                 setUserProfile={setUserProfile}
+                relationship={relationship}
+                setRelationship={setRelationship}
               />
             </Stack>
           </Stack>

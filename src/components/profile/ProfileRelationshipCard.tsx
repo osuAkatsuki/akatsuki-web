@@ -22,17 +22,15 @@ const getRelationshipColor = (relationship: RelationshipType) => {
 }
 
 export const ProfileRelationshipCard = ({
-  profileUserId,
-  relationship,
-  setRelationship,
   userProfile,
   setUserProfile,
+  relationship,
+  setRelationship,
 }: {
-  profileUserId: number
-  relationship: RelationshipType
-  setRelationship: (relationship: RelationshipType) => void
   userProfile: UserFullResponse | null
   setUserProfile: (userProfile: UserFullResponse | null) => void
+  relationship: RelationshipType
+  setRelationship: (relationship: RelationshipType) => void
 }) => {
   const { identity } = useIdentityContext()
 
@@ -41,7 +39,7 @@ export const ProfileRelationshipCard = ({
   }
 
   const onClick = async () => {
-    if (profileUserId === identity?.userId) {
+    if (userProfile.id === identity?.userId) {
       return
     }
 
@@ -49,7 +47,7 @@ export const ProfileRelationshipCard = ({
       // Add them as a friend over the API
       // Conditionally set mutual vs. friend
       const response = await addRemoveFriend({
-        user: profileUserId,
+        user: userProfile.id,
         add: true,
       })
       setUserProfile(
@@ -63,7 +61,7 @@ export const ProfileRelationshipCard = ({
       )
     } else {
       addRemoveFriend({
-        user: profileUserId,
+        user: userProfile.id,
         add: false,
       })
       setUserProfile(
