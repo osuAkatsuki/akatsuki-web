@@ -13,7 +13,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material"
-import Cookies from "js-cookie"
 import { useEffect, useMemo, useState } from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 
@@ -22,11 +21,7 @@ import {
   searchUsers,
   SingleUserSearchResult,
 } from "../adapters/akatsuki-api/search"
-import {
-  Identity,
-  removeIdentityFromLocalStorage,
-  useIdentityContext,
-} from "../context/identity"
+import { Identity, useIdentityContext } from "../context/identity"
 import { UserPrivileges } from "../privileges"
 import { AkatsukiLogo } from "./images/logos/AkatsukiLogo"
 
@@ -55,7 +50,6 @@ export const ProfileSettingsMenu = ({
     if (identity === null) {
       console.warn("User attempted a logout without being logged in")
       setIdentity(null)
-      removeIdentityFromLocalStorage()
       return
     }
     try {
@@ -63,9 +57,7 @@ export const ProfileSettingsMenu = ({
     } catch (e: any) {
       console.error("Failed to logout on API:", e)
     }
-    Cookies.remove("X-Ripple-Token")
     amplitude.reset()
-    removeIdentityFromLocalStorage()
     setIdentity(null)
   }
 
