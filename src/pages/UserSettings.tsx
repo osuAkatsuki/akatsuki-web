@@ -59,7 +59,7 @@ const ChangeUsernameButton = ({
             onClick={handleClickOpen}
             sx={{ color: "white", textTransform: "none" }}
           >
-            <Typography variant="body1">Change Display Name</Typography>
+            <Typography variant="body1">Change Username</Typography>
           </Button>
         </Box>
       </Tooltip>
@@ -90,12 +90,9 @@ const ChangeUsernameButton = ({
           },
         }}
       >
-        <DialogTitle>Change your Display Name</DialogTitle>
+        <DialogTitle>Change Username</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Supporters can use this feature to change their display names across
-            the website and osu! server, fully self-serve as they desire.
-          </DialogContentText>
+          <DialogContentText>Change your username here</DialogContentText>
           <TextField
             autoFocus
             required
@@ -104,7 +101,7 @@ const ChangeUsernameButton = ({
             margin="dense"
             id="new-username"
             name="new-username"
-            label="New Display Name "
+            label="New Username"
             type="text"
             variant="standard"
           />

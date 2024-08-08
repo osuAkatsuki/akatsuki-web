@@ -36,7 +36,6 @@ import { RegisterPage } from "./pages/RegisterPage"
 import { SupportPage } from "./pages/SupportPage"
 import { TeamPage } from "./pages/TeamPage"
 import { TermsOfServicePage } from "./pages/TermsOfServicePage"
-import { UserFriendsPage } from "./pages/UserFriendsPage"
 import { UserSettingsPage } from "./pages/UserSettings"
 
 ChartJS.register(
@@ -71,7 +70,6 @@ const router = createBrowserRouter(
       <Route path="/leaderboards" element={<LeaderboardsPage />} />
       <Route path="/u/:userId" element={<ProfilePage />} />
       <Route path="/u/:userId/settings" element={<UserSettingsPage />} />
-      <Route path="/u/:userId/friends" element={<UserFriendsPage />} />
       <Route path="/support" element={<SupportPage />} />
       <Route path="/team" element={<TeamPage />} />
       <Route path="/contact" element={<ContactPage />} />
