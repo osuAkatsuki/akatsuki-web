@@ -39,7 +39,9 @@ export const ProfileRelationshipCard = ({
   }
 
   const onClick = async () => {
-    if (userProfile.id === identity?.userId) {
+    // Ignore clicks if the user is not logged in, or is viewing their own profile
+    // TODO: perhaps improve this UI here (e.g. tooltip, or snackbar messages, etc.)
+    if (identity === null || identity.userId === userProfile.id) {
       return
     }
 
