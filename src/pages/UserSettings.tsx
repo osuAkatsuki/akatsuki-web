@@ -24,6 +24,7 @@ import {
   updateUsername,
 } from "../adapters/akatsuki-api/users"
 import StaticPageBanner from "../components/images/banners/static_page_banner.svg"
+import { useIdentityContext } from "../context/identity"
 
 const ChangeFormButton = ({
   fieldName,
@@ -109,6 +110,8 @@ export const UserSettingsPage = () => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
 
+  const { identity, setIdentity } = useIdentityContext()
+
   return (
     <>
       <Box
@@ -144,7 +147,12 @@ export const UserSettingsPage = () => {
                 displayName="Username"
                 inputType="text"
                 autoComplete="username"
-                onSubmit={(newValue) => updateUsername(pageUserId, newValue)}
+                onSubmit={(newValue) => {
+                  updateUsername(pageUserId, newValue)
+                  if (identity !== null) {
+                    setIdentity({ ...identity, username: newValue })
+                  }
+                }}
               />
               <Divider />
               <ChangeFormButton
