@@ -32,7 +32,7 @@ import { LeaderboardsPage } from "./pages/LeaderboardsPage"
 import { LoginPage } from "./pages/LoginPage"
 import { PrivacyPolicyPage } from "./pages/PrivacyPolicyPage"
 import { ProfilePage } from "./pages/ProfilePage"
-import { RegisterPage } from "./pages/RegisterPage"
+import { RegistrationPage } from "./pages/RegistrationPage"
 import { SupportPage } from "./pages/SupportPage"
 import { TeamPage } from "./pages/TeamPage"
 import { TermsOfServicePage } from "./pages/TermsOfServicePage"
@@ -65,7 +65,7 @@ const router = createBrowserRouter(
     <Route element={<AppLayout />}>
       <Route path="/" element={<HomePage />} />
       <Route path="/about" element={<AboutPage />} />
-      <Route path="/register" element={<RegisterPage />} />
+      <Route path="/register" element={<RegistrationPage />} />
       <Route path="login" element={<LoginPage />} />
       <Route path="/leaderboards" element={<LeaderboardsPage />} />
       <Route path="/u/:userId" element={<ProfilePage />} />
