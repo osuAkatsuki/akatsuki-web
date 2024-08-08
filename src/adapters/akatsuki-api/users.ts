@@ -268,10 +268,12 @@ export const updateUsername = async (
 
 export const updatePassword = async (
   userId: number,
+  currentPassword: string,
   newPassword: string
 ): Promise<void> => {
   try {
     await userApiInstance.put(`/v1/users/${userId}/password`, {
+      current_password: currentPassword,
       new_password: newPassword,
     })
   } catch (e: any) {
@@ -282,11 +284,13 @@ export const updatePassword = async (
 
 export const updateEmailAddress = async (
   userId: number,
-  newEmail: string
+  currentPassword: string,
+  newEmailAddress: string
 ): Promise<void> => {
   try {
     await userApiInstance.put(`/v1/users/${userId}/email-address`, {
-      new_email: newEmail,
+      current_password: currentPassword,
+      new_email_address: newEmailAddress,
     })
   } catch (e: any) {
     console.log(e)

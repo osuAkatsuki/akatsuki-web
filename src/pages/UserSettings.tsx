@@ -26,20 +26,20 @@ import {
   updateUsername,
 } from "../adapters/akatsuki-api/users"
 import StaticPageBanner from "../components/images/banners/static_page_banner.svg"
-import { useIdentityContext } from "../context/identity"
+import { type Identity, useIdentityContext } from "../context/identity"
 
-const ChangeFormButton = ({
-  fieldName,
-  displayName,
-  inputType,
-  autoComplete,
-  onSubmit,
+const ChangeUsernameButton = ({
+  userId,
+  setSnackbarOpen,
+  setSnackbarMessage,
+  identity,
+  setIdentity,
 }: {
-  fieldName: string
-  displayName: string
-  inputType: string
-  autoComplete?: string
-  onSubmit: (newValue: string) => void
+  userId: number
+  setSnackbarOpen: (open: boolean) => void
+  setSnackbarMessage: (message: string) => void
+  identity: Identity | null
+  setIdentity: (identity: Identity | null) => void
 }) => {
   const [open, setOpen] = useState(false)
 
@@ -52,7 +52,7 @@ const ChangeFormButton = ({
         onClick={handleClickOpen}
         sx={{ color: "white", textTransform: "none" }}
       >
-        <Typography variant="body1">Change {displayName}</Typography>
+        <Typography variant="body1">Change Username</Typography>
       </Button>
       <Dialog
         open={open}
@@ -63,27 +63,203 @@ const ChangeFormButton = ({
             event.preventDefault()
             const formData = new FormData(event.currentTarget)
             const formJson = Object.fromEntries(formData.entries())
-            const newValue = formJson[fieldName]
+            const newUsername = formJson["new-username"].toString()
             // TODO: potentially automatically validate debounced input
             //       is available server-side as-they-type?
-            await onSubmit(newValue.toString())
+            try {
+              await updateUsername(userId, newUsername)
+            } catch (e: any) {
+              setSnackbarOpen(true)
+              setSnackbarMessage(e.message)
+              return
+            }
+            if (identity !== null) {
+              setIdentity({ ...identity, username: newUsername })
+            }
+
             handleClose()
           },
         }}
       >
-        <DialogTitle>Change {displayName}</DialogTitle>
+        <DialogTitle>Change Username</DialogTitle>
         <DialogContent>
-          <DialogContentText>Change your {displayName} here</DialogContentText>
+          <DialogContentText>Change your username here</DialogContentText>
           <TextField
             autoFocus
             required
             fullWidth
-            autoComplete={autoComplete}
+            autoComplete="username"
             margin="dense"
-            id={fieldName}
-            name={fieldName}
-            label={`New ${displayName}`}
-            type={inputType}
+            id="new-username"
+            name="new-username"
+            label="New Username"
+            type="text"
+            variant="standard"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button type="submit">Save</Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  )
+}
+
+const ChangePasswordButton = ({
+  userId,
+  setSnackbarOpen,
+  setSnackbarMessage,
+}: {
+  userId: number
+  setSnackbarOpen: (open: boolean) => void
+  setSnackbarMessage: (message: string) => void
+}) => {
+  const [open, setOpen] = useState(false)
+
+  const handleClickOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
+
+  return (
+    <>
+      <Button
+        onClick={handleClickOpen}
+        sx={{ color: "white", textTransform: "none" }}
+      >
+        <Typography variant="body1">Change Password</Typography>
+      </Button>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        PaperProps={{
+          component: "form",
+          onSubmit: async (event: FormEvent<HTMLFormElement>) => {
+            event.preventDefault()
+            const formData = new FormData(event.currentTarget)
+            const formJson = Object.fromEntries(formData.entries())
+            const currentPassword = formJson["current-password"].toString()
+            const newPassword = formJson["new-password"].toString()
+            // TODO: potentially automatically validate debounced input
+            //       is available server-side as-they-type?
+            try {
+              await updatePassword(userId, currentPassword, newPassword)
+            } catch (e: any) {
+              setSnackbarOpen(true)
+              setSnackbarMessage(e.message)
+              return
+            }
+            handleClose()
+          },
+        }}
+      >
+        <DialogTitle>Change Password</DialogTitle>
+        <DialogContent>
+          <DialogContentText>Change your password here</DialogContentText>
+          <TextField
+            autoFocus
+            required
+            fullWidth
+            autoComplete="current-password"
+            margin="dense"
+            id="current-password"
+            name="current-password"
+            label="Current Password"
+            type="password"
+            variant="standard"
+          />
+          <TextField
+            autoFocus
+            required
+            fullWidth
+            autoComplete="new-password"
+            margin="dense"
+            id="new-password"
+            name="new-password"
+            label="New Password"
+            type="password"
+            variant="standard"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button type="submit">Save</Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  )
+}
+
+const ChangeEmailAddressButton = ({
+  userId,
+  setSnackbarOpen,
+  setSnackbarMessage,
+}: {
+  userId: number
+  setSnackbarOpen: (open: boolean) => void
+  setSnackbarMessage: (message: string) => void
+}) => {
+  const [open, setOpen] = useState(false)
+
+  const handleClickOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
+
+  return (
+    <>
+      <Button
+        onClick={handleClickOpen}
+        sx={{ color: "white", textTransform: "none" }}
+      >
+        <Typography variant="body1">Change Email Address</Typography>
+      </Button>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        PaperProps={{
+          component: "form",
+          onSubmit: async (event: FormEvent<HTMLFormElement>) => {
+            event.preventDefault()
+            const formData = new FormData(event.currentTarget)
+            const formJson = Object.fromEntries(formData.entries())
+            const currentPassword = formJson["current-password"].toString()
+            const newEmailAddress = formJson["new-email-address"].toString()
+            // TODO: potentially automatically validate debounced input
+            //       is available server-side as-they-type?
+            try {
+              await updateEmailAddress(userId, currentPassword, newEmailAddress)
+            } catch (e: any) {
+              setSnackbarOpen(true)
+              setSnackbarMessage(e.message)
+              return
+            }
+            handleClose()
+          },
+        }}
+      >
+        <DialogTitle>Change Email Address</DialogTitle>
+        <DialogContent>
+          <DialogContentText>Change your email address here</DialogContentText>
+          <TextField
+            autoFocus
+            required
+            fullWidth
+            autoComplete="current-password"
+            margin="dense"
+            id="current-password"
+            name="current-password"
+            label="Current Password"
+            type="password"
+            variant="standard"
+          />
+          <TextField
+            autoFocus
+            required
+            fullWidth
+            autoComplete="new-email-address"
+            margin="dense"
+            id="new-email-address"
+            name="new-email-address"
+            label="New Email Address"
+            type="email"
             variant="standard"
           />
         </DialogContent>
@@ -151,55 +327,24 @@ export const UserSettingsPage = () => {
           </Box>
           <Box bgcolor="#191527">
             <Stack direction="column" spacing={2} p={2}>
-              <ChangeFormButton
-                fieldName="username"
-                displayName="Username"
-                inputType="text"
-                autoComplete="username"
-                onSubmit={async (newValue) => {
-                  try {
-                    await updateUsername(pageUserId, newValue)
-                  } catch (e: any) {
-                    setSnackbarOpen(true)
-                    setSnackbarMessage(e.message)
-                    return
-                  }
-                  if (identity !== null) {
-                    setIdentity({ ...identity, username: newValue })
-                  }
-                }}
+              <ChangeUsernameButton
+                userId={pageUserId}
+                setSnackbarOpen={setSnackbarOpen}
+                setSnackbarMessage={setSnackbarMessage}
+                identity={identity}
+                setIdentity={setIdentity}
               />
               <Divider />
-              <ChangeFormButton
-                fieldName="password"
-                displayName="Password"
-                inputType="password"
-                autoComplete="new-password"
-                onSubmit={async (newValue) => {
-                  try {
-                    await updatePassword(pageUserId, newValue)
-                  } catch (e: any) {
-                    setSnackbarOpen(true)
-                    setSnackbarMessage(e.message)
-                    return
-                  }
-                }}
+              <ChangePasswordButton
+                userId={pageUserId}
+                setSnackbarOpen={setSnackbarOpen}
+                setSnackbarMessage={setSnackbarMessage}
               />
               <Divider />
-              <ChangeFormButton
-                fieldName="email"
-                displayName="Email Address"
-                inputType="email"
-                autoComplete="email"
-                onSubmit={async (newValue) => {
-                  try {
-                    await updateEmailAddress(pageUserId, newValue)
-                  } catch (e: any) {
-                    setSnackbarOpen(true)
-                    setSnackbarMessage(e.message)
-                    return
-                  }
-                }}
+              <ChangeEmailAddressButton
+                userId={pageUserId}
+                setSnackbarOpen={setSnackbarOpen}
+                setSnackbarMessage={setSnackbarMessage}
               />
             </Stack>
           </Box>
