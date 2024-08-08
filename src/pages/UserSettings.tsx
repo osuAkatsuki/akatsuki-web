@@ -13,6 +13,7 @@ import {
   Snackbar,
   Stack,
   TextField,
+  Tooltip,
   Typography,
   useMediaQuery,
   useTheme,
@@ -27,6 +28,7 @@ import {
 } from "../adapters/akatsuki-api/users"
 import StaticPageBanner from "../components/images/banners/static_page_banner.svg"
 import { type Identity, useIdentityContext } from "../context/identity"
+import { UserPrivileges } from "../privileges"
 
 const ChangeUsernameButton = ({
   userId,
@@ -34,12 +36,14 @@ const ChangeUsernameButton = ({
   setSnackbarMessage,
   identity,
   setIdentity,
+  isSupporter,
 }: {
   userId: number
   setSnackbarOpen: (open: boolean) => void
   setSnackbarMessage: (message: string) => void
   identity: Identity | null
   setIdentity: (identity: Identity | null) => void
+  isSupporter: boolean
 }) => {
   const [open, setOpen] = useState(false)
 
@@ -48,12 +52,15 @@ const ChangeUsernameButton = ({
 
   return (
     <>
-      <Button
-        onClick={handleClickOpen}
-        sx={{ color: "white", textTransform: "none" }}
-      >
-        <Typography variant="body1">Change Username</Typography>
-      </Button>
+      <Tooltip title="(Supporter-only feature)">
+        <Button
+          disabled={!isSupporter}
+          onClick={handleClickOpen}
+          sx={{ color: "white", textTransform: "none" }}
+        >
+          <Typography variant="body1">Change Username</Typography>
+        </Button>
+      </Tooltip>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -327,14 +334,6 @@ export const UserSettingsPage = () => {
           </Box>
           <Box bgcolor="#191527">
             <Stack direction="column" spacing={2} p={2}>
-              <ChangeUsernameButton
-                userId={pageUserId}
-                setSnackbarOpen={setSnackbarOpen}
-                setSnackbarMessage={setSnackbarMessage}
-                identity={identity}
-                setIdentity={setIdentity}
-              />
-              <Divider />
               <ChangePasswordButton
                 userId={pageUserId}
                 setSnackbarOpen={setSnackbarOpen}
@@ -345,6 +344,18 @@ export const UserSettingsPage = () => {
                 userId={pageUserId}
                 setSnackbarOpen={setSnackbarOpen}
                 setSnackbarMessage={setSnackbarMessage}
+              />
+              <Divider />
+              <ChangeUsernameButton
+                userId={pageUserId}
+                setSnackbarOpen={setSnackbarOpen}
+                setSnackbarMessage={setSnackbarMessage}
+                identity={identity}
+                setIdentity={setIdentity}
+                isSupporter={
+                  ((identity?.privileges || 0) & UserPrivileges.USER_DONOR) !==
+                  0
+                }
               />
             </Stack>
           </Box>
