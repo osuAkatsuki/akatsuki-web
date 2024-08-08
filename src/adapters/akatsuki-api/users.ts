@@ -251,3 +251,49 @@ export const fetchUser = async (userId: number): Promise<UserFullResponse> => {
     throw new Error(e.response.data.user_feedback)
   }
 }
+
+export const updateUsername = async (
+  userId: number,
+  newUsername: string
+): Promise<void> => {
+  try {
+    await userApiInstance.put(`/v1/users/${userId}/username`, {
+      new_username: newUsername,
+    })
+  } catch (e: any) {
+    console.log(e)
+    throw new Error(e.response.data.user_feedback)
+  }
+}
+
+export const updatePassword = async (
+  userId: number,
+  currentPassword: string,
+  newPassword: string
+): Promise<void> => {
+  try {
+    await userApiInstance.put(`/v1/users/${userId}/password`, {
+      current_password: currentPassword,
+      new_password: newPassword,
+    })
+  } catch (e: any) {
+    console.log(e)
+    throw new Error(e.response.data.user_feedback)
+  }
+}
+
+export const updateEmailAddress = async (
+  userId: number,
+  currentPassword: string,
+  newEmailAddress: string
+): Promise<void> => {
+  try {
+    await userApiInstance.put(`/v1/users/${userId}/email-address`, {
+      current_password: currentPassword,
+      new_email_address: newEmailAddress,
+    })
+  } catch (e: any) {
+    console.log(e)
+    throw new Error(e.response.data.user_feedback)
+  }
+}

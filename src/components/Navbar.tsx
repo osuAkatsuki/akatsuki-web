@@ -115,6 +115,13 @@ export const ProfileSettingsMenu = ({
             <Typography variant="body1">Admin Panel</Typography>
           </MenuItem>
         )}
+        <MenuItem
+          component={Link}
+          onClick={handleClose}
+          to={`/u/${identity.userId}/settings`}
+        >
+          <Typography variant="body1">Settings</Typography>
+        </MenuItem>
         <MenuItem onClick={handleLogout}>
           <Typography variant="body1">Logout</Typography>
         </MenuItem>
