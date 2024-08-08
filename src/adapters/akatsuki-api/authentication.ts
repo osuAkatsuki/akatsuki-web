@@ -9,6 +9,7 @@ interface AuthenticateRequest {
 
 const authApiInstance = axios.create({
   baseURL: process.env.REACT_APP_AUTH_API_BASE_URL,
+  withCredentials: true,
 })
 
 export const authenticate = async (

@@ -21,11 +21,7 @@ import {
   searchUsers,
   SingleUserSearchResult,
 } from "../adapters/akatsuki-api/search"
-import {
-  Identity,
-  removeIdentityFromLocalStorage,
-  useIdentityContext,
-} from "../context/identity"
+import { Identity, useIdentityContext } from "../context/identity"
 import { UserPrivileges } from "../privileges"
 import { AkatsukiLogo } from "./images/logos/AkatsukiLogo"
 
@@ -51,10 +47,9 @@ export const ProfileSettingsMenu = ({
   }
 
   const handleLogout = async () => {
-    if (identity !== null) {
+    if (identity === null) {
       console.warn("User attempted a logout without being logged in")
       setIdentity(null)
-      removeIdentityFromLocalStorage()
       return
     }
     try {
@@ -63,7 +58,6 @@ export const ProfileSettingsMenu = ({
       console.error("Failed to logout on API:", e)
     }
     amplitude.reset()
-    removeIdentityFromLocalStorage()
     setIdentity(null)
   }
 

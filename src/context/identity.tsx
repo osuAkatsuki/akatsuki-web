@@ -33,16 +33,16 @@ interface Props {
   children: React.ReactNode
 }
 
-export const setIdentityInLocalStorage = (identity: Identity) => {
+const setIdentityInLocalStorage = (identity: Identity) => {
   localStorage.setItem(IDENTITY_CACHE_KEY, JSON.stringify(identity))
 }
 
-export const getIdentityFromLocalStorage = (): Identity | null => {
+const getIdentityFromLocalStorage = (): Identity | null => {
   const cached = localStorage.getItem(IDENTITY_CACHE_KEY)
   return cached ? JSON.parse(cached) : null
 }
 
-export const removeIdentityFromLocalStorage = () => {
+const removeIdentityFromLocalStorage = () => {
   localStorage.removeItem(IDENTITY_CACHE_KEY)
 }
 
