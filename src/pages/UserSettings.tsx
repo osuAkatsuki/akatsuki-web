@@ -53,13 +53,15 @@ const ChangeUsernameButton = ({
   return (
     <>
       <Tooltip title="(Supporter-only feature)">
-        <Button
-          disabled={!isSupporter}
-          onClick={handleClickOpen}
-          sx={{ color: "white", textTransform: "none" }}
-        >
-          <Typography variant="body1">Change Username</Typography>
-        </Button>
+        <Box display="flex" justifyContent="center">
+          <Button
+            disabled={!isSupporter}
+            onClick={handleClickOpen}
+            sx={{ color: "white", textTransform: "none" }}
+          >
+            <Typography variant="body1">Change Username</Typography>
+          </Button>
+        </Box>
       </Tooltip>
       <Dialog
         open={open}
