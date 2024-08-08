@@ -1,5 +1,6 @@
 import SettingsIcon from "@mui/icons-material/Settings"
 import {
+  Alert,
   Box,
   Button,
   Container,
@@ -9,6 +10,7 @@ import {
   DialogContentText,
   DialogTitle,
   Divider,
+  Snackbar,
   Stack,
   TextField,
   Typography,
@@ -112,6 +114,13 @@ export const UserSettingsPage = () => {
 
   const { identity, setIdentity } = useIdentityContext()
 
+  const [snackbarOpen, setSnackbarOpen] = useState(false)
+  const [snackbarMessage, setSnackbarMessage] = useState("")
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false)
+  }
+
   return (
     <>
       <Box
@@ -148,7 +157,13 @@ export const UserSettingsPage = () => {
                 inputType="text"
                 autoComplete="username"
                 onSubmit={async (newValue) => {
-                  await updateUsername(pageUserId, newValue)
+                  try {
+                    await updateUsername(pageUserId, newValue)
+                  } catch (e: any) {
+                    setSnackbarOpen(true)
+                    setSnackbarMessage(e.message)
+                    return
+                  }
                   if (identity !== null) {
                     setIdentity({ ...identity, username: newValue })
                   }
@@ -160,9 +175,15 @@ export const UserSettingsPage = () => {
                 displayName="Password"
                 inputType="password"
                 autoComplete="new-password"
-                onSubmit={async (newValue) =>
-                  await updatePassword(pageUserId, newValue)
-                }
+                onSubmit={async (newValue) => {
+                  try {
+                    await updatePassword(pageUserId, newValue)
+                  } catch (e: any) {
+                    setSnackbarOpen(true)
+                    setSnackbarMessage(e.message)
+                    return
+                  }
+                }}
               />
               <Divider />
               <ChangeFormButton
@@ -170,14 +191,29 @@ export const UserSettingsPage = () => {
                 displayName="Email Address"
                 inputType="email"
                 autoComplete="email"
-                onSubmit={async (newValue) =>
-                  await updateEmailAddress(pageUserId, newValue)
-                }
+                onSubmit={async (newValue) => {
+                  try {
+                    await updateEmailAddress(pageUserId, newValue)
+                  } catch (e: any) {
+                    setSnackbarOpen(true)
+                    setSnackbarMessage(e.message)
+                    return
+                  }
+                }}
               />
             </Stack>
           </Box>
         </Stack>
       </Container>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+      >
+        <Alert onClose={handleSnackbarClose} severity="error">
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </>
   )
 }
