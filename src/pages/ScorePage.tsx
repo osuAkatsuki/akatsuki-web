@@ -20,19 +20,22 @@ import { GradeSIcon } from "../components/images/grade-icons/GradeSIcon"
 import { GradeXHIcon } from "../components/images/grade-icons/GradeXHIcon"
 import { GradeXIcon } from "../components/images/grade-icons/GradeXIcon"
 import { WatchReplayIcon } from "../components/images/icons/WatchReplayIcon"
-// import { APModIcon } from "../components/images/mod-icons/APModIcon"
+import APModIcon from "../components/images/mod-icons/mod_autopilot.png"
+import DTModIcon from "../components/images/mod-icons/mod_double-time.png"
+import EZModIcon from "../components/images/mod-icons/mod_easy.png"
+import FLModIcon from "../components/images/mod-icons/mod_flashlight.png"
+import HTModIcon from "../components/images/mod-icons/mod_half.png"
+import HRModIcon from "../components/images/mod-icons/mod_hard-rock.png"
+import HDModIcon from "../components/images/mod-icons/mod_hidden.png"
+import MRModIcon from "../components/images/mod-icons/mod_mirror.png"
+import NCModIcon from "../components/images/mod-icons/mod_nightcore.png"
+import NFModIcon from "../components/images/mod-icons/mod_no-fail.png"
+import PFModIcon from "../components/images/mod-icons/mod_perfect.png"
+import RNModIcon from "../components/images/mod-icons/mod_random.png"
+import RXModIcon from "../components/images/mod-icons/mod_relax.png"
+import SDModIcon from "../components/images/mod-icons/mod_sudden-death.png"
 // import { AUModIcon } from "../components/images/mod-icons/AUModIcon"
-import { DTModIcon } from "../components/images/mod-icons/DTModIcon"
-import { EZModIcon } from "../components/images/mod-icons/EZModIcon"
-import { FLModIcon } from "../components/images/mod-icons/FLModIcon"
-import { HDModIcon } from "../components/images/mod-icons/HDModIcon"
-import { HRModIcon } from "../components/images/mod-icons/HRModIcon"
-import { HTModIcon } from "../components/images/mod-icons/HTModIcon"
-import { NCModIcon } from "../components/images/mod-icons/NCModIcon"
-import { NFModIcon } from "../components/images/mod-icons/NFModIcon"
-import { PFModIcon } from "../components/images/mod-icons/PFModIcon"
-// import { RXModIcon } from "../components/images/mod-icons/RXModIcon"
-import { SDModIcon } from "../components/images/mod-icons/SDModIcon"
+import TDModIcon from "../components/images/mod-icons/mod_touchdevice.png"
 import { getRelaxModeFromOffset } from "../gameModes"
 // import { SOModIcon } from "../components/images/mod-icons/SOModIcon"
 // import { TDModIcon } from "../components/images/mod-icons/TDModIcon"
@@ -72,45 +75,47 @@ const GradeIcon = ({
   }
 }
 
-const ModIcon = ({ variant }: { variant: Mods }) => {
-  switch (variant) {
-    case Mods.DoubleTime:
-      return <DTModIcon />
-    case Mods.HardRock:
-      return <HRModIcon />
-    case Mods.Hidden:
-      return <HDModIcon />
-    case Mods.Flashlight:
-      return <FLModIcon />
-    case Mods.Easy:
-      return <EZModIcon />
-    case Mods.NoFail:
-      return <NFModIcon />
-    case Mods.Perfect:
-      return <PFModIcon />
-    // case Mods.Relax:
-    //   return <RXModIcon />
-    // case Mods.SpunOut:
-    //   return <SOModIcon />
-    case Mods.SuddenDeath:
-      return <SDModIcon />
-    // case Mods.TouchScreen:
-    //   return <TDModIcon />
-    case Mods.NightCore:
-      return <NCModIcon />
-    case Mods.HalfTime:
-      return <HTModIcon />
-    // case Mods.AutoPlay:
-    //   return <AUModIcon />
-    // case Mods.AutoPilot:
-    //   return <APModIcon />
-    // case Mods.ScoreV2:
-    //   return <V2ModIcon />
-    // case Mods.Mirror:
-    //   return <MRModIcon />
-    default:
-      return <></>
-  }
+const ModIcon = ({ variant }: { key?: React.Key | null; variant: Mods }) => {
+  const background = (() => {
+    switch (variant) {
+      case Mods.Easy:
+        return EZModIcon
+      case Mods.NoFail:
+        return NFModIcon
+      case Mods.HalfTime:
+        return HTModIcon
+      case Mods.HardRock:
+        return HRModIcon
+      case Mods.SuddenDeath:
+        return SDModIcon
+      case Mods.Perfect:
+        return PFModIcon
+      case Mods.DoubleTime:
+        return DTModIcon
+      case Mods.NightCore:
+        return NCModIcon
+      case Mods.Hidden:
+        return HDModIcon
+      case Mods.Flashlight:
+        return FLModIcon
+      case Mods.TouchScreen:
+        return TDModIcon
+      case Mods.Relax:
+        return RXModIcon
+      case Mods.AutoPilot:
+        return APModIcon
+      case Mods.Mirror:
+        return MRModIcon
+      case Mods.Random:
+        return RNModIcon
+      default:
+        return ""
+    }
+  })()
+
+  return (
+    <Box width={43} height={30} sx={{ background: `url(${background})` }} />
+  )
 }
 
 const ScoreMetricDisplay = ({
@@ -164,64 +169,10 @@ const ReplayViewCard = ({ scoreData }: { scoreData: GetScoreResponse }) => {
 }
 
 const getIndividualMods = (mods: number): Mods[] => {
-  if (mods === 0) {
-    return []
-  }
-
-  const activeMods: Mods[] = []
-
-  if (mods & Mods.NoFail) {
-    activeMods.push(Mods.NoFail)
-  }
-  if (mods & Mods.Easy) {
-    activeMods.push(Mods.Easy)
-  }
-  if (mods & Mods.TouchScreen) {
-    activeMods.push(Mods.TouchScreen)
-  }
-  if (mods & Mods.Hidden) {
-    activeMods.push(Mods.Hidden)
-  }
-  if (mods & Mods.HardRock) {
-    activeMods.push(Mods.HardRock)
-  }
-  if (mods & Mods.SuddenDeath) {
-    activeMods.push(Mods.SuddenDeath)
-  }
-  if (mods & Mods.DoubleTime) {
-    activeMods.push(Mods.DoubleTime)
-  }
-  if (mods & Mods.Relax) {
-    activeMods.push(Mods.Relax)
-  }
-  if (mods & Mods.HalfTime) {
-    activeMods.push(Mods.HalfTime)
-  }
-  if (mods & Mods.NightCore) {
-    activeMods.push(Mods.NightCore)
-  }
-  if (mods & Mods.Flashlight) {
-    activeMods.push(Mods.Flashlight)
-  }
-  if (mods & Mods.AutoPlay) {
-    activeMods.push(Mods.AutoPlay)
-  }
-  if (mods & Mods.SpunOut) {
-    activeMods.push(Mods.SpunOut)
-  }
-  if (mods & Mods.AutoPilot) {
-    activeMods.push(Mods.AutoPilot)
-  }
-  if (mods & Mods.Perfect) {
-    activeMods.push(Mods.Perfect)
-  }
-  if (mods & Mods.ScoreV2) {
-    activeMods.push(Mods.ScoreV2)
-  }
-  if (mods & Mods.Mirror) {
-    activeMods.push(Mods.Mirror)
-  }
-  return activeMods
+  return Object.values(Mods)
+    .filter((x) => typeof x !== "string")
+    .map((mod) => mod as Mods)
+    .filter((mod) => mods & mod)
 }
 
 export const ScorePage = () => {
@@ -313,9 +264,7 @@ export const ScorePage = () => {
                   </Typography>
                   <Stack direction="row" spacing={0.75}>
                     {getIndividualMods(scoreData.score.mods).map((mod) => (
-                      <Box key={mod} width={43} height={30}>
-                        <ModIcon variant={mod} />
-                      </Box>
+                      <ModIcon key={mod} variant={mod} />
                     ))}
                   </Stack>
                 </Stack>
