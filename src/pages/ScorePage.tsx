@@ -48,7 +48,7 @@ const GradeIcon = ({
       return <GradeCIcon />
     case "D":
       return <GradeDIcon />
-    // TODO: we need an F rank icon?
+    // TODO: we need an F rank icon
     default:
       return <GradeDIcon />
   }
