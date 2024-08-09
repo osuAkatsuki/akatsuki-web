@@ -90,8 +90,6 @@ export const UserFriendsPage = () => {
     <>
       <Box
         height={{ xs: 0, sm: 340 }}
-        // TODO: do we need anything like this?
-        // pt={{ xs: 0, sm: 10 }}
         sx={{
           backgroundSize: "cover",
           backgroundImage: `url(${StaticPageBanner})`,
