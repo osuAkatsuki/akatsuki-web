@@ -1,8 +1,14 @@
 import { Avatar, Box, Container, Stack, Typography } from "@mui/material"
+import { useParams } from "react-router-dom"
 
 import { GradeXIcon } from "../components/images/grade-icons/GradeXIcon"
+import { WatchReplayIcon } from "../components/images/icons/WatchReplayIcon"
+import { getReplayBackground } from "../utils/scores"
 
 export const ScorePage = () => {
+  const queryParams = useParams()
+  const scoreId = parseInt(queryParams["scoreId"] || "0")
+
   return (
     <Box>
       <Box
@@ -137,6 +143,25 @@ export const ScorePage = () => {
             />
             <ScoreMetricDisplay metric="combo" value="4287x" color="#211D35" />
           </Stack>
+        </Stack>
+
+        <Stack
+          height={475}
+          borderRadius={2}
+          overflow="hidden"
+          alignItems="center"
+          justifyContent="center"
+          gap={1}
+          sx={{
+            background: `url(${getReplayBackground(scoreId)})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
+          <Box height={98} width={98}>
+            <WatchReplayIcon />
+          </Box>
+          <Typography variant="h5">Watch Replay</Typography>
         </Stack>
       </Container>
     </Box>
