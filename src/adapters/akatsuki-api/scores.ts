@@ -1,7 +1,7 @@
 import axios from "axios"
 
 interface GetScoreRequest {
-  id: number
+  id: bigint
   rx: number
 }
 

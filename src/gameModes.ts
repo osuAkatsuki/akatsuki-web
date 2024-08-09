@@ -1,5 +1,9 @@
 import { Mods } from "./utils/mods"
 
+// Score offsets for relax & autopilot scores
+const RELAX_SCORE_ID_OFFSET = 500_000_000n
+const AUTOPILOT_SCORE_ID_OFFSET = 6_148_914_691_236_517_204n
+
 export enum GameMode {
   Standard = 0,
   Taiko = 1,
@@ -36,6 +40,16 @@ export const getRelaxModeFromMods = (mods: number) => {
     return RelaxMode.Autopilot
   } else if (mods & Mods.Relax) {
     return RelaxMode.Relax
+  } else {
+    return RelaxMode.Vanilla
+  }
+}
+
+export const getRelaxModeFromOffset = (scoreId: bigint) => {
+  if (scoreId < RELAX_SCORE_ID_OFFSET) {
+    return RelaxMode.Relax
+  } else if (scoreId >= AUTOPILOT_SCORE_ID_OFFSET) {
+    return RelaxMode.Autopilot
   } else {
     return RelaxMode.Vanilla
   }
