@@ -81,7 +81,7 @@ export const fetchUserScores = async (
       }
     )
     return {
-      code: response.status,
+      code: response.data.code,
       scores:
         response.data.scores?.map((score: any) => ({
           id: score.id,

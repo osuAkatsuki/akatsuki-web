@@ -303,9 +303,18 @@ export const ProfileScoresCard = ({
       <Stack spacing={1} sx={{ pb: 1 }}>
         {userScores?.scores?.map((score: UserScore) => (
           <Box key={score.id} borderRadius="16px" overflow="hidden">
-            <Paper elevation={1}>
-              <ProfileScoreCard {...score} />
-            </Paper>
+            <Link
+              to={`/scores/${score.id}`}
+              // eslint-disable-next-line react/forbid-component-props
+              style={{
+                color: "#FFFFFF",
+                textDecoration: "none",
+              }}
+            >
+              <Paper elevation={1}>
+                <ProfileScoreCard {...score} />
+              </Paper>
+            </Link>
           </Box>
         ))}
       </Stack>

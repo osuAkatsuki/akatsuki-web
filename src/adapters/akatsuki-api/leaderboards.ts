@@ -62,7 +62,7 @@ export const fetchLeaderboard = async (
       },
     })
     return {
-      code: response.status,
+      code: response.data.code,
       users:
         response.data.users?.map((user: any) => ({
           id: user.id,
