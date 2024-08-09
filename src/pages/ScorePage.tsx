@@ -33,15 +33,14 @@ import NFModIcon from "../components/images/mod-icons/mod_no-fail.png"
 import PFModIcon from "../components/images/mod-icons/mod_perfect.png"
 import RNModIcon from "../components/images/mod-icons/mod_random.png"
 import RXModIcon from "../components/images/mod-icons/mod_relax.png"
+import SOModIcon from "../components/images/mod-icons/mod_spun-out.png"
 import SDModIcon from "../components/images/mod-icons/mod_sudden-death.png"
 // import { AUModIcon } from "../components/images/mod-icons/AUModIcon"
 import TDModIcon from "../components/images/mod-icons/mod_touchdevice.png"
 import { getRelaxModeFromOffset } from "../gameModes"
-// import { SOModIcon } from "../components/images/mod-icons/SOModIcon"
-// import { TDModIcon } from "../components/images/mod-icons/TDModIcon"
 // import { V2ModIcon } from "../components/images/mod-icons/V2ModIcon"
 import { formatNumber } from "../utils/formatting"
-import { Mods } from "../utils/mods"
+import { getHumanReadable, getIndividualMods, Mods } from "../utils/mods"
 import { getReplayBackground } from "../utils/scores"
 
 const SONG_NAME_REGEX =
@@ -75,47 +74,43 @@ const GradeIcon = ({
   }
 }
 
-const ModIcon = ({ variant }: { key?: React.Key | null; variant: Mods }) => {
-  const background = (() => {
-    switch (variant) {
-      case Mods.Easy:
-        return EZModIcon
-      case Mods.NoFail:
-        return NFModIcon
-      case Mods.HalfTime:
-        return HTModIcon
-      case Mods.HardRock:
-        return HRModIcon
-      case Mods.SuddenDeath:
-        return SDModIcon
-      case Mods.Perfect:
-        return PFModIcon
-      case Mods.DoubleTime:
-        return DTModIcon
-      case Mods.NightCore:
-        return NCModIcon
-      case Mods.Hidden:
-        return HDModIcon
-      case Mods.Flashlight:
-        return FLModIcon
-      case Mods.TouchScreen:
-        return TDModIcon
-      case Mods.Relax:
-        return RXModIcon
-      case Mods.AutoPilot:
-        return APModIcon
-      case Mods.Mirror:
-        return MRModIcon
-      case Mods.Random:
-        return RNModIcon
-      default:
-        return ""
-    }
-  })()
-
-  return (
-    <Box width={43} height={30} sx={{ background: `url(${background})` }} />
-  )
+const getModIcon = (variant: Mods) => {
+  switch (variant) {
+    case Mods.Easy:
+      return EZModIcon
+    case Mods.NoFail:
+      return NFModIcon
+    case Mods.HalfTime:
+      return HTModIcon
+    case Mods.HardRock:
+      return HRModIcon
+    case Mods.SuddenDeath:
+      return SDModIcon
+    case Mods.Perfect:
+      return PFModIcon
+    case Mods.DoubleTime:
+      return DTModIcon
+    case Mods.NightCore:
+      return NCModIcon
+    case Mods.Hidden:
+      return HDModIcon
+    case Mods.Flashlight:
+      return FLModIcon
+    case Mods.SpunOut:
+      return SOModIcon
+    case Mods.TouchScreen:
+      return TDModIcon
+    case Mods.Relax:
+      return RXModIcon
+    case Mods.AutoPilot:
+      return APModIcon
+    case Mods.Mirror:
+      return MRModIcon
+    case Mods.Random:
+      return RNModIcon
+    default:
+      return ""
+  }
 }
 
 const ScoreMetricDisplay = ({
@@ -166,13 +161,6 @@ const ReplayViewCard = ({ scoreData }: { scoreData: GetScoreResponse }) => {
       <Typography variant="h5">Watch Replay</Typography>
     </Stack>
   )
-}
-
-const getIndividualMods = (mods: number): Mods[] => {
-  return Object.values(Mods)
-    .filter((x) => typeof x !== "string")
-    .map((mod) => mod as Mods)
-    .filter((mod) => mods & mod)
 }
 
 export const ScorePage = () => {
@@ -264,7 +252,14 @@ export const ScorePage = () => {
                   </Typography>
                   <Stack direction="row" spacing={0.75}>
                     {getIndividualMods(scoreData.score.mods).map((mod) => (
-                      <ModIcon key={mod} variant={mod} />
+                      <Tooltip key={mod} title={getHumanReadable(mod)}>
+                        <Box
+                          component="img"
+                          width={43}
+                          height={30}
+                          src={getModIcon(mod)}
+                        />
+                      </Tooltip>
                     ))}
                   </Stack>
                 </Stack>
@@ -288,7 +283,7 @@ export const ScorePage = () => {
                   />
                   {/* Seperator here */}
                   {/* TODO: add this to the API response */}
-                  <Typography variant="h4">#2</Typography>
+                  <Typography variant="h4">#N/A</Typography>
                 </Stack>
               </Stack>
               <Box width={284} height={205}>

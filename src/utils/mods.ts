@@ -33,66 +33,90 @@ export enum Mods {
   Mirror = 1 << 30,
 }
 
+enum ModAbbreviations {
+  Nomod = "" as any,
+  NoFail = "NF" as any,
+  Easy = "EZ" as any,
+  TouchScreen = "TD" as any,
+  Hidden = "HD" as any,
+  HardRock = "HR" as any,
+  SuddenDeath = "SD" as any,
+  DoubleTime = "DT" as any,
+  Relax = "RX" as any,
+  HalfTime = "HT" as any,
+  NightCore = "NC" as any,
+  Flashlight = "FL" as any,
+  AutoPlay = "AU" as any,
+  SpunOut = "SO" as any,
+  AutoPilot = "AP" as any,
+  Perfect = "PF" as any,
+  Key4 = "4K" as any,
+  Key5 = "5K" as any,
+  Key6 = "6K" as any,
+  Key7 = "7K" as any,
+  Key8 = "8K" as any,
+  FadeIn = "FI" as any,
+  Random = "RN" as any,
+  Cinema = "CN" as any,
+  Target = "TP" as any,
+  Key9 = "9K" as any,
+  KeyCoop = "DS" as any, // dual stages
+  Key1 = "1K" as any,
+  Key3 = "3K" as any,
+  Key2 = "2K" as any,
+  ScoreV2 = "V2" as any,
+  Mirror = "MR" as any,
+}
+
+enum HumanReadable {
+  Nomod = "" as any,
+  NoFail = "No Fail" as any,
+  Easy = "Easy" as any,
+  TouchScreen = "Touch Device" as any,
+  Hidden = "Hidden" as any,
+  HardRock = "Hard Rock" as any,
+  SuddenDeath = "Sudden Death" as any,
+  DoubleTime = "Double Time" as any,
+  Relax = "Relax" as any,
+  HalfTime = "Half Time" as any,
+  NightCore = "Nightcore" as any,
+  Flashlight = "Flashlight" as any,
+  AutoPlay = "Auto" as any,
+  SpunOut = "Spun Out" as any,
+  AutoPilot = "Autopilot" as any,
+  Perfect = "Perfect" as any,
+  Key4 = "4 Keys" as any,
+  Key5 = "5 Keys" as any,
+  Key6 = "6 Keys" as any,
+  Key7 = "7 Keys" as any,
+  Key8 = "8 Keys" as any,
+  FadeIn = "Fade In" as any,
+  Random = "Random" as any,
+  Cinema = "Cinema" as any,
+  Target = "Target Practice" as any,
+  Key9 = "9 Keys" as any,
+  KeyCoop = "Dual Stages" as any,
+  Key1 = "1 Key" as any,
+  Key3 = "3 Keys" as any,
+  Key2 = "2 Keys" as any,
+  ScoreV2 = "Score V2" as any,
+  Mirror = "Mirror" as any,
+}
+
+export const getIndividualMods = (mods: number): Mods[] => {
+  return Object.values(Mods)
+    .filter((x) => typeof x !== "string")
+    .map((mod) => mod as Mods)
+    .filter((mod) => mods & mod)
+}
+
 export const formatMods = (mods: number): string => {
-  if (mods === Mods.Nomod) {
-    return ""
-  }
-
-  const activeMods: string[] = []
-
-  if (mods & Mods.NoFail) {
-    activeMods.push("NF")
-  }
-  if (mods & Mods.Easy) {
-    activeMods.push("EZ")
-  }
-  if (mods & Mods.TouchScreen) {
-    activeMods.push("TD")
-  }
-  if (mods & Mods.Hidden) {
-    activeMods.push("HD")
-  }
-  if (mods & Mods.HardRock) {
-    activeMods.push("HR")
-  }
-  if (mods & Mods.SuddenDeath) {
-    activeMods.push("SD")
-  }
-  if (mods & Mods.DoubleTime) {
-    activeMods.push("DT")
-  }
-  if (mods & Mods.Relax) {
-    activeMods.push("RX")
-  }
-  if (mods & Mods.HalfTime) {
-    activeMods.push("HT")
-  }
-  if (mods & Mods.NightCore) {
-    activeMods.push("NC")
-  }
-  if (mods & Mods.Flashlight) {
-    activeMods.push("FL")
-  }
-  if (mods & Mods.AutoPlay) {
-    activeMods.push("AU")
-  }
-  if (mods & Mods.SpunOut) {
-    activeMods.push("SO")
-  }
-  if (mods & Mods.AutoPilot) {
-    activeMods.push("AP")
-  }
-  if (mods & Mods.Perfect) {
-    activeMods.push("PF")
-  }
-  if (mods & Mods.ScoreV2) {
-    activeMods.push("V2")
-  }
-  if (mods & Mods.Mirror) {
-    activeMods.push("MR")
-  }
-
-  // TODO key mods
+  const activeMods: string[] = getIndividualMods(mods).map(
+    (mod) => ModAbbreviations[Mods[mod] as any]
+  )
 
   return activeMods.join("")
 }
+
+export const getHumanReadable = (mod: Mods): string =>
+  HumanReadable[Mods[mod] as any]
