@@ -46,7 +46,7 @@ export const ScorePage = () => {
                 <Typography variant="h5">
                   hapi - THE MEDLEY OF POKEMON RGBY+GSC -3PBs-
                 </Typography>
-                <Stack direction="row">
+                <Stack direction={{ xs: "column", sm: "row" }}>
                   <Typography variant="h6">mapped by&nbsp;</Typography>
                   <Typography variant="h6" fontWeight={800}>
                     hapi
@@ -128,14 +128,27 @@ export const ScorePage = () => {
         </Container>
       </Box>
       <Container>
-        <Stack direction="row" justifyContent="space-between" p={3}>
-          <Stack direction="row" gap={4}>
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          justifyContent="space-between"
+          p={3}
+          spacing={{ xs: 5, sm: 0 }}
+        >
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            alignItems={{ xs: "center", sm: " flex-start" }}
+            gap={4}
+          >
             <ScoreMetricDisplay metric="300" value={242} color="#41709C" />
             <ScoreMetricDisplay metric="100" value={82} color="#489C41" />
             <ScoreMetricDisplay metric="50" value={5} color="#9F652E" />
             <ScoreMetricDisplay metric="miss" value={0} color="#9C4141" />
           </Stack>
-          <Stack direction="row" gap={4}>
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            alignItems={{ xs: "center", sm: " flex-start" }}
+            gap={4}
+          >
             <ScoreMetricDisplay
               metric="accuracy"
               value="42.29%"
