@@ -109,30 +109,30 @@ export const ScorePage = () => {
           <Stack
             direction="row"
             alignItems="center"
-            gap={2}
+            gap={1.5}
             p={1}
             color="white"
           >
-            <Avatar
-              alt="score-user-avatar"
-              src={`https://a.akatsuki.gg/${1002}`}
-              sx={{ width: 55, height: 55, borderRadius: 2 }}
-            />
-            <Stack direction="row" gap={1}>
-              <Link
-                to={`/u/${1002}`}
-                // eslint-disable-next-line react/forbid-component-props
-                style={{
-                  color: "#FFFFFF",
-                  textDecoration: "none",
-                }}
-              >
+            <Link
+              to={`/profile/${1002}`}
+              // eslint-disable-next-line react/forbid-component-props
+              style={{
+                color: "#FFFFFF",
+                textDecoration: "none",
+              }}
+            >
+              <Stack direction="row" gap={1} alignItems="center">
+                <Avatar
+                  alt="score-user-avatar"
+                  src={`https://a.akatsuki.gg/${1002}`}
+                  sx={{ width: 55, height: 55, borderRadius: 2 }}
+                />
                 <Typography variant="h6">played by Mahmood</Typography>
-              </Link>
-              <Typography variant="h6" fontWeight="lighter">
-                5 days ago
-              </Typography>
-            </Stack>
+              </Stack>
+            </Link>
+            <Typography variant="h6" fontWeight="lighter">
+              {/* TODO: tooltip for high precision date */}5 days ago
+            </Typography>
           </Stack>
         </Container>
       </Box>
