@@ -73,7 +73,7 @@ const router = createBrowserRouter(
       <Route path="/u/:userId" element={<ProfilePage />} />
       <Route path="/u/:userId/settings" element={<UserSettingsPage />} />
       <Route path="/u/:userId/friends" element={<UserFriendsPage />} />
-      <Route path="/score/:scoreId" element={<ScorePage />} />
+      <Route path="/scores/:scoreId" element={<ScorePage />} />
       <Route path="/support" element={<SupportPage />} />
       <Route path="/team" element={<TeamPage />} />
       <Route path="/contact" element={<ContactPage />} />
