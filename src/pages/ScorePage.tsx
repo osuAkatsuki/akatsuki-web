@@ -1,4 +1,4 @@
-import { Box, Container, Stack, Typography } from "@mui/material"
+import { Avatar, Box, Container, Stack, Typography } from "@mui/material"
 
 import { GradeXIcon } from "../components/images/grade-icons/GradeXIcon"
 
@@ -7,24 +7,44 @@ export const ScorePage = () => {
     <Box>
       <Box
         pt={{ xs: 0, sm: 10 }}
+        py={3}
         sx={{
           backgroundSize: "cover",
           backgroundImage: `url(https://assets.ppy.sh/beatmaps/${150054}/covers/cover.jpg)`,
           backgroundPosition: "center",
-          // TODO: figure out how to disable this shadow effect within UserIdentityCard
           boxShadow: "inset 0px 0px 0px 2000px rgba(21, 18, 34, 0.9)",
         }}
       >
         <Container>
-          <Stack direction="column" justifyContent="space-between">
-            <Stack direction="column">
+          <Stack
+            direction="column"
+            justifyContent="space-between"
+            borderRadius={4}
+            overflow="hidden"
+            sx={{
+              backgroundSize: "cover",
+              backgroundImage: `linear-gradient(90deg, rgba(15, 19, 38, 0.9) 0%, rgba(15, 19, 38, 0) 100%), url(https://assets.ppy.sh/beatmaps/150054/covers/cover.jpg)`,
+              backgroundPosition: "center",
+            }}
+          >
+            <Stack
+              direction="column"
+              p={3}
+              sx={{
+                backdropFilter: "blur(10px)",
+                background:
+                  "linear-gradient(270deg, rgba(21, 18, 34, 0.44375) 0%, rgba(17, 14, 27, 0.04) 36%, rgba(25, 20, 39, 0.8) 100%)",
+              }}
+            >
               <Stack direction="row" justifyContent="space-between">
                 <Typography variant="h5">
                   hapi - THE MEDLEY OF POKEMON RGBY+GSC -3PBs-
                 </Typography>
                 <Stack direction="row">
                   <Typography variant="h6">mapped by&nbsp;</Typography>
-                  <Typography variant="h6">hapi</Typography>
+                  <Typography variant="h6" fontWeight={800}>
+                    hapi
+                  </Typography>
                 </Stack>
               </Stack>
               <Stack direction="row">
@@ -35,12 +55,17 @@ export const ScorePage = () => {
               </Stack>
             </Stack>
             <Stack direction="row" justifyContent="space-between">
-              <Stack direction="column" justifyContent="flex-end">
-                <Typography variant="h3">221,312,384</Typography>
-                <Stack direction="row">{/* Mods here */}</Stack>
+              <Stack direction="column" justifyContent="space-around" px={3}>
+                <Stack direction="column">
+                  <Typography variant="h3" fontWeight="lighter">
+                    221,312,384
+                  </Typography>
+                  <Stack direction="row">{/* Mods here */}</Stack>
+                </Stack>
                 <Stack direction="row" alignItems="center" spacing={2}>
                   <Stack direction="row">
                     <Typography variant="h4" fontWeight="medium">
+                      {/* TODO: tooltip for exact pp amount */}
                       1112
                     </Typography>
                     <Typography variant="h4" fontWeight="lighter">
@@ -65,6 +90,7 @@ export const ScorePage = () => {
         </Container>
       </Box>
 
+      <Box bgcolor="#FFBD3B99" width="100%" height={2} />
       <Box
         width="100%"
         bgcolor="#211D35"
@@ -74,9 +100,72 @@ export const ScorePage = () => {
         zIndex={2}
       >
         <Container>
-          <Typography variant="h6">Score Graph</Typography>
+          <Stack
+            direction="row"
+            alignItems="center"
+            gap={2}
+            p={1}
+            color="white"
+          >
+            <Avatar
+              alt="score-user-avatar"
+              src={`https://a.akatsuki.gg/${1002}`}
+              sx={{ width: 55, height: 55, borderRadius: 2 }}
+            />
+            <Stack direction="row" gap={1}>
+              <Typography variant="h6">played by Mahmood</Typography>
+              <Typography variant="h6" fontWeight="lighter">
+                5 days ago
+              </Typography>
+            </Stack>
+          </Stack>
         </Container>
       </Box>
+      <Container>
+        <Stack direction="row" justifyContent="space-between" p={3}>
+          <Stack direction="row" gap={4}>
+            <ScoreMetricDisplay metric="300" value={242} color="#41709C" />
+            <ScoreMetricDisplay metric="100" value={82} color="#489C41" />
+            <ScoreMetricDisplay metric="50" value={5} color="#9F652E" />
+            <ScoreMetricDisplay metric="miss" value={0} color="#9C4141" />
+          </Stack>
+          <Stack direction="row" gap={4}>
+            <ScoreMetricDisplay
+              metric="accuracy"
+              value="42.29%"
+              color="#211D35"
+            />
+            <ScoreMetricDisplay metric="combo" value="4287x" color="#211D35" />
+          </Stack>
+        </Stack>
+      </Container>
     </Box>
+  )
+}
+
+const ScoreMetricDisplay = ({
+  metric,
+  value,
+  color,
+}: {
+  metric: string
+  value: number | string
+  color: string
+}) => {
+  return (
+    <Stack direction="row" gap={1}>
+      <Typography
+        variant="h6"
+        fontWeight="lighter"
+        px={2}
+        borderRadius={1337}
+        bgcolor={color}
+      >
+        {metric}
+      </Typography>
+      <Typography variant="h6" fontWeight={800}>
+        {value}
+      </Typography>
+    </Stack>
   )
 }
