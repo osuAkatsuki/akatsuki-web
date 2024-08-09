@@ -5,6 +5,7 @@ import {
   Container,
   Grid,
   Stack,
+  TablePagination,
   Tooltip,
   Typography,
   useMediaQuery,
@@ -20,7 +21,7 @@ import {
 import StaticPageBanner from "../components/images/banners/static_page_banner.svg"
 import { UserFriendsIcon } from "../components/images/icons/UserFriendsIcon"
 
-const PAGE_SIZE = 24
+const PAGE_SIZE = 21
 
 const getUserIdFromQueryParams = (identifier?: string): number => {
   let userId = parseInt(identifier || "")
@@ -52,7 +53,7 @@ export const UserFriendsPage = () => {
       }
       setUserFriends(userFriends?.friends ?? [])
     })()
-  })
+  }, [page])
 
   return (
     <>
@@ -87,7 +88,7 @@ export const UserFriendsPage = () => {
           <Box bgcolor="#191527">
             <Grid container>
               {userFriends.map((friend: UserFriend) => (
-                <Grid key={friend.id} item xs={4} p={1}>
+                <Grid key={friend.id} item xs={12} sm={4} p={1}>
                   <Link
                     to={`/u/${friend.id}`}
                     // eslint-disable-next-line react/forbid-component-props
@@ -127,6 +128,18 @@ export const UserFriendsPage = () => {
                 </Grid>
               ))}
             </Grid>
+            <TablePagination
+              component={Box}
+              sx={{ background: "#191527" }}
+              count={-1}
+              rowsPerPage={PAGE_SIZE}
+              page={page}
+              onPageChange={(_, newPage) => setPage(newPage)}
+              rowsPerPageOptions={[]}
+              labelDisplayedRows={({ from, to }) => {
+                return `Results ${from}-${to}`
+              }}
+            />
           </Box>
         </Stack>
       </Container>
