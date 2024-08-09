@@ -98,6 +98,7 @@ export const ProfileSettingsMenu = ({
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
+        transformOrigin={{ vertical: "top", horizontal: "center" }}
       >
         <Box
           p={2}
