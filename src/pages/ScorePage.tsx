@@ -50,6 +50,56 @@ const getGradeIcon = (grade: string) => {
   }
 }
 
+const ScoreMetricDisplay = ({
+  metric,
+  value,
+  color,
+}: {
+  metric: string
+  value: number | string
+  color: string
+}) => {
+  return (
+    <Stack direction="row" gap={1}>
+      <Typography
+        variant="h6"
+        fontWeight="lighter"
+        px={2}
+        borderRadius={1337}
+        bgcolor={color}
+      >
+        {metric}
+      </Typography>
+      <Typography variant="h6" fontWeight={800}>
+        {value}
+      </Typography>
+    </Stack>
+  )
+}
+
+const ReplayViewCard = ({ scoreData }: { scoreData: GetScoreResponse }) => {
+  return (
+    <Stack
+      height={475}
+      borderRadius={2}
+      overflow="hidden"
+      alignItems="center"
+      justifyContent="center"
+      gap={1}
+      sx={{
+        background: `url(${getReplayBackground(scoreData.score.id)})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <Box height={98} width={98}>
+        <WatchReplayIcon />
+      </Box>
+      <Typography variant="h5">Watch Replay</Typography>
+    </Stack>
+  )
+}
+
 export const ScorePage = () => {
   const [scoreData, setScoreData] = useState<GetScoreResponse | null>(null)
   const queryParams = useParams()
@@ -142,7 +192,7 @@ export const ScorePage = () => {
                     {/* TODO: tooltip for exact pp amount */}
                     <Tooltip title={scoreData.score.pp}>
                       <Typography variant="h4" fontWeight="medium">
-                        {scoreData.score.pp.toFixed(2)}
+                        {Math.round(scoreData.score.pp)}
                       </Typography>
                     </Tooltip>
                     <Typography variant="h4" fontWeight="lighter">
@@ -263,52 +313,8 @@ export const ScorePage = () => {
           </Stack>
         </Stack>
 
-        <Stack
-          height={475}
-          borderRadius={2}
-          overflow="hidden"
-          alignItems="center"
-          justifyContent="center"
-          gap={1}
-          sx={{
-            background: `url(${getReplayBackground(scoreId)})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        >
-          <Box height={98} width={98}>
-            <WatchReplayIcon />
-          </Box>
-          <Typography variant="h5">Watch Replay</Typography>
-        </Stack>
+        <ReplayViewCard scoreData={scoreData} />
       </Container>
     </Box>
-  )
-}
-
-const ScoreMetricDisplay = ({
-  metric,
-  value,
-  color,
-}: {
-  metric: string
-  value: number | string
-  color: string
-}) => {
-  return (
-    <Stack direction="row" gap={1}>
-      <Typography
-        variant="h6"
-        fontWeight="lighter"
-        px={2}
-        borderRadius={1337}
-        bgcolor={color}
-      >
-        {metric}
-      </Typography>
-      <Typography variant="h6" fontWeight={800}>
-        {value}
-      </Typography>
-    </Stack>
   )
 }
