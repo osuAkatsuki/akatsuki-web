@@ -1,9 +1,11 @@
+import FavoriteIcon from "@mui/icons-material/Favorite"
 import {
   Avatar,
   Box,
   Container,
   Grid,
   Stack,
+  Tooltip,
   Typography,
   useMediaQuery,
   useTheme,
@@ -107,7 +109,19 @@ export const UserFriendsPage = () => {
                         variant="circular"
                         sx={{ width: 36, height: 36 }}
                       />
-                      <Typography variant="h5">{friend.username}</Typography>
+                      <Stack
+                        direction="row"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        width="100%"
+                      >
+                        <Typography variant="h5">{friend.username}</Typography>
+                        {friend.is_mutual ? (
+                          <Tooltip title="Mutual friend">
+                            <FavoriteIcon sx={{ color: "#cc4499" }} />
+                          </Tooltip>
+                        ) : null}
+                      </Stack>
                     </Stack>
                   </Link>
                 </Grid>
