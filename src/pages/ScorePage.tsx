@@ -1,13 +1,84 @@
-import { Avatar, Box, Container, Stack, Typography } from "@mui/material"
+import {
+  Avatar,
+  Box,
+  Container,
+  Stack,
+  Tooltip,
+  Typography,
+} from "@mui/material"
+import moment from "moment"
+import { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
 
+import { getScore, GetScoreResponse } from "../adapters/akatsuki-api/scores"
+import { GradeAIcon } from "../components/images/grade-icons/GradeAIcon"
+import { GradeBIcon } from "../components/images/grade-icons/GradeBIcon"
+import { GradeCIcon } from "../components/images/grade-icons/GradeCIcon"
+import { GradeDIcon } from "../components/images/grade-icons/GradeDIcon"
+import { GradeSHIcon } from "../components/images/grade-icons/GradeSHIcon"
+import { GradeSIcon } from "../components/images/grade-icons/GradeSIcon"
+import { GradeXHIcon } from "../components/images/grade-icons/GradeXHIcon"
 import { GradeXIcon } from "../components/images/grade-icons/GradeXIcon"
 import { WatchReplayIcon } from "../components/images/icons/WatchReplayIcon"
+import { formatNumber } from "../utils/formatting"
 import { getReplayBackground } from "../utils/scores"
 
+const SONG_NAME_REGEX =
+  /^(?<artist>[^-]+) - (?<songName>[^[]+) \[(?<version>.+)\]$/
+
+const getGradeIcon = (grade: string) => {
+  switch (grade) {
+    case "XH":
+      return <GradeXHIcon />
+    case "X":
+      return <GradeXIcon />
+    case "SH":
+      return <GradeSHIcon />
+    case "S":
+      return <GradeSIcon />
+    case "A":
+      return <GradeAIcon />
+    case "B":
+      return <GradeBIcon />
+    case "C":
+      return <GradeCIcon />
+    case "D":
+      return <GradeDIcon />
+    // TODO: we need an F rank icon?
+    default:
+      return <GradeDIcon />
+  }
+}
+
 export const ScorePage = () => {
+  const [scoreData, setScoreData] = useState<GetScoreResponse | null>(null)
   const queryParams = useParams()
   const scoreId = parseInt(queryParams["scoreId"] || "0")
+
+  useEffect(() => {
+    ;(async () => {
+      let scoreData
+      try {
+        scoreData = await getScore({ id: scoreId, rx: 0 }) // todo rx
+      } catch (e: any) {
+        console.log(e)
+        throw new Error(e.response.data.user_feedback)
+      }
+      setScoreData(scoreData)
+    })()
+  }, [scoreId])
+
+  if (scoreData === null) {
+    return <Typography>Loading...</Typography>
+  }
+
+  const { artist, songName, version } = scoreData.beatmap.songName.match(
+    SONG_NAME_REGEX
+  )?.groups ?? {
+    artist: "Unknown",
+    song: "Unknown",
+    version: "Unknown",
+  }
 
   return (
     <Box>
@@ -16,7 +87,7 @@ export const ScorePage = () => {
         py={3}
         sx={{
           backgroundSize: "cover",
-          backgroundImage: `url(https://assets.ppy.sh/beatmaps/${150054}/covers/cover.jpg)`,
+          backgroundImage: `url(https://assets.ppy.sh/beatmaps/${scoreData.beatmap.beatmapsetId}/covers/cover.jpg)`,
           backgroundPosition: "center",
           boxShadow: "inset 0px 0px 0px 2000px rgba(21, 18, 34, 0.9)",
         }}
@@ -29,7 +100,7 @@ export const ScorePage = () => {
             overflow="hidden"
             sx={{
               backgroundSize: "cover",
-              backgroundImage: `linear-gradient(90deg, rgba(15, 19, 38, 0.9) 0%, rgba(15, 19, 38, 0) 100%), url(https://assets.ppy.sh/beatmaps/150054/covers/cover.jpg)`,
+              backgroundImage: `linear-gradient(90deg, rgba(15, 19, 38, 0.9) 0%, rgba(15, 19, 38, 0) 100%), url(https://assets.ppy.sh/beatmaps/${scoreData.beatmap.beatmapsetId}/covers/cover.jpg)`,
               backgroundPosition: "center",
             }}
           >
@@ -43,13 +114,11 @@ export const ScorePage = () => {
               }}
             >
               <Stack direction="row" justifyContent="space-between">
-                <Typography variant="h5">
-                  hapi - THE MEDLEY OF POKEMON RGBY+GSC -3PBs-
-                </Typography>
+                <Typography variant="h5">{songName}</Typography>
                 <Stack direction={{ xs: "column", sm: "row" }}>
                   <Typography variant="h6">mapped by&nbsp;</Typography>
                   <Typography variant="h6" fontWeight={800}>
-                    hapi
+                    {artist}
                   </Typography>
                 </Stack>
               </Stack>
@@ -57,23 +126,25 @@ export const ScorePage = () => {
                 {/* There is supposed to be a bubble here
                     that displays the star rating of the map
                     but it is not supported by our API yet */}
-                <Typography variant="h6">Expert</Typography>
+                <Typography variant="h6">{version}</Typography>
               </Stack>
             </Stack>
             <Stack direction="row" justifyContent="space-between">
               <Stack direction="column" justifyContent="space-around" px={3}>
                 <Stack direction="column">
                   <Typography variant="h3" fontWeight="lighter">
-                    221,312,384
+                    {formatNumber(scoreData.score.score)}
                   </Typography>
                   <Stack direction="row">{/* Mods here */}</Stack>
                 </Stack>
                 <Stack direction="row" alignItems="center" spacing={2}>
                   <Stack direction="row">
-                    <Typography variant="h4" fontWeight="medium">
-                      {/* TODO: tooltip for exact pp amount */}
-                      1112
-                    </Typography>
+                    {/* TODO: tooltip for exact pp amount */}
+                    <Tooltip title={scoreData.score.pp}>
+                      <Typography variant="h4" fontWeight="medium">
+                        {scoreData.score.pp.toFixed(2)}
+                      </Typography>
+                    </Tooltip>
                     <Typography variant="h4" fontWeight="lighter">
                       pp
                     </Typography>
@@ -85,11 +156,12 @@ export const ScorePage = () => {
                     bgcolor="white"
                   />
                   {/* Seperator here */}
+                  {/* TODO: add this to the API response */}
                   <Typography variant="h4">#2</Typography>
                 </Stack>
               </Stack>
               <Box width={284} height={205}>
-                <GradeXIcon />
+                {getGradeIcon(scoreData.score.rank)}
               </Box>
             </Stack>
           </Stack>
@@ -114,7 +186,7 @@ export const ScorePage = () => {
             color="white"
           >
             <Link
-              to={`/profile/${1002}`}
+              to={`/profile/${scoreData.score.userId}`}
               // eslint-disable-next-line react/forbid-component-props
               style={{
                 color: "#FFFFFF",
@@ -124,15 +196,19 @@ export const ScorePage = () => {
               <Stack direction="row" gap={1} alignItems="center">
                 <Avatar
                   alt="score-user-avatar"
-                  src={`https://a.akatsuki.gg/${1002}`}
+                  src={`https://a.akatsuki.gg/${scoreData.score.userId}`}
                   sx={{ width: 55, height: 55, borderRadius: 2 }}
                 />
-                <Typography variant="h6">played by Mahmood</Typography>
+                <Typography variant="h6">
+                  played by {scoreData.score.user.username}
+                </Typography>
               </Stack>
             </Link>
-            <Typography variant="h6" fontWeight="lighter">
-              {/* TODO: tooltip for high precision date */}5 days ago
-            </Typography>
+            <Tooltip title={moment(scoreData.score.time).format("LLLL")}>
+              <Typography variant="h6" fontWeight="lighter">
+                {moment(scoreData.score.time).fromNow()}
+              </Typography>
+            </Tooltip>
           </Stack>
         </Container>
       </Box>
@@ -148,10 +224,26 @@ export const ScorePage = () => {
             alignItems={{ xs: "center", sm: " flex-start" }}
             gap={4}
           >
-            <ScoreMetricDisplay metric="300" value={242} color="#41709C" />
-            <ScoreMetricDisplay metric="100" value={82} color="#489C41" />
-            <ScoreMetricDisplay metric="50" value={5} color="#9F652E" />
-            <ScoreMetricDisplay metric="miss" value={0} color="#9C4141" />
+            <ScoreMetricDisplay
+              metric="300"
+              value={scoreData.score.count300}
+              color="#41709C"
+            />
+            <ScoreMetricDisplay
+              metric="100"
+              value={scoreData.score.count100}
+              color="#489C41"
+            />
+            <ScoreMetricDisplay
+              metric="50"
+              value={scoreData.score.count50}
+              color="#9F652E"
+            />
+            <ScoreMetricDisplay
+              metric="miss"
+              value={scoreData.score.countMiss}
+              color="#9C4141"
+            />
           </Stack>
           <Stack
             direction={{ xs: "column", sm: "row" }}
@@ -160,10 +252,14 @@ export const ScorePage = () => {
           >
             <ScoreMetricDisplay
               metric="accuracy"
-              value="42.29%"
+              value={`${scoreData.score.accuracy.toFixed(2)}%`}
               color="#211D35"
             />
-            <ScoreMetricDisplay metric="combo" value="4287x" color="#211D35" />
+            <ScoreMetricDisplay
+              metric="combo"
+              value={`${scoreData.score.maxCombo}x`}
+              color="#211D35"
+            />
           </Stack>
         </Stack>
 
