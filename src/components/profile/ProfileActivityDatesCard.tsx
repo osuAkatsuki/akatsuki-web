@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material"
+import { Tooltip, Typography } from "@mui/material"
 import Stack from "@mui/material/Stack"
 import moment from "moment"
 
@@ -19,17 +19,21 @@ export const ProfileActivityDatesCard = ({
         <Typography variant="body1" fontWeight="lighter">
           joined
         </Typography>
-        <Typography variant="body1" fontWeight="bold">
-          {moment(userProfile.registeredOn).fromNow()}
-        </Typography>
+        <Tooltip title={moment(userProfile.registeredOn).format("LLLL")}>
+          <Typography variant="body1" fontWeight="bold">
+            {moment(userProfile.registeredOn).fromNow()}
+          </Typography>
+        </Tooltip>
       </Stack>
       <Stack direction="row" spacing={1}>
         <Typography variant="body1" fontWeight="lighter">
           last seen
         </Typography>
-        <Typography variant="body1" fontWeight="bold">
-          {moment(userProfile.latestActivity).fromNow()}
-        </Typography>
+        <Tooltip title={moment(userProfile.latestActivity).format("LLLL")}>
+          <Typography variant="body1" fontWeight="bold">
+            {moment(userProfile.latestActivity).fromNow()}
+          </Typography>
+        </Tooltip>
       </Stack>
     </Stack>
   )

@@ -72,3 +72,55 @@ export const addRemoveFriend = async (
     throw new Error("Failed to add friend")
   }
 }
+
+interface UserFriendsRequest {
+  page: number
+  pageSize: number
+}
+
+export interface UserFriend {
+  id: number
+  username: string
+  username_aka: string
+  registered_on: Date
+  privileges: number
+  latest_activity: Date
+  country: string
+  is_mutual: boolean
+}
+
+export interface UserFriendsResponse {
+  code: number
+  friends: UserFriend[]
+}
+
+export const fetchUserFriends = async (
+  request: UserFriendsRequest
+): Promise<UserFriendsResponse> => {
+  try {
+    const response = await userRelationshipsApiInstance.get("/v1/friends", {
+      params: {
+        p: request.page,
+        l: request.pageSize,
+        sort: "username,asc",
+      },
+    })
+    return {
+      code: response.status,
+      friends: response.data.friends.map((friend: any) => {
+        return {
+          id: friend.id,
+          username: friend.username,
+          username_aka: friend.username_aka,
+          registered_on: new Date(friend.registered_on),
+          privileges: friend.privileges,
+          latest_activity: new Date(friend.latest_activity),
+          country: friend.country,
+          is_mutual: friend.is_mutual,
+        }
+      }),
+    }
+  } catch (e: any) {
+    throw new Error("Failed to fetch user friends data from server")
+  }
+}
