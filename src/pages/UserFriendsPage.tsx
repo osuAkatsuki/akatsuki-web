@@ -12,7 +12,7 @@ import {
   useTheme,
 } from "@mui/material"
 import { useEffect, useState } from "react"
-import { Link, useParams } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 import {
   fetchUserFriends,
@@ -23,19 +23,50 @@ import { UserFriendsIcon } from "../components/images/icons/UserFriendsIcon"
 
 const PAGE_SIZE = 21
 
-const getUserIdFromQueryParams = (identifier?: string): number => {
-  let userId = parseInt(identifier || "")
-  if (isNaN(userId)) {
-    // TODO: do API lookup
-    userId = 0
-  }
-  return userId
+const UserFriendCard = ({ friend }: { friend: UserFriend }) => {
+  return (
+    <Grid key={friend.id} item xs={12} sm={4} p={1}>
+      <Link
+        to={`/u/${friend.id}`}
+        // eslint-disable-next-line react/forbid-component-props
+        style={{
+          color: "#FFFFFF",
+          textDecoration: "none",
+        }}
+      >
+        <Stack
+          direction="row"
+          spacing={2}
+          p={2}
+          border="1px solid #211D35"
+          borderRadius={4}
+        >
+          <Avatar
+            alt="user-avatar"
+            src={`https://a.akatsuki.gg/${friend.id}`}
+            variant="circular"
+            sx={{ width: 36, height: 36 }}
+          />
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+            width="100%"
+          >
+            <Typography variant="h5">{friend.username}</Typography>
+            {friend.is_mutual ? (
+              <Tooltip title="Mutual friend">
+                <FavoriteIcon sx={{ color: "#cc4499" }} />
+              </Tooltip>
+            ) : null}
+          </Stack>
+        </Stack>
+      </Link>
+    </Grid>
+  )
 }
 
 export const UserFriendsPage = () => {
-  const queryParams = useParams()
-  const pageUserId = getUserIdFromQueryParams(queryParams["userId"])
-
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
 
@@ -88,44 +119,7 @@ export const UserFriendsPage = () => {
           <Box bgcolor="#191527">
             <Grid container>
               {userFriends.map((friend: UserFriend) => (
-                <Grid key={friend.id} item xs={12} sm={4} p={1}>
-                  <Link
-                    to={`/u/${friend.id}`}
-                    // eslint-disable-next-line react/forbid-component-props
-                    style={{
-                      color: "#FFFFFF",
-                      textDecoration: "none",
-                    }}
-                  >
-                    <Stack
-                      direction="row"
-                      spacing={2}
-                      p={2}
-                      border="1px solid #211D35"
-                      borderRadius={4}
-                    >
-                      <Avatar
-                        alt="user-avatar"
-                        src={`https://a.akatsuki.gg/${friend.id}`}
-                        variant="circular"
-                        sx={{ width: 36, height: 36 }}
-                      />
-                      <Stack
-                        direction="row"
-                        justifyContent="space-between"
-                        alignItems="center"
-                        width="100%"
-                      >
-                        <Typography variant="h5">{friend.username}</Typography>
-                        {friend.is_mutual ? (
-                          <Tooltip title="Mutual friend">
-                            <FavoriteIcon sx={{ color: "#cc4499" }} />
-                          </Tooltip>
-                        ) : null}
-                      </Stack>
-                    </Stack>
-                  </Link>
-                </Grid>
+                <UserFriendCard key={friend.id} friend={friend} />
               ))}
             </Grid>
             <TablePagination
