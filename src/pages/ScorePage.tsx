@@ -1,5 +1,5 @@
 import { Avatar, Box, Container, Stack, Typography } from "@mui/material"
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 
 import { GradeXIcon } from "../components/images/grade-icons/GradeXIcon"
 import { WatchReplayIcon } from "../components/images/icons/WatchReplayIcon"
@@ -119,7 +119,16 @@ export const ScorePage = () => {
               sx={{ width: 55, height: 55, borderRadius: 2 }}
             />
             <Stack direction="row" gap={1}>
-              <Typography variant="h6">played by Mahmood</Typography>
+              <Link
+                to={`/u/${1002}`}
+                // eslint-disable-next-line react/forbid-component-props
+                style={{
+                  color: "#FFFFFF",
+                  textDecoration: "none",
+                }}
+              >
+                <Typography variant="h6">played by Mahmood</Typography>
+              </Link>
               <Typography variant="h6" fontWeight="lighter">
                 5 days ago
               </Typography>
