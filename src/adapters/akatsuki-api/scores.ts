@@ -22,7 +22,7 @@ export interface ScoreDetails {
   playMode: number
   accuracy: number
   pp: number
-  rank: string
+  rank: "XH" | "X" | "SH" | "S" | "A" | "B" | "C" | "D" | "F"
   completed: number
   pinned: boolean
   userId: number

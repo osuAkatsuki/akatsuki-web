@@ -26,8 +26,12 @@ import { getReplayBackground } from "../utils/scores"
 const SONG_NAME_REGEX =
   /^(?<artist>[^-]+) - (?<songName>[^[]+) \[(?<version>.+)\]$/
 
-const getGradeIcon = (grade: string) => {
-  switch (grade) {
+const GradeIcon = ({
+  variant,
+}: {
+  variant: "XH" | "X" | "SH" | "S" | "A" | "B" | "C" | "D" | "F"
+}) => {
+  switch (variant) {
     case "XH":
       return <GradeXHIcon />
     case "X":
@@ -211,7 +215,7 @@ export const ScorePage = () => {
                 </Stack>
               </Stack>
               <Box width={284} height={205}>
-                {getGradeIcon(scoreData.score.rank)}
+                <GradeIcon variant={scoreData.score.rank} />
               </Box>
             </Stack>
           </Stack>
