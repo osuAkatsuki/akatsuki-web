@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material"
-import React, { forwardRef } from "react"
+import { Key } from "react"
 
 import ConversionModIcon from "../components/images/mod-icons/Conversion.png"
 import APModIcon from "../components/images/mod-icons/mod_autopilot.png"
@@ -77,7 +77,7 @@ export const ModIcon = ({
   width,
   height,
 }: {
-  key?: React.Key | null
+  key?: Key | null
   variant: Mods
   width: number
   height: number
