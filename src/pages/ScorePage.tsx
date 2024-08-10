@@ -231,7 +231,7 @@ export const ScorePage = () => {
               direction="column"
               p={3}
               sx={{
-                backdropFilter: "blur(10px)",
+                backdropFilter: "blur(4px)",
                 background:
                   "linear-gradient(270deg, rgba(21, 18, 34, 0.44375) 0%, rgba(17, 14, 27, 0.04) 36%, rgba(25, 20, 39, 0.8) 100%)",
               }}
