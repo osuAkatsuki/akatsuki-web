@@ -1,3 +1,4 @@
+import WarningAmberIcon from "@mui/icons-material/WarningAmber"
 import {
   Avatar,
   Box,
@@ -156,9 +157,12 @@ const ReplayViewCard = ({ scoreData }: { scoreData: GetScoreResponse }) => {
       }}
     >
       <Box height={98} width={98}>
-        <WatchReplayIcon />
+        {/* <WatchReplayIcon /> */}
+        <WarningAmberIcon sx={{ fontSize: 98 }} />
       </Box>
-      <Typography variant="h5">Watch Replay</Typography>
+      <Typography variant="h5" textAlign="center">
+        Watching Replays is not available
+      </Typography>
     </Stack>
   )
 }
@@ -387,7 +391,7 @@ export const ScorePage = () => {
           </Stack>
         </Stack>
 
-        {/* <ReplayViewCard scoreData={scoreData} /> */}
+        <ReplayViewCard scoreData={scoreData} />
       </Container>
     </Box>
   )
