@@ -1,5 +1,6 @@
 import * as amplitude from "@amplitude/analytics-browser"
 import {
+  Alert,
   Autocomplete,
   Avatar,
   Box,
@@ -16,7 +17,7 @@ import {
 import { useEffect, useMemo, useState } from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 
-import { logout } from "../adapters/akatsuki-api/authentication"
+import { authenticate, logout } from "../adapters/akatsuki-api/authentication"
 import {
   searchUsers,
   SingleUserSearchResult,
@@ -51,8 +52,27 @@ export const AuthenticationSettingsMenu = ({
     setAnchorEl(null)
   }
 
-  const handleLogin = () => {
-    // TODO
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
+
+  const [loading, setLoading] = useState(false)
+  const [loginError, setLoginError] = useState("")
+
+  const handleLogin = async () => {
+    let identity
+    try {
+      setLoading(true)
+      identity = await authenticate({ username, password })
+    } catch (e: any) {
+      setLoading(false)
+      setLoginError(e.message)
+      return
+    }
+
+    amplitude.setUserId(String(identity.userId))
+    setLoading(false)
+    setLoginError("")
+    setIdentity(identity)
   }
 
   return (
@@ -87,16 +107,39 @@ export const AuthenticationSettingsMenu = ({
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
+        onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+          if (e.key === "Tab") {
+            e?.stopPropagation()
+          }
+        }}
         transformOrigin={{ vertical: "top", horizontal: "center" }}
       >
         <TextField
           fullWidth
+          id="username"
           label="Username / Email"
-          InputProps={{ sx: { borderRadius: 3, bgcolor: "#110E1B" } }}
+          type="text"
+          autoComplete="username"
+          InputProps={{
+            sx: { borderRadius: 3, bgcolor: "#110E1B" },
+          }}
+          onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setUsername(e.target.value)
+          }
+          onKeyDown={async (e: React.KeyboardEvent<HTMLInputElement>) => {
+            if (e.key === "Enter" && username && password) {
+              await handleLogin()
+            } else if (e.key === "Tab") {
+              e?.stopPropagation()
+            }
+          }}
         />
         <TextField
           fullWidth
+          id="password"
           label="Password"
+          type="password"
+          autoComplete="current-password"
           InputProps={{
             sx: {
               borderRadius: 3,
@@ -106,16 +149,39 @@ export const AuthenticationSettingsMenu = ({
             },
           }}
           InputLabelProps={{ sx: { mt: 1 } }}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setPassword(e.target.value)
+          }
+          onKeyDown={async (e: React.KeyboardEvent<HTMLInputElement>) => {
+            if (e.key === "Enter" && username && password) {
+              await handleLogin()
+            }
+            if (e.key === "Tab") {
+              e?.stopPropagation()
+            }
+          }}
         />
+        {loginError && (
+          <Alert sx={{ mt: 1 }} severity="error">
+            {loginError}
+          </Alert>
+        )}
         <Button
           fullWidth
           variant="contained"
+          onClick={handleLogin}
           sx={{
             backgroundImage:
               "linear-gradient(90.09deg, #387EFC -0.08%, #C940FD 99.3%)",
             mt: 1.5,
             borderRadius: 3,
           }}
+          onKeyDown={(e: any) => {
+            if (e.key === "Tab") {
+              e?.stopPropagation()
+            }
+          }}
+          disabled={loading}
         >
           <Stack direction="row" alignItems="center">
             <Box width={24} height={24}>
@@ -132,6 +198,7 @@ export const AuthenticationSettingsMenu = ({
         <Stack direction="row" spacing={1} justifyContent="space-around">
           <Button
             fullWidth
+            disabled
             sx={{
               textTransform: "none",
               color: "white",
@@ -139,16 +206,27 @@ export const AuthenticationSettingsMenu = ({
               p: 1.25,
               borderRadius: 3,
             }}
+            onKeyDown={(e: any) => {
+              if (e.key === "Tab") {
+                e?.stopPropagation()
+              }
+            }}
           >
             <Typography variant="body1">Reset Password</Typography>
           </Button>
           <Button
             fullWidth
+            disabled
             sx={{
               textTransform: "none",
               color: "white",
               bgcolor: "#262238",
               borderRadius: 3,
+            }}
+            onKeyDown={(e: any) => {
+              if (e.key === "Tab") {
+                e?.stopPropagation()
+              }
             }}
           >
             <Typography variant="body1">Create Account</Typography>
