@@ -244,7 +244,7 @@ export const ScorePage = () => {
                 <Stack direction={{ xs: "column", sm: "row" }}>
                   <Typography variant="h6">mapped by&nbsp;</Typography>
                   <Typography variant="h6" fontWeight={800}>
-                    {artist}
+                    {mapper}
                   </Typography>
                 </Stack> 
                 */}
