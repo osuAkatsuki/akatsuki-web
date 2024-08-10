@@ -78,7 +78,8 @@ export const HomePage = () => {
                         <Typography variant="body1">Get Started!</Typography>
                       </Button>
                     </Link>
-                    <Link to="/login">
+                    {/* TODO: hook this up to open the navbar auth menu */}
+                    {/* <Link to="/register">
                       <Button
                         variant="contained"
                         sx={{
@@ -89,9 +90,9 @@ export const HomePage = () => {
                           py: 1,
                         }}
                       >
-                        <Typography variant="body1">Sign In</Typography>
+                        <Typography variant="body1">Sign up</Typography>
                       </Button>
-                    </Link>
+                    </Link> */}
                   </Stack>
                 </Stack>
               </Grid>

@@ -1,5 +1,6 @@
 import * as amplitude from "@amplitude/analytics-browser"
 import {
+  Alert,
   Autocomplete,
   Avatar,
   Box,
@@ -16,13 +17,14 @@ import {
 import { useEffect, useMemo, useState } from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 
-import { logout } from "../adapters/akatsuki-api/authentication"
+import { authenticate, logout } from "../adapters/akatsuki-api/authentication"
 import {
   searchUsers,
   SingleUserSearchResult,
 } from "../adapters/akatsuki-api/search"
 import HomepageBanner from "../components/images/banners/homepage_banner.svg"
 import { Identity, useIdentityContext } from "../context/identity"
+import { LoginDoorIcon } from "./images/icons/LoginDoorIcon"
 import { UserFriendsIcon } from "./images/icons/UserFriendsIcon"
 import { UserLogoutIcon } from "./images/icons/UserLogoutIcon"
 import { UserProfileIcon } from "./images/icons/UserProfileIcon"
@@ -33,6 +35,207 @@ const PAGES_WITH_VISIBLE_OUTLINE = ["/"]
 
 const shouldUseVisibleOutline = (pagePathName: string) =>
   PAGES_WITH_VISIBLE_OUTLINE.includes(pagePathName)
+
+export const AuthenticationSettingsMenu = ({
+  identity,
+  setIdentity,
+}: {
+  identity: Identity | null
+  setIdentity: (identity: Identity | null) => void
+}) => {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const open = Boolean(anchorEl)
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
+
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
+
+  const [loading, setLoading] = useState(false)
+  const [loginError, setLoginError] = useState("")
+
+  const handleLogin = async () => {
+    let identity
+    try {
+      setLoading(true)
+      identity = await authenticate({ username, password })
+    } catch (e: any) {
+      setLoading(false)
+      setLoginError(e.message)
+      return
+    }
+
+    amplitude.setUserId(String(identity.userId))
+    setLoading(false)
+    setLoginError("")
+    setIdentity(identity)
+  }
+
+  return (
+    <>
+      <Button
+        aria-label="authentication-settings-button"
+        id="authentication-settings-button"
+        aria-controls={open ? "authentication-settings-button" : undefined}
+        aria-expanded={open ? "true" : undefined}
+        aria-haspopup="true"
+        onClick={handleClick}
+        sx={{
+          textTransform: "none",
+          p: 2,
+          borderRadius: 8,
+          color: "white",
+        }}
+      >
+        <Typography variant="body1">Log in or Register</Typography>
+      </Button>
+      <Menu
+        id="authentication-settings-menu"
+        MenuListProps={{
+          "aria-labelledby": "authentication-settings-button",
+          sx: {
+            bgcolor: "#191527",
+            paddingTop: 0,
+            p: 1.5,
+          },
+        }}
+        slotProps={{ paper: { sx: { width: 326, borderRadius: 3 } } }}
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+          if (e.key === "Tab") {
+            e?.stopPropagation()
+          }
+        }}
+        transformOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <TextField
+          fullWidth
+          id="username"
+          label="Username / Email"
+          type="text"
+          autoComplete="username"
+          InputProps={{
+            sx: { borderRadius: 3, bgcolor: "#110E1B" },
+          }}
+          onInput={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setUsername(e.target.value)
+          }
+          onKeyDown={async (e: React.KeyboardEvent<HTMLInputElement>) => {
+            if (e.key === "Enter" && username && password) {
+              await handleLogin()
+            } else if (e.key === "Tab") {
+              e?.stopPropagation()
+            }
+          }}
+        />
+        <TextField
+          fullWidth
+          id="password"
+          label="Password"
+          type="password"
+          autoComplete="current-password"
+          InputProps={{
+            sx: {
+              borderRadius: 3,
+              bgcolor: "#110E1B",
+              borderColor: "red",
+              mt: 1,
+            },
+          }}
+          InputLabelProps={{ sx: { mt: 1 } }}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setPassword(e.target.value)
+          }
+          onKeyDown={async (e: React.KeyboardEvent<HTMLInputElement>) => {
+            if (e.key === "Enter" && username && password) {
+              await handleLogin()
+            }
+            if (e.key === "Tab") {
+              e?.stopPropagation()
+            }
+          }}
+        />
+        {loginError && (
+          <Alert sx={{ mt: 1 }} severity="error">
+            {loginError}
+          </Alert>
+        )}
+        <Button
+          fullWidth
+          variant="contained"
+          onClick={handleLogin}
+          sx={{
+            backgroundImage:
+              "linear-gradient(90.09deg, #387EFC -0.08%, #C940FD 99.3%)",
+            mt: 1.5,
+            borderRadius: 3,
+          }}
+          onKeyDown={(e: any) => {
+            if (e.key === "Tab") {
+              e?.stopPropagation()
+            }
+          }}
+          disabled={loading}
+        >
+          <Stack direction="row" alignItems="center">
+            <Box width={24} height={24}>
+              <LoginDoorIcon />
+            </Box>
+            <Typography variant="body2">Log In</Typography>
+          </Stack>
+        </Button>
+        <Stack direction="row" justifyContent="space-around">
+          <Box sx={{ width: "45%", height: 2, bgcolor: "#3B345F", mt: 1.5 }} />
+          <Typography variant="body1">or</Typography>
+          <Box sx={{ width: "45%", height: 2, bgcolor: "#3B345F", mt: 1.5 }} />
+        </Stack>
+        <Stack direction="row" spacing={1} justifyContent="space-around">
+          <Button
+            fullWidth
+            disabled
+            sx={{
+              textTransform: "none",
+              color: "white",
+              bgcolor: "#262238",
+              p: 1.25,
+              borderRadius: 3,
+            }}
+            onKeyDown={(e: any) => {
+              if (e.key === "Tab") {
+                e?.stopPropagation()
+              }
+            }}
+          >
+            <Typography variant="body1">Reset Password</Typography>
+          </Button>
+          <Button
+            fullWidth
+            disabled
+            sx={{
+              textTransform: "none",
+              color: "white",
+              bgcolor: "#262238",
+              borderRadius: 3,
+            }}
+            onKeyDown={(e: any) => {
+              if (e.key === "Tab") {
+                e?.stopPropagation()
+              }
+            }}
+          >
+            <Typography variant="body1">Create Account</Typography>
+          </Button>
+        </Stack>
+      </Menu>
+    </>
+  )
+}
 
 export const ProfileSettingsMenu = ({
   identity,
@@ -92,7 +295,10 @@ export const ProfileSettingsMenu = ({
         id="profile-settings-menu"
         MenuListProps={{
           "aria-labelledby": "profile-settings-button",
-          sx: { bgcolor: "#191527", paddingTop: 0 },
+          sx: {
+            bgcolor: "#191527",
+            paddingTop: 0,
+          },
         }}
         slotProps={{ paper: { sx: { width: 242 } } }}
         anchorEl={anchorEl}
@@ -305,18 +511,10 @@ export default function Navbar() {
                   setIdentity={setIdentity}
                 />
               ) : (
-                <>
-                  <Link to="/login">
-                    <Button sx={{ color: "white", textTransform: "none" }}>
-                      <Typography variant="body1">Login</Typography>
-                    </Button>
-                  </Link>
-                  <Link to="/register">
-                    <Button sx={{ color: "white", textTransform: "none" }}>
-                      <Typography variant="body1">Register</Typography>
-                    </Button>
-                  </Link>
-                </>
+                <AuthenticationSettingsMenu
+                  identity={identity}
+                  setIdentity={setIdentity}
+                />
               )}
             </Stack>
           </Stack>
