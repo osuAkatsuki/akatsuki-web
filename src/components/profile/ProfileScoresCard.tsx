@@ -17,7 +17,8 @@ import { useIdentityContext } from "../../context/identity"
 import { GameMode, getRelaxModeFromMods, RelaxMode } from "../../gameModes"
 import { calculateGrade, getGradeColor, remapSSForDisplay } from "../../scores"
 import { formatDecimal, formatNumber } from "../../utils/formatting"
-import { formatMods } from "../../utils/mods"
+import { getIndividualMods } from "../../utils/mods"
+import { ModIcon } from "../ModIcon"
 
 const SONG_NAME_REGEX =
   /^(?<artist>[^-]+) - (?<songName>[^[]+) \[(?<version>.+)\]$/
@@ -176,11 +177,11 @@ const ProfileScoreCard = (userScore: UserScore) => {
             </Stack>
             <Stack direction="row" spacing={1}>
               <Typography variant="body2">{version}</Typography>
-              {userScore.mods ? (
-                <Typography variant="body2">
-                  +{formatMods(userScore.mods)}
-                </Typography>
-              ) : null}
+              <Stack direction="row" alignItems="center" gap={0.25}>
+                {getIndividualMods(userScore.mods).map((mod) => (
+                  <ModIcon key={mod} variant={mod} width={29} height={20} />
+                ))}
+              </Stack>
             </Stack>
             {/* TODO: Add date played/timeago */}
           </Stack>
