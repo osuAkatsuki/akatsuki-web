@@ -35,7 +35,7 @@ export const fetchUserFriendsWith = async (
       }
     )
     return {
-      code: response.status,
+      code: response.data.code,
       friend: response.data.friend,
       mutual: response.data.mutual,
     }
@@ -64,7 +64,7 @@ export const addRemoveFriend = async (
       { user: request.user }
     )
     return {
-      code: response.status,
+      code: response.data.code,
       friend: response.data.friend,
       mutual: response.data.mutual,
     }
@@ -106,7 +106,7 @@ export const fetchUserFriends = async (
       },
     })
     return {
-      code: response.status,
+      code: response.data.code,
       friends: response.data.friends.map((friend: any) => {
         return {
           id: friend.id,

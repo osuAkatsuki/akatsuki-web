@@ -70,14 +70,17 @@ export const UserFriendsPage = () => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
 
-  const [page, setPage] = useState(1)
+  const [page, setPage] = useState(0)
   const [userFriends, setUserFriends] = useState<UserFriend[]>([])
 
   useEffect(() => {
     ;(async () => {
       let userFriends
       try {
-        userFriends = await fetchUserFriends({ page, pageSize: PAGE_SIZE })
+        userFriends = await fetchUserFriends({
+          page: page + 1,
+          pageSize: PAGE_SIZE,
+        })
       } catch (e: any) {
         console.error(e)
         return
