@@ -314,7 +314,7 @@ export const ScorePage = () => {
             color="white"
           >
             <Link
-              to={`/profile/${scoreData.score.userId}`}
+              to={`/u/${scoreData.score.userId}`}
               // eslint-disable-next-line react/forbid-component-props
               style={{
                 color: "#FFFFFF",
