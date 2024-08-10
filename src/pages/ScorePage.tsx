@@ -20,7 +20,7 @@ import { GradeSHIcon } from "../components/images/grade-icons/GradeSHIcon"
 import { GradeSIcon } from "../components/images/grade-icons/GradeSIcon"
 import { GradeXHIcon } from "../components/images/grade-icons/GradeXHIcon"
 import { GradeXIcon } from "../components/images/grade-icons/GradeXIcon"
-import { WatchReplayIcon } from "../components/images/icons/WatchReplayIcon"
+// import { WatchReplayIcon } from "../components/images/icons/WatchReplayIcon"
 import APModIcon from "../components/images/mod-icons/mod_autopilot.png"
 import DTModIcon from "../components/images/mod-icons/mod_double-time.png"
 import EZModIcon from "../components/images/mod-icons/mod_easy.png"
@@ -237,13 +237,17 @@ export const ScorePage = () => {
               }}
             >
               <Stack direction="row" justifyContent="space-between">
-                <Typography variant="h5">{songName}</Typography>
+                <Typography variant="h5">
+                  {artist} - {songName}
+                </Typography>
+                {/* 
                 <Stack direction={{ xs: "column", sm: "row" }}>
                   <Typography variant="h6">mapped by&nbsp;</Typography>
                   <Typography variant="h6" fontWeight={800}>
                     {artist}
                   </Typography>
-                </Stack>
+                </Stack> 
+                */}
               </Stack>
               <Stack direction="row">
                 {/* There is supposed to be a bubble here
