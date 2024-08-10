@@ -131,7 +131,7 @@ export const ProfilePage = () => {
   }
 
   if (!userProfile) {
-    return <>loading data</>
+    return <></>
   }
 
   const modeStats = userProfile.stats[relaxMode][modeToStatsIndex(gameMode)]

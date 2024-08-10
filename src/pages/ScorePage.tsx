@@ -192,7 +192,7 @@ export const ScorePage = () => {
   }, [scoreId, relaxMode])
 
   if (scoreData === null) {
-    return <Typography>Loading...</Typography>
+    return <></>
   }
 
   const { artist, songName, version } = scoreData.beatmap.songName.match(
@@ -240,13 +240,13 @@ export const ScorePage = () => {
                 <Typography variant="h5">
                   {artist} - {songName}
                 </Typography>
-                {/* 
+                {/*
                 <Stack direction={{ xs: "column", sm: "row" }}>
                   <Typography variant="h6">mapped by&nbsp;</Typography>
                   <Typography variant="h6" fontWeight={800}>
                     {mapper}
                   </Typography>
-                </Stack> 
+                </Stack>
                 */}
               </Stack>
               <Stack direction="row">
