@@ -29,10 +29,8 @@ import { AboutPage } from "./pages/AboutPage"
 import { ContactPage } from "./pages/ContactPage"
 import { HomePage } from "./pages/HomePage"
 import { LeaderboardsPage } from "./pages/LeaderboardsPage"
-import { LoginPage } from "./pages/LoginPage"
 import { PrivacyPolicyPage } from "./pages/PrivacyPolicyPage"
 import { ProfilePage } from "./pages/ProfilePage"
-import { RegisterPage } from "./pages/RegisterPage"
 import { ScorePage } from "./pages/ScorePage"
 import { SupportPage } from "./pages/SupportPage"
 import { TeamPage } from "./pages/TeamPage"
@@ -67,8 +65,6 @@ const router = createBrowserRouter(
     <Route element={<AppLayout />}>
       <Route path="/" element={<HomePage />} />
       <Route path="/about" element={<AboutPage />} />
-      <Route path="/register" element={<RegisterPage />} />
-      <Route path="login" element={<LoginPage />} />
       <Route path="/leaderboards" element={<LeaderboardsPage />} />
       <Route path="/u/:userId" element={<ProfilePage />} />
       <Route path="/u/:userId/settings" element={<UserSettingsPage />} />
