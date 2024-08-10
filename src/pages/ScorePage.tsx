@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material"
 import moment from "moment"
-import { useEffect, useState } from "react"
+import { forwardRef, useEffect, useRef, useState } from "react"
 import { Link, useParams } from "react-router-dom"
 
 import { getScore, GetScoreResponse } from "../adapters/akatsuki-api/scores"
@@ -21,6 +21,7 @@ import { GradeSIcon } from "../components/images/grade-icons/GradeSIcon"
 import { GradeXHIcon } from "../components/images/grade-icons/GradeXHIcon"
 import { GradeXIcon } from "../components/images/grade-icons/GradeXIcon"
 // import { WatchReplayIcon } from "../components/images/icons/WatchReplayIcon"
+import ConversionModIcon from "../components/images/mod-icons/Conversion.png"
 import APModIcon from "../components/images/mod-icons/mod_autopilot.png"
 import DTModIcon from "../components/images/mod-icons/mod_double-time.png"
 import EZModIcon from "../components/images/mod-icons/mod_easy.png"
@@ -41,7 +42,12 @@ import TDModIcon from "../components/images/mod-icons/mod_touchdevice.png"
 import { getRelaxModeFromOffset } from "../gameModes"
 // import { V2ModIcon } from "../components/images/mod-icons/V2ModIcon"
 import { formatNumber } from "../utils/formatting"
-import { getHumanReadable, getIndividualMods, Mods } from "../utils/mods"
+import {
+  formatMods,
+  getHumanReadable,
+  getIndividualMods,
+  Mods,
+} from "../utils/mods"
 import { getReplayBackground } from "../utils/scores"
 
 const SONG_NAME_REGEX =
@@ -109,6 +115,18 @@ const getModIcon = (variant: Mods) => {
       return MRModIcon
     case Mods.Random:
       return RNModIcon
+    case Mods.Key1:
+    case Mods.Key2:
+    case Mods.Key3:
+    case Mods.Key4:
+    case Mods.Key5:
+    case Mods.Key6:
+    case Mods.Key7:
+    case Mods.Key8:
+    case Mods.Key9:
+    case Mods.KeyCoop:
+    case Mods.ScoreV2:
+      return ConversionModIcon
     default:
       return ""
   }
@@ -170,6 +188,46 @@ const ReplayViewCard = ({ scoreData }: { scoreData: GetScoreResponse }) => {
 const CircularDivider = () => {
   return <Box width={6} height={6} borderRadius="50%" bgcolor="white" />
 }
+
+const ModIcon = forwardRef(function ModIcon(
+  { variant, ...props }: { variant: Mods },
+  ref
+) {
+  const modIcon = getModIcon(variant)
+  const NO_ICON_MODS =
+    Mods.Key1 |
+    Mods.Key2 |
+    Mods.Key3 |
+    Mods.Key4 |
+    Mods.Key5 |
+    Mods.Key6 |
+    Mods.Key7 |
+    Mods.Key8 |
+    Mods.Key9 |
+    Mods.KeyCoop |
+    Mods.ScoreV2
+
+  return (
+    <Box
+      ref={ref}
+      {...props}
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      width={43}
+      height={30}
+      color="hsl(0deg 0% 15%)"
+      sx={{
+        background: `url(${modIcon})`,
+        backgroundSize: "cover",
+      }}
+    >
+      {variant & NO_ICON_MODS ? (
+        <Typography>{formatMods(variant)}</Typography>
+      ) : null}
+    </Box>
+  )
+})
 
 export const ScorePage = () => {
   const [scoreData, setScoreData] = useState<GetScoreResponse | null>(null)
@@ -265,12 +323,7 @@ export const ScorePage = () => {
                   <Stack direction="row" spacing={0.75}>
                     {getIndividualMods(scoreData.score.mods).map((mod) => (
                       <Tooltip key={mod} title={getHumanReadable(mod)}>
-                        <Box
-                          component="img"
-                          width={43}
-                          height={30}
-                          src={getModIcon(mod)}
-                        />
+                        <ModIcon variant={mod} />
                       </Tooltip>
                     ))}
                   </Stack>
