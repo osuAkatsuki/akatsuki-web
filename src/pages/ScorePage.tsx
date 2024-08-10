@@ -163,6 +163,10 @@ const ReplayViewCard = ({ scoreData }: { scoreData: GetScoreResponse }) => {
   )
 }
 
+const CircularDivider = () => {
+  return <Box width={6} height={6} borderRadius="50%" bgcolor="white" />
+}
+
 export const ScorePage = () => {
   const [scoreData, setScoreData] = useState<GetScoreResponse | null>(null)
   const queryParams = useParams()
@@ -275,15 +279,9 @@ export const ScorePage = () => {
                       pp
                     </Typography>
                   </Stack>
-                  <Box
-                    width={6}
-                    height={6}
-                    borderRadius="50%"
-                    bgcolor="white"
-                  />
-                  {/* Seperator here */}
+                  {/* <CircularDivider /> */}
                   {/* TODO: add this to the API response */}
-                  <Typography variant="h4">#N/A</Typography>
+                  {/* <Typography variant="h4">#N/A</Typography> */}
                 </Stack>
               </Stack>
               <Box width={284} height={205}>
@@ -389,7 +387,7 @@ export const ScorePage = () => {
           </Stack>
         </Stack>
 
-        <ReplayViewCard scoreData={scoreData} />
+        {/* <ReplayViewCard scoreData={scoreData} /> */}
       </Container>
     </Box>
   )
