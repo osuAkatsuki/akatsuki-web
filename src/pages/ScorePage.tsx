@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material"
 import moment from "moment"
-import { forwardRef, useEffect, useRef, useState } from "react"
+import { forwardRef, useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
 
 import { getScore, GetScoreResponse } from "../adapters/akatsuki-api/scores"
