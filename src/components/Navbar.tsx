@@ -87,6 +87,7 @@ export const AuthenticationSettingsMenu = ({
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
+        transformOrigin={{ vertical: "top", horizontal: "center" }}
       >
         <TextField
           fullWidth
