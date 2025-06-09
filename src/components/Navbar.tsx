@@ -17,7 +17,11 @@ import {
 import { useEffect, useMemo, useState } from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 
-import { authenticate, logout } from "../adapters/akatsuki-api/authentication"
+import {
+  authenticate,
+  initPasswordReset,
+  logout,
+} from "../adapters/akatsuki-api/authentication"
 import {
   searchUsers,
   SingleUserSearchResult,
@@ -56,7 +60,8 @@ export const AuthenticationSettingsMenu = ({
   const [password, setPassword] = useState("")
 
   const [loading, setLoading] = useState(false)
-  const [loginError, setLoginError] = useState("")
+  const [serverError, setServerError] = useState("")
+  const [passwordResetPending, setPasswordResetPending] = useState(false)
 
   const handleLogin = async () => {
     let identity
@@ -65,14 +70,33 @@ export const AuthenticationSettingsMenu = ({
       identity = await authenticate({ username, password })
     } catch (e: any) {
       setLoading(false)
-      setLoginError(e.message)
+      setServerError(e.message)
       return
     }
 
     amplitude.setUserId(String(identity.userId))
     setLoading(false)
-    setLoginError("")
+    setServerError("")
     setIdentity(identity)
+  }
+
+  const handlePasswordReset = async () => {
+    try {
+      setLoading(true)
+      // TODO: implement & handle backend rate limit
+      await initPasswordReset(username)
+    } catch (e: any) {
+      setLoading(false)
+      setServerError(e.message)
+    }
+
+    setPasswordResetPending(true)
+    setLoading(false)
+    setServerError("")
+  }
+
+  const handleCreateAccount = async () => {
+    return
   }
 
   return (
@@ -161,9 +185,14 @@ export const AuthenticationSettingsMenu = ({
             }
           }}
         />
-        {loginError && (
+        {passwordResetPending && (
+          <Alert sx={{ mt: 1 }} severity="info">
+            A password reset email has been sent.
+          </Alert>
+        )}
+        {serverError && (
           <Alert sx={{ mt: 1 }} severity="error">
-            {loginError}
+            {serverError}
           </Alert>
         )}
         <Button
@@ -181,7 +210,12 @@ export const AuthenticationSettingsMenu = ({
               e?.stopPropagation()
             }
           }}
-          disabled={loading}
+          disabled={
+            username === "" ||
+            password === "" ||
+            loading ||
+            passwordResetPending
+          }
         >
           <Stack direction="row" alignItems="center">
             <Box width={24} height={24}>
@@ -198,7 +232,7 @@ export const AuthenticationSettingsMenu = ({
         <Stack direction="row" spacing={1} justifyContent="space-around">
           <Button
             fullWidth
-            disabled
+            onClick={handlePasswordReset}
             sx={{
               textTransform: "none",
               color: "white",
@@ -211,12 +245,13 @@ export const AuthenticationSettingsMenu = ({
                 e?.stopPropagation()
               }
             }}
+            disabled={username === "" || loading || passwordResetPending}
           >
             <Typography variant="body1">Reset Password</Typography>
           </Button>
           <Button
             fullWidth
-            disabled
+            onClick={handleCreateAccount}
             sx={{
               textTransform: "none",
               color: "white",
@@ -228,6 +263,12 @@ export const AuthenticationSettingsMenu = ({
                 e?.stopPropagation()
               }
             }}
+            disabled={
+              username === "" ||
+              password === "" ||
+              loading ||
+              passwordResetPending
+            }
           >
             <Typography variant="body1">Create Account</Typography>
           </Button>

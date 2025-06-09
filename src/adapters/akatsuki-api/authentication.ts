@@ -36,3 +36,29 @@ export const logout = async () => {
     throw new Error(e.response.data.user_feedback)
   }
 }
+
+export const initPasswordReset = async (username: string): Promise<void> => {
+  try {
+    await authApiInstance.post("/api/v1/init-password-reset", {
+      username,
+    })
+  } catch (e: any) {
+    console.log(e)
+    throw new Error(e.response.data.user_feedback)
+  }
+}
+
+export const verifyPasswordReset = async (
+  token: string,
+  newPassword: string
+): Promise<void> => {
+  try {
+    await authApiInstance.post("/api/v1/verify-password-reset", {
+      token,
+      new_password: newPassword,
+    })
+  } catch (e: any) {
+    console.log(e)
+    throw new Error(e.response.data.user_feedback)
+  }
+}
