@@ -49,12 +49,12 @@ export const initPasswordReset = async (username: string): Promise<void> => {
 }
 
 export const verifyPasswordReset = async (
-  token: string,
+  hashedToken: string,
   newPassword: string
 ): Promise<void> => {
   try {
     await authApiInstance.post("/api/v1/verify-password-reset", {
-      token,
+      hashed_password_reset_token: hashedToken,
       new_password: newPassword,
     })
   } catch (e: any) {

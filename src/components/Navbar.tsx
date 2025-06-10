@@ -83,7 +83,7 @@ export const AuthenticationSettingsMenu = ({
   const handlePasswordReset = async () => {
     try {
       setLoading(true)
-      // TODO: implement & handle backend rate limit
+      // TODO: gracefully handle ratelimit 429 response?
       await initPasswordReset(username)
     } catch (e: any) {
       setLoading(false)
