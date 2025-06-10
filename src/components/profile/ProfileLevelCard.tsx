@@ -8,28 +8,17 @@ import { LevelDisplayPolygon } from "../images/polygons/LevelDisplay"
 
 const LevelDisplayIcon = ({ level }: { level: number }) => {
   return (
-    <Box position="relative" width="25%" height={80}>
-      <Box
-        position="absolute"
-        zIndex={0}
-        top={0}
-        left={0}
-        height="100%"
-        width="100%"
-      >
-        <LevelDisplayPolygon />
-      </Box>
-      <Box
-        display="flex"
-        height="100%"
-        width="100%"
-        justifyContent="center"
-        alignItems="center"
-      >
-        <Typography variant="h5" fontWeight="bold">
-          {Math.trunc(level)}
-        </Typography>
-      </Box>
+    <Box
+      width="25%"
+      height={80}
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+    >
+      <LevelDisplayPolygon />
+      <Typography position="absolute" variant="h5" fontWeight="bold">
+        {Math.trunc(level)}
+      </Typography>
     </Box>
   )
 }
