@@ -20,7 +20,6 @@ import StaticPageBanner from "../components/images/banners/static_page_banner.sv
 import { LoginDoorIcon } from "../components/images/icons/LoginDoorIcon"
 
 export const ResetPasswordPage = () => {
-  // TODO: captcha
   const [queryParams] = useSearchParams()
   const token = queryParams.get("token")
 
