@@ -5,6 +5,7 @@ on:
     branches:
       - master
       - staging
+      - password-reset
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
