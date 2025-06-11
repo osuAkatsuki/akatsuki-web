@@ -15,6 +15,7 @@ import {
   Typography,
 } from "@mui/material"
 import { useEffect, useMemo, useRef, useState } from "react"
+// eslint-disable-next-line import/no-named-as-default
 import ReCAPTCHA from "react-google-recaptcha"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 
