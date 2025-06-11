@@ -67,7 +67,7 @@ export const AuthenticationSettingsMenu = ({
   const reRef = useRef<ReCAPTCHA | null>(null)
 
   const handleLogin = async () => {
-    console.log("1")
+    console.log("1", process.env.REACT_APP_RECAPTCHA_SITE_KEY)
     const recaptchaToken = await reRef.current?.executeAsync()
     reRef.current?.reset()
 
