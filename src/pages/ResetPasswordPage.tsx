@@ -11,7 +11,7 @@ import {
   useTheme,
 } from "@mui/material"
 import { useState } from "react"
-import { useSearchParams } from "react-router-dom"
+import { useNavigate, useSearchParams } from "react-router-dom"
 
 import { verifyPasswordReset } from "../adapters/akatsuki-api/authentication"
 import StaticPageBanner from "../components/images/banners/static_page_banner.svg"
@@ -19,6 +19,7 @@ import { LoginDoorIcon } from "../components/images/icons/LoginDoorIcon"
 import { validatePasswordMeetsRequirements } from "../security"
 
 export const ResetPasswordPage = () => {
+  const navigate = useNavigate()
   const [queryParams] = useSearchParams()
   const token = queryParams.get("token")
 
@@ -47,7 +48,9 @@ export const ResetPasswordPage = () => {
       setError(e.message)
       return
     }
-    // TODO: auto-auth them or redirect them to the login page
+    // TODO: perhaps attach some state to the website to send a message
+    // to the user here that their password has been reset successfully
+    navigate("/")
   }
 
   return (
