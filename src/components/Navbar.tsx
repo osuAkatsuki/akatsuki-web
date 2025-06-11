@@ -64,12 +64,12 @@ export const AuthenticationSettingsMenu = ({
   const [serverError, setServerError] = useState("")
   const [passwordResetPending, setPasswordResetPending] = useState(false)
 
-  const recaptchaRef = useRef<ReCAPTCHA | null>(null)
+  const reRef = useRef<ReCAPTCHA | null>(null)
 
   const handleLogin = async () => {
     console.log("1")
-    const recaptchaToken = await recaptchaRef.current?.executeAsync()
-    recaptchaRef.current?.reset()
+    const recaptchaToken = await reRef.current?.executeAsync()
+    reRef.current?.reset()
 
     console.log("2")
     if (!recaptchaToken) {
@@ -96,8 +96,8 @@ export const AuthenticationSettingsMenu = ({
   }
 
   const handlePasswordReset = async () => {
-    const recaptchaToken = await recaptchaRef.current?.executeAsync()
-    recaptchaRef.current?.reset()
+    const recaptchaToken = await reRef.current?.executeAsync()
+    reRef.current?.reset()
 
     if (!recaptchaToken) {
       setServerError("Please complete the CAPTCHA.")
@@ -119,8 +119,8 @@ export const AuthenticationSettingsMenu = ({
   }
 
   const handleCreateAccount = async () => {
-    const recaptchaToken = await recaptchaRef.current?.executeAsync()
-    recaptchaRef.current?.reset()
+    const recaptchaToken = await reRef.current?.executeAsync()
+    reRef.current?.reset()
 
     if (!recaptchaToken) {
       setServerError("Please complete the CAPTCHA.")
@@ -229,9 +229,9 @@ export const AuthenticationSettingsMenu = ({
           </Alert>
         )}
         <ReCAPTCHA
-          ref={recaptchaRef}
+          ref={reRef}
           sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
-          size="invisible"
+          // size="invisible"
         />
         <Button
           fullWidth
