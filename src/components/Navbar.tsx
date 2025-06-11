@@ -130,11 +130,6 @@ export const AuthenticationSettingsMenu = ({
 
   return (
     <>
-      <ReCAPTCHA
-        ref={recaptchaRef}
-        sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
-        size="invisible"
-      />
       <Button
         aria-label="authentication-settings-button"
         id="authentication-settings-button"
@@ -229,6 +224,11 @@ export const AuthenticationSettingsMenu = ({
             {serverError}
           </Alert>
         )}
+        <ReCAPTCHA
+          ref={recaptchaRef}
+          sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
+          size="invisible"
+        />
         <Button
           fullWidth
           variant="contained"
