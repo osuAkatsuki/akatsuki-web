@@ -67,13 +67,17 @@ export const AuthenticationSettingsMenu = ({
   const recaptchaRef = useRef<ReCAPTCHA | null>(null)
 
   const handleLogin = async () => {
+    console.log("1")
     const recaptchaToken = await recaptchaRef.current?.executeAsync()
     recaptchaRef.current?.reset()
 
+    console.log("2")
     if (!recaptchaToken) {
+      console.log("3")
       setServerError("Please complete the CAPTCHA.")
       return
     }
+    console.log("4")
 
     let identity
     try {
