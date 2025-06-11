@@ -15,7 +15,7 @@ import {
   Typography,
 } from "@mui/material"
 import { useEffect, useMemo, useRef, useState } from "react"
-import { ReCAPTCHA } from "react-google-recaptcha"
+import ReCAPTCHA from "react-google-recaptcha"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 
 import {
@@ -231,7 +231,7 @@ export const AuthenticationSettingsMenu = ({
         <ReCAPTCHA
           ref={reRef}
           sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
-          // size="invisible"
+          size="invisible"
         />
         <Button
           fullWidth
