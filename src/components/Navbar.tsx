@@ -114,20 +114,6 @@ export const AuthenticationSettingsMenu = ({
     setServerError("")
   }
 
-  const handleCreateAccount = async () => {
-    const recaptchaToken = await recaptchaRef.current?.executeAsync()
-    recaptchaRef.current?.reset()
-
-    if (!recaptchaToken) {
-      setServerError("Please complete the CAPTCHA.")
-      return
-    }
-
-    // TODO: finish account registration flow
-
-    return
-  }
-
   return (
     <>
       <Button
@@ -285,7 +271,14 @@ export const AuthenticationSettingsMenu = ({
           </Button>
           <Button
             fullWidth
-            onClick={handleCreateAccount}
+            disabled
+            // disabled={
+            //   username === "" ||
+            //   password === "" ||
+            //   loading ||
+            //   passwordResetPending
+            // }
+            // onClick={handleCreateAccount}
             sx={{
               textTransform: "none",
               color: "white",
@@ -297,12 +290,6 @@ export const AuthenticationSettingsMenu = ({
                 e?.stopPropagation()
               }
             }}
-            disabled={
-              username === "" ||
-              password === "" ||
-              loading ||
-              passwordResetPending
-            }
           >
             <Typography variant="body1">Create Account</Typography>
           </Button>
