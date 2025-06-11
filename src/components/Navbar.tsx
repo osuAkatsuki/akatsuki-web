@@ -14,10 +14,16 @@ import {
   TextField,
   Typography,
 } from "@mui/material"
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
+// eslint-disable-next-line import/no-named-as-default
+import ReCAPTCHA from "react-google-recaptcha"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 
-import { authenticate, logout } from "../adapters/akatsuki-api/authentication"
+import {
+  authenticate,
+  initPasswordReset,
+  logout,
+} from "../adapters/akatsuki-api/authentication"
 import {
   searchUsers,
   SingleUserSearchResult,
@@ -56,23 +62,57 @@ export const AuthenticationSettingsMenu = ({
   const [password, setPassword] = useState("")
 
   const [loading, setLoading] = useState(false)
-  const [loginError, setLoginError] = useState("")
+  const [serverError, setServerError] = useState("")
+  const [passwordResetPending, setPasswordResetPending] = useState(false)
+
+  const recaptchaRef = useRef<ReCAPTCHA | null>(null)
 
   const handleLogin = async () => {
+    const recaptchaToken = await recaptchaRef.current?.executeAsync()
+    recaptchaRef.current?.reset()
+
+    if (!recaptchaToken) {
+      setServerError("Please complete the CAPTCHA.")
+      return
+    }
+
     let identity
     try {
       setLoading(true)
-      identity = await authenticate({ username, password })
+      identity = await authenticate(username, password, recaptchaToken)
     } catch (e: any) {
       setLoading(false)
-      setLoginError(e.message)
+      setServerError(e.message)
       return
     }
 
     amplitude.setUserId(String(identity.userId))
     setLoading(false)
-    setLoginError("")
+    setServerError("")
     setIdentity(identity)
+  }
+
+  const handlePasswordReset = async () => {
+    const recaptchaToken = await recaptchaRef.current?.executeAsync()
+    recaptchaRef.current?.reset()
+
+    if (!recaptchaToken) {
+      setServerError("Please complete the CAPTCHA.")
+      return
+    }
+
+    try {
+      setLoading(true)
+      // TODO: gracefully handle ratelimit 429 response?
+      await initPasswordReset(username, recaptchaToken)
+    } catch (e: any) {
+      setLoading(false)
+      setServerError(e.message)
+    }
+
+    setPasswordResetPending(true)
+    setLoading(false)
+    setServerError("")
   }
 
   return (
@@ -161,11 +201,21 @@ export const AuthenticationSettingsMenu = ({
             }
           }}
         />
-        {loginError && (
-          <Alert sx={{ mt: 1 }} severity="error">
-            {loginError}
+        {passwordResetPending && (
+          <Alert sx={{ mt: 1 }} severity="info">
+            A password reset email has been sent.
           </Alert>
         )}
+        {serverError && (
+          <Alert sx={{ mt: 1 }} severity="error">
+            {serverError}
+          </Alert>
+        )}
+        <ReCAPTCHA
+          ref={recaptchaRef}
+          sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
+          size="invisible"
+        />
         <Button
           fullWidth
           variant="contained"
@@ -181,7 +231,12 @@ export const AuthenticationSettingsMenu = ({
               e?.stopPropagation()
             }
           }}
-          disabled={loading}
+          disabled={
+            username === "" ||
+            password === "" ||
+            loading ||
+            passwordResetPending
+          }
         >
           <Stack direction="row" alignItems="center">
             <Box width={24} height={24}>
@@ -198,7 +253,7 @@ export const AuthenticationSettingsMenu = ({
         <Stack direction="row" spacing={1} justifyContent="space-around">
           <Button
             fullWidth
-            disabled
+            onClick={handlePasswordReset}
             sx={{
               textTransform: "none",
               color: "white",
@@ -211,12 +266,20 @@ export const AuthenticationSettingsMenu = ({
                 e?.stopPropagation()
               }
             }}
+            disabled={username === "" || loading || passwordResetPending}
           >
             <Typography variant="body1">Reset Password</Typography>
           </Button>
           <Button
             fullWidth
             disabled
+            // disabled={
+            //   username === "" ||
+            //   password === "" ||
+            //   loading ||
+            //   passwordResetPending
+            // }
+            // onClick={handleCreateAccount}
             sx={{
               textTransform: "none",
               color: "white",
