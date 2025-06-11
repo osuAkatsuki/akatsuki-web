@@ -16,6 +16,7 @@ import { useSearchParams } from "react-router-dom"
 import { verifyPasswordReset } from "../adapters/akatsuki-api/authentication"
 import StaticPageBanner from "../components/images/banners/static_page_banner.svg"
 import { LoginDoorIcon } from "../components/images/icons/LoginDoorIcon"
+import { validatePasswordMeetsRequirements } from "../security"
 
 export const ResetPasswordPage = () => {
   const [queryParams] = useSearchParams()
@@ -77,6 +78,13 @@ export const ResetPasswordPage = () => {
           </Box>
           <Box bgcolor="#191527">
             <Stack direction="column" spacing={2} p={2}>
+              <Alert severity="info">
+                Your password must at least:
+                <br />- Contain 8 characters
+                <br />- Contain at least one digit
+                <br />- Contain at least one uppercase letter
+                <br />- Contain at least one lowercase letter
+              </Alert>
               <TextField
                 fullWidth
                 id="password"
@@ -154,7 +162,8 @@ export const ResetPasswordPage = () => {
                   password === "" ||
                   confirmPassword === "" ||
                   password !== confirmPassword ||
-                  loading
+                  loading ||
+                  !validatePasswordMeetsRequirements(password)
                 }
               >
                 <Stack direction="row" alignItems="center">
