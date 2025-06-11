@@ -64,20 +64,16 @@ export const AuthenticationSettingsMenu = ({
   const [serverError, setServerError] = useState("")
   const [passwordResetPending, setPasswordResetPending] = useState(false)
 
-  const reRef = useRef<ReCAPTCHA | null>(null)
+  const recaptchaRef = useRef<ReCAPTCHA | null>(null)
 
   const handleLogin = async () => {
-    console.log("1", process.env.REACT_APP_RECAPTCHA_SITE_KEY)
-    const recaptchaToken = await reRef.current?.executeAsync()
-    reRef.current?.reset()
+    const recaptchaToken = await recaptchaRef.current?.executeAsync()
+    recaptchaRef.current?.reset()
 
-    console.log("2")
     if (!recaptchaToken) {
-      console.log("3")
       setServerError("Please complete the CAPTCHA.")
       return
     }
-    console.log("4")
 
     let identity
     try {
@@ -96,8 +92,8 @@ export const AuthenticationSettingsMenu = ({
   }
 
   const handlePasswordReset = async () => {
-    const recaptchaToken = await reRef.current?.executeAsync()
-    reRef.current?.reset()
+    const recaptchaToken = await recaptchaRef.current?.executeAsync()
+    recaptchaRef.current?.reset()
 
     if (!recaptchaToken) {
       setServerError("Please complete the CAPTCHA.")
@@ -119,8 +115,8 @@ export const AuthenticationSettingsMenu = ({
   }
 
   const handleCreateAccount = async () => {
-    const recaptchaToken = await reRef.current?.executeAsync()
-    reRef.current?.reset()
+    const recaptchaToken = await recaptchaRef.current?.executeAsync()
+    recaptchaRef.current?.reset()
 
     if (!recaptchaToken) {
       setServerError("Please complete the CAPTCHA.")
@@ -229,7 +225,7 @@ export const AuthenticationSettingsMenu = ({
           </Alert>
         )}
         <ReCAPTCHA
-          ref={reRef}
+          ref={recaptchaRef}
           sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
           size="invisible"
         />
