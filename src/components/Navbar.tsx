@@ -14,7 +14,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material"
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
+import { ReCAPTCHA } from "react-google-recaptcha"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 
 import {
@@ -63,11 +64,21 @@ export const AuthenticationSettingsMenu = ({
   const [serverError, setServerError] = useState("")
   const [passwordResetPending, setPasswordResetPending] = useState(false)
 
+  const recaptchaRef = useRef<ReCAPTCHA | null>(null)
+
   const handleLogin = async () => {
+    const recaptchaToken = await recaptchaRef.current?.executeAsync()
+    recaptchaRef.current?.reset()
+
+    if (!recaptchaToken) {
+      setServerError("Please complete the CAPTCHA.")
+      return
+    }
+
     let identity
     try {
       setLoading(true)
-      identity = await authenticate({ username, password })
+      identity = await authenticate(username, password, recaptchaToken)
     } catch (e: any) {
       setLoading(false)
       setServerError(e.message)
@@ -81,10 +92,18 @@ export const AuthenticationSettingsMenu = ({
   }
 
   const handlePasswordReset = async () => {
+    const recaptchaToken = await recaptchaRef.current?.executeAsync()
+    recaptchaRef.current?.reset()
+
+    if (!recaptchaToken) {
+      setServerError("Please complete the CAPTCHA.")
+      return
+    }
+
     try {
       setLoading(true)
       // TODO: gracefully handle ratelimit 429 response?
-      await initPasswordReset(username)
+      await initPasswordReset(username, recaptchaToken)
     } catch (e: any) {
       setLoading(false)
       setServerError(e.message)
@@ -96,11 +115,26 @@ export const AuthenticationSettingsMenu = ({
   }
 
   const handleCreateAccount = async () => {
+    const recaptchaToken = await recaptchaRef.current?.executeAsync()
+    recaptchaRef.current?.reset()
+
+    if (!recaptchaToken) {
+      setServerError("Please complete the CAPTCHA.")
+      return
+    }
+
+    // TODO: finish account registration flow
+
     return
   }
 
   return (
     <>
+      <ReCAPTCHA
+        ref={recaptchaRef}
+        sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
+        size="invisible"
+      />
       <Button
         aria-label="authentication-settings-button"
         id="authentication-settings-button"

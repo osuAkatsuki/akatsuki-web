@@ -4,15 +4,13 @@ import {
   Box,
   Button,
   Container,
-  Divider,
   Stack,
   TextField,
   Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material"
-import { useRef, useState } from "react"
-import ReCAPTCHA from "react-google-recaptcha"
+import { useState } from "react"
 import { useSearchParams } from "react-router-dom"
 
 import { verifyPasswordReset } from "../adapters/akatsuki-api/authentication"
@@ -31,8 +29,6 @@ export const ResetPasswordPage = () => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
 
-  const recaptchaRef = useRef<ReCAPTCHA | null>(null)
-
   if (!token) {
     return (
       <Alert severity="error">
@@ -42,17 +38,9 @@ export const ResetPasswordPage = () => {
   }
 
   const handleSubmit = async () => {
-    const recaptchaToken = await recaptchaRef.current?.executeAsync()
-    recaptchaRef.current?.reset()
-
-    if (!recaptchaToken) {
-      setError("Please complete the CAPTCHA.")
-      return
-    }
-
     try {
       setLoading(true)
-      await verifyPasswordReset(token, password, recaptchaToken)
+      await verifyPasswordReset(token, password)
     } catch (e: any) {
       setLoading(false)
       setError(e.message)
@@ -147,11 +135,6 @@ export const ResetPasswordPage = () => {
                   {error}
                 </Alert>
               )}
-              <ReCAPTCHA
-                ref={recaptchaRef}
-                sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
-                size="invisible"
-              />
               <Button
                 fullWidth
                 variant="contained"
