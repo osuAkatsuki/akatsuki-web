@@ -75,15 +75,12 @@ export const RegisterPage = () => {
 
   const isReadyForSubmission = (): boolean => {
     return !(
-      username === "" ||
-      emailAddress === "" ||
-      password === "" ||
-      confirmPassword === "" ||
-      password !== confirmPassword ||
-      loading ||
       !validatePassword(password) ||
       !validateEmail(emailAddress) ||
-      !validateUsername(username)
+      !validateUsername(username) ||
+      confirmPassword === "" ||
+      password !== confirmPassword ||
+      loading
     )
   }
 
