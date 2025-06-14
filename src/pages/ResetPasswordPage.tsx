@@ -16,7 +16,7 @@ import { useNavigate, useSearchParams } from "react-router-dom"
 import { verifyPasswordReset } from "../adapters/akatsuki-api/authentication"
 import StaticPageBanner from "../components/images/banners/static_page_banner.svg"
 import { LoginDoorIcon } from "../components/images/icons/LoginDoorIcon"
-import { validatePasswordMeetsRequirements } from "../security"
+import { validatePassword } from "../security"
 
 export const ResetPasswordPage = () => {
   const navigate = useNavigate()
@@ -59,7 +59,7 @@ export const ResetPasswordPage = () => {
       confirmPassword === "" ||
       password !== confirmPassword ||
       loading ||
-      !validatePasswordMeetsRequirements(password)
+      !validatePassword(password)
     )
   }
 

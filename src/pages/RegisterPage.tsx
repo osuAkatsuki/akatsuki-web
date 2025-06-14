@@ -20,7 +20,7 @@ import { createUser } from "../adapters/akatsuki-api/users"
 import StaticPageBanner from "../components/images/banners/static_page_banner.svg"
 import { LoginDoorIcon } from "../components/images/icons/LoginDoorIcon"
 import { useIdentityContext } from "../context/identity"
-import { validatePasswordMeetsRequirements } from "../security"
+import { validateEmail, validatePassword, validateUsername } from "../security"
 
 export const RegisterPage = () => {
   const navigate = useNavigate()
@@ -74,7 +74,6 @@ export const RegisterPage = () => {
   }
 
   const isReadyForSubmission = (): boolean => {
-    // TODO: some more validation on username / email
     return !(
       username === "" ||
       emailAddress === "" ||
@@ -82,7 +81,9 @@ export const RegisterPage = () => {
       confirmPassword === "" ||
       password !== confirmPassword ||
       loading ||
-      !validatePasswordMeetsRequirements(password)
+      !validatePassword(password) ||
+      !validateEmail(emailAddress) ||
+      !validateUsername(username)
     )
   }
 
