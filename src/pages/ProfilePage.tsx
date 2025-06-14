@@ -251,6 +251,14 @@ export const ProfilePage = () => {
             />
             <Divider />
             <ProfileScoresCard
+              scoresType="first"
+              userId={userProfile.id}
+              gameMode={gameMode}
+              relaxMode={relaxMode}
+              title="First Place Scores"
+            />
+            <Divider />
+            <ProfileScoresCard
               scoresType="recent"
               userId={profileUserId}
               gameMode={gameMode}

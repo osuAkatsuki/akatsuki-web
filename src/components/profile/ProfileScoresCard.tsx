@@ -253,7 +253,7 @@ export const ProfileScoresCard = ({
   relaxMode,
   title,
 }: {
-  scoresType: "best" | "recent" | "pinned"
+  scoresType: "best" | "recent" | "pinned" | "first"
   userId: number
   gameMode: GameMode
   relaxMode: RelaxMode
