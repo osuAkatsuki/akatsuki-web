@@ -233,6 +233,11 @@ export const RegisterPage = () => {
                   {error}
                 </Alert>
               )}
+              <ReCAPTCHA
+                ref={recaptchaRef}
+                sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
+                size="invisible"
+              />
               <Button
                 fullWidth
                 variant="contained"
