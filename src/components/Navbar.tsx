@@ -273,7 +273,6 @@ export const AuthenticationSettingsMenu = ({
           </Button>
           <Button
             fullWidth
-            disabled
             onClick={() => navigate("/register")}
             sx={{
               textTransform: "none",
