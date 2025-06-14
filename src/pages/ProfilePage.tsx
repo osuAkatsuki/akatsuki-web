@@ -243,19 +243,19 @@ export const ProfilePage = () => {
             />
             <Divider />
             <ProfileScoresCard
-              scoresType="first"
-              userId={userProfile.id}
-              gameMode={gameMode}
-              relaxMode={relaxMode}
-              title="First Place Scores"
-            />
-            <Divider />
-            <ProfileScoresCard
               scoresType="best"
               userId={userProfile.id}
               gameMode={gameMode}
               relaxMode={relaxMode}
               title="Best Scores"
+            />
+            <Divider />
+            <ProfileScoresCard
+              scoresType="first"
+              userId={userProfile.id}
+              gameMode={gameMode}
+              relaxMode={relaxMode}
+              title="First Place Scores"
             />
             <Divider />
             <ProfileScoresCard
