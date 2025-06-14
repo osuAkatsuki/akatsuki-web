@@ -123,33 +123,6 @@ export const RegisterPage = () => {
               </Alert>
               <TextField
                 fullWidth
-                id="password"
-                label="Password"
-                type="password"
-                autoComplete="new-password"
-                InputProps={{
-                  sx: {
-                    borderRadius: 3,
-                    bgcolor: "#110E1B",
-                    borderColor: "red",
-                    mt: 1,
-                  },
-                }}
-                InputLabelProps={{ sx: { mt: 1 } }}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setPassword(e.target.value)
-                }
-                onKeyDown={async (e: React.KeyboardEvent<HTMLInputElement>) => {
-                  if (e.key === "Enter" && isReadyForSubmission()) {
-                    await handleSubmit()
-                  }
-                  if (e.key === "Tab") {
-                    e?.stopPropagation()
-                  }
-                }}
-              />
-              <TextField
-                fullWidth
                 id="username"
                 label="Username"
                 type="username"
