@@ -103,7 +103,7 @@ export const createUser = async (
   recaptchaToken: string
 ): Promise<Identity> => {
   try {
-    const response = await userApiInstance.post("/api/v1/users", {
+    const response = await userApiInstance.post("/v1/users", {
       username,
       email_address: emailAddress,
       password,
