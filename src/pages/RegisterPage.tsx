@@ -207,6 +207,7 @@ export const RegisterPage = () => {
                 id="confirm-password"
                 label="Confirm Password"
                 type="password"
+                autoComplete="new-password"
                 InputProps={{
                   sx: {
                     borderRadius: 3,

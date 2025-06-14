@@ -101,7 +101,7 @@ export const ResetPasswordPage = () => {
               <TextField
                 fullWidth
                 id="password"
-                label="Password"
+                label="New Password"
                 type="password"
                 autoComplete="new-password"
                 InputProps={{
@@ -128,8 +128,9 @@ export const ResetPasswordPage = () => {
               <TextField
                 fullWidth
                 id="confirm-password"
-                label="Confirm Password"
+                label="Confirm New Password"
                 type="password"
+                autoComplete="new-password"
                 InputProps={{
                   sx: {
                     borderRadius: 3,
