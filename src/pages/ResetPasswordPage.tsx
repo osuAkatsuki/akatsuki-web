@@ -53,6 +53,16 @@ export const ResetPasswordPage = () => {
     navigate("/")
   }
 
+  const isReadyForSubmission = (): boolean => {
+    return !(
+      password === "" ||
+      confirmPassword === "" ||
+      password !== confirmPassword ||
+      loading ||
+      !validatePasswordMeetsRequirements(password)
+    )
+  }
+
   return (
     <>
       <Box
@@ -107,7 +117,7 @@ export const ResetPasswordPage = () => {
                   setPassword(e.target.value)
                 }
                 onKeyDown={async (e: React.KeyboardEvent<HTMLInputElement>) => {
-                  if (e.key === "Enter" && password && confirmPassword) {
+                  if (e.key === "Enter" && isReadyForSubmission()) {
                     await handleSubmit()
                   }
                   if (e.key === "Tab") {
@@ -133,7 +143,7 @@ export const ResetPasswordPage = () => {
                   setConfirmPassword(e.target.value)
                 }
                 onKeyDown={async (e: React.KeyboardEvent<HTMLInputElement>) => {
-                  if (e.key === "Enter" && password && confirmPassword) {
+                  if (e.key === "Enter" && isReadyForSubmission()) {
                     await handleSubmit()
                   }
                   if (e.key === "Tab") {
@@ -161,13 +171,7 @@ export const ResetPasswordPage = () => {
                     e?.stopPropagation()
                   }
                 }}
-                disabled={
-                  password === "" ||
-                  confirmPassword === "" ||
-                  password !== confirmPassword ||
-                  loading ||
-                  !validatePasswordMeetsRequirements(password)
-                }
+                disabled={!isReadyForSubmission()}
               >
                 <Stack direction="row" alignItems="center">
                   <Box width={24} height={24}>
