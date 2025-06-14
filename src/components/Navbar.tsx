@@ -49,6 +49,7 @@ export const AuthenticationSettingsMenu = ({
   identity: Identity | null
   setIdentity: (identity: Identity | null) => void
 }) => {
+  const navigate = useNavigate()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -273,13 +274,7 @@ export const AuthenticationSettingsMenu = ({
           <Button
             fullWidth
             disabled
-            // disabled={
-            //   username === "" ||
-            //   password === "" ||
-            //   loading ||
-            //   passwordResetPending
-            // }
-            // onClick={handleCreateAccount}
+            onClick={() => navigate("/register")}
             sx={{
               textTransform: "none",
               color: "white",

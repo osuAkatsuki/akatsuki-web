@@ -31,6 +31,7 @@ import { HomePage } from "./pages/HomePage"
 import { LeaderboardsPage } from "./pages/LeaderboardsPage"
 import { PrivacyPolicyPage } from "./pages/PrivacyPolicyPage"
 import { ProfilePage } from "./pages/ProfilePage"
+import { RegisterPage } from "./pages/RegisterPage"
 import { ResetPasswordPage } from "./pages/ResetPasswordPage"
 import { ScorePage } from "./pages/ScorePage"
 import { SupportPage } from "./pages/SupportPage"
@@ -77,6 +78,7 @@ const router = createBrowserRouter(
       <Route path="/terms-of-service" element={<TermsOfServicePage />} />
       <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
       <Route path="/reset-password" element={<ResetPasswordPage />} />
+      <Route path="/register" element={<RegisterPage />} />
     </Route>
   )
 )
