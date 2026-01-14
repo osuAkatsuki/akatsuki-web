@@ -67,11 +67,12 @@ jobs:
 
       - name: Clear pending deployments
         run: |
-          kubectl delete secret -l 'status in (pending-install, pending-upgrade, pending-rollback),name=akatsuki-web-production'
+          kubectl delete secret -n default -l 'status in (pending-install, pending-upgrade, pending-rollback),name=akatsuki-web-production'
 
       - name: Show manifest diff since previous release
         run: |
           helm diff upgrade \
+          --namespace default \
           --allow-unreleased \
           --color=true \
           --values chart/values.yaml \
@@ -81,6 +82,7 @@ jobs:
       - name: Deploy service to production cluster
         run: |
           helm upgrade \
+            --namespace default \
             --install \
             --atomic \
             --wait --timeout 10m \
