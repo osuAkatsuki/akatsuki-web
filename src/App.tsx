@@ -83,7 +83,7 @@ const router = createBrowserRouter(
 
 export default function App() {
   amplitude.init(process.env.REACT_APP_AMPLITUDE_API_KEY, {
-    defaultTracking: true,
+    defaultTracking: false,
     minIdLength: 4,
   })
 
