@@ -1,4 +1,3 @@
-import * as amplitude from "@amplitude/analytics-browser"
 import {
   Alert,
   Autocomplete,
@@ -86,7 +85,6 @@ export const AuthenticationSettingsMenu = ({
       return
     }
 
-    amplitude.setUserId(String(identity.userId))
     setLoading(false)
     setServerError("")
     setIdentity(identity)
@@ -327,7 +325,6 @@ export const ProfileSettingsMenu = ({
     } catch (e: any) {
       console.error("Failed to logout on API:", e)
     }
-    amplitude.reset()
     setIdentity(null)
   }
 
