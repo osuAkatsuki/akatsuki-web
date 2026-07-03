@@ -13,22 +13,26 @@ concurrency:
 jobs:
   production-deploy:
     runs-on: [self-hosted, vpc]
+    permissions:
+      contents: read
+      packages: write
 
     steps:
       - name: Check out latest commit
         uses: actions/checkout@v7
 
-      - name: Log in to Docker Hub
+      - name: Log in to GitHub Container Registry
         uses: docker/login-action@v4
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v6
         with:
-          images: osuAkatsuki/akatsuki-web
+          images: ghcr.io/osuakatsuki/akatsuki-web
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v7
@@ -37,8 +41,8 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/akatsuki-web:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/akatsuki-web:${{ github.sha }}
+            ghcr.io/osuakatsuki/akatsuki-web:latest
+            ghcr.io/osuakatsuki/akatsuki-web:${{ github.sha }}
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Get kubeconfig from github secrets
