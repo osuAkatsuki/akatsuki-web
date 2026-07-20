@@ -1,5 +1,7 @@
 import axios from "axios"
 
+import { Identity } from "../../context/identity"
+
 export interface UserResponse {
   id: number
   username: string
@@ -93,6 +95,30 @@ const userApiInstance = axios.create({
   baseURL: process.env.REACT_APP_USER_API_BASE_URL,
   withCredentials: true,
 })
+
+export const createUser = async (
+  username: string,
+  emailAddress: string,
+  password: string,
+  recaptchaToken: string
+): Promise<Identity> => {
+  try {
+    const response = await userApiInstance.post("/v1/users", {
+      username,
+      email_address: emailAddress,
+      password,
+      recaptcha_token: recaptchaToken,
+    })
+    return {
+      userId: response.data.user_id,
+      username: response.data.username,
+      privileges: response.data.privileges,
+    }
+  } catch (e: any) {
+    console.log(e)
+    throw new Error(e.response.data.user_feedback)
+  }
+}
 
 export const fetchUser = async (userId: number): Promise<UserFullResponse> => {
   try {

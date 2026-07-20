@@ -30,6 +30,7 @@ import {
 } from "../adapters/akatsuki-api/search"
 import HomepageBanner from "../components/images/banners/homepage_banner.svg"
 import { Identity, useIdentityContext } from "../context/identity"
+import { validatePassword, validateUsername } from "../security"
 import { LoginDoorIcon } from "./images/icons/LoginDoorIcon"
 import { UserFriendsIcon } from "./images/icons/UserFriendsIcon"
 import { UserLogoutIcon } from "./images/icons/UserLogoutIcon"
@@ -49,6 +50,7 @@ export const AuthenticationSettingsMenu = ({
   identity: Identity | null
   setIdentity: (identity: Identity | null) => void
 }) => {
+  const navigate = useNavigate()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -115,6 +117,15 @@ export const AuthenticationSettingsMenu = ({
     setServerError("")
   }
 
+  const isReadyForSubmission = (): boolean => {
+    return !(
+      !validateUsername(username) ||
+      !validatePassword(password) ||
+      loading ||
+      passwordResetPending
+    )
+  }
+
   return (
     <>
       <Button
@@ -167,7 +178,7 @@ export const AuthenticationSettingsMenu = ({
             setUsername(e.target.value)
           }
           onKeyDown={async (e: React.KeyboardEvent<HTMLInputElement>) => {
-            if (e.key === "Enter" && username && password) {
+            if (e.key === "Enter" && isReadyForSubmission()) {
               await handleLogin()
             } else if (e.key === "Tab") {
               e?.stopPropagation()
@@ -193,7 +204,7 @@ export const AuthenticationSettingsMenu = ({
             setPassword(e.target.value)
           }
           onKeyDown={async (e: React.KeyboardEvent<HTMLInputElement>) => {
-            if (e.key === "Enter" && username && password) {
+            if (e.key === "Enter" && isReadyForSubmission()) {
               await handleLogin()
             }
             if (e.key === "Tab") {
@@ -231,12 +242,7 @@ export const AuthenticationSettingsMenu = ({
               e?.stopPropagation()
             }
           }}
-          disabled={
-            username === "" ||
-            password === "" ||
-            loading ||
-            passwordResetPending
-          }
+          disabled={!isReadyForSubmission()}
         >
           <Stack direction="row" alignItems="center">
             <Box width={24} height={24}>
@@ -266,20 +272,13 @@ export const AuthenticationSettingsMenu = ({
                 e?.stopPropagation()
               }
             }}
-            disabled={username === "" || loading || passwordResetPending}
+            disabled={!isReadyForSubmission()}
           >
             <Typography variant="body1">Reset Password</Typography>
           </Button>
           <Button
             fullWidth
-            disabled
-            // disabled={
-            //   username === "" ||
-            //   password === "" ||
-            //   loading ||
-            //   passwordResetPending
-            // }
-            // onClick={handleCreateAccount}
+            onClick={() => navigate("/register")}
             sx={{
               textTransform: "none",
               color: "white",

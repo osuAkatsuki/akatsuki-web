@@ -1,3 +1,4 @@
+import * as amplitude from "@amplitude/analytics-browser"
 import SettingsIcon from "@mui/icons-material/Settings"
 import {
   Alert,
@@ -10,56 +11,76 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material"
-import { useState } from "react"
-import { useNavigate, useSearchParams } from "react-router-dom"
+import { useRef, useState } from "react"
+// eslint-disable-next-line import/no-named-as-default
+import ReCAPTCHA from "react-google-recaptcha"
+import { useNavigate } from "react-router-dom"
 
-import { verifyPasswordReset } from "../adapters/akatsuki-api/authentication"
+import { createUser } from "../adapters/akatsuki-api/users"
 import StaticPageBanner from "../components/images/banners/static_page_banner.svg"
 import { LoginDoorIcon } from "../components/images/icons/LoginDoorIcon"
-import { validatePassword } from "../security"
+import { useIdentityContext } from "../context/identity"
+import { validateEmail, validatePassword, validateUsername } from "../security"
 
-export const ResetPasswordPage = () => {
+export const RegisterPage = () => {
   const navigate = useNavigate()
-  const [queryParams] = useSearchParams()
-  const token = queryParams.get("token")
+  const { identity, setIdentity } = useIdentityContext()
 
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
 
+  const [username, setUsername] = useState("")
+  const [emailAddress, setEmailAddress] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
 
-  if (!token) {
-    return (
-      <Alert severity="error">
-        No password reset token provided. Please check the link you received.
-      </Alert>
-    )
-  }
+  const recaptchaRef = useRef<ReCAPTCHA | null>(null)
+
+  // TODO: redir if already auth'd
 
   const handleSubmit = async () => {
+    const recaptchaToken = await recaptchaRef.current?.executeAsync()
+    recaptchaRef.current?.reset()
+
+    if (!recaptchaToken) {
+      setError("Please complete the CAPTCHA.")
+      return
+    }
+
+    let identity
+
     try {
       setLoading(true)
-      await verifyPasswordReset(token, password)
+      identity = await createUser(
+        username,
+        emailAddress,
+        password,
+        recaptchaToken
+      )
     } catch (e: any) {
       setLoading(false)
       setError(e.message)
       return
     }
-    // TODO: perhaps attach some state to the website to send a message
-    // to the user here that their password has been reset successfully
+
+    amplitude.setUserId(String(identity.userId))
+    setLoading(false)
+    setError("")
+    setIdentity(identity)
+    // TODO: send them to a verification page (telling them to login w/ osu to activate their account)
     navigate("/")
   }
 
   const isReadyForSubmission = (): boolean => {
     return !(
-      password === "" ||
+      !validatePassword(password) ||
+      !validateEmail(emailAddress) ||
+      !validateUsername(username) ||
       confirmPassword === "" ||
       password !== confirmPassword ||
-      loading ||
-      !validatePassword(password)
+      loading
     )
   }
 
@@ -86,7 +107,7 @@ export const ResetPasswordPage = () => {
           >
             <Stack direction="column" alignItems="center">
               <SettingsIcon />
-              <Typography variant="h5">Password Reset</Typography>
+              <Typography variant="h5">Create Account</Typography>
             </Stack>
           </Box>
           <Box bgcolor="#191527">
@@ -100,8 +121,62 @@ export const ResetPasswordPage = () => {
               </Alert>
               <TextField
                 fullWidth
+                id="username"
+                label="Username"
+                type="username"
+                autoComplete="username"
+                InputProps={{
+                  sx: {
+                    borderRadius: 3,
+                    bgcolor: "#110E1B",
+                    borderColor: "red",
+                    mt: 1,
+                  },
+                }}
+                InputLabelProps={{ sx: { mt: 1 } }}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setUsername(e.target.value)
+                }
+                onKeyDown={async (e: React.KeyboardEvent<HTMLInputElement>) => {
+                  if (e.key === "Enter" && isReadyForSubmission()) {
+                    await handleSubmit()
+                  }
+                  if (e.key === "Tab") {
+                    e?.stopPropagation()
+                  }
+                }}
+              />
+              <TextField
+                fullWidth
+                id="email-address"
+                label="Email Address"
+                type="email"
+                autoComplete="email"
+                InputProps={{
+                  sx: {
+                    borderRadius: 3,
+                    bgcolor: "#110E1B",
+                    borderColor: "red",
+                    mt: 1,
+                  },
+                }}
+                InputLabelProps={{ sx: { mt: 1 } }}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setEmailAddress(e.target.value)
+                }
+                onKeyDown={async (e: React.KeyboardEvent<HTMLInputElement>) => {
+                  if (e.key === "Enter" && isReadyForSubmission()) {
+                    await handleSubmit()
+                  }
+                  if (e.key === "Tab") {
+                    e?.stopPropagation()
+                  }
+                }}
+              />
+              <TextField
+                fullWidth
                 id="password"
-                label="New Password"
+                label="Password"
                 type="password"
                 autoComplete="new-password"
                 InputProps={{
@@ -128,7 +203,7 @@ export const ResetPasswordPage = () => {
               <TextField
                 fullWidth
                 id="confirm-password"
-                label="Confirm New Password"
+                label="Confirm Password"
                 type="password"
                 autoComplete="new-password"
                 InputProps={{
@@ -157,6 +232,11 @@ export const ResetPasswordPage = () => {
                   {error}
                 </Alert>
               )}
+              <ReCAPTCHA
+                ref={recaptchaRef}
+                sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
+                size="invisible"
+              />
               <Button
                 fullWidth
                 variant="contained"
@@ -178,7 +258,7 @@ export const ResetPasswordPage = () => {
                   <Box width={24} height={24}>
                     <LoginDoorIcon />
                   </Box>
-                  <Typography variant="body2">Reset Password</Typography>
+                  <Typography variant="body2">Create Account</Typography>
                 </Stack>
               </Button>
             </Stack>

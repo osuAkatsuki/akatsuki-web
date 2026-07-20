@@ -5,6 +5,7 @@ on:
     branches:
       - master
       - staging
+      - account-creation
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
