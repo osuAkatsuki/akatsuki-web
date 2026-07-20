@@ -7,7 +7,9 @@ declare namespace NodeJS {
     readonly REACT_APP_SEARCH_API_BASE_URL: string
     readonly REACT_APP_LEADERBOARD_API_BASE_URL: string
     readonly REACT_APP_USER_API_BASE_URL: string
+    readonly REACT_APP_AGGREGATE_USER_STATS_API_BASE_URL: string
     readonly REACT_APP_SCORES_API_BASE_URL: string
+    readonly REACT_APP_AGGREGATE_SCORE_STATS_API_BASE_URL: string
     readonly REACT_APP_PROFILE_HISTORY_API_BASE_URL: string
     readonly REACT_APP_BANCHO_API_BASE_URL: string
     readonly REACT_APP_USER_RELATIONSHIPS_API_BASE_URL: string

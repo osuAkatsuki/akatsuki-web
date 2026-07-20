@@ -1,6 +1,12 @@
 import { Box, Button, Container, Grid, Stack, Typography } from "@mui/material"
+import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 
+import { fetchTotalScoresSet } from "../adapters/akatsuki-api/aggregate-score-stats"
+import {
+  fetchTotalPPEarned,
+  fetchTotalRegisteredUsers,
+} from "../adapters/akatsuki-api/aggregate-user-stats"
 import { HomepageStatDisplay } from "../components/home/HomepageStatDisplay"
 import HomepageBanner from "../components/images/banners/homepage_banner.svg"
 import { HomepagePPIcon } from "../components/images/icons/HomepagePPIcon"
@@ -10,9 +16,45 @@ import { WhiteoutAkatsukiLogo } from "../components/images/logos/WhiteoutAkatsuk
 
 export const HomePage = () => {
   // TODO: fetch these from a backend API
-  const totalPPEarned = 1_483_238
-  const totalScoresSet = 92_383_238
-  const totalUsersRegistered = 172_395
+  const [totalPPEarned, setTotalPPEarned] = useState(0)
+  const [totalScoresSet, setTotalScoresSet] = useState(0)
+  const [totalUsersRegistered, setTotalUsersRegistered] = useState(0)
+
+  useEffect(() => {
+    ;(async () => {
+      try {
+        const totalPPEarned = await fetchTotalPPEarned()
+        setTotalPPEarned(totalPPEarned)
+      } catch (error) {
+        console.error("Failed to fetch total PP earned:", error)
+        return
+      }
+    })()
+  }, [totalPPEarned])
+
+  useEffect(() => {
+    ;(async () => {
+      try {
+        const totalScoresSet = await fetchTotalScoresSet()
+        setTotalScoresSet(totalScoresSet)
+      } catch (error) {
+        console.error("Failed to fetch total scores set:", error)
+        return
+      }
+    })()
+  }, [totalScoresSet])
+
+  useEffect(() => {
+    ;(async () => {
+      try {
+        const totalUsersRegistered = await fetchTotalRegisteredUsers()
+        setTotalUsersRegistered(totalUsersRegistered)
+      } catch (error) {
+        console.error("Failed to fetch total users registered:", error)
+        return
+      }
+    })()
+  }, [totalUsersRegistered])
 
   return (
     <Box>
