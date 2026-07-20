@@ -1,4 +1,3 @@
-import * as amplitude from "@amplitude/analytics-browser"
 import Box from "@mui/material/Box"
 import CssBaseline from "@mui/material/CssBaseline"
 import Stack from "@mui/material/Stack"
@@ -82,11 +81,6 @@ const router = createBrowserRouter(
 )
 
 export default function App() {
-  amplitude.init(process.env.REACT_APP_AMPLITUDE_API_KEY, {
-    defaultTracking: false,
-    minIdLength: 4,
-  })
-
   const theme = React.useMemo(
     () =>
       createTheme({
